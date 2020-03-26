@@ -1,0 +1,4 @@
+
+output = [a, b] |> println
+
+(a, b, a) = (1, "", 2)

@@ -1,0 +1,87 @@
+
+output =
+  initCells
+  |> iterate(updateCells)
+  |> take(1000)
+  |> enumerate
+  |> map(showPair)
+  |> concatMap(printFrame)
+
+-----------------------------------------------------------
+
+initCells =
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+
+width  = length(initCells[0])
+height = length(initCells)
+
+-----------------------------------------------------------
+
+positions = 
+  for y in range(height)
+  for x in range(width)
+  yield (x, y)
+
+-----------------------------------------------------------
+
+updateCells(cells) =
+  positions
+  |> map(tick(cells))
+  |> toNDArray((height, width))
+
+-----------------------------------------------------------
+
+tick(cells, pos) = toInt(survive or birth) where {
+  survive = cells[y][x] == 1 and count in {2, 3}
+  birth   = cells[y][x] == 0 and count == 3
+  count   = getCount(x, y, cells)
+  (x, y)  = pos
+}
+
+-----------------------------------------------------------
+
+getCount(x, y, cells) = sum(neighborVals) where {
+  neighborVals = 
+    for dx in deltas 
+    for dy in deltas 
+    when (dx != 0 or dy != 0)
+    yield getNeighbor(x + dx, y + dy, cells) 
+  deltas = [-1, 0, 1]
+}
+
+-----------------------------------------------------------
+
+getNeighbor(x, y, cells) = cells[y % height][x % width]
+
+-----------------------------------------------------------   
+
+showPair(pair) =
+  format("{}\ngeneration: {}", [showCells(cells), gen])
+  where (gen, cells) = pair
+
+-----------------------------------------------------------
+
+showCells(cells) =
+  cells
+  |> map(showRow)
+  |> join("\n")
+
+showRow(row) =
+  format("|{}|", [map(showCell, row) |> join("")])
+
+showCell(cell) =
+  if cell == 1 then "*" else " "

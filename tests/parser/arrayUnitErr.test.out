@@ -1,0 +1,9 @@
+-------------------------------------------------------------------------------
+Parser Error:
+
+Expected 'Number or String or Name or Label or Bool or LArray or LParen or LBracket', got 'Add'
+-------------------------------------------------------------------------------
+
+At (line 2) (column 10) in 'tests/parser/arrayUnitErr.test'
+x = [1 2 + 3]
+         ^

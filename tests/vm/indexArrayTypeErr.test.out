@@ -1,0 +1,9 @@
+-------------------------------------------------------------------------------
+Type Error:
+
+Array index expected type 'PtlsNumber', got type 'PtlsBool'
+-------------------------------------------------------------------------------
+
+At (line 2) (column 17) in 'tests/vm/indexArrayTypeErr.test'
+output = [1 2 3][false] |> println
+                ^

@@ -1,0 +1,19 @@
+
+x = foo(1, 2, n)
+access: foo global: 2
+access: n global: 1
+
+foo(a, b, c) = a
+access: a local: 0
+entry: a index: 0
+entry: b index: 1
+entry: c index: 2
+
+x = foo(1, 2, n)
+entry: x index: 0
+
+n = 5
+entry: n index: 1
+
+foo(a, b, c) = a
+entry: foo index: 2

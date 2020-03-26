@@ -1,0 +1,40 @@
+   0 [ SaveImports  ] 0       
+   1 [ MakeEnv      ] 1       
+   2 [ MakeNumber   ] 6       
+   3 [ MakeDef      ] 0       (y)
+   4 [ Jump         ] 27      (-> 31)
+   5 [ MakeEnv      ] 1       
+   6 [ MakeNumber   ] 8       
+   7 [ MakeDef      ] 0       (bar)
+   8 [ Jump         ] 4       (-> 12)
+   9 [ LoadBool     ] 0       
+  10 [ SaveVal      ] 0       (bar)
+  11 [ Return       ]
+  12 [ MakeObj      ]
+  13 [ PopEnv       ]
+  14 [ MakeEnv      ] 1       
+  15 [ SaveVal      ] 0       ($)
+  16 [ MakeNumber   ] 4       
+  17 [ MakeNumber   ] 1       
+  18 [ MakeNumber   ] 2       
+  19 [ MakeNumber   ] 3       
+  20 [ MakeArray    ] 3       
+  21 [ LoadLocal    ] 0       ()
+  22 [ UpdateField  ] 8       
+  23 [ LoadLocal    ] 0       ()
+  24 [ FieldRef     ] 8       (bar)
+  25 [ MakeNumber   ] 1       
+  26 [ UpdateIndex  ]
+  27 [ LoadLocal    ] 0       ($)
+  28 [ PopEnv       ]
+  29 [ SaveVal      ] 0       (y)
+  30 [ Return       ]
+  31 [ MakeObj      ]
+  32 [ FieldRef     ] 12      (output)
+  33 [ Jump         ] 6       (-> 39)
+  34 [ Dup          ]
+  35 [ LangFieldRef ] 19      (!getHead)
+  36 [ Pop          ] 1       
+  37 [ Jump         ] 2       (-> 39)
+  38 [ LangFieldRef ] 28      (!getTail)
+  39 [ Dispatch     ]

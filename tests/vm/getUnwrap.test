@@ -1,0 +1,6 @@
+
+output = [a, b, c] |> println
+
+a = (1, 2, 3).!getUnwrap
+b = Foo(1, 2, 3).!getUnwrap
+c = Foo(1).!getUnwrap

@@ -1,0 +1,5 @@
+
+y = {foo = 123}
+x = y.foo
+
+a = false.!getInt

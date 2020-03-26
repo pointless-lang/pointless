@@ -1,0 +1,11 @@
+(Program
+ (Def
+  (Name "x")
+  (Requires
+   (Requires
+    (BinaryOp
+     Add
+     (Name "foo")
+     (Number 4))
+    (Name "baz"))
+   (Bool false))))

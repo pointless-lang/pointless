@@ -1,0 +1,3 @@
+
+x = y.foo
+y = {foo = Bar}

@@ -1,0 +1,9 @@
+
+x = foo
+access: foo global: 0
+
+import "call.test" as foo
+entry: foo index: 0
+
+x = foo
+entry: x index: 1

@@ -1,0 +1,121 @@
+
+------------------------------------------------------------------------------
+-- returns the sum of a list of numbers
+
+sum(list) = reduce(add, 0, list)
+
+------------------------------------------------------------------------------
+-- returns a list of numbers [0 ... (n - 1)]
+
+range(n) = rangeStep(0, n - 1, 1)
+
+------------------------------------------------------------------------------
+-- returns a list of numbers [start ... end] (inclusive)
+
+rangeStep(start, end, step) =
+  iterate(add(step), start) |> takeWhile(stopFunc)
+  where stopFunc =
+    if step > 0 then lessEq(end)
+    else greaterEq(end)
+
+------------------------------------------------------------------------------
+-- convert a number or a string to an integer (truncates floats)
+
+toInt(val) = val.!getInt
+
+------------------------------------------------------------------------------
+-- convert a number or a string to a float
+
+toFloat(val) = val.!getFloat
+
+------------------------------------------------------------------------------
+-- round a number to the nearest int value
+
+round(n) = sign * (base + correction) where {
+  sign = if n < 0 then -1 else 1
+  base = toInt(abs(n))
+  frac = abs(n) - base
+  correction = if frac < .5 then 0 else 1
+}
+
+------------------------------------------------------------------------------
+-- pi, to as many digits as I could remember
+
+pi = 3.14159265358979323846264338327950
+
+------------------------------------------------------------------------------
+-- e, to as many digist as I could remember
+
+euler = 2.71828
+
+------------------------------------------------------------------------------
+-- returns the absolute-value of a number 
+
+abs(n) = if n < 0 then -n else n
+
+------------------------------------------------------------------------------
+-- pow(b, a) = a ** b
+
+pow(b, a) = a ** b
+
+------------------------------------------------------------------------------
+-- mul(b, a) = a * b
+
+mul(b, a) = a * b
+
+------------------------------------------------------------------------------
+-- div(b, a) = a / b
+
+div(b, a) = a / b
+
+------------------------------------------------------------------------------
+-- mod(b, a) = a % b
+
+mod(b, a) = a % b
+
+------------------------------------------------------------------------------
+-- add(b, a) = b + a
+
+add(b, a) = b + a
+
+------------------------------------------------------------------------------
+-- sub(b, a) = b - a
+
+sub(b, a) = b - a
+
+------------------------------------------------------------------------------
+-- returns the larger of two numbers
+
+max(a, b) = if a > b then a else b
+
+------------------------------------------------------------------------------
+-- returns the smaller of two numbers
+
+min(a, b) = if a < b then a else b
+
+------------------------------------------------------------------------------
+-- returns the smallest number in a non-empty collection
+
+minimum(values) =
+  values
+  |> toList
+  |> reduceFirst(min)
+
+------------------------------------------------------------------------------
+-- returns the largest number in a non-empty collection
+
+maximum(values) =
+  values
+  |> toList
+  |> reduceFirst(max)
+
+------------------------------------------------------------------------------
+-- get peano representation for lenght of a tuple
+-- useful for making tuple-generic functions
+
+peano(tuple) = tuple.!getPeano
+
+------------------------------------------------------------------------------
+-- get predecessor of peano number
+
+pred(n) = unwrap(n)

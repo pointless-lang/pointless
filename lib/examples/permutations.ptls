@@ -1,0 +1,27 @@
+
+output =
+  range(3)
+  |> permutations
+  |> println
+
+-----------------------------------------------------------
+
+permutations(list) =
+  if list is Empty
+    then []
+
+  else if tail(list) is Empty
+    then [list]
+
+  else
+    for elem in list
+    for perm in permutations(delete(elem, list))
+    yield [elem] ++ perm
+
+-----------------------------------------------------------
+
+delete(elem, list) = switch {
+  case list is Empty []
+  case head(list) == elem tail(list)
+  otherwise [head(list)] ++ delete(elem, tail(list))
+}

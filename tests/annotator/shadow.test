@@ -1,0 +1,4 @@
+
+m = 5
+foo(m) = m
+bar(m) = n => m

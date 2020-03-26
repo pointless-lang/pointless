@@ -1,0 +1,4 @@
+
+output = [a] |> println
+
+a = {x = 123; x = 4}

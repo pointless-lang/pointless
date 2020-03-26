@@ -1,0 +1,22 @@
+(Program
+ (Def
+  (Name "x")
+  (Map))
+ (Def
+  (Name "x")
+  (Map
+   (Pair
+    (Number 1)
+    (Number 2))
+   (Pair
+    (Number 3)
+    (String "asdf"))))
+ (Def
+  (Name "x")
+  (Map
+   (Pair
+    (Number 1)
+    (Number 2))
+   (Pair
+    (Number 3)
+    (String "asdf")))))

@@ -1,0 +1,3 @@
+
+bar = foo(123)
+foo(n) = if n == 0 then "zero" else "non-zero"

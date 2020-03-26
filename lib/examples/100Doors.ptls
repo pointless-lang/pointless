@@ -1,0 +1,20 @@
+
+output =
+  rangeStep(1, 100, 1)
+  |> map(visit(100))
+  |> println
+
+-----------------------------------------------------------
+
+toggle(state) =
+  if state is Closed then Open
+  else Closed
+
+-----------------------------------------------------------
+
+visit(iter, index) = switch {
+  case (iter == 0) Closed
+  case (index % iter == 0) toggle(lastState)
+  otherwise lastState
+
+} where lastState = visit(iter - 1, index)

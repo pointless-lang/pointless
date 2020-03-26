@@ -1,0 +1,19 @@
+
+foo(m) = m
+access: m local: 0
+entry: m index: 0
+
+bar(m) = n => m
+access: m local: 1
+entry: n index: 0
+entry: m index: 1 upIndex: 0
+entry: m index: 0
+
+m = 5
+entry: m index: 0
+
+foo(m) = m
+entry: foo index: 1
+
+bar(m) = n => m
+entry: bar index: 2

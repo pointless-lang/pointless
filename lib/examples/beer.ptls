@@ -1,0 +1,25 @@
+
+output =
+  rangeStep(999, 1, -1)
+  |> map(showBeer)
+  |> concatMap(println)
+
+-----------------------------------------------------------
+
+showBeer(n) =
+  format("{} of beer on the wall! ", [showBottle(n)]) +
+  format("{} of beer!\n", [showBottle(n)]) +
+  "You take one down, pass it around, " +
+  nextBeer(n - 1)
+
+-----------------------------------------------------------
+
+nextBeer(n) =
+  if n == 0 then "no more bottles of beer on the wall!"
+  else format("{} of beer on the wall!\n", [showBottle(n)])
+
+-----------------------------------------------------------
+
+showBottle(n) =
+  format("{} {}", [n, bottleStr])
+  where bottleStr = if n == 1 then "bottle" else "bottles"

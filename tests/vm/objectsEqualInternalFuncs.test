@@ -1,0 +1,4 @@
+
+output = [a] |> println
+
+a = {id(x) = x} == {id(x) = x}

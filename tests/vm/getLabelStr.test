@@ -1,0 +1,6 @@
+
+output = [a, b, c] |> println
+
+a = 123.!getLabelStr
+b = Foo.!getLabelStr
+c = Foo(1, 2, 3).!getLabelStr

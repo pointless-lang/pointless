@@ -1,0 +1,73 @@
+(Program
+ (Def
+  (Name "x")
+  (With
+   (Name "x")
+   (Def
+    (FieldRef
+     (Index
+      (FieldRef
+       (Index
+        (Name "$")
+        (Number 0))
+       (Name "foo"))
+      (Number 0))
+     (Name "bar"))
+    (Name "y"))))
+ (Def
+  (Name "x")
+  (With
+   (Name "x")
+   (Def
+    (FieldRef
+     (Name "$")
+     (Name "foo"))
+    (Name "y"))))
+ (Def
+  (Name "x")
+  (With
+   (Name "x")
+   (Def
+    (FieldRef
+     (Name "$")
+     (Name "foo"))
+    (Name "y"))
+   (Def
+    (FieldRef
+     (Name "$")
+     (Name "bar"))
+    (Number 123))))
+ (Def
+  (Name "x")
+  (With
+   (Name "x")
+   (Def
+    (FieldRef
+     (Name "$")
+     (Name "foo"))
+    (BinaryOp
+     Add
+     (FieldRef
+      (Name "$")
+      (Name "foo"))
+     (Name "y")))
+   (Def
+    (FieldRef
+     (Name "$")
+     (Name "bar"))
+    (Number 123))))
+ (Def
+  (Name "x")
+  (With
+   (With
+    (Name "x")
+    (Def
+     (Index
+      (Name "$")
+      (Number 0))
+     (Name "y")))
+   (Def
+    (Index
+     (Name "$")
+     (Number 1))
+    (Number 2)))))

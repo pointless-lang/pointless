@@ -1,0 +1,14 @@
+(Program
+ (Def
+  (Name "x")
+  (Requires
+   (Name "foo")
+   (Name "bar")))
+ (Def
+  (Name "x")
+  (Requires
+   (BinaryOp
+    Add
+    (Name "foo")
+    (Number 3))
+   (Name "bar"))))

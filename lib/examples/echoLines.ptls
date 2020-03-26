@@ -1,0 +1,12 @@
+
+output =
+  linesFile
+  |> enumerate
+  |> map(format("{>3}: {}"))
+  |> printLines
+
+linesTerm = linesHelper(IO)
+linesFile = linesTerm |> takeWhile(notEq(EOF))
+
+linesHelper(source) =
+  [source.!getLine] ++ linesHelper(source)

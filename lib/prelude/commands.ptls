@@ -1,0 +1,34 @@
+
+------------------------------------------------------------------------------
+-- IO commands
+
+io = {
+  print(value) = [IOPrint(value)]
+  clearConsole = [IOClearConsole]
+}
+
+------------------------------------------------------------------------------
+-- generate command sequence to print show(value)
+
+print(value) = io.print(show(value))
+
+------------------------------------------------------------------------------
+-- generate command sequence to print show(value) with a newline
+
+println(value) = io.print(show(value) + "\n")
+
+------------------------------------------------------------------------------
+-- generate command sequence to clear the console and print the given value
+
+printFrame(value) = [io.clearConsole, println(value)] |> concat
+
+------------------------------------------------------------------------------
+
+printLines = concatMap(println)
+
+------------------------------------------------------------------------------
+
+lines(file) =
+  if line is EOF then []
+  else [line] ++ lines(file)
+  where line = {value = file.!getIOLine}

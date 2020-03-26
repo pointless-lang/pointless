@@ -1,0 +1,11 @@
+(Program
+ (Def
+  (Name "x")
+  (Where
+   (Requires
+    (Name "foo")
+    (Name "bar"))
+   (Object
+    (Def
+     (Name "bar")
+     (Number 123))))))

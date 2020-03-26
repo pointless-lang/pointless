@@ -1,0 +1,72 @@
+
+-------------------------------------------------------------------------------
+-- get the string representation of a value, keeping quotes if value is
+-- a string
+
+repr(value) =
+  if value is PtlsString
+  then "\"" + value + "\""
+  else show(value) 
+
+-------------------------------------------------------------------------------
+-- get the string representation of a value
+
+show(value) = switch {
+  case value is PtlsNumber  getString(value)
+  case value is PtlsString  getString(value)
+  case value is PtlsBool    getString(value)
+  case value is PtlsFunc    "PtlsFunc"
+  case value is PtlsBuiltIn "PtlsBuiltIn"
+  case value is PtlsLabel   getString(value)
+  case value is PtlsSet     showSet(value)
+  case value is PtlsMap     showMap(value)
+  case value is PtlsList    showList(value)
+  case value is PtlsArray   showArray(value)
+  case value is PtlsObject  showObject(value)
+  case value is PtlsTuple   showTuple(value)
+}
+
+-------------------------------------------------------------------------------
+
+getString(value) = value.!getString
+
+-------------------------------------------------------------------------------
+
+labelStr(value) = value.!getLabelStr
+
+-------------------------------------------------------------------------------
+
+showElems(start, end, sep, container) =
+  start + elemStr + end
+  where elemStr = container |> map(repr) |> join(sep)
+
+-------------------------------------------------------------------------------
+
+showSet   = showElems("{", "}", ", ")
+showList  = showElems("[", "]", ", ")
+showArray = showElems("[", "]", " ")
+
+-------------------------------------------------------------------------------
+
+showTuple(tuple) = 
+  labelStr(tuple) + showElems("(", ")", ", ", tuple)
+
+-------------------------------------------------------------------------------
+
+showMap = showPairs(format("{}: {}"), ", ")
+
+-------------------------------------------------------------------------------
+
+showObject(object) =
+  object
+  |> toMap
+  |> showPairs(format("{} = {}"), "; ")
+
+-------------------------------------------------------------------------------
+
+showPairs(pairFmt, sep, mapVal) = "{" + pairStr + "}"
+  where pairStr =
+    mapVal
+    |> items
+    |> map(pairFmt)
+    |> join(sep)

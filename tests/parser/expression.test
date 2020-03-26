@@ -1,0 +1,5 @@
+
+x =
+  foo + 4
+  requires baz
+  requires false

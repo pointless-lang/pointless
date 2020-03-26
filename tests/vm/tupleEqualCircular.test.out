@@ -1,0 +1,63 @@
+-------------------------------------------------------------------------------
+Runtime Error:
+
+Call stack overflow
+-------------------------------------------------------------------------------
+
+At (line 4) (column 11) in 'tests/vm/tupleEqualCircular.test'
+a = (123, a)
+          ^
+At (line 4) (column 11) in 'tests/vm/tupleEqualCircular.test'
+a = (123, a)
+          ^
+At (line 4) (column 11) in 'tests/vm/tupleEqualCircular.test'
+a = (123, a)
+          ^
+At (line 4) (column 11) in 'tests/vm/tupleEqualCircular.test'
+a = (123, a)
+          ^
+At (line 4) (column 11) in 'tests/vm/tupleEqualCircular.test'
+a = (123, a)
+          ^
+At (line 4) (column 11) in 'tests/vm/tupleEqualCircular.test'
+a = (123, a)
+          ^
+At (line 4) (column 11) in 'tests/vm/tupleEqualCircular.test'
+a = (123, a)
+          ^
+At (line 4) (column 11) in 'tests/vm/tupleEqualCircular.test'
+a = (123, a)
+          ^
+At (line 4) (column 11) in 'tests/vm/tupleEqualCircular.test'
+a = (123, a)
+          ^
+At (line 4) (column 11) in 'tests/vm/tupleEqualCircular.test'
+a = (123, a)
+          ^
+At (line 4) (column 11) in 'tests/vm/tupleEqualCircular.test'
+a = (123, a)
+          ^
+At (line 4) (column 11) in 'tests/vm/tupleEqualCircular.test'
+a = (123, a)
+          ^
+At (line 4) (column 11) in 'tests/vm/tupleEqualCircular.test'
+a = (123, a)
+          ^
+At (line 4) (column 11) in 'tests/vm/tupleEqualCircular.test'
+a = (123, a)
+          ^
+At (line 4) (column 11) in 'tests/vm/tupleEqualCircular.test'
+a = (123, a)
+          ^
+At (line 4) (column 11) in 'tests/vm/tupleEqualCircular.test'
+a = (123, a)
+          ^
+At (line 4) (column 11) in 'tests/vm/tupleEqualCircular.test'
+a = (123, a)
+          ^
+At (line 4) (column 11) in 'tests/vm/tupleEqualCircular.test'
+a = (123, a)
+          ^
+At (line 4) (column 11) in 'tests/vm/tupleEqualCircular.test'
+a = (123, a)
+          ^

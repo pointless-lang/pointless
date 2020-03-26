@@ -1,0 +1,9 @@
+
+output = foo
+access: foo global: 0
+
+import "importCircular.test" as foo
+entry: foo index: 0
+
+output = foo
+entry: output index: 1

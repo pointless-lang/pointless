@@ -1,0 +1,17 @@
+   0 [ SaveImports  ] 0       
+   1 [ MakeEnv      ] 1       
+   2 [ MakeNumber   ] 6       
+   3 [ MakeDef      ] 0       (x)
+   4 [ Jump         ] 4       (-> 8)
+   5 [ MakeNumber   ] 123     
+   6 [ SaveVal      ] 0       (x)
+   7 [ Return       ]
+   8 [ MakeObj      ]
+   9 [ FieldRef     ] 8       (output)
+  10 [ Jump         ] 6       (-> 16)
+  11 [ Dup          ]
+  12 [ LangFieldRef ] 15      (!getHead)
+  13 [ Pop          ] 1       
+  14 [ Jump         ] 2       (-> 16)
+  15 [ LangFieldRef ] 24      (!getTail)
+  16 [ Dispatch     ]

@@ -1,0 +1,9 @@
+
+output = [a, b, c, d, e, f] |> println
+
+a = 123 is Foo
+b = 123 is PtlsNumber
+c = Foo is PtlsLabel 
+d = Foo is Foo 
+e = Foo(1) is Foo 
+f = Foo(1) is PtlsTuple 

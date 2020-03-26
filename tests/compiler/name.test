@@ -1,0 +1,5 @@
+
+l = 123
+m = l
+foo(l) = l
+bar(l) = (m, n) => l

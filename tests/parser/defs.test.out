@@ -1,0 +1,9 @@
+(Program
+ (Def
+  (Name "x")
+  (Name "foo"))
+ (Def
+  (Tuple
+   (Name "a")
+   (Name "b"))
+  (Name "c")))

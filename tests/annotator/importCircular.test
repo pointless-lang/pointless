@@ -1,0 +1,3 @@
+
+import "importCircular.test" as foo
+output = foo

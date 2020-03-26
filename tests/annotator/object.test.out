@@ -1,0 +1,27 @@
+
+    z = foo
+access: foo local: 2
+
+    c = b
+access: b global: 0
+
+    z = foo
+entry: z index: 0
+
+    c = b
+entry: c index: 1
+
+    z = foo
+entry: foo index: 2 upIndex: 0
+
+  foo = 123
+entry: foo index: 0
+
+  y = {
+entry: y index: 1
+
+b = "bar"
+entry: b index: 0
+
+x = {
+entry: x index: 1

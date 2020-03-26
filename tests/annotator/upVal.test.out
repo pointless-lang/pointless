@@ -1,0 +1,8 @@
+
+foo(l) = (m, n) => l
+access: l local: 2
+entry: m index: 0
+entry: n index: 1
+entry: l index: 2 upIndex: 0
+entry: l index: 0
+entry: foo index: 0
