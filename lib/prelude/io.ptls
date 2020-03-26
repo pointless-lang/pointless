@@ -1,0 +1,36 @@
+
+------------------------------------------------------------------------------
+-- generate command sequence to print the string rep for value
+
+print(value) = [IOPrint(show(value))]
+
+------------------------------------------------------------------------------
+-- generate command sequence to print value with a newline
+
+println(value) = print(show(value) + "\n")
+
+------------------------------------------------------------------------------
+-- generate command sequence to clear console and print value with newline
+
+printFrame(value) = [IOClearConsole] ++ println(value)
+
+------------------------------------------------------------------------------
+-- print each element in a sequence on a separate line
+
+printLines = concatMap(println)
+
+------------------------------------------------------------------------------
+-- read a line of user input
+
+readLinesLazy = linesHelper(IO)
+
+------------------------------------------------------------------------------
+-- read lines from stdin until end of file
+-- (use for piped input)
+
+readLinesFull = readLinesLazy |> takeWhile(notEq(EOF))
+
+------------------------------------------------------------------------------
+
+linesHelper(source) =
+  [source.!getLine] ++ linesHelper(source)
