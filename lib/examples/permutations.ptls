@@ -6,17 +6,14 @@ output =
 
 -----------------------------------------------------------
 
-permutations(list) =
-  if list is Empty
-    then []
-
-  else if tail(list) is Empty
-    then [list]
-
-  else
+permutations(list) = switch {
+  case list is Empty       []
+  case tail(list) is Empty [list]
+  otherwise
     for elem in list
     for perm in permutations(delete(elem, list))
     yield [elem] ++ perm
+}
 
 -----------------------------------------------------------
 

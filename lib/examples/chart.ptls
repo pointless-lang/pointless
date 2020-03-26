@@ -3,7 +3,7 @@ import "collatz.ptls" as collatz
 
 -----------------------------------------------------------
 
-output = chart(20, collatz.getSequence(871)) |> println
+output = chart(20, collatz.getSequence(83)) |> println
 
 -----------------------------------------------------------
 
@@ -35,8 +35,8 @@ rowChars(row, values) =
 
 -----------------------------------------------------------
 
-getBar(row, n) = 
-  if barHeight < 0
-    then if row > 0 then " " else "_"
-    else bars[min(7, toInt(barHeight * 7))]
-  where {barHeight = (n - row); bars = toArray("▁▂▃▄▅▆▇█")}
+getBar(row, n) = switch {
+  case barHeight < 0 and row > 0  " "
+  case barHeight < 0 and row <= 0 "_"
+  otherwise bars[min(7, toInt(barHeight * 7))] 
+} where {barHeight = (n - row); bars = toArray("▁▂▃▄▅▆▇█")}
