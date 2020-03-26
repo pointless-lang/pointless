@@ -23,7 +23,7 @@ void
 throwFieldError(char* field, PtlsValue value) {
   errorHeader("Type Error");
   fprintf(stderr,
-    "Type '%s' has not field '%s'", getTypeStr(value.type), field);
+    "Type '%s' has no field '%s'", getTypeStr(value.type), field);
   showEnvTrace();
   throwError();
 }

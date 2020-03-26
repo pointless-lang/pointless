@@ -292,54 +292,8 @@ if (inst->arg == getListInd && tos.type == Val_Cons) {
 if (inst->arg == getListInd && tos.type == Val_String) {
   PtlsValue value = popCheck(Val_String);
   StringRef* ref = getRef(value, stringRef);
+  pushValue(getListString(ref, 0));
 
-  PtlsValue result = makeLabel(0); // Empty
-
-  int index = 0;
-  int length = 0;
-  while (index < ref->numBytes) {
-    char byte = ref->bytes[index];
-
-    int numBytes;
-    if ((byte & 0x80) == 0x0) {
-      numBytes = 1;
-
-    } else if((byte & 0xe0) == 0xc0) {
-      numBytes = 2;
-
-    } else if((byte & 0xf0) == 0xe0) {
-      numBytes = 3;
-
-    } else {
-      numBytes = 4;
-    }
-
-    assert(index <= ref->numBytes);
-    pushValue(makeNumber(numBytes));
-
-    index += numBytes;
-    length++;
-  }
-
-  index = ref->numBytes;
-  while (length--) {
-    int numBytes = popCheck(Val_Number).value;
-    index -= numBytes;
-
-    char* chars = calloc(numBytes, sizeof(char));
-    strncpy(chars, &ref->bytes[index], numBytes);
-
-    PtlsValue headChr = makeString(true, numBytes, chars);
-    StringRef* newRef = getRef(headChr, stringRef);
-    newRef->hasLength = true;
-    newRef->length = 1;
-
-    Thunk head = makeThunkValue(headChr);
-    Thunk tail = makeThunkValue(result);
-    result = makeCons(head, tail);
-  }
-  
-  pushValue(result);
   inst++;
   gotoHandler;
 }
