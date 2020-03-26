@@ -44,12 +44,12 @@ round(n) = sign * (base + correction) where {
 pi = 3.14159265358979323846264338327950
 
 ------------------------------------------------------------------------------
--- e, to as many digist as I could remember
+-- e, to as many digits as I could remember
 
 euler = 2.71828
 
 ------------------------------------------------------------------------------
--- returns the absolute-value of a number 
+-- get the absolute-value of a number 
 
 abs(n) = if n < 0 then -n else n
 
@@ -108,14 +108,3 @@ maximum(values) =
   values
   |> toList
   |> reduceFirst(max)
-
-------------------------------------------------------------------------------
--- get peano representation for lenght of a tuple
--- useful for making tuple-generic functions
-
-peano(tuple) = tuple.!getPeano
-
-------------------------------------------------------------------------------
--- get predecessor of peano number
-
-pred(n) = unwrap(n)

@@ -2,19 +2,17 @@
 -------------------------------------------------------------------------------
 -- get the first element in a list
 
-head(list) = list.!getHead
+head(list) = list.!getHead requires list is PtlsList
 
 -------------------------------------------------------------------------------
 -- get all elements in a list after the first
 
-tail(list) = list.!getTail
+tail(list) = list.!getTail requires list is PtlsList
 
 -------------------------------------------------------------------------------
 -- returns the nth element in a list (list must have at least n elements)
 
-at(n, list) = list |> drop(n) |> headStrict
-
-headStrict(list) = head(list)
+at(n, list) = list |> drop(n) |> head
 
 ------------------------------------------------------------------------------
 -- get a sublist of indices [start ... (end - 1)]
@@ -321,15 +319,17 @@ enumerate(list) =
 -------------------------------------------------------------------------------
 -- sort a list of numbers
 
-sort(list) = switch {
+sort(collection) = sortList(toList(collection))
+
+sortList(list) = switch {
   case (list is Empty)     []
   case (length(list) == 1) list
-  otherwise (merge(left, right)
-    where {
-      half  = round(length(list) / 2)
-      left  = sort(take(half, list))
-      right = sort(drop(half, list))
-    })
+  otherwise merge(left, right)
+  where {
+    half  = round(length(list) / 2)
+    left  = sortList(take(half, list))
+    right = sortList(drop(half, list))
+  }
 }
 
 merge(a, b) = switch {

@@ -15,8 +15,6 @@ show(value) = switch {
   case value is PtlsNumber  getString(value)
   case value is PtlsString  getString(value)
   case value is PtlsBool    getString(value)
-  case value is PtlsFunc    "PtlsFunc"
-  case value is PtlsBuiltIn "PtlsBuiltIn"
   case value is PtlsLabel   getString(value)
   case value is PtlsSet     showSet(value)
   case value is PtlsMap     showMap(value)
@@ -24,6 +22,8 @@ show(value) = switch {
   case value is PtlsArray   showArray(value)
   case value is PtlsObject  showObject(value)
   case value is PtlsTuple   showTuple(value)
+  case value is PtlsFunc    "PtlsFunc"
+  case value is PtlsBuiltIn "PtlsBuiltIn"
 }
 
 -------------------------------------------------------------------------------
@@ -68,5 +68,10 @@ showPairs(pairFmt, sep, mapVal) = "{" + pairStr + "}"
   where pairStr =
     mapVal
     |> items
+    |> map(reprPair)
     |> map(pairFmt)
     |> join(sep)
+
+-------------------------------------------------------------------------------
+
+reprPair(pair) = (repr(a), repr(b)) where (a, b) = pair

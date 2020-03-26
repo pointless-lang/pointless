@@ -29,9 +29,6 @@ splitChars(delim, chars) =
   if chars is Empty
     then []
 
-  else if delim is Empty
-    then [join("", chars)]
-
   else if rest is None
     then [join("", chars)]
 
