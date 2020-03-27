@@ -1,4 +1,8 @@
 
+-----------------------------------------------------------
+-- read lines from stdin, and print each line along
+-- with its line number, right-justified to 3 chars 
+
 output =
   readLinesFull
   |> enumerate

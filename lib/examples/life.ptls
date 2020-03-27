@@ -1,35 +1,39 @@
 
+-----------------------------------------------------------
+-- print 100 simulated states of conway's game of life
+-- for a glider pattern
+-- print generation number along with cells
+
 output =
   initCells
   |> iterate(updateCells)
-  |> take(1000)
+  |> take(100)
   |> enumerate
   |> map(showPair)
   |> concatMap(printFrame)
 
------------------------------------------------------------
+-- need to concat results from printFrames to join the
+-- commands into one big sequence
 
 initCells =
-  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-  [0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-  [0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-  [0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+  [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
 
 width  = length(initCells[0])
 height = length(initCells)
-
------------------------------------------------------------
 
 positions = 
   for y in range(height)
@@ -37,6 +41,8 @@ positions =
   yield (x, y)
 
 -----------------------------------------------------------
+-- update each cell in the grid according to its position,
+-- and convert the resulting list back to a 2D array
 
 updateCells(cells) =
   positions
@@ -44,6 +50,8 @@ updateCells(cells) =
   |> toNDArray((height, width))
 
 -----------------------------------------------------------
+-- get the new value for a cell at a give position
+-- based on the current cell values in the grid
 
 tick(cells, pos) = toInt(survive or birth) where {
   survive = cells[y][x] == 1 and count in {2, 3}
@@ -53,6 +61,7 @@ tick(cells, pos) = toInt(survive or birth) where {
 }
 
 -----------------------------------------------------------
+-- get the number of live neighbors of a given position
 
 getCount(x, y, cells) = sum(neighborVals) where {
   neighborVals = 
@@ -63,17 +72,15 @@ getCount(x, y, cells) = sum(neighborVals) where {
   deltas = [-1, 0, 1]
 }
 
+getNeighbor(x, y, cells) = cells[y % height][x % width]   
+
 -----------------------------------------------------------
-
-getNeighbor(x, y, cells) = cells[y % height][x % width]
-
------------------------------------------------------------   
+-- print the board and generation number given pairs
+-- of (gen, cells) from the enumerate function
 
 showPair(pair) =
   format("{}\ngeneration: {}", [showCells(cells), gen])
   where (gen, cells) = pair
-
------------------------------------------------------------
 
 showCells(cells) =
   cells

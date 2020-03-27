@@ -4,7 +4,6 @@
 #include "parser.h"
 #include "parserFuncs.h"
 
-#include "../tokenizer/tokenizer.h"
 #include "../error/error.h"
 
 // ---------------------------------------------------------------------------

@@ -1,13 +1,12 @@
 
-import "collatz.ptls" as collatz
-
 -----------------------------------------------------------
+-- given a list of numerical values, print an ascii bar-
+-- chart with dimensions (in terms of characters) 
+-- height x length(values), where the largest value takes
+-- up the full height of the chart
+-- negative values get truncated to zero 
 
-output = chart(20, collatz.getSequence(83)) |> println
-
------------------------------------------------------------
-
-chart(height, values) =
+scale(height, values) =
   if values is Empty then ""
   else
     values
@@ -16,6 +15,7 @@ chart(height, values) =
     |> join("\n")
 
 -----------------------------------------------------------
+-- get list of scaled values so that max(scaled) = height
 
 normalize(height, values) =
   values
@@ -23,20 +23,24 @@ normalize(height, values) =
   |> map(max(0))
 
 -----------------------------------------------------------
+-- build up the chart row-by-row starting with the hightest
+-- row index (from top to bottom)
 
 getRows(height, values) =
   for row in reverse(range(height))
   yield rowChars(row, values) |> join("")
 
------------------------------------------------------------
-
 rowChars(row, values) =
   values |> map(getBar(row))
 
 -----------------------------------------------------------
+-- barHeight is the height that the value n projects
+-- above the base of the current row (capped at max value
+-- seven when the value spans the entire row height
+-- use this value to index into the array of bar chars
 
 getBar(row, n) = switch {
   case barHeight < 0 and row > 0  " "
-  case barHeight < 0 and row <= 0 "_"
+  case barHeight < 0 and row == 0 "_"
   otherwise bars[min(7, toInt(barHeight * 7))] 
 } where {barHeight = (n - row); bars = toArray("▁▂▃▄▅▆▇█")}

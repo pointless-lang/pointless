@@ -1,20 +1,22 @@
 
+----------------------------------------------------------
+-- solution to the '100 doors' problem
+-- (http://rosettacode.org/wiki/100_doors)
+
 output =
   rangeStep(1, 100, 1)
   |> map(visit(100))
   |> println
 
------------------------------------------------------------
-
 toggle(state) =
-  if state is Closed then Open
-  else Closed
+  if state is Closed then Open else Closed
 
------------------------------------------------------------
+----------------------------------------------------------
+-- door state on iternation number iter is recursively
+-- defined in terms of pervious door state
 
 visit(iter, index) = switch {
   case (iter == 0) Closed
   case (index % iter == 0) toggle(lastState)
   otherwise lastState
-
 } where lastState = visit(iter - 1, index)

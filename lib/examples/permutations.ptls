@@ -1,21 +1,23 @@
 
+-----------------------------------------------------------
+-- for a list of values, get a list of all permutations of
+-- the items in the original list
+-- (algorithm produces duplicate permutations for lists
+-- containing duplicate elements)
+
 output =
-  range(3)
+  range(3) -- this example uses the list [0, 1, 2]
   |> permutations
   |> println
 
------------------------------------------------------------
-
 permutations(list) = switch {
-  case list is Empty       []
+  case list is Empty []
   case tail(list) is Empty [list]
   otherwise
     for elem in list
     for perm in permutations(delete(elem, list))
     yield [elem] ++ perm
 }
-
------------------------------------------------------------
 
 delete(elem, list) = switch {
   case list is Empty []

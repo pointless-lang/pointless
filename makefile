@@ -27,6 +27,7 @@ all:
 
 .PHONY: dev
 dev: debug/tokenize \
+	debug/highlight \
 	debug/parse \
 	debug/annotate \
 	debug/compile \
@@ -112,6 +113,9 @@ debug/annotate: debug/annotate.c pointless
 	$(CC) -o $@ $< $(OBJS) $(CFLAGS) -lm
 
 debug/parse: debug/parse.c pointless
+	$(CC) -o $@ $< $(OBJS) $(CFLAGS) -lm
+
+debug/highlight: debug/highlight.c pointless
 	$(CC) -o $@ $< $(OBJS) $(CFLAGS) -lm
 
 debug/tokenize: debug/tokenize.c pointless
