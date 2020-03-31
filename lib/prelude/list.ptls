@@ -32,11 +32,11 @@ slicePos(start, end, list) =
 
 concat(lists) = 
   if lists is Empty then []
-  else concatHelper(head(lists), tail(lists))
+  else concatHelper(head(lists), lists)
 
 concatHelper(list, lists) =
-  if list is Empty then concat(lists)
-  else [head(list)] ++ concat([tail(list)] ++ lists)
+  if list is Empty then concat(tail(lists))
+  else [head(list)] ++ concat([tail(list)] ++ tail(lists))
 
 -------------------------------------------------------------------------------
 -- map a list-generating function over a list and concatenate output lists
@@ -175,7 +175,7 @@ filter(func, list) =
 -- starting with accumulator value acc, update acc <- func(acc, elem)
 -- for each element elem in the list
 --
--- example: sum(list) = reduce(list, 0, add)
+-- example: sum(list) = reduce(0, add, list)
 
 reduce(func, acc, list) = 
   if list is Empty then acc 
@@ -219,8 +219,6 @@ zip(a, b) = switch {
 toList(collection) =
   if collection is Empty then []
   else collection.!getList
-
-toListStrict(collection) = toList(collection)
 
 -------------------------------------------------------------------------------
 
