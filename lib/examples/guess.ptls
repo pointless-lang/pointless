@@ -1,0 +1,18 @@
+
+number = round(1000 * IO.!getRand)
+
+getResponse(n) =
+  format("{} is {}", [n, compareGuess(n)])
+
+compareGuess(n) = switch {
+  case n > number  "too high"
+  case n < number  "too low"
+  case n == number "correct!"
+}
+
+output =
+  readLinesLazy
+  |> map(toInt)
+  |> takeUntil(equals(number))
+  |> map(getResponse)
+  |> printLines
