@@ -133,7 +133,7 @@ if (inst->arg == getIntInd && tos.type == Val_Bool) {
 // -------------------------------------------------------------------------
 
 if (inst->arg == getIntInd && tos.type == Val_Number) {
-  tos.value = round(tos.value);
+  tos.value = floor(tos.value);
   inst++;
   gotoHandler;
 }
@@ -399,6 +399,18 @@ if (inst->arg == getMapInd && tos.type == Val_Object) {
   pushValue(result);
   inst++;
   gotoHandler;
+}
+
+// -------------------------------------------------------------------------
+
+if (inst->arg == getRandInd) {
+  // can only call getSet on PtlsFloat label
+  if (tos.type == Val_Label && tos.value == strLiteralIndex("IO")) {
+    popCheck(Val_Label);
+    pushValue(makeNumber((float)rand()/(float)RAND_MAX));
+    inst++;
+    gotoHandler;
+  }
 }
 
 // -------------------------------------------------------------------------

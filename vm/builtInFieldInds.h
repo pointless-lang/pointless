@@ -11,6 +11,7 @@ int getLabelStrInd;
 int getLengthInd;
 int getListInd;
 int getMapInd;
+int getRandInd;
 int getSetInd;
 int getStringInd;
 int getTailInd;
@@ -31,6 +32,7 @@ void initBuiltInFields(void) {
   getLengthInd = strLiteralIndex("!getLength");
   getListInd = strLiteralIndex("!getList");
   getMapInd = strLiteralIndex("!getMap");
+  getRandInd = strLiteralIndex("!getRand");
   getSetInd = strLiteralIndex("!getSet");
   getStringInd = strLiteralIndex("!getString");
   getTailInd = strLiteralIndex("!getTail");

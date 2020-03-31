@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <math.h>
+#include <sys/time.h>
 
 #include "vm.h"
 
@@ -126,6 +127,10 @@ run(FileStruct* file) {
       #include "handlersMap.h"
     }
   }
+
+  struct timeval t1;
+  gettimeofday(&t1, NULL);
+  srand(t1.tv_usec * t1.tv_sec);
 
   initBuiltInFields();
   initLabels();
