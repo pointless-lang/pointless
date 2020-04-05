@@ -1,47 +1,11 @@
-# pointless
+# Pointless
 
-```
+### A scripting language for learning and fun
 
-import "collatz.ptls" as collatz
+I've made this site to share a project I've been working on intermittently for the last couple of years - a programming language called Pointless. The language is a distillation of some of the concepts from functional programming that I find interesting, with a design goal that can be roughly summarized as "creating the programming language that I'd like to have learned as a beginner programmer". This language is still very much in-the-works, but I'm excited to share the progress that I've made so far. More information can be found in the examples and documentation sections.
 
------------------------------------------------------------
+- Avery Nortonsmith
 
-output = chart(20, collatz.getSequence(871)) |> println
+### Documentation and examples at [https://ptls.dev](https://ptls.dev/)
 
------------------------------------------------------------
-
-chart(height, values) =
-  if values is Empty then ""
-  else
-    values
-    |> normalize(height)
-    |> getRows(height)
-    |> join("\n")
-
------------------------------------------------------------
-
-normalize(height, values) =
-  values
-  |> map(mul(height / maximum(values)))
-  |> map(max(0))
-
------------------------------------------------------------
-
-getRows(height, values) =
-  for row in reverse(range(height))
-  yield rowChars(row, values) |> join("")
-
------------------------------------------------------------
-
-rowChars(row, values) =
-  values |> map(getBar(row))
-
------------------------------------------------------------
-
-getBar(row, n) = 
-  if barHeight < 0
-    then if row > 0 then " " else "_"
-    else bars[min(7, toInt(barHeight * 7))]
-  where {barHeight = (n - row); bars = toArray("▁▂▃▄▅▆▇█")}
-```
-
+![sample code](screenshot.png)
