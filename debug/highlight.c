@@ -20,7 +20,7 @@ extern bool matchTokenType(Pair* pairs, TokenType tokType);
 
 // ---------------------------------------------------------------------------
 
-char special[] = "|output|printLines|dropUntil|lazyConcat|peano|pred|printFrame|println|rangeStep|unwrap|toMap|keys|vals|items|join|concatStrings|split|padLeft|padRight|format|compose|const|iterate|sum|range|toInt|toFloat|round|pi|euler|abs|pow|mul|div|mod|add|sub|max|min|minimum|maximum|lessEq|lessThan|greaterEq|greaterThan|notFunc|notEq|equals|orFunc|andFunc|inFunc|any|all|repr|show|print|copy|head|tail|at|slice|concat|concatMap|intersperse|repeat|take|drop|takeWhile|takeUntil|dropWhile|find|span|groupBy|suffixes|map|filter|reduce|reduceFirst|reverse|zip|toList|toArray|toSet|toNDArray|length|hasPrefix|enumerate|sort|";
+char special[] = "|floor|ceil|randFloat|randRange|randChoice|equals|notEquals|addElem|delElem|delKey|readLines|union|intersection|difference|symDifference|printLines|dropUntil|lazyConcat|peano|pred|printFrame|println|rangeStep|toMap|keys|vals|items|join|concatStrings|split|padLeft|padRight|format|compose|const|iterate|sum|range|toInt|toFloat|round|pi|euler|abs|pow|mul|div|mod|add|sub|max|min|minimum|maximum|lessEq|lessThan|greaterEq|greaterThan|notFunc|notEq|eq|orFunc|andFunc|inFunc|any|all|repr|show|print|copy|head|tail|at|slice|concat|concatMap|intersperse|repeat|take|drop|takeWhile|takeUntil|dropWhile|find|span|groupBy|suffixes|map|filter|reduce|reduceFirst|reverse|zip|toList|toArray|toSet|toNDArray|length|hasPrefix|enumerate|sort|";
 
 int main(int argc, char *argv[]) {
   assert(argc == 2);
@@ -44,6 +44,9 @@ int main(int argc, char *argv[]) {
       color = "#c594c5";
 
     } else if (matchTokenType(opSyms, token->tokType)) {
+      color = "#F97B58";
+
+    } else if (token->tokType == Tok_Neg) {
       color = "#F97B58";
 
     } else if (token->tokType == Tok_Label) {

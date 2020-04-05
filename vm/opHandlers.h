@@ -800,25 +800,25 @@ handleIs: {
 
   bool result = false;
   switch (value.type) {
-    case Val_Array:   result = labelInd == ArrayLabelInd; break;
-    case Val_Bool:    result = labelInd == BoolLabelInd; break;
-    case Val_Cons:    result = labelInd == ListLabelInd; break;
-    case Val_Func:    result = labelInd == FuncLabelInd; break;
-    case Val_Map:     result = labelInd == MapLabelInd; break;
-    case Val_Number:  result = labelInd == NumberLabelInd; break;
-    case Val_Object:  result = labelInd == ObjectLabelInd; break;
-    case Val_Set:     result = labelInd == SetLabelInd; break;
-    case Val_String:  result = labelInd == StringLabelInd; break;
-    case Val_BuiltIn: result = labelInd == BuiltInLabelInd; break;
+    case Val_Array:   result = labelInd == arrayLabelInd; break;
+    case Val_Bool:    result = labelInd == boolLabelInd; break;
+    case Val_Cons:    result = labelInd == listLabelInd; break;
+    case Val_Func:    result = labelInd == funcLabelInd; break;
+    case Val_Map:     result = labelInd == mapLabelInd; break;
+    case Val_Number:  result = labelInd == numberLabelInd; break;
+    case Val_Object:  result = labelInd == objectLabelInd; break;
+    case Val_Set:     result = labelInd == setLabelInd; break;
+    case Val_String:  result = labelInd == stringLabelInd; break;
+    case Val_BuiltIn: result = labelInd == builtInLabelInd; break;
 
     case Val_Label: {
-      result = labelInd == LabelLabelInd;
+      result = labelInd == labelLabelInd;
       result = result || value.value == labelInd;
       break;
     }
 
     case Val_Tuple: {
-      result = labelInd == TupleLabelInd;
+      result = labelInd == tupleLabelInd;
       TupleRef* ref = getRef(value, tupleRef);
       if (ref->hasLabel) {
         result = result || ref->label.value == labelInd;

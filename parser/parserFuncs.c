@@ -231,7 +231,11 @@ getTupleName(Parser* parser) {
 ASTNode*
 getDefLHS(Parser* parser) {
   if (isNext(parser, tokSet(Tok_LParen), defSkip)) {
-    return getTupleHandler(parser, getTupleName);
+    Location loc;
+    ASTNode* elems = getParenElements(parser, getTupleName, &loc);
+    ASTNode* node = makeNode(Node_Tuple, loc);
+    addChild(node, 0, elems);
+    return node;
   }
   return getName(parser);
 }

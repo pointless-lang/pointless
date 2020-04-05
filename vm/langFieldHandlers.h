@@ -190,36 +190,35 @@ if (inst->arg == getKeysInd && tos.type == Val_Map) {
 
 // -------------------------------------------------------------------------
 
-if (inst->arg == getLabelStrInd) {
+if (inst->arg == getLabelInd) {
   PtlsValue value = popValue();
 
-  char* chars = NULL;
+  int labelInd;
   switch (value.type) {
-    case Val_Array:   chars = "PtlsArray"; break;
-    case Val_Bool:    chars = "PtlsBool"; break;
-    case Val_Cons:    chars = "PtlsList"; break;
-    case Val_Func:    chars = "PtlsFunc"; break;
-    case Val_Map:     chars = "PtlsMap"; break;
-    case Val_Number:  chars = "PtlsNumber"; break;
-    case Val_Object:  chars = "PtlsObject"; break;
-    case Val_Set:     chars = "PtlsSet"; break;
-    case Val_String:  chars = "PtlsString"; break;
-    case Val_BuiltIn: chars = "PtlsBuiltIn"; break;
-    case Val_Label:   chars = getText(value.value); break;
+    case Val_Array:   labelInd = arrayLabelInd; break;
+    case Val_Bool:    labelInd = boolLabelInd; break;
+    case Val_Cons:    labelInd = listLabelInd; break;
+    case Val_Func:    labelInd = funcLabelInd; break;
+    case Val_Map:     labelInd = mapLabelInd; break;
+    case Val_Number:  labelInd = numberLabelInd; break;
+    case Val_Object:  labelInd = objectLabelInd; break;
+    case Val_Set:     labelInd = setLabelInd; break;
+    case Val_String:  labelInd = stringLabelInd; break;
+    case Val_BuiltIn: labelInd = builtInLabelInd; break;
+    case Val_Label:   labelInd = value.value; break;
 
     case Val_Tuple: {
       TupleRef* ref = getRef(value, tupleRef);
       if (ref->hasLabel) {
-        chars = getText(ref->label.value);
+        labelInd = ref->label.value;
         break;
       }
-      chars = "";
+      labelInd = tupleLabelInd;
       break;
     }
   }
 
-  // string is not heap allocated
-  pushValue(makeString(false, strlen(chars), chars));
+  pushValue(makeLabel(labelInd));
   inst++;
   gotoHandler;
 }
@@ -489,30 +488,6 @@ if (inst->arg == getTailInd && tos.type == Val_Cons) {
 
   pushEnv(ref->tail.env, inst);
   inst = ref->tail.inst;
-  gotoHandler;
-}
-
-// -------------------------------------------------------------------------
-
-if (inst->arg == getUnwrapInd && tos.type == Val_Tuple) {
-  PtlsValue value = popCheck(Val_Tuple);
-  TupleRef* ref = getRef(value, tupleRef);
-
-  if (ref->length == 1) {
-    pushValue(ref->members[0]);
-
-  } else {
-    PtlsValue* members = calloc(ref->length, sizeof(PtlsValue));
-    PtlsValue result = makeTuple(ref->length, members);
-
-    for (int index = 0; index < ref->length; index++) {
-      members[index] = ref->members[index];
-    }
-
-    pushValue(result);
-  }
-
-  inst++;
   gotoHandler;
 }
 
