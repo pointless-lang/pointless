@@ -25,7 +25,7 @@ effectHandlerTuple(int labelInd, TupleRef* ref) {
 bool
 effectHandlerLabel(int labelInd) {
   if (labelInd == strLiteralIndex("IOClearConsole")) {
-    system("clear");
+    assert(system("clear") >= 0);
     return true;
   }
 

@@ -216,6 +216,9 @@ if (inst->arg == getLabelInd) {
       labelInd = tupleLabelInd;
       break;
     }
+
+    default:
+      assert(false);
   }
 
   pushValue(makeLabel(labelInd));

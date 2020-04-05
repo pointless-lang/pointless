@@ -1,1 +1,1 @@
-[{foo = 4}, {foo = 4; bar = asdf}, {foo = false; bar = asdf}]
+[{"foo" = 4}, {"foo" = 4; "bar" = "asdf"}, {"foo" = false; "bar" = "asdf"}]

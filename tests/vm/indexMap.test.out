@@ -1,1 +1,1 @@
-[{1: false, asdf: Foo}, false]
+[{1: false, "asdf": Foo}, false]

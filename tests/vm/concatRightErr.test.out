@@ -4,60 +4,60 @@ Type Error:
 Expected PtlsList or Empty, get  type 'PtlsNumber'
 -------------------------------------------------------------------------------
 
-At (line 40) (column 11) in 'lib/prelude/show.ptls'
+At (line 42) (column 11) in 'lib/prelude/show.ptls'
   start + elemStr + end
           ^
-At (line 41) (column 9) in 'lib/prelude/show.ptls'
+At (line 43) (column 9) in 'lib/prelude/show.ptls'
   where elemStr = container |> map(repr) |> join(sep)
         ^
 At (line 14) (column 29) in 'lib/prelude/string.ptls'
   else concatStrings(result + head(strings), tail(strings))
                             ^
 At (line 5) (column 18) in 'lib/prelude/list.ptls'
-head(list) = list.!getHead
+head(list) = list.!getHead requires list is PtlsList
                  ^
-At (line 53) (column 8) in 'lib/prelude/list.ptls'
+At (line 51) (column 8) in 'lib/prelude/list.ptls'
   else [head(list)] ++ prependToAll(sep, tail(list))
        ^
 At (line 5) (column 18) in 'lib/prelude/list.ptls'
-head(list) = list.!getHead
+head(list) = list.!getHead requires list is PtlsList
                  ^
-At (line 163) (column 9) in 'lib/prelude/list.ptls'
+At (line 157) (column 9) in 'lib/prelude/list.ptls'
   else [func(head(list))] ++ mapList(func, tail(list))
         ^
 At (line 5) (column 18) in 'lib/prelude/list.ptls'
-head(list) = list.!getHead
+head(list) = list.!getHead requires list is PtlsList
                  ^
-At (line 163) (column 8) in 'lib/prelude/list.ptls'
+At (line 157) (column 8) in 'lib/prelude/list.ptls'
   else [func(head(list))] ++ mapList(func, tail(list))
        ^
-At (line 40) (column 11) in 'lib/prelude/show.ptls'
+At (line 42) (column 11) in 'lib/prelude/show.ptls'
   start + elemStr + end
           ^
-At (line 41) (column 9) in 'lib/prelude/show.ptls'
+At (line 43) (column 9) in 'lib/prelude/show.ptls'
   where elemStr = container |> map(repr) |> join(sep)
         ^
 At (line 14) (column 8) in 'lib/prelude/string.ptls'
   else concatStrings(result + head(strings), tail(strings))
        ^
 At (line 10) (column 18) in 'lib/prelude/list.ptls'
-tail(list) = list.!getTail
+tail(list) = list.!getTail requires list is PtlsList
                  ^
-At (line 53) (column 24) in 'lib/prelude/list.ptls'
+At (line 51) (column 24) in 'lib/prelude/list.ptls'
   else [head(list)] ++ prependToAll(sep, tail(list))
                        ^
 At (line 10) (column 18) in 'lib/prelude/list.ptls'
-tail(list) = list.!getTail
+tail(list) = list.!getTail requires list is PtlsList
                  ^
-At (line 163) (column 30) in 'lib/prelude/list.ptls'
+At (line 157) (column 30) in 'lib/prelude/list.ptls'
   else [func(head(list))] ++ mapList(func, tail(list))
                              ^
 At (line 10) (column 18) in 'lib/prelude/list.ptls'
-tail(list) = list.!getTail
+tail(list) = list.!getTail requires list is PtlsList
                  ^
-At (line 163) (column 30) in 'lib/prelude/list.ptls'
+At (line 157) (column 30) in 'lib/prelude/list.ptls'
   else [func(head(list))] ++ mapList(func, tail(list))
                              ^
 At (line 10) (column 18) in 'lib/prelude/list.ptls'
-tail(list) = list.!getTail
+tail(list) = list.!getTail requires list is PtlsList
                  ^
