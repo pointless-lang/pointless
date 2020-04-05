@@ -1,5 +1,5 @@
 
-number = round(1000 * IO.!getRand)
+number = randRange(1000)
 
 getResponse(n) =
   format("{} is {}", [n, compareGuess(n)])
@@ -10,9 +10,15 @@ compareGuess(n) = switch {
   case n == number "correct!"
 }
 
+----------------------------------------------------------
+-- a number guessing game (binary search)
+-- user enters an integer guess between 0 and 1000
+-- progarm reports whether guess is above or below the
+-- target number - continues until correct guess is entered
+
 output =
-  readLinesLazy
+  readLines
   |> map(toInt)
-  |> takeUntil(equals(number))
+  |> takeUntil(eq(number))
   |> map(getResponse)
   |> printLines

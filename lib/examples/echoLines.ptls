@@ -4,7 +4,7 @@
 -- with its line number, right-justified to 3 chars 
 
 output =
-  readLinesFull
+  readLines
   |> enumerate
   |> map(format("{>3}: {}"))
   |> printLines
