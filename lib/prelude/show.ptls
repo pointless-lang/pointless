@@ -1,7 +1,6 @@
 
 -------------------------------------------------------------------------------
--- get the string representation of a value, keeping quotes if value is
--- a string
+-- get the string rep of a value, keeping quotes if value is a string
 
 repr(value) =
   if value is PtlsString
@@ -32,7 +31,10 @@ getString(value) = value.!getString
 
 -------------------------------------------------------------------------------
 
-labelStr(value) = value.!getLabelStr
+getLabel(value) = value.!getLabel
+
+getLabelStr (value) =
+  if getLabel(value) is PtlsTuple then "" else show(getLabel(value))
 
 -------------------------------------------------------------------------------
 
@@ -49,7 +51,7 @@ showArray = showElems("[", "]", " ")
 -------------------------------------------------------------------------------
 
 showTuple(tuple) = 
-  labelStr(tuple) + showElems("(", ")", ", ", tuple)
+  getLabelStr(tuple) + showElems("(", ")", ", ", tuple)
 
 -------------------------------------------------------------------------------
 

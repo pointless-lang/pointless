@@ -24,6 +24,16 @@ rangeStep(start, end, step) =
 toInt(val) = val.!getInt
 
 ------------------------------------------------------------------------------
+-- round number down
+
+floor = toInt
+
+------------------------------------------------------------------------------
+-- round number up
+
+ceil(n) = toInt(n + 1)
+
+------------------------------------------------------------------------------
 -- convert a number or a string to a float
 
 toFloat(val) = val.!getFloat

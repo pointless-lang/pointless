@@ -20,17 +20,29 @@ printFrame(value) = [IOClearConsole] ++ println(value)
 printLines = concatMap(println)
 
 ------------------------------------------------------------------------------
--- read a line of user input
+-- read lines of input lazily
 
-readLinesLazy = linesHelper(IO)
-
-------------------------------------------------------------------------------
--- read lines from stdin until end of file
--- (use for piped input)
-
-readLinesFull = readLinesLazy |> takeWhile(notEq(EOF))
+readLines = linesHelper(IO) |> takeWhile(notEq(EOF))
 
 ------------------------------------------------------------------------------
 
 linesHelper(source) =
   [source.!getLine] ++ linesHelper(source)
+
+------------------------------------------------------------------------------
+-- get random float in range(n)
+
+randFloat(n) = IO.!getRand * n
+
+------------------------------------------------------------------------------
+-- get random entry from range(n)
+
+randRange(n) = floor(randFloat(n))
+
+------------------------------------------------------------------------------
+-- get random elem from collection
+
+randChoice(elems) =
+ elems
+ |> toList
+ |> at(randRange(length(elems)))

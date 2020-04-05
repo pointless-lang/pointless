@@ -1,5 +1,7 @@
 
 -------------------------------------------------------------------------------
+-- use a format pattern to build a string with inserted values
+--
 -- example:
 --
 -- ptls> format("{} {}!", ["Hello", "world"])
@@ -44,7 +46,7 @@ spanUntil(func, list) = (takeUntil(func, list), dropUntil(func, list))
 
 nextPat(fmt) = (leading, pattern, rest) where {
   (leading, trailing) = span(notEq("{"), fmt)
-  (pattern, rest) = spanUntil(equals("}"), trailing)
+  (pattern, rest) = spanUntil(eq("}"), trailing)
 }
 
 -------------------------------------------------------------------------------

@@ -68,8 +68,7 @@ take(n, list) =
   else [head(list)] ++ take(n - 1, tail(list))
 
 -------------------------------------------------------------------------------
--- get the elements after the first n elements in an list
--- or empty if length < n
+-- get the elems after the first n elems in an list or empty if length < n
 
 drop(n, list) = 
   if n < 1 then list
@@ -88,8 +87,7 @@ takeWhile(func, list) =
   else []
 
 -------------------------------------------------------------------------------
--- take the leading elements for which func returns true
--- and the first element for which func returns false
+-- take elements up to (including) the first for which func returns true
 
 takeUntil(func, list) =
   if list is Empty then []
@@ -106,8 +104,7 @@ dropWhile(func, list) =
   drop(length(takeWhile(func, list)), list)
 
 -------------------------------------------------------------------------------
--- drop the leading elements for which func returns true
--- and the first element for which func returns false
+-- drop elements up to (including) the first for which func returns true
 
 dropUntil(func, list) =
   drop(length(takeUntil(func, list)), list)
@@ -133,8 +130,7 @@ span(func, list) = (head, tail)
   }
 
 -------------------------------------------------------------------------------
--- return the list of subsequences of consecutive elements
--- for which func(a, b) == true
+-- return the list of lists of consecutive values for which func(a, b) == true
 
 groupBy(func, list) =
   if list is Empty then []
@@ -172,6 +168,8 @@ filter(func, list) =
   else filter(func, tail(list))
 
 -------------------------------------------------------------------------------
+-- get a single value given a list, starting value, and accumulator function
+--
 -- starting with accumulator value acc, update acc <- func(acc, elem)
 -- for each element elem in the list
 --
@@ -202,6 +200,8 @@ reverseAcc(acc, list) =
   else reverseAcc([head(list)] ++ acc, tail(list))
 
 -------------------------------------------------------------------------------
+-- from two lists, get a list of tuple pairs of elems from each list in order 
+--
 -- for lists [a0, a1, a2, ...], [b0, b1, b2, ...], return the list
 -- [(a0, b0), (a1, b1), (a2, b2) ...], with length limited by the length
 -- of the shorter input list
@@ -221,6 +221,7 @@ toList(collection) =
   else collection.!getList
 
 -------------------------------------------------------------------------------
+-- convert a collection (a list, array, set, or tuple) to an array
 
 toArray(collection) =
   PtlsArray.!getZeros(length(collection))
@@ -232,31 +233,47 @@ insert(index, list, array) =
   where newArray = array with $[index] = head(list)
 
 -------------------------------------------------------------------------------
+-- add an element to a set
 
-toSet(collection) = toSetHelper(Empty.!getSet, toList(collection))
-
-toSetHelper(set, list) =
-  if list is Empty then set
-  else toSetHelper(newSet, tail(list))
-  where newSet = set.!getAddElem(head(list))
+addElem(set, elem) = set.!getAddElem(elem)
 
 -------------------------------------------------------------------------------
+-- remove an element from a set
+
+delElem(set, elem) = set.!getDelElem(elem)
+
+-------------------------------------------------------------------------------
+-- remove an entry from a map
+
+delKey(mapVal, key) = mapVal.!getDelKey(key)
+
+-------------------------------------------------------------------------------
+-- convert a collection (a list, array, set, or tuple) to a set
+
+toSet(collection) = reduce(addElem, Empty.!getSet, toList(collection))
+
+-------------------------------------------------------------------------------
+-- convert an object to a map of strings (field names) to values (field values)
 
 toMap(object) = object.!getMap
 
 -------------------------------------------------------------------------------
+-- get a list of the keys in a map
 
 keys(mapVal) = mapVal.!getKeys
 
 -------------------------------------------------------------------------------
+-- get a list of the values in a map
 
 vals(mapVal) = mapVal.!getVals
 
 -------------------------------------------------------------------------------
+-- get (key, value) tuples for each entry in a map
 
 items(mapVal) = keys(mapVal) |> map(key => (key, mapVal[key])) 
 
 -------------------------------------------------------------------------------
+-- make an N-dimensional array from the values in a list
 
 toNDArray(dims, elems) = head(wrappedArray)
   requires reduceFirst(mul, dimsList) == length(elems)
