@@ -46,6 +46,9 @@ int main(int argc, char *argv[]) {
     } else if (matchTokenType(opSyms, token->tokType)) {
       color = "#F97B58";
 
+    } else if (token->tokType == Tok_Label) {
+      color = "#7986CB";
+
     } else if (token->tokType == Tok_Neg) {
       color = "#F97B58";
 
