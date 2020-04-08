@@ -153,8 +153,11 @@ if (inst->arg == getLineInd && tos.type == Val_Label) {
       result = makeLabel(strLiteralIndex("EOF"));
 
     } else {
-      chars[numBytes-1] = '\0';
-      numBytes--;
+      if (chars[numBytes-1] == '\n') {
+        // don't include newline in string, if there is one
+        chars[numBytes-1] = '\0';
+        numBytes--;
+      }
       result = makeString(true, numBytes, chars);
     }
 
