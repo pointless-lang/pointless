@@ -3,7 +3,12 @@
 -- preform deep equality check on two data structure
 
 equals(a, b) = switch {
-  case a == b true
+  case a is PtlsNumber  a == b
+  case a is PtlsString  a == b
+  case a is PtlsBool    a == b
+  case a is PtlsLabel   a == b
+  case a is PtlsFunc    a == b
+  case a is PtlsBuiltIn a == b
   case a is PtlsSet     b is PtlsSet and equalsSet(a, b)
   case a is PtlsMap     b is PtlsMap and equalsMap(a, b)
   case a is PtlsList    b is PtlsList and equalsList(a, b)
