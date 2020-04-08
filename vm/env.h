@@ -126,7 +126,7 @@ addDefValue(Def* def, PtlsValue value) {
 
 void
 pushEnv(Env* env, Instruction* inst) {
-  retStack[callStackInd - 1] = inst;
+  retStack[callStackInd] = inst;
   callStack[callStackInd++] = env;
   
   if (callStackInd >= callStackSize) {
@@ -143,5 +143,8 @@ Instruction*
 popEnv(void) {
   assert(callStackInd);
   callStackInd--;
-  return retStack[callStackInd - 1]; 
+  if (!callStackInd) {
+    return NULL;
+  }
+  return retStack[callStackInd]; 
 }
