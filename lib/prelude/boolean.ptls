@@ -45,7 +45,7 @@ orFunc(a, b) = a or b
 andFunc(a, b) = a and b
 
 ------------------------------------------------------------------------------
--- contains(b, a) = a in b
+-- inFunc(b, a) = a in b
 
 inFunc(b, a) = a in b
 
