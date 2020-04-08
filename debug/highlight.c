@@ -71,7 +71,6 @@ int main(int argc, char *argv[]) {
       color = "#D8DEE9";
     }
 
-
     printf("<span style='color: %s;'>", color);
     printTokString(token);
     printf("</span>");
