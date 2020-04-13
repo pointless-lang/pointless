@@ -55,25 +55,25 @@ showTuple(tuple) =
 
 -------------------------------------------------------------------------------
 
-showMap = showPairs(format("{}: {}"), ", ")
+showMap = showPairs(repr, format("{}: {}"), ", ")
 
 -------------------------------------------------------------------------------
 
 showObject(object) =
   object
   |> toMap
-  |> showPairs(format("{} = {}"), "; ")
+  |> showPairs(show, format("{} = {}"), "; ")
 
 -------------------------------------------------------------------------------
 
-showPairs(pairFmt, sep, mapVal) = "{" + pairStr + "}"
+showPairs(keyFunc, pairFmt, sep, mapVal) = "{" + pairStr + "}"
   where pairStr =
     mapVal
     |> items
-    |> map(reprPair)
+    |> map(reprPair(keyFunc))
     |> map(pairFmt)
     |> join(sep)
 
 -------------------------------------------------------------------------------
 
-reprPair(pair) = (repr(a), repr(b)) where (a, b) = pair
+reprPair(keyFunc, pair) = (keyFunc(a), repr(b)) where (a, b) = pair
