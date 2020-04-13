@@ -123,13 +123,19 @@ markBlackRef(PtlsRef* ref) {
       HashMap* table = ref->mapRef.table;
 
       PtlsValue keys[table->numElems];
-      PtlsValue vals[table->numElems];
       mapGetKeys(table, keys);
-      mapGetVals(table, vals);
 
       for (int index = 0; index < table->numElems; index++) {
         markGrayValue(keys[index]);
-        markGrayValue(vals[index]);
+      }
+
+      if (ref->type == Val_Map) {
+        PtlsValue vals[table->numElems];
+        mapGetVals(table, vals);
+
+        for (int index = 0; index < table->numElems; index++) {
+          markGrayValue(vals[index]);
+        }
       }
 
       break;

@@ -344,6 +344,7 @@ PtlsValue
 makeSet(HashMap* elems) {
   PtlsValue result = makeMap(elems);
   result.type = Val_Set;
+  result.ref->type = Val_Set;
   return result;
 }
 
