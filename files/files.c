@@ -224,7 +224,7 @@ removeEOFs(FileStruct* prelude) {
 
 // -----------------------------------------------------------------------------
 
-char preludeDir[] = "lib/prelude";
+char preludeDir[] = LIBDIR"/lib/prelude";
 
 void
 addTokensPrelude(struct dirent* file, FileStruct* prelude) {

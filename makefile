@@ -3,6 +3,7 @@
 
 CC     = gcc
 CFLAGS = -I. -Wall -Wextra -O0 -std=gnu11 -g -Wstrict-prototypes
+LIBDIR = "/usr/share/pointless"
 
 SRC = $(wildcard tokenizer/*.c) \
 	$(wildcard parser/*.c) \
@@ -50,8 +51,14 @@ test:
 	-tests/runTests.sh --test debug/compile tests/compiler/*.test
 	-tests/runTests.sh --test debug/run tests/vm/*.test
 
+.PHONY: install
+install:
+	mkdir -p $(LIBDIR)
+	cp -r lib $(LIBDIR)
+	cp pointless /usr/bin
+
 bin/files.o: files/files.c $(FILES) $(PARSER) $(TOKENIZER) $(DEPS)
-	$(CC) -c $< -o $@ $(CFLAGS)
+	$(CC) -c $< -o $@ $(CFLAGS) -DLIBDIR='$(LIBDIR)'
 
 bin/error.o: error/error.c $(ERROR) $(DEPS)
 	$(CC) -c $< -o $@ $(CFLAGS)
