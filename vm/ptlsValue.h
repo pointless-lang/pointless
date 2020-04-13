@@ -91,7 +91,9 @@ checkArrayIndex(ArrayRef* ref, double indexVal) {
   if (indexVal >= ref->length || indexVal < 0) {
     errorHeader("Runtime Error");
     fprintf(stderr,
-      "Index index %d for array with length %d", (int)indexVal, ref->length);
+      "Invalid index %d for array with length %d",
+      (int)indexVal, ref->length
+    );
     showEnvTrace();
     throwError();
   }
