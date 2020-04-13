@@ -1085,7 +1085,7 @@ getLambda(Parser* parser) {
   }
 
   Token* token = getNext(parser, tokSet(Tok_Lambda), defSkip);
-  ASTNode* body = getStatement(parser);
+  ASTNode* body = getClause(parser);
 
   ASTNode* node = makeNode(Node_Func, token->loc);
 
