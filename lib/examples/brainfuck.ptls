@@ -41,5 +41,5 @@ out(s)   = s with $.output += chr(s.tape[s.dp])
 loop(s)  = if s.tape[s.dp] == 0 then s with $.ip = s.jumps[s.ip] else s
 jump(s)  = if s.tape[s.dp] != 0 then s with $.ip = s.jumps[s.ip] else s
 
-ascii = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+ascii = "         \t\n                      !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
 chr(ord) = at(ord - 32, toList(ascii))
