@@ -189,7 +189,7 @@ getFileRelative(char* base, char* path, int length) {
   char* dir = dirname(saveLocPath);
 
   // +2 for slash, null terminator
-  int relLength = strlen(path) + strlen(dir) + 2;
+  int relLength = length + strlen(dir) + 2;
 
   // get import path relative to base path
   char relPath[relLength];
