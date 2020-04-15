@@ -17,7 +17,14 @@ if (paramInd > funcRef->numParams) {
 Env* funcEnv = copyEnv(funcRef->env);
 
 // call is tail-call if next instruction is a return
-bool isTailCall = (inst + 1)->op == Op_Return;
+int popCount = 0;
+Instruction* nextInst = inst + 1;
+while (nextInst->op == Op_PopEnv) {
+  popCount++;
+  nextInst++;
+}
+
+bool isTailCall = nextInst->op == Op_Return;
 bool isPartApp  = paramInd < funcRef->numParams;
 
 // args come on stack in reverse order, have to pop in reverse
@@ -38,6 +45,10 @@ if (isPartApp) {
 
 // return address of upcoming return inst becomes new return addr
 if (isTailCall) {
+  while (popCount--) {
+    popEnv();
+  }
+  
   Instruction* retInst = popEnv();
   
   // handleMakeEnv pushes null inst to ret stack - make sure that
