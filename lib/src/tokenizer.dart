@@ -16,7 +16,8 @@ class Tokenizer {
 
   // -------------------------------------------------------------------------
 
-  Tokenizer(this.chars, this.path) {
+  Tokenizer(String chars, this.path) {
+    this.chars = chars.replaceAll("\r", "\n");
     getLocs();
   }
 

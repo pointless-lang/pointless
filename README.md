@@ -1,18 +1,18 @@
-## Pointless: A Scripting Language for Learning and Fun (version 0.1.0)
+## Pointless: A Scripting Language for Learning and Fun (v0.1.0)
 
-![sample code](screenshot.png)
+[![sample code](screenshot.png)](https://ptls.dev)
 
 #### Documentation and examples at [https://ptls.dev]()
 
 Pointless 0.1.0 brings a number of changes from the initial release, informed by feedback and experience. The latest implementation of Pointless is interpreter, rather than compiled, and is written in Dart. This move marks a deemphasis on performance with a focus instead on improved language design and faster development. It's my hope that the new Dart-based implementation will make Pointless easier for others to install, use, and modify.
 
-New utilities:
+#### New utilities:
 
 - A repl for interactive programming
 - An web-based language playground
 - Auto-generated API docs for prelude functions
 
-Language updates:
+#### Language updates:
 
 - Syntax consolidation and updates
 - Better error messages with location information for incorrect types
@@ -22,14 +22,14 @@ Language updates:
 - Try / Catch error handling mechanism
 - Labels support for objects
 
-Implementation updates:
+#### Implementation updates:
 
 - A smaller, easier to edit codebase
 - Improved Windows support
 - Bug fixes
 - MIT licensed source code
 
-Site updates:
+#### Site updates:
 
 - Updated documentation
 - More in-depth examples
