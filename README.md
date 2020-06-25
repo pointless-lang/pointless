@@ -1,4 +1,4 @@
-## Pointless: A Scripting Language for Learning and Fun (version 0.1.0)
+## Pointless: A Scripting Language for Learning and Fun (v0.1.0)
 
 [![sample code](screenshot.png)](https://ptls.dev)
 
