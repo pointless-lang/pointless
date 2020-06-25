@@ -1,0 +1,51 @@
+
+-------------------------------------------------------------------------------
+
+zeroArray(n) = PtlsArray.!getZeros(n)
+
+-------------------------------------------------------------------------------
+-- Convert a collection (a list, array, set, or tuple) to an array
+
+toArray(collection) =
+  zeroArray(length(collection))
+  |> insert(0, toList(collection))
+
+insert(index, list, array) =
+  if isEmpty(list) then array
+  else insert(index + 1, tail(list), newArray)
+  where newArray = array with $[index] = head(list)
+
+-------------------------------------------------------------------------------
+-- Make an N-dimensional array from the values in a list
+
+toNDArray(dims, elems) =
+  head(wrappedArray)
+
+  requires assert(
+    reduceFirst(mul, dimsList) == length(elems),
+    format(
+      "invalid dinemsions {} for elems length {}",
+      [dims, length(elems)]
+    )
+  )
+
+  where {
+    dimsList = toList(dims)
+    wrappedArray = toNDHelper(dimsList, elems, length(dims))
+  }
+
+-------------------------------------------------------------------------------
+
+toNDHelper(dimsList, elems, depth) =
+  if depth == 0 then elems
+  else chunks(head(dimsList), subArrays)
+  where {
+    subArrays = toNDHelper(tail(dimsList), elems, depth - 1)
+  }
+
+-------------------------------------------------------------------------------
+
+chunks(n, list) =
+  if isEmpty(list) then []
+  else [toArray(take(n, list))] ++ tailChunks
+  where tailChunks = chunks(n, drop(n, list))

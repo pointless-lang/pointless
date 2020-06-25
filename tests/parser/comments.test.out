@@ -1,7 +1,0 @@
-(Program
- (Import
-  (String "foo")
-  (Name "bar"))
- (Def
-  (Name "x")
-  (Number 123)))

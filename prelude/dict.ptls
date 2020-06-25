@@ -1,0 +1,31 @@
+
+-------------------------------------------------------------------------------
+-- Remove an entry from a dict
+
+delKey(dict, key) = dict.!getDelKey(key)
+
+-------------------------------------------------------------------------------
+-- Convert an object to a dict of strings (field names) to values (field values)
+
+toDict(object) = object.!getDict
+
+-------------------------------------------------------------------------------
+-- Get a list of the keys in a dict
+
+keys(dict) = dict.!getKeys
+
+-------------------------------------------------------------------------------
+-- Get a list of the values in a dict
+
+vals(dict) = dict.!getVals
+
+-------------------------------------------------------------------------------
+-- Get (key, value) tuples for each entry in a dict
+
+items(dict) = keys(dict) |> map(key => (key, dict[key])) 
+
+-------------------------------------------------------------------------------
+-- Get value for a given key if present in dict, otherwise default
+
+getDefault(dict, default, key) =
+  if key in dict then dict[key] else default

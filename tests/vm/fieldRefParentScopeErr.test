@@ -1,5 +1,0 @@
-
-output = [a] |> println
-
-a = {y = 123}.foo
-foo = false

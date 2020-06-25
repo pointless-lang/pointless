@@ -1,0 +1,25 @@
+
+-------------------------------------------------------------------------------
+-- lowers = toSet("abcdefghijklmnopqrstuvwxyz")
+
+lowers = toSet("abcdefghijklmnopqrstuvwxyz")
+
+-------------------------------------------------------------------------------
+-- uppers = toSet("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+uppers = toSet("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+-------------------------------------------------------------------------------
+-- Set of uppercase and lowercase letters
+
+alphas = union(lowers, uppers)
+
+-------------------------------------------------------------------------------
+-- digits = toSet("0123456789")
+
+digits = toSet("0123456789")
+
+-------------------------------------------------------------------------------
+-- Set of uppercase and lowercase letters and digits 0 through 9
+
+alNums = union(alphas, digits)

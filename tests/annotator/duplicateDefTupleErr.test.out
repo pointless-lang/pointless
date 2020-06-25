@@ -1,9 +1,0 @@
--------------------------------------------------------------------------------
-Name Error:
-
-Duplicate definition for name 'a'
--------------------------------------------------------------------------------
-
-At (line 4) (column 8) in 'tests/annotator/duplicateDefTupleErr.test'
-(a, b, a) = (1, "", 2)
-       ^

@@ -1,0 +1,19 @@
+
+import "../chart/chart.ptls" as chart
+
+-----------------------------------------------------------
+-- Calculate each number in the collatz sequence for some
+-- starting value, and ending when the value 1 is reached
+-- Display these values in an ascii bar-chart with 8 rows
+
+output =
+  iterate(step, 175) -- sequence starts at 175
+  |> takeUntil(eq(1))
+  |> chart.scale(4)
+  |> println
+
+-----------------------------------------------------------
+-- get the next number in a collatz sequence
+
+step(n) =
+  if n % 2 == 0 then n / 2 else n * 3 + 1

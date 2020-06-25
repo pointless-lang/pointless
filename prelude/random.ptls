@@ -1,0 +1,36 @@
+
+------------------------------------------------------------------------------
+-- Get random float in 0 <= result <= n
+
+randFloat(n) = IO.!getRand * n
+
+------------------------------------------------------------------------------
+-- Get random entry from range(a, b)
+
+randRange(a, b) = randRangeUp(min(a, b), max(a, b))
+
+randRangeUp(a, b) = floor(a + randFloat(b - a + 1))
+
+------------------------------------------------------------------------------
+-- Get random elem from collection
+
+randChoice(elems) =
+  elems
+  |> toList
+  |> at(randRange(length(elems)))
+
+-------------------------------------------------------------------------------
+-- Shuffle an iterable of values
+-- https://www.rosettacode.org/wiki/Knuth_shuffle
+
+shuffle(iter) =
+  range(length(array) - 1, 1)
+  |> reverse
+  |> reduce(shuffleStep, array)
+  |> toList
+  where array = toArray(iter)
+
+shuffleStep(array, i) = array with {
+  $[i] = array[j]
+  $[j] = array[i]
+} where j = randRange(0, i)

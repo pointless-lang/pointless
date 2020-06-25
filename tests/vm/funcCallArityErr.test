@@ -1,5 +1,0 @@
-
-output = [a] |> println
-
-a = foo(1, 2)
-foo(a) = b => a

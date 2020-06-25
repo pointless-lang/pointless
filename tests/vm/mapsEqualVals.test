@@ -1,5 +1,0 @@
-
-output = [a, b] |> println
-
-a = {false: 123} == {false: "asdf"}
-b = {false: 123} == {false: 123}

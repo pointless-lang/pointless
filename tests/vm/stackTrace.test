@@ -1,4 +1,0 @@
-
-output = foo(z) |> println
-foo(z) = z.y
-z = {"x": 123}

@@ -1,7 +1,0 @@
-(Program
- (Def
-  (Name "y")
-  (Bool true))
- (Def
-  (Name "z")
-  (Bool false)))

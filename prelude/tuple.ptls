@@ -1,0 +1,7 @@
+
+-------------------------------------------------------------------------------
+-- Convert an iterable to a tuple
+
+-- (can't go straight from list to tuple since interpreter can't easily eval list)
+
+toTuple(iter) = toArray(iter).!getTuple

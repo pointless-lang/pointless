@@ -1,5 +1,0 @@
-(Program
- (Def
-  (Tuple
-   (Name "a"))
-  (Name "c")))

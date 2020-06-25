@@ -1,9 +1,0 @@
-
-y = x
-access: x global: 0
-
-x = 123
-entry: x index: 0
-
-y = x
-entry: y index: 1

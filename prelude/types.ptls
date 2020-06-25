@@ -1,0 +1,52 @@
+
+-------------------------------------------------------------------------------
+-- Get a label representing the type of a value
+
+getType(value) = value.!getType
+
+-------------------------------------------------------------------------------
+-- Does value have the type given by label
+
+hasType(label, value) = getType(value) == label
+
+-------------------------------------------------------------------------------
+-- Does value have the type given by label or is value a labelled tuple
+-- or object with a label matching label
+
+is(label, value) =
+  (hasType(label, value) or isLabelled and hasLabel(label, value)
+    where isLabelled =
+      hasType(PtlsLabel, value) or
+      hasType(PtlsTuple, value) or
+      hasType(PtlsObject, value))
+  requires hasType(PtlsLabel, label)
+
+-------------------------------------------------------------------------------
+
+notIs(label, value) = not is(label, value)
+
+-------------------------------------------------------------------------------
+-- experimental
+-------------------------------------------------------------------------------
+-- Not working yet - circular definition issues
+
+checkTypes(types, value) =
+  types
+  |> map(type => is(type, value))
+  |> any
+  |> (result => if result then true else throw TypeError(message))
+  where {
+    message  = format("Expected {}, got {} ({})", [expected, got, value])
+    expected = join(" or ", types)
+    got      = getType(value)
+  } requires is(PtlsList, types) and all(map(is(PtlsLabel), types))
+
+-------------------------------------------------------------------------------
+-- (doesn't call head() through checkTypes(), avoid infinite recursion)
+
+checkType(type, value) =
+  if is(type, value) then true else throw TypeError(message)
+  where {
+    message = format("Expected {}, got {} ({})", [type, got, value])
+    got     = getType(value)
+  } requires is(PtlsLabel, type)

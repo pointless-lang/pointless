@@ -1,6 +1,0 @@
-
-output = [a, b, c] |> println
-
-a = 1.!getInt
-b = "123".!getInt
-c = false.!getInt

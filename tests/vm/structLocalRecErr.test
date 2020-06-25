@@ -1,4 +1,0 @@
-
-output = a |> const(123) |> println 
-
-a = b where b = {x = 123; y = a}

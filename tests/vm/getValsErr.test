@@ -1,4 +1,0 @@
-
-output = [x] |> println
-
-x = {1: 2, false: "asdf"}.!getVals

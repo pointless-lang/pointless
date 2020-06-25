@@ -1,5 +1,0 @@
-
-output = [a] |> println
-
-l = []
-a = l.!getTail

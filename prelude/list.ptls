@@ -1,0 +1,252 @@
+
+-------------------------------------------------------------------------------
+-- Get the first element in a list
+
+head(list) = list.!getHead
+
+-------------------------------------------------------------------------------
+-- Get all elements in a list after the first
+
+tail(list) = list.!getTail
+
+------------------------------------------------------------------------------
+-- Get the last element in a non-empty list
+
+last(list) =
+  if isEmpty(tail(list))
+  then head(list)
+  else last(tail(list))
+
+------------------------------------------------------------------------------
+-- Get a sublist of indices [start ... (end - 1)]
+
+slice(start, end, list) =
+  slicePos(start, posEnd, list)
+  where
+    posEnd = if end > 0 then end else length(list) + end
+
+slicePos(start, end, list) =
+  list
+  |> drop(start)
+  |> take(end - start)
+
+-------------------------------------------------------------------------------
+-- Lazily concatenate a list of lists into a single list
+
+concat(lists) = 
+  if isEmpty(lists) then []
+  else head(lists) ++ concat(tail(lists))
+
+-------------------------------------------------------------------------------
+-- Map a list-generating function over a list and concatenate output lists
+
+concatMap(func, lists) = lists |> map(func) |> concat
+
+-------------------------------------------------------------------------------
+-- Make a new list with sep element interted between each pervious element
+
+intersperse(sep, list) =
+  if isEmpty(list) then []
+  else [head(list)] ++ prependToAll(sep, tail(list))
+
+prependToAll(sep, list) =
+  if isEmpty(list) then []
+  else [sep, head(list)] ++ prependToAll(sep, tail(list))
+
+-------------------------------------------------------------------------------
+-- Make an infinite list of a value, repeated
+
+repeat(elem) = [elem] ++ repeat(elem)
+
+-------------------------------------------------------------------------------
+-- Get the first n elements in an list, or the whole list of length < n
+
+take(n, list) = 
+  if n < 1 then []
+  else if isEmpty(list) then []
+  else [head(list)] ++ take(n - 1, tail(list))
+
+-------------------------------------------------------------------------------
+-- Get the elems after the first n elems in an list or empty if length < n
+
+drop(n, list) = 
+  if n < 1 then list
+  else if isEmpty(list) then []
+  else drop(n - 1, tail(list))
+
+-------------------------------------------------------------------------------
+-- Take from a list the leading elements for which func returns true
+
+takeWhile(func, list) =
+  if isEmpty(list) then []
+
+  else if func(head(list))
+    then [head(list)] ++ takeWhile(func, tail(list))
+
+  else []
+
+-------------------------------------------------------------------------------
+-- Take elements up to (including) the first for which func returns true
+
+takeUntil(func, list) =
+  if isEmpty(list) then []
+
+  else if func(head(list))
+    then [head(list)]
+
+  else [head(list)] ++ takeUntil(func, tail(list))
+
+-------------------------------------------------------------------------------
+-- Drop the leading elements for which func returns true
+
+dropWhile(func, list) =
+  drop(length(takeWhile(func, list)), list)
+
+-------------------------------------------------------------------------------
+-- Drop elements up to (including) the first for which func returns true
+
+dropUntil(func, list) =
+  drop(length(takeUntil(func, list)), list)
+
+-------------------------------------------------------------------------------
+-- Find the first element for which func return true, or None if none exists 
+
+find(func, list) =
+  if isEmpty(list) then None
+
+  else if func(head(list))
+    then head(list)
+
+  else find(func, tail(list))
+
+-------------------------------------------------------------------------------
+-- span(...) = (takewhile(...), dropWhile(...)) 
+
+span(func, list) = (head, tail)
+  where {
+    head = takeWhile(func, list)
+    tail = dropWhile(func, list)
+  }
+
+-------------------------------------------------------------------------------
+-- Return the list of lists of consecutive values for which func(a, b) == true
+
+groupBy(func, list) =
+  if isEmpty(list) then []
+  else [groupList] ++ groupBy(func, spanTail)
+  where {
+    groupList = [[head(list)]] ++ spanHead
+    (spanHead, spanTail) = tail(list) |> span(func(head(list)))
+  }
+
+-------------------------------------------------------------------------------
+-- Get the reverse of list
+
+reverse(list) = reverseAcc([], list)
+
+reverseAcc(acc, list) =
+  if isEmpty(list) then acc
+  else reverseAcc([head(list)] ++ acc, tail(list))
+
+-------------------------------------------------------------------------------
+-- From two lists, get a list of tuple pairs of elems from each list in order 
+--
+-- For lists [a0, a1, a2, ...], [b0, b1, b2, ...], return the list
+-- [(a0, b0), (a1, b1), (a2, b2) ...], with length limited by the length
+-- of the shorter input list
+
+-- alternively
+-- zip(a, b) = zipN([a, b]) -- shorter, but a lot slower
+
+zip(a, b) = cond {
+  case isEmpty(a) []
+  case isEmpty(b) []
+  else [pair] ++ zip(tail(a), tail(b))
+  where pair = (head(a), head(b))
+}
+
+-------------------------------------------------------------------------------
+-- Like zip, but for an arbitrary number of input lists
+
+zipN(lists) =
+  if any(map(isEmpty, lists)) then []
+  else [toTuple(map(head, lists))] ++ zipN(map(tail, lists))
+
+-------------------------------------------------------------------------------
+-- Evaluate each value in a list
+-- Useful for catching errors early
+
+eager(list) = list |> reverse |> reverse
+
+-------------------------------------------------------------------------------
+-- isEmpty(list) = list == Empty
+
+isEmpty(list) = list == Empty
+
+-------------------------------------------------------------------------------
+-- Convert iter (a list, array, set, or tuple) to a list
+
+toList(iter) =
+  if isEmpty(iter) then []
+  else iter.!getList
+
+-------------------------------------------------------------------------------
+-- For a list [a, b, c, ...] return [(0, a), (1, b), (2, c), ...]
+
+enumerate(list) =
+  list |> zip(nats) where nats = iterate(add(1), 0)
+
+-------------------------------------------------------------------------------
+-- Return true if list starts with the given prefix of elements
+
+hasPrefix(prefix, list) =
+  if isEmpty(prefix) then true
+  else if isEmpty(list) then false
+  else matchHead and matchTail
+  where {
+    matchHead = head(list) == head(prefix)
+    matchTail = hasPrefix(tail(prefix), tail(list))
+  }
+
+-------------------------------------------------------------------------------
+-- Apply a function to each list element, make a list of the results
+
+map(func, list) =
+  if isEmpty(list) then []
+  else [func(head(list))] ++ map(func, tail(list))
+
+-------------------------------------------------------------------------------
+-- Apply a test to each list element, make new list of passing elements
+
+filter(func, list) =
+  if isEmpty(list) then []
+
+  else if func(head(list))
+    then [head(list)] ++ filter(func, tail(list))
+
+  else filter(func, tail(list))
+
+-------------------------------------------------------------------------------
+-- Get a single value given a list, starting value, and accumulator function
+--
+-- Starting with accumulator value acc, update acc <- func(acc, elem)
+-- for each element elem in the list
+--
+-- example: sum(list) = reduce(0, add, list)
+
+reduce(func, acc, list) = 
+  if isEmpty(list) then acc 
+  else reduce(func, func(acc, head(list)), tail(list))
+
+-------------------------------------------------------------------------------
+-- Reduce a non-empty list with first element set as accumulator
+
+reduceFirst(func, list) = reduce(func, head(list), tail(list))
+
+-------------------------------------------------------------------------------
+-- Reduce a list with a given function and accumulator, returning a list of
+-- the intermediate accumulator values, including the initial value
+
+scan(func, acc, list) = 
+  if isEmpty(list) then [] 
+  else [acc] ++ scan(func, func(acc, head(list)), tail(list))

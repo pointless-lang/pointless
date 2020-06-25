@@ -1,0 +1,30 @@
+
+-----------------------------------------------------------
+-- For a list of values, get a list of all permutations of
+-- the items in the original list
+-- (algorithm produces duplicate permutations for lists
+-- containing duplicate elements)
+
+permutations(list) = cond {
+  case isEmpty(list) []
+  case isEmpty(tail(list)) [list]
+  else
+    for elem in list
+    for perm in permutations(delete(elem, list))
+    yield [elem] ++ perm
+}
+  
+-----------------------------------------------------------
+  
+delete(elem, list) = cond {
+  case isEmpty(list) []
+  case (head(list) == elem) tail(list)
+  else [head(list)] ++ delete(elem, tail(list))
+}
+
+-----------------------------------------------------------
+
+output =
+  range(0, 2) -- this example uses the list [0, 1, 2]
+  |> permutations
+  |> println

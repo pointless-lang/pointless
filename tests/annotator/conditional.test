@@ -1,5 +1,0 @@
-
-x = if a then b else c
-a = false
-b = 2
-c = 3

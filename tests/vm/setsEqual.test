@@ -1,5 +1,0 @@
-
-output = [a, b] |> println
-
-a = {false} == {1, 2}
-b = {2, 1} == {1, 2}

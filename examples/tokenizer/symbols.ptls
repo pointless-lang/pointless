@@ -1,0 +1,84 @@
+
+------------------------------------------------------------------------------
+-- Language keywords, operators, and symbols, and associated token types
+------------------------------------------------------------------------------
+
+keywords = {
+  "if": If,
+  "then": Then,
+  "else": Else,
+  "where": Where,
+  "with": With,
+  "cond": Cond,
+  "case": Case,
+  "and": And,
+  "or": Or,
+  "not": Not,
+  "in": In,
+  "as": As,
+  "true": Bool,
+  "false": Bool,
+  "for": For,
+  "when": When,
+  "yield": Yield,
+  "import": Import,
+  "export": Export,
+  "throw": Throw,
+  "try": Try,
+  "catch": Catch,
+}
+
+------------------------------------------------------------------------------
+
+opSyms = {
+  "+": Add,
+  "-": Sub,
+  "*": Mul,
+  "/": Div,
+  "**": Pow,
+  "%": Mod,
+  "+=": AddAssign,
+  "-=": SubAssign,
+  "*=": MulAssign,
+  "/=": DivAssign,
+  "**=": PowAssign,
+  "%=": ModAssign,
+  "|>": Pipe,
+  "=": Assign,
+  "==": Equals,
+  "!=": NotEq,
+  "<": LessThan,
+  ">": GreaterThan,
+  "<=": LessEq,
+  ">=": GreaterEq,
+  "=>": Lambda,
+  "\$": Dollar,
+  "++": Concat,
+}
+
+opSymChars = toSet("/+$>!<*-|=%")
+
+------------------------------------------------------------------------------
+-- Keep left and right separate to help keep track of
+-- when tokenizer is at the start of a new expression
+-- Used to disambiguate negation and subtraction
+
+leftSyms = {
+  "(": LParen,
+  "{": LBracket,
+  "[": LArray,
+}
+
+rightSyms = {
+  ")": RParen,
+  "}": RBracket,
+  "]": RArray,
+}
+
+------------------------------------------------------------------------------
+
+separators = {
+  ";": Semicolon,
+  ":": Colon,
+  ",": Comma,
+}

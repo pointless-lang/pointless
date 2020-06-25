@@ -1,6 +1,0 @@
-
-x = a => foo
-x = (a) => foo
-x = (a, b) => foo
-x = (a, b) => c => foo
-x = (a, b) => if false then a else b

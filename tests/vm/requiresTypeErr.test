@@ -1,4 +1,0 @@
-
-output = [a] |> println
-
-a = false requires 123

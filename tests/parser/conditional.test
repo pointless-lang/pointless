@@ -1,3 +1,0 @@
-
-x = if 123 then 4 else 5
-x = if 123 then 4 else 5 where a = b

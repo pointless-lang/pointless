@@ -1,9 +1,0 @@
--------------------------------------------------------------------------------
-Parser Error:
-
-construct requires 1 or more arguments or elements
--------------------------------------------------------------------------------
-
-At (line 2) (column 4) in 'tests/parser/funcParamCountErr.test'
-foo() = 4
-   ^

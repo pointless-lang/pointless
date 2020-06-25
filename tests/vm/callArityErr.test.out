@@ -1,9 +1,0 @@
--------------------------------------------------------------------------------
-Type Error:
-
-Too many args (3) for function with arity 2
--------------------------------------------------------------------------------
-
-At (line 2) (column 13) in 'tests/vm/callArityErr.test'
-output = add(1, 2, 3) |> println
-            ^

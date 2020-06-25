@@ -1,0 +1,32 @@
+{
+  "configVersion": 2,
+  "packages": [
+    {
+      "name": "dartz",
+      "rootUri": "file:///home/averyn/.pub-cache/hosted/pub.dartlang.org/dartz-0.9.1",
+      "packageUri": "lib/",
+      "languageVersion": "1.24"
+    },
+    {
+      "name": "path",
+      "rootUri": "file:///home/averyn/.pub-cache/hosted/pub.dartlang.org/path-1.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
+      "name": "string_unescape",
+      "rootUri": "file:///home/averyn/.pub-cache/hosted/pub.dartlang.org/string_unescape-1.5.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.2"
+    },
+    {
+      "name": "pointless",
+      "rootUri": "../",
+      "packageUri": "lib/",
+      "languageVersion": "2.8"
+    }
+  ],
+  "generated": "2020-06-24T15:24:49.726400Z",
+  "generator": "pub",
+  "generatorVersion": "2.8.4"
+}

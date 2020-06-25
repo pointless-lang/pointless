@@ -1,7 +1,0 @@
-
-output = [a] |> println
-
-a = {bar = "asdf"} with {
-  $.foo = 4
-  $.foo = $[0]
-}

@@ -1,9 +1,0 @@
--------------------------------------------------------------------------------
-Type Error:
-
-Field ref expected type 'PtlsObject', got type 'PtlsMap'
--------------------------------------------------------------------------------
-
-At (line 2) (column 20) in 'tests/vm/fieldRefTypeErr.test'
-output = {"x": 123}.y |> println
-                   ^

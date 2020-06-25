@@ -1,0 +1,46 @@
+
+import "stackVM.ptls" as stackVM
+
+------------------------------------------------------------------------------
+
+n = 870
+
+collatz = [
+  Init(1),
+  Const(n),
+  Label("startLoop"),
+  Store(0),
+  Load(0),
+  Const(1),
+  Eq,
+  JmpIf("end"),
+  Load(0),
+  Print,
+  Load(0),
+  Const(2),
+  Mod,
+  Const(0),
+  Eq,
+  JmpIf("even"),
+  Load(0),
+  Const(3),
+  Mul,
+  Const(1),
+  Add,
+  Jmp("startLoop"),
+  Label("even"),
+  Load(0),
+  Const(2),
+  Div,
+  Jmp("startLoop"),
+  Label("end"),
+  Load(0),
+  Print,
+  Exit,
+]
+
+------------------------------------------------------------------------------
+
+output =
+  stackVM.runGetOutput(collatz) ++ ["done"]
+  |> printLines

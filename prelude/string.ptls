@@ -1,0 +1,56 @@
+
+-------------------------------------------------------------------------------
+-- Convert a value to a string (works for number, bool, string, and label)
+
+toString(value) = value.!getString
+
+-------------------------------------------------------------------------------
+-- Map a iterabel to strings, and join with a seperator string
+
+join(sep, iter) =
+  iter
+  |> toList
+  |> map(show)
+  |> intersperse(sep)
+  |> concatStrings
+
+-- this could be optimized
+concatStrings(strings) = reduce(add, "", strings)
+
+-------------------------------------------------------------------------------
+-- Return the list of substrings of a string, split by a delimiter
+
+split(delimStr, string) =
+  if delimStr == ""
+    then toList(string)
+
+  else splitChars("", delim, chars) where {
+    delim = toList(delimStr)
+    chars = toList(string)
+  }
+
+-------------------------------------------------------------------------------
+
+splitChars(result, delim, chars) =
+  if isEmpty(chars)
+    then if result == "" then [] else [result]
+
+  else if hasPrefix(delim, chars)
+    then [result] ++ splitChars("", delim, drop(length(delim), chars))
+
+  else splitChars(result + head(chars), delim, tail(chars))
+
+-------------------------------------------------------------------------------
+-- Left-pad a string with spaces to make its length >= n
+
+padLeft(n, string) = getPad(n, string) + string
+
+getPad(n, string) =
+  repeat(" ")
+  |> take(n - length(string))
+  |> join("")
+
+-------------------------------------------------------------------------------
+-- Right-pad a string with spaces to make its length >= n
+
+padRight(n, string) = string + getPad(n, string)

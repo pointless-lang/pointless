@@ -1,0 +1,43 @@
+
+export {fromChars, showLoc}
+
+------------------------------------------------------------------------------
+
+nextPos(pos, char) =
+  if char == "\n" then (line + 1, 1) else (line, col + 1)
+  where (line, col) = pos
+
+------------------------------------------------------------------------------
+
+makeLoc(lines, path, pos) =
+  Loc(pos, path, lines[line - 1])
+  where (line, _) = pos
+
+------------------------------------------------------------------------------
+
+fromChars(path, chars) =
+  scan(nextPos, (1, 1), chars ++ [EOF])
+  |> map(makeLoc(getLines(chars), path))
+
+getLines(chars) =
+  chars
+  |> split("\n")
+  |> toArray
+
+------------------------------------------------------------------------------
+
+colMarker(col) =
+  repeat(" ")
+  |> take(col - 1)
+  |> join("")
+
+------------------------------------------------------------------------------
+
+showLoc(loc) =
+  format(
+    "(line {}, column {}) in '{}'\n{}\n{}^",
+    [line, col, path, lineStr, colMarker(col)]
+  ) where {
+    (line, col) = pos
+    (pos, path, lineStr) = loc
+  }

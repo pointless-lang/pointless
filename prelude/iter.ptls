@@ -1,0 +1,42 @@
+
+-------------------------------------------------------------------------------
+-- getIndex(lhs, rhs) = lhs[rhs]
+
+getIndex(lhs, rhs) = lhs[rhs]
+
+-------------------------------------------------------------------------------
+-- Get the number of elements in a list, set, dict, array, or tuple
+
+length(iter) = cond {
+  case isEmpty(iter) 0
+  case is(PtlsList, iter) lengthList(iter)
+  else iter.!getLength
+}
+
+lengthList(list) =
+  list
+  |> map(const(1))
+  |> sum
+
+-------------------------------------------------------------------------------
+-- Get the cartesian product of a list of iterables
+
+product(iters) = map(toList, iters) |> productLists |> map(toTuple)
+
+productLists(lists) =
+  if isEmpty(lists) then [[]]
+  else
+    for tailProd in tailProds
+    for elem in head(lists)
+    yield [elem] ++ tailProd
+    where tailProds = productLists(tail(lists))
+
+-------------------------------------------------------------------------------
+-- Returns the nth element in a tuple, array, or list
+-- (must have at least n elements)
+
+at(n, iter) = cond {
+  case is(PtlsList, iter) iter |> drop(n) |> head
+  case is(PtlsTuple, iter) iter |> toList |> drop(n) |> head
+  case is(PtlsArray, iter) iter[n]
+}

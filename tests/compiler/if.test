@@ -1,3 +1,0 @@
-
-val = false
-x = if val then "true" else "false"

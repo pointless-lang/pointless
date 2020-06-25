@@ -1,6 +1,0 @@
-
-import "bool.test" as loop
-import "array.test" as arr
-import "bool.test" as bar
-
-x = 123

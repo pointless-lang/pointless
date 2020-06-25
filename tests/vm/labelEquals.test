@@ -1,5 +1,0 @@
-
-output = [a, b] |> println
-
-a = Foo == Bar
-b = Foo == Foo

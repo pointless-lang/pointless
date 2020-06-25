@@ -1,0 +1,22 @@
+c++:
+  "The position you applied for is no longer available"
+
+java:
+  "We sincerely appreciated your enthusiasm, outstanding
+  interview, impeccible resume, and engaging personality.
+  It is rare to find a candidate as qualified and capable
+  as yourself. That being said, we regret to inform you that..." 
+
+python:
+  "... and we provide each of our software engineers with a standing desk",
+  "Actually, I'd prefer a normal desk if that's...",
+  "WE PROVIDE EACH OF OUR SOFTWARE ENGINEERS WITH A STANDING DESK" 
+
+haskell:
+ "t o = whomSt :: so|ever| <*> it m $ ay conc . ern; it 
+  | is ++ m y !Pleasur (*e) ~~>> to >>= _ \i -> n fo (R m y o !! u)
+  | that -> [yo..u"
+
+javascript:
+  "click here to learn all of ES6 in 20 seconds!
+  http://obliterating.the.coding.interview.io/"

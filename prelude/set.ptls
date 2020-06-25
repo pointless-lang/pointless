@@ -1,0 +1,44 @@
+
+-------------------------------------------------------------------------------
+-- Convert a collection (a list, array, set, or tuple) to a set
+
+toSet(collection) = reduce(addElem, Empty.!getSet, toList(collection))
+
+-------------------------------------------------------------------------------
+-- Add an element to a set
+
+addElem(set, elem) = set.!getAddElem(elem)
+
+-------------------------------------------------------------------------------
+-- Remove an element from a set
+
+delElem(set, elem) = set.!getDelElem(elem)
+
+-------------------------------------------------------------------------------
+-- Get the union of two sets
+
+union(a, b) =
+  toSet(toList(a) ++ toList(b))
+
+-------------------------------------------------------------------------------
+-- Get the intersection of two sets
+
+intersection(a, b) = toSet(interElems)
+  where interElems =
+    for elem in a
+    when elem in b
+    yield elem
+
+-------------------------------------------------------------------------------
+-- Get the difference of two sets
+
+difference(a, b) = toSet(diffElems)
+  where diffElems =
+    for elem in a
+    when not (elem in b)
+    yield elem
+
+-------------------------------------------------------------------------------
+-- Get the symmetric difference of two sets
+
+symDifference(a, b) = difference(union(a, b), intersection(a, b))

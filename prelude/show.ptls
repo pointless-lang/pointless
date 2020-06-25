@@ -1,0 +1,76 @@
+
+-------------------------------------------------------------------------------
+-- Get the string rep of a value, keeping quotes if value is a string
+
+repr(value) =
+  if is(PtlsString, value)
+  then "\"" + value + "\""
+  else show(value) 
+
+-------------------------------------------------------------------------------
+-- Get the string representation of a value
+
+show(value) = cond {
+  case is(PtlsNumber, value)  toString(value)
+  case is(PtlsString, value)  toString(value)
+  case is(PtlsBool, value)    toString(value)
+  case is(PtlsLabel, value)   toString(value)
+  case is(PtlsSet, value)     showSet(value)
+  case is(PtlsDict, value)    showDict(value)
+  case is(PtlsList, value)    showList(value)
+  case is(PtlsArray, value)   showArray(value)
+  case is(PtlsObject, value)  showObject(value)
+  case is(PtlsTuple, value)   showTuple(value)
+  case is(PtlsFunc, value)    "PtlsFunc"
+  case is(PtlsBuiltIn, value) "PtlsBuiltIn"
+}
+
+-------------------------------------------------------------------------------
+
+showElems(start, end, sep, iter) =
+  start + elemStr + end
+  where elemStr = iter |> toList |> map(repr) |> join(sep)
+
+-------------------------------------------------------------------------------
+
+showSet   = showElems("{", "}", ", ")
+showList  = showElems("[", "]", ", ")
+showArray = showElems("[", "]", " ")
+
+-------------------------------------------------------------------------------
+
+getLabelStrTuple(value) =
+  if getLabel(value) == PtlsTuple then "" else show(getLabel(value))
+
+showTuple(tuple) = 
+  getLabelStrTuple(tuple) + showElems("(", ")", ", ", tuple)
+
+-------------------------------------------------------------------------------
+
+showDict = showPairs(repr, format("{}: {}"), ", ")
+
+-------------------------------------------------------------------------------
+
+getLabelStrObject(value) =
+  if getLabel(value) == PtlsObject then "" else show(getLabel(value)) + " "
+
+showObject(object) = getLabelStrObject(object) + showDefs(object)
+
+showDefs(object) =
+  object
+  |> toDict
+  |> showPairs(show, format("{} = {}"), "; ")
+
+-------------------------------------------------------------------------------
+
+showPairs(keyFunc, pairFmt, sep, dict) = "{" + pairStr + "}"
+  where pairStr =
+    dict
+    |> items
+    |> map(reprPair(keyFunc))
+    |> map(pairFmt)
+    |> join(sep)
+
+-------------------------------------------------------------------------------
+
+reprPair(keyFunc, pair) = (keyFunc(a), repr(b)) where (a, b) = pair

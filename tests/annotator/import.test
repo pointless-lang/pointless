@@ -1,3 +1,0 @@
-
-import "call.test" as foo
-x = foo

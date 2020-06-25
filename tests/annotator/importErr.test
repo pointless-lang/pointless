@@ -1,3 +1,0 @@
-
-import "null" as foo
-output = foo.w

@@ -1,3 +1,0 @@
-
-x = foo requires bar
-x = foo + 3 requires bar

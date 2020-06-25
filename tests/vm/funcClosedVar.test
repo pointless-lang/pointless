@@ -1,8 +1,0 @@
-
-output = [a, b, c, d] |> println
-
-foo(n) = (x) => y where y = n
-a = foo(123)
-b = foo(false)
-c = [a, b].!getHead("123")
-d = [b, a].!getHead("123")

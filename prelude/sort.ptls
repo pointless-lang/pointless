@@ -1,0 +1,15 @@
+
+-------------------------------------------------------------------------------
+-- Sort an iterable of numbers
+
+sort(iter) = sortList(toList(iter))
+
+sortList(list) = 
+  if list == Empty then []
+  else sortList(left) ++ center ++ sortList(right)
+  where {
+    left   = filter(lessThan(pivot), list)
+    center = filter(eq(pivot), list)
+    right  = filter(greaterThan(pivot), list)
+    pivot  = randChoice(list)
+  }

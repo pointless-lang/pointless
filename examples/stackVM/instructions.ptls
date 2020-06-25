@@ -1,0 +1,49 @@
+
+export {
+  showInst, makeInstArray
+}
+
+------------------------------------------------------------------------------
+
+showInst(inst) = cond {
+  case is(Label, inst) format("{}:", [unwrap(inst)])
+  case is(PtlsLabel, inst) format("[ {<5} ]", [getLabel(inst)])
+  else format("[ {<5} ] {}", [getLabel(inst), unwrap(inst)])
+}
+
+------------------------------------------------------------------------------
+
+makeInstArray(rawInsts) =
+ rawInsts
+ |> convertJumps(getLabelInds(rawInsts))
+ |> toArray
+
+------------------------------------------------------------------------------
+
+convertJumps(inds, insts) =
+  insts
+  |> filter(notIs(Label))
+  |> map(convertJump(inds))
+
+------------------------------------------------------------------------------
+
+convertJump(inds, inst) = cond {
+  case is(Jmp, inst) Jmp(inds[unwrap(inst)])
+  case is(JmpIf, inst) JmpIf(inds[unwrap(inst)])
+  else inst
+}
+
+------------------------------------------------------------------------------
+
+getLabelInds(insts) = reduce(scanInst, (0, {}), insts) |> at(1)
+
+------------------------------------------------------------------------------
+
+scanInst(pair, inst) = 
+  if is(Label, inst)
+  then (ind, newInds)
+  else (ind + 1, inds)
+  where {
+    newInds = inds with $[unwrap(inst)] = ind
+    (ind, inds) = pair
+  }

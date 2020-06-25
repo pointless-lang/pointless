@@ -1,0 +1,59 @@
+
+-------------------------------------------------------------------------------
+-- preform deep equality check on two data structure
+
+deepEq(a, b) = cond {
+  case is(PtlsNumber, a)  a == b
+  case is(PtlsString, a)  a == b
+  case is(PtlsBool, a)    a == b
+  case is(PtlsLabel, a)   a == b
+  case is(PtlsFunc, a)    a == b
+  case is(PtlsBuiltIn, a) a == b
+  case is(PtlsSet, a)     is(PtlsSet, b) and equalsSet(a, b)
+  case is(PtlsDict, a)    is(PtlsDict, b) and equalsDict(a, b)
+  case is(PtlsList, a)    is(PtlsList, b) and equalsList(a, b)
+  case is(PtlsArray, a)   is(PtlsArray, b) and equalsArray(a, b)
+  case is(PtlsObject, a)  is(PtlsObject, b) and equalsObject(a, b)
+  case is(PtlsTuple, a)   is(PtlsTuple, b) and equalsTuple(a, b)
+}
+
+-------------------------------------------------------------------------------
+
+-- deepNotEq(a, b) = not deepEq(a, b)
+
+deepNotEq(a, b) = not deepEq(a, b)
+
+-------------------------------------------------------------------------------
+
+equalsSet(a, b) =
+  length(a) == length(b) and length(a) == length(union(a, b))
+
+-------------------------------------------------------------------------------
+
+equalsDict(a, b) =
+  equalsSet(toSet(keys(a)), toSet(keys(b)))
+  and all(for key in keys(a) yield deepEq(a[key], b[key]))
+
+-------------------------------------------------------------------------------
+
+equalsList(a, b) =
+  if isEmpty(a) then isEmpty(b)
+  else deepEq(head(a), head(b)) and equalsList(tail(a), tail(b))
+
+-------------------------------------------------------------------------------
+
+equalsArray(a, b) =
+  length(a) == length(b)
+  and all(for i in range(length(a)) yield deepEq(a[i], b[i]))
+
+-------------------------------------------------------------------------------
+
+equalsObject(a, b) =
+  getLabel(a) == getLabel(b)
+  and equalsDict(toDict(a), toDict(b))
+
+-------------------------------------------------------------------------------
+
+equalsTuple(a, b) =
+  getLabel(a) == getLabel(b)
+  and equalsArray(toArray(a), toArray(b))

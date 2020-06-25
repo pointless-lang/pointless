@@ -1,0 +1,7 @@
+
+------------------------------------------------------------------------------
+-- Throw AssertionError(message) if condition is not true
+
+assert(condition, message) =
+  if condition then true
+  else throw AssertionError(message)

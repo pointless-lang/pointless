@@ -1,9 +1,0 @@
-
-y = x + 4
-access: x global: 0
-
-x = 123
-entry: x index: 0
-
-y = x + 4
-entry: y index: 1

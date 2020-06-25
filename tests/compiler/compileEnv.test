@@ -1,5 +1,0 @@
-
-foo(a) = a
-bar(a) = b => a
-baz(a) = b => c => (a, b, c)
-qux(a) = (b, d) => c => (a, b, c, d)

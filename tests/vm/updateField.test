@@ -1,9 +1,0 @@
-
-output = [a, b, c] |> println
-
-a = {foo = "asdf"} with $.foo = 4
-b = {bar = "asdf"} with $.foo = 4
-c = {bar = "asdf"} with {
-  $.foo = 4
-  $.foo = false
-}

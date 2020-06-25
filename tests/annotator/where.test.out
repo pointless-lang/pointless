@@ -1,7 +1,0 @@
-
-y = b => (b where a = 123)
-access: b local: 1
-entry: a index: 0
-entry: b index: 1 upIndex: 0
-entry: b index: 0
-entry: y index: 0

@@ -1,4 +1,0 @@
-
-output = [a] |> println
-
-a = {"foo": {foo = false}} with $["bar"].foo = 123

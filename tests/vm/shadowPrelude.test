@@ -1,4 +1,0 @@
-
-output = [sum] |> println
-
-sum(list) = 0

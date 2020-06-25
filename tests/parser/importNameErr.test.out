@@ -1,9 +1,0 @@
--------------------------------------------------------------------------------
-Parser Error:
-
-Expected 'Name', got 'String'
--------------------------------------------------------------------------------
-
-At (line 2) (column 17) in 'tests/parser/importNameErr.test'
-import "foo" as "bar"
-                ^

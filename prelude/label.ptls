@@ -1,0 +1,47 @@
+
+-------------------------------------------------------------------------------
+-- Get the label of a labelled tuple or object, or a label
+
+-- need hasType instead of is to avoid infinite recursion
+
+getLabel(value) = cond {
+  case hasType(PtlsLabel, value) value
+  case hasType(PtlsTuple, value) value.!getLabel
+  case hasType(PtlsObject, value) value.!getLabel
+}
+
+-------------------------------------------------------------------------------
+-- Does a labelled tuple or object have the given labelled
+
+hasLabel(label, value) = getLabel(value) == label
+
+-------------------------------------------------------------------------------
+-- Get the single value in a single-value tuple
+
+unwrap(wrapped) = value where (value) = wrapped
+
+-------------------------------------------------------------------------------
+
+unwrapTuple(tuple) = wrapTuple(PtlsTuple, tuple)
+
+-------------------------------------------------------------------------------
+
+unwrapObject(object) = wrapObject(PtlsObject, object)
+
+-------------------------------------------------------------------------------
+-- Get a single-value tuple with the given label containing value
+-- Foo(123) is syntactic sugar for wrap(Foo, 123) 
+
+wrap(label, value) = label.!getWrap(value)
+
+-------------------------------------------------------------------------------
+-- Given a tuple, return the tuple labelled with label
+-- Foo(1, 2, 3) is syntactic sugar for wrapTuple(Foo, (1, 2, 3)) 
+
+wrapTuple(label, tuple) = label.!getWrapTuple(tuple)
+
+-------------------------------------------------------------------------------
+-- Given an object, return the object labelled with label
+-- Foo {value = 123} is syntactic sugar for wrapObject(Foo, {value = 123}) 
+
+wrapObject(label, object) = label.!getWrapObject(object)

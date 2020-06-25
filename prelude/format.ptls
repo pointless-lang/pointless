@@ -1,0 +1,67 @@
+
+-------------------------------------------------------------------------------
+-- Use a format pattern to build a string with inserted values
+--
+-- example:
+--
+-- >> format("{} {}!", ["Hello", "world"])
+-- "Hello world!"
+-- 
+-- example:
+--
+-- >> pairs  = [("dolor", 5), ("sit", 3), ("amet", 4)]
+-- >> output = pairs |> map(format("[{<5} {}]")) |> printLines
+-- [dolor 5]
+-- [sit   3]
+-- [amet  4]
+
+format(fmtString, values) =
+  formatList(toList(fmtString), toList(values))
+  
+-------------------------------------------------------------------------------
+
+formatList(fmt, values) = cond {
+  -- return remaining format chars without value substitutions
+  case isEmpty(values) join("", fmt)
+
+  -- lead contains the rest of the format string if there's no new pattern
+  -- convert from char list back to string
+  case isEmpty(pat) join("", lead)
+
+  else join("", lead) + pattStr + formatList(rest, tail(values))
+    where pattStr = processPattern(pat, head(values))
+
+  } where (lead, pat, rest) = nextPat(fmt)
+
+-------------------------------------------------------------------------------
+
+-- Leading   trailing
+--         pattern rest
+-- ....... {.....} ....
+
+spanUntil(func, list) = (takeUntil(func, list), dropUntil(func, list))
+
+nextPat(fmt) = (leading, pattern, rest) where {
+  (leading, trailing) = span(notEq("{"), fmt)
+  (pattern, rest) = spanUntil(eq("}"), trailing)
+}
+
+-------------------------------------------------------------------------------
+
+processPattern(pat, value) = cond {
+  case at(1, pat) == ">"
+    show(value) |> padLeft(getPadding(pat))
+
+  case at(1, pat) == "<"
+    show(value) |> padRight(getPadding(pat))
+
+  else show(value)
+}
+
+-------------------------------------------------------------------------------
+
+getPadding(pat) =
+  pat
+  |> slice(2, -1)
+  |> join("")
+  |> toInt

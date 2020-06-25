@@ -1,4 +1,0 @@
-
-output = [a] |> println
-
-a = if 123 then 0 else 0

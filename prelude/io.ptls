@@ -1,0 +1,42 @@
+
+------------------------------------------------------------------------------
+-- Generate command sequence to print the string rep for value
+
+print(value) = [IOPrint(show(value))]
+
+------------------------------------------------------------------------------
+-- Generate command sequence to print value with a newline
+
+println(value) = print(show(value) + "\n")
+
+------------------------------------------------------------------------------
+-- Print each element in a sequence on a separate line
+
+printLines(iter) = iter |> toList |> concatMap(println)
+
+------------------------------------------------------------------------------
+-- Generate command sequence to clear console and print value with newline
+
+printFrame(value) = [IOClearConsole] ++ println(value)
+
+------------------------------------------------------------------------------
+-- Print each element in a sequence in a separate frame
+
+printFrames = concatMap(printFrame)
+
+------------------------------------------------------------------------------
+-- An identity function which logs its argument
+-- Useful for debugging
+
+debug(value) = const(value, const(debugRaw(show(value)), debugLoc(value)))
+
+------------------------------------------------------------------------------
+
+debugRaw(value) = IO.!getDebug(value)
+
+debugLoc(value) = IO.!getDebugLoc(value)
+
+------------------------------------------------------------------------------
+-- Read lines of input lazily
+
+readLines = IO.!getLines

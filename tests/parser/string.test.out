@@ -1,4 +1,0 @@
-(Program
- (Def
-  (Name "y")
-  (String "foo bar")))

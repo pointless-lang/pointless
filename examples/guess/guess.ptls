@@ -1,0 +1,24 @@
+
+number = randRange(0, 1000)
+
+getResponse(n) =
+  format("{} is {}", [n, compareGuess(n)])
+
+compareGuess(n) = cond {
+  case n > number  "too high"
+  case n < number  "too low"
+  case n == number "correct!"
+}
+
+----------------------------------------------------------
+-- A number guessing game (binary search)
+-- User enters an integer guess between 0 and 1000
+-- progarm reports whether guess is above or below the
+-- target number - continues until correct guess is entered
+
+output =
+  readLines
+  |> map(toInt)
+  |> takeUntil(eq(number))
+  |> map(getResponse)
+  |> printLines

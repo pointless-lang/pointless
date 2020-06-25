@@ -1,2 +1,0 @@
-
-x = for x in [1, 2, 3] when false 123

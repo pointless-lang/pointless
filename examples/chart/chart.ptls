@@ -1,0 +1,46 @@
+
+-----------------------------------------------------------
+-- Given a list of numerical values, print an ascii bar-
+-- chart with dimensions (in terms of characters) 
+-- height x length(values), where the largest value takes
+-- up the full height of the chart
+-- Negative values get truncated to zero 
+
+scale(height, values) =
+  if values == Empty then ""
+  else
+    values
+    |> normalize(height)
+    |> getRows(height)
+    |> join("\n")
+
+-----------------------------------------------------------
+-- Get list of scaled values so that max(scaled) = height
+
+normalize(height, values) =
+  values
+  |> map(mul(height / maximum(values)))
+  |> map(max(0))
+
+-----------------------------------------------------------
+-- Build up the chart row-by-row starting with the hightest
+-- row index (from top to bottom)
+
+getRows(height, values) =
+  for row in reverse(range(0, height - 1))
+  yield rowChars(row, values) |> join("")
+
+rowChars(row, values) =
+  values |> map(getBar(row))
+
+-----------------------------------------------------------
+-- BarHeight is the height that the value n projects
+-- above the base of the current row (capped at max value
+-- seven when the value spans the entire row height)
+-- Use this value to index into the array of bar chars
+
+getBar(row, n) = cond {
+  case barHeight < 0 and row > 0  " "
+  case barHeight < 0 and row == 0 "_"
+  else bars[min(7, toInt(barHeight * 7))] 
+} where {barHeight = (n - row); bars = toArray("▁▂▃▄▅▆▇█")}
