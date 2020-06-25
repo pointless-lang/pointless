@@ -1,10 +1,11 @@
-# Pointless: A Scripting Language for Learning and Fun (version 0.1.0)
+## Pointless: A Scripting Language for Learning and Fun (version 0.1.0)
 
 ![sample code](screenshot.png)
 
 #### Documentation and examples at [https://ptls.dev]()
 
 Pointless 0.1.0 brings a number of changes from the initial release, informed by feedback and experience. The latest implementation of Pointless is interpreter, rather than compiled, and is written in Dart. This move marks a deemphasis on performance with a focus instead on improved language design and faster development. It's my hope that the new Dart-based implementation will make Pointless easier for others to install, use, and modify.
+
 New utilities:
 
 - A repl for interactive programming
@@ -44,19 +45,27 @@ Installing on Linux, Mac and Windows (PowerShell):
 
 1. Clone the repository
 
-    `git clone https://github.com/pointless-lang/pointless.git`
+    ```
+    git clone https://github.com/pointless-lang/pointless.git
+    ```
 
 2. Enter the repo directory
 
-    `cd pointless`
+    ```
+    cd pointless
+    ```
 
 3.  You can now run the Pointless repl using:
 
-    `dart lib/pointless.dart`
+    ```
+    dart lib/pointless.dart
+    ```
 
     or supply a path to a file to run; for example:
 
-    `dart lib/pointless.dart examples/beer/beer.ptls`
+    ```
+    dart lib/pointless.dart examples/beer/beer.ptls
+    ```
 
     (for repl readline support, try [rlwrap](https://github.com/hanslub42/rlwrap)) 
 
@@ -75,11 +84,15 @@ Compiling the interpreter avoids the startup overhead of the Dart VM.
 
     Alternatively, using Make, simply run:
 
-    `make`
+    ```
+    make
+    ```
 
     Now you can run Pointless like this:
 
-    `bin/pointless examples/beer/beer.ptls`
+    ```
+    bin/pointless examples/beer/beer.ptls
+    ```
 
 - Windows:
 
@@ -92,6 +105,8 @@ Compiling the interpreter avoids the startup overhead of the Dart VM.
 
     Now you can run Pointless like this:
 
-    `bin/pointless.exe examples/beer/beer.ptls`
+    ```
+    bin/pointless.exe examples/beer/beer.ptls
+    ```
 
 Contributions are welcome!
