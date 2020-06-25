@@ -55,7 +55,13 @@ Installing on Linux, Mac and Windows (PowerShell):
     cd pointless
     ```
 
-3.  You can now run the Pointless repl using:
+3. Download Dart dependencies:
+
+    ```
+    pub get
+    ```
+
+4.  You can now run the Pointless repl using:
 
     ```
     dart lib/pointless.dart
@@ -73,12 +79,13 @@ Installing on Linux, Mac and Windows (PowerShell):
 
 Compiling the interpreter avoids the startup overhead of the Dart VM.
 
+After performing the steps above:
+
 - Linux and Mac:
 
     Run the following commands in the repository root (generates ./bin/pointless):
   
     ```
-    pub get
     dart2native lib/pointless.dart -o bin/pointless
     ```
 
@@ -99,7 +106,6 @@ Compiling the interpreter avoids the startup overhead of the Dart VM.
     Run the following commands in the repository root (generates ./bin/pointless.exe):
 
     ```
-    pub get
     dart2native lib/pointless.dart -o bin/pointless.exe
     ```
 
