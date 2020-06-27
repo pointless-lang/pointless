@@ -33,7 +33,7 @@ split(delimStr, string) =
 
 splitChars(result, delim, chars) =
   if isEmpty(chars)
-    then if result == "" then [] else [result]
+    then [result]
 
   else if hasPrefix(delim, chars)
     then [result] ++ splitChars("", delim, drop(length(delim), chars))
