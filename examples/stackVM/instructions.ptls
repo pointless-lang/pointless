@@ -5,25 +5,19 @@ export {
 
 ------------------------------------------------------------------------------
 
-showInst(inst) = cond {
-  case is(Label, inst) format("{}:", [unwrap(inst)])
-  case is(PtlsLabel, inst) format("[ {<5} ]", [getLabel(inst)])
-  else format("[ {<5} ] {}", [getLabel(inst), unwrap(inst)])
-}
+showInst(inst) =
+ format("[ {<5} ] {}", [getLabel(inst), argOrBlank(inst)])
+
+argOrBlank(inst) =
+  if is(PtlsTuple, inst) then unwrap(inst) else ""
 
 ------------------------------------------------------------------------------
 
-makeInstArray(rawInsts) =
- rawInsts
- |> convertJumps(getLabelInds(rawInsts))
- |> toArray
-
-------------------------------------------------------------------------------
-
-convertJumps(inds, insts) =
+convertJumps(insts) =
   insts
   |> filter(notIs(Label))
   |> map(convertJump(inds))
+  where inds = getLabelInds(insts)
 
 ------------------------------------------------------------------------------
 
@@ -35,14 +29,17 @@ convertJump(inds, inst) = cond {
 
 ------------------------------------------------------------------------------
 
-getLabelInds(insts) = reduce(scanInst, (0, {}), insts) |> at(1)
+getLabelInds(insts) =
+  insts
+  |> reduce(scanInst, (0, {})) -- keep track of (currentIndex, indexMap)
+  |> at(1) -- return index map
 
 ------------------------------------------------------------------------------
 
 scanInst(pair, inst) = 
-  if is(Label, inst)
-  then (ind, newInds)
-  else (ind + 1, inds)
+  if not is(Label, inst)
+  then (ind + 1, inds)
+  else (ind, newInds)
   where {
     newInds = inds with $[unwrap(inst)] = ind
     (ind, inds) = pair

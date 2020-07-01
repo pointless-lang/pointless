@@ -8,95 +8,47 @@ export {
 import "instructions.ptls" as instructions
 
 ------------------------------------------------------------------------------
--- Supported commands:
---
--- "push" and "pop" refer to vm stack
--- "advance" = jump to next instruction
---
--- Eq        - pop top 2 vals (b, a), push a == b, advance
--- Add       - pop top 2 vals (b, a), push a + b, advance
--- Sub       - pop top 2 vals (b, a), push a - b, advance
--- Mul       - pop top 2 vals (b, a), push a * b, advance
--- Div       - pop top 2 vals (b, a), push a / b, advance
--- Mod       - pop top 2 vals (b, a), push a % b, advance
--- Print     - pop top val a, set vm output to a, advance
--- Init  arg - init vm vars to array of zeros with length arg, advance
--- Const arg - push arg, advance
--- Store arg - pop value, value at index arg in vm vars array , advance
--- Load  arg - get value at index arg in vm vars array, push value, advance
--- JmpIf arg - pop value, jump to label arg if value, else advance 
--- Jmp   arg - jump to label arg
 
-vmFromInsts(rawInsts) = VM {
-  vars = None
-  insts = instructions.makeInstArray(rawInsts)
-  index = 0
-  stack = []
+vmFromInsts(program) = VM {
+  slots  = zeroArray(8)
+  insts  = toArray(instructions.convertJumps(program))
+  index  = 0
+  stack  = []
   outVal = None
 }
 
 ------------------------------------------------------------------------------
 
-pushVal(arg, vm) = vm with $.stack = [arg] ++ vm.stack
-popVals(n, vm)   = vm with $.stack = drop(n, vm.stack)
-load(arg, vm)    = pushVal(vm.vars[arg], vm)
-
-------------------------------------------------------------------------------
-
-init(arg, vm)  = vm with $.vars = zeroArray(arg)
-store(arg, vm) = vm with $.vars[arg] = head(vm.stack)
-
-------------------------------------------------------------------------------
-
-valAt(n, vm) = at(n, vm.stack)
-
-------------------------------------------------------------------------------
-
-advance(vm) = vm with $.index += 1
-
-------------------------------------------------------------------------------
-
-jumpIf(pred, arg, vm) =
-  if pred
-  then vm with $.index = arg
-  else advance(vm) 
-
-------------------------------------------------------------------------------
-
-saveOutput(vm)  = vm with $.outVal = valAt(0, vm)
-clearOutput(vm) = vm with $.outVal = None
-
-------------------------------------------------------------------------------
-
-binaryOp(op, vm) =
- vm
- |> popVals(2)
- |> pushVal(op(valAt(0, vm), valAt(1, vm)))
- |> advance
+runGetOutput(insts) =
+  vmFromInsts(insts)
+  |> iterate(compose(setOutput(None), eval))
+  |> takeUntil(vm => vm.insts[vm.index] == Exit)
+  |> map(vm => vm.outVal)
+  |> filter(notEq(None))
 
 ------------------------------------------------------------------------------
 
 eval(vm) = cond {
-
-  case is(Init, inst)
-    vm
-    |> init(arg)
-    |> advance
-
   case is(Const, inst)
     vm
     |> pushVal(arg)
+    |> advance
+
+  case is(Print, inst)
+    vm
+    |> popVals(1)
+    |> setOutput(valAt(0, vm))
+    |> advance
+
+  case is(Load, inst)
+    vm
+    |> load(arg)
     |> advance
 
   case is(Store, inst)
     vm
     |> store(arg)
     |> popVals(1)
-    |> advance
-
-  case is(Load, inst)
-    vm
-    |> load(arg)
     |> advance
 
   case is(JmpIf, inst)
@@ -107,12 +59,6 @@ eval(vm) = cond {
   case is(Jmp, inst)
     vm
     |> jumpIf(true, arg)
-
-  case is(Print, inst)
-    vm
-    |> saveOutput
-    |> popVals(1)
-    |> advance
 
   case is(Eq,  inst) vm |> binaryOp(eq)
   case is(Add, inst) vm |> binaryOp(add)
@@ -128,9 +74,23 @@ eval(vm) = cond {
 
 ------------------------------------------------------------------------------
 
-runGetOutput(insts) =
-  vmFromInsts(insts)
-  |> iterate(compose(clearOutput, eval))
-  |> takeUntil(vm => vm.insts[vm.index] == Exit)
-  |> map(vm => vm.outVal)
-  |> filter(notEq(None))
+advance(vm)        = vm with $.index += 1
+pushVal(arg, vm)   = vm with $.stack = [arg] ++ vm.stack
+popVals(n, vm)     = vm with $.stack = drop(n, vm.stack)
+setOutput(val, vm) = vm with $.outVal = val
+store(arg, vm)     = vm with $.slots[arg] = head(vm.stack)
+load(arg, vm)      = pushVal(vm.slots[arg], vm)
+
+jumpIf(pred, arg, vm) =
+  if pred
+  then vm with $.index = arg
+  else advance(vm) 
+
+valAt(n, vm) = at(n, vm.stack)
+
+binaryOp(op, vm) =
+ vm
+ |> popVals(2)
+ |> pushVal(op(valAt(0, vm), valAt(1, vm)))
+ |> advance
+

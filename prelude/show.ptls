@@ -11,6 +11,7 @@ repr(value) =
 -- Get the string representation of a value
 
 show(value) = cond {
+  case is(Empty, value)       "[]" -- special case for empty list
   case is(PtlsNumber, value)  toString(value)
   case is(PtlsString, value)  toString(value)
   case is(PtlsBool, value)    toString(value)

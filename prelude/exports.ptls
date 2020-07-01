@@ -136,4 +136,5 @@ export {
   notIs,
   deepEq,
   deepNotEq,
+  count,
 }

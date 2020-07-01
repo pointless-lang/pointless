@@ -250,3 +250,10 @@ reduceFirst(func, list) = reduce(func, head(list), tail(list))
 scan(func, acc, list) = 
   if isEmpty(list) then [] 
   else [acc] ++ scan(func, func(acc, head(list)), tail(list))
+
+-------------------------------------------------------------------------------
+
+count(elem, list) =
+  list
+  |> filter(eq(elem))
+  |> length

@@ -3,45 +3,47 @@ import "stackVM.ptls" as stackVM
 
 ------------------------------------------------------------------------------
 
-n = 80122
-
-factors = [
-  Init(2),
-  Const(2),
-  Store(0),
-  Const(n),
-  Store(1),
-  Label("checkDone"),
-  Load(1),
-  Const(1),
-  Eq,
-  JmpIf("end"),
-  Label("checkDiv"),
-  Load(1),
-  Load(0),
-  Mod,
-  Const(0),
-  Eq,
-  JmpIf("divisible"),
-  Load(0),
-  Const(1),
-  Add,
-  Store(0),
-  Jmp("checkDiv"),
-  Label("divisible"),
-  Load(0),
-  Print,
-  Load(1),
-  Load(0),
-  Div,
-  Store(1),
-  Jmp("checkDone"),
-  Label("end"),
-  Exit,
-]
+output =
+  program
+  |> stackVM.runGetOutput
+  |> printLines
 
 ------------------------------------------------------------------------------
 
-output =
-  stackVM.runGetOutput(factors) ++ ["done"]
-  |> printLines
+n = 80122
+
+program = [
+  Const(2),
+  Store(0),            -- store value 2 in slot 0 (initial divisor)
+  Const(n),
+  Store(1),            -- store value n in slot 1 (initial dividend)
+  Label("checkDone"),
+  Load(1),             -- load dividend
+  Const(1),
+  Eq,                  -- compare dividend to value 1
+  JmpIf("end"),        -- jump to end if dividend == 1
+  Label("checkDiv"), 
+  Load(1),             -- load dividend
+  Load(0),             -- load divisor
+  Mod,
+  Const(0),
+  Eq,                  -- compare dividend % dividor == 0 
+  JmpIf("divisible"),
+  Load(0),             -- load divisor
+  Const(1),
+  Add,                 -- increment divisor
+  Store(0),            -- store new divisor
+  Jmp("checkDiv"),     -- check end condition
+  Label("divisible"),
+  Load(0),             -- load divisor
+  Print,               -- print divisor (current factor)
+  Load(1),             -- load dividend
+  Load(0),             -- load divisor
+  Div,
+  Store(1),            -- store dividend / divisor as new dividend
+  Jmp("checkDone"),    -- check end condition
+  Label("end"),
+  Const("done"),
+  Print,               -- print "done"
+  Exit,
+]

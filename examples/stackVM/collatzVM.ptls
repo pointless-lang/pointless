@@ -3,10 +3,16 @@ import "stackVM.ptls" as stackVM
 
 ------------------------------------------------------------------------------
 
+output =
+  program
+  |> stackVM.runGetOutput
+  |> printLines
+
+------------------------------------------------------------------------------
+
 n = 870
 
-collatz = [
-  Init(1),
+program = [
   Const(n),
   Label("startLoop"),
   Store(0),
@@ -36,11 +42,7 @@ collatz = [
   Label("end"),
   Load(0),
   Print,
+  Const("done"),
+  Print,
   Exit,
 ]
-
-------------------------------------------------------------------------------
-
-output =
-  stackVM.runGetOutput(collatz) ++ ["done"]
-  |> printLines
