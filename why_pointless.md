@@ -1,6 +1,6 @@
 
 ## Why Learn Pointless?
-#### Avery N. Nortonsmith
+#### - Avery N. Nortonsmith
 
 What language should beginner programmers learn? Pointless, of course!
 

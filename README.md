@@ -1,7 +1,5 @@
 ## Pointless: A Scripting Language for Learning and Fun (v0.1.0)
 
-[![sample code](screenshot.png)](https://ptls.dev)
-
 ### [Why Learn Pointless?](https://github.com/pointless-lang/pointless/blob/master/why_pointless.md)
 
 #### Documentation and examples at [https://ptls.dev](https://ptls.dev)
