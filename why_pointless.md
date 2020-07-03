@@ -45,7 +45,7 @@ The original function specification:
 
 I'm happier with the Pointless solution than with my original Python code. The Pointless code reads like the original problem specification: it takes a list of characters, finds the groups of equal consecutive elements, gets the length of each group and returns the maximum length.  The Python code, with its explicit iteration and intermediate variables, spends more time focusing on the *how* than the *what*, and, in my view, obscures the original intent of the problem.
 
-As a beginner, I could have used Python to write a more declarative, functional solution to this problem. But I didn't, because Python -- like most dynamic, imperative languages -- doesn't encourage that type of programming, despite supporting it. Functional programming is not a panacea, and Pointless is not designed to impose the paradigm absolutely; rather, the constraints that the language does impose are intended to guide programmers towards more concise and modular solutions, without feeling like impediments.  
+As a beginner, I could have used Python to write a more declarative, functional solution to this problem. But I didn't, because Python -- like most imperative scripting languages -- doesn't encourage that type of programming, despite supporting it. Functional programming is not a panacea, and Pointless is not designed to impose the paradigm absolutely; rather, the constraints that the language does impose are intended to guide programmers towards more concise and modular solutions, without feeling like impediments.  
 
 ### Comparison with Statically-Typed Functional Languages:
 *includes languages like Haskell and OCaml*
@@ -54,7 +54,7 @@ In my experience, languages in the ML family do the most to make writing pure, d
 
 **Syntax**
 
-Syntactically, Haskell and OCaml feel like anti-lisps: whitespace, rather than parentheses, designates function calls. This behavior, combined with ability to define custom operators, can lead to dense, symbol-heavy syntax, as seen in the popular Haskell [lens](https://github.com/ekmett/lens/blob/master/src/Control/Lens/Lens.hs#L1213) library:
+Syntactically, Haskell feels like an anti-lisp: whitespace, rather than parentheses, designates function calls. This behavior, combined with ability to define custom operators, can lead to dense, symbol-heavy syntax, as seen in the popular [lens](https://github.com/ekmett/lens/blob/master/src/Control/Lens/Lens.hs#L1213) library:
 
 ```
 (<<<>=) :: (MonadState s m, Monoid r) => LensLike' ((,) r) s r -> r -> m r
@@ -64,7 +64,7 @@ l <<<>= b = l %%= \a -> (a, a `mappend` b)
 
 **Type-Inference**
 
-The type-inference capabilities of Haskell and OCaml are powerful, but they can still fail in surprising ways -- for example, when passing [polymorphic functions as arguments](https://stackoverflow.com/questions/36587571/confusing-about-haskell-type-inference) in Haskell:
+The type-inference capabilities of Haskell and OCaml are powerful, but they can still fail in surprising ways -- for example, when passing [polymorphic functions as arguments](https://stackoverflow.com/questions/36587571/confusing-about-haskell-type-inference):
 
 ```
 identity x = x
@@ -84,7 +84,7 @@ test.hs:8:48: error:
 8 | main = putStrLn $ show (toPair identity "adsf" 123)
 ```
 
-In cases like this, Haskell requires programmers to enable the `RankNTypes` extension and provide type-annotations in order to satisfy the type-checker. OCaml does not support higher-rank types, and cannot accommodate programs like this.
+In cases like this, Haskell requires programmers to enable the `RankNTypes` extension and provide type-annotations in order to satisfy the type-checker. OCaml does not support higher-rank types.
 
 **Language Complexity**
 
@@ -116,7 +116,7 @@ Here I see the biggest difference between Lisps and Pointless: Lisps provide a s
 
 ### Designing Pointless
 
-I believe that these examples show that there is room for improvement -- that we can design a programming language for beginners to learn which is intuitive and unobtrusive while simultaneously encouraging programmers to model and solve problems at a *high level* -- the *what*, rather than the *how*.
+I believe that these examples show there is room for improvement -- that we can design a programming language for beginners to learn which is intuitive and unobtrusive, but which still pushes programmers to model and solve problems at a *high level* -- to focus on the *what*, rather than the *how*.
 
 A major influence on my approach to language design is the essay [*Less is more: language features*](https://blog.ploeh.dk/2015/04/13/less-is-more-language-features) by Mark Seemann, who claims that:
 
