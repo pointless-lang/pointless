@@ -1,20 +1,20 @@
 ## Pointless: A Scripting Language for Learning and Fun (v0.1.0)
 
-[**Documentation**](https://ptls.dev/docs.html)
+[![sample code](screenshot.png)](https://ptls.dev)
 
-[**Examples**](https://ptls.dev/examples.html)
+**Documentation**: [https://ptls.dev/docs.html](https://ptls.dev/docs.html)
 
-[**Installation**](https://ptls.dev/install.html)
+**Examples**: [https://ptls.dev/examples.html](https://ptls.dev/examples.html)
 
-[**Tutorials**](https://ptls.dev/tutorials)
+**Installation**: [https://ptls.dev/install.html](https://ptls.dev/install.html)
 
-[**Try Pointless Online**](https://ptls.dev/online)
+**Tutorials**: [https://ptls.dev/tutorials](https://ptls.dev/tutorials)
 
-[**Why Learn Pointless**](#why-learn-pointless)
+**Try Pointless Online!**: [https://ptls.dev/online](https://ptls.dev/online)
+
+[**Why Learn Pointless?**](#why-learn-pointless)
 
 [**Development**](#development)
-
-[![sample code](screenshot.png)](https://ptls.dev)
 
 ## Why Learn Pointless?
 #### Avery N. Nortonsmith
