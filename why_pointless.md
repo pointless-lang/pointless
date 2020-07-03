@@ -45,7 +45,7 @@ The original function specification:
 
 I'm happier with the Pointless solution than with my original Python code. The Pointless code reads like the original problem specification: it takes a list of characters, finds the groups of equal consecutive elements, gets the length of each group and returns the maximum length.  The Python code, with its explicit iteration and intermediate variables, spends more time focusing on the *how* than the *what*, and, in my view, obscures the original intent of the problem.
 
-As a beginner, I could have used Python to write a more declarative, functional solution to this problem. But I didn't, because Python -- like most dynamic, imperative languages -- doesn't encourage that type of programming, despite supporting it. Functional programming is not a panacea, and Pointless is not impose the paradigm absolutely; rather, the constraints that the language does impose are intended to guide programmers towards more concise and modular solutions, without feeling like impediments.  
+As a beginner, I could have used Python to write a more declarative, functional solution to this problem. But I didn't, because Python -- like most dynamic, imperative languages -- doesn't encourage that type of programming, despite supporting it. Functional programming is not a panacea, and Pointless is not designed to impose the paradigm absolutely; rather, the constraints that the language does impose are intended to guide programmers towards more concise and modular solutions, without feeling like impediments.  
 
 ### Comparison with Statically-Typed Functional Languages:
 *includes languages like Haskell and OCaml*
