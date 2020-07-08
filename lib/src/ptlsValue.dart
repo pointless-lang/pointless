@@ -2,7 +2,6 @@
 import "ASTNode.dart";
 import "env.dart";
 import "interpreter.dart";
-import "location.dart";
 import "nodeTypes.dart";
 import "ptlsArray.dart";
 import "ptlsDict.dart";
@@ -14,7 +13,6 @@ import "ptlsTuple.dart";
 // ---------------------------------------------------------------------------
 
 class PtlsValue {
-  Location loc;
 
   // -------------------------------------------------------------------------
 
@@ -51,7 +49,6 @@ class PtlsValue {
     if (name[0] == "!") {
       var error = PtlsError("Type Error");
       error.message = "No built-in field '$name' for type '$runtimeType'";
-      error.locs.add(loc);
       throw error;
     }
 
@@ -96,7 +93,6 @@ class PtlsValue {
       var typesStr = types.join(" or ");
       var error = PtlsError("Type Error");
       error.message = "Expected type '$typesStr', got '$runtimeType'";
-      error.locs.add(loc);
       throw error;
     }
 
@@ -110,7 +106,6 @@ class PtlsValue {
   PtlsValue checkIsList() {
     var error = PtlsError("Type Error");
     error.message = "Expected type 'PtlsList or Empty', got '$runtimeType'";
-    error.locs.add(loc);
     throw error;
   }
 
@@ -119,7 +114,6 @@ class PtlsValue {
   int get hashCode {
     var error = PtlsError("Type Error");
     error.message = "Cannot hash type '$runtimeType'";
-    error.locs.add(loc);
     throw error;
   }
 }

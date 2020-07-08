@@ -28,13 +28,7 @@ printFrames = concatMap(printFrame)
 -- An identity function which logs its argument
 -- Useful for debugging
 
-debug(value) = const(value, const(debugRaw(show(value)), debugLoc(value)))
-
-------------------------------------------------------------------------------
-
-debugRaw(value) = IO.!getDebug(value)
-
-debugLoc(value) = IO.!getDebugLoc(value)
+debug(value) = IO.!getDebug(value)
 
 ------------------------------------------------------------------------------
 -- Read lines of input lazily

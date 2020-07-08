@@ -61,13 +61,6 @@ class PtlsLabel extends PtlsValue {
 
   // -------------------------------------------------------------------------
 
-  PtlsValue getDebugLoc(PtlsValue val) {
-    debugHandler(val.loc.toString());
-    return val;
-  }
-
-  // -------------------------------------------------------------------------
-
   PtlsValue getLines() {
     var line = stdin.readLineSync();
     if (line == null) {
@@ -112,10 +105,6 @@ class PtlsLabel extends PtlsValue {
       case "!getDebug":
         checkLabel("IO", "!getDebug");
         return PtlsBuiltIn("!getDebug(value)", getDebug);
-
-      case "!getDebugLoc":
-        checkLabel("IO", "!getDebugLoc");
-        return PtlsBuiltIn("!getDebugLoc(value)", getDebugLoc);
 
       case "!getRand":
         checkLabel("IO", "!getRand");

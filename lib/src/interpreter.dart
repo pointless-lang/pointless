@@ -40,7 +40,6 @@ PtlsValue eval(Env env, ASTNode node) {
   }
 
   PtlsValue result;
-  var oldLastLoc = lastLoc;
   var traceLocs = LinkedHashSet<Location>();
 
   try {
@@ -55,8 +54,6 @@ PtlsValue eval(Env env, ASTNode node) {
     rethrow;
   }
 
-  result.loc ??= lastLoc;
-  lastLoc = oldLastLoc;
   return result;
 }
 

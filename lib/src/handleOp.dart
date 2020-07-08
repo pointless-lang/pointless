@@ -170,7 +170,6 @@ PtlsValue handleBinaryOp(env, Tok op, ASTNode lhsNode, ASTNode rhsNode) {
       if (rhs.value == 0) {
         var error = PtlsError("Arithmetic Error");
         error.message = "Division by zero";
-        error.locs.add(rhs.loc);
         throw error;
       }
       return PtlsNumber(lhs.value / rhs.value);
