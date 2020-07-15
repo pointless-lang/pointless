@@ -26,6 +26,15 @@ class Env {
 
   // -------------------------------------------------------------------------
 
+  Map<String, PtlsValue> valuesMap() {
+    return {
+      for (var name in defs.keys)
+      name: defs[name].getValue()
+    };
+  }
+
+  // -------------------------------------------------------------------------
+
   Env spawn() => Env(this);
 
   Env clone() {

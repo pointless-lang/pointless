@@ -1,4 +1,6 @@
 
+import "package:collection/collection.dart";
+
 import "ptlsError.dart";
 import "ptlsLabel.dart";
 import "ptlsList.dart";
@@ -63,22 +65,16 @@ class PtlsTuple extends PtlsValue {
   // -------------------------------------------------------------------------
 
   bool operator==(Object other) {
-    if (other is PtlsTuple) {
-      if (label != other.label) {
-        return false;
-      }
-
-      if (members.length != other.members.length) {
-        return false;
-      }
-
-      for (var i = 0; i < members.length; i++) {
-        if (members[i] != other.members[i]) {
-          return false;
-        }
-      }
-
+    if (identical(this, other)) {
       return true;
+    }
+    
+    if (other is PtlsTuple) {
+      if (other.label != label) {
+        return false;
+      }
+
+      return ListEquality().equals(other.members, members);
     }
 
     return false;
@@ -86,16 +82,7 @@ class PtlsTuple extends PtlsValue {
 
   // -------------------------------------------------------------------------
 
-  int get hashCode {
-    var result = 0;
-
-    for (var member in members) {
-      result += member.hashCode;
-      result *= 7;
-    }
-
-    return result;
-  }
+  int get hashCode => PtlsValue.hashCodeIter([label, ...members]);
 
   // -------------------------------------------------------------------------
 

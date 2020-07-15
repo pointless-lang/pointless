@@ -111,9 +111,29 @@ class PtlsValue {
 
   // -------------------------------------------------------------------------
 
-  int get hashCode {
-    var error = PtlsError("Type Error");
-    error.message = "Cannot hash type '$runtimeType'";
-    throw error;
+  static int hashCodeIter(Iterable values) {
+    var result = 0;
+
+    for (var value in values) {
+      result += value.hashCode;
+      result *= 7;
+    }
+
+    return result;
+  }
+
+  // -------------------------------------------------------------------------
+
+  static int hashCodeMap(Map map) {
+    var result = 0;
+
+    for (var key in map.keys) {
+      result += key.hashCode;
+      result *= 7;
+      result += map[key].hashCode;
+      result *= 7;
+    }
+
+    return result;
   }
 }

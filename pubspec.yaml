@@ -14,3 +14,4 @@ dependencies:
   path: "^1.7.0"
   dartz: "^0.9.1"
   string_unescape: "^1.5.1"
+  collection: "^1.14.13"

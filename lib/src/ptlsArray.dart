@@ -1,4 +1,5 @@
 
+import "package:collection/collection.dart";
 import "package:dartz/dartz.dart" as dartz;
 
 import "ptlsError.dart";
@@ -77,6 +78,24 @@ class PtlsArray extends PtlsValue {
 
     throw false; // should never get here
   }
+
+  // -------------------------------------------------------------------------
+
+  bool operator==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    if (other is PtlsArray) {
+      return ListEquality().equals(other.elemsList, elemsList);
+    }
+
+    return false;
+  }
+
+  // -------------------------------------------------------------------------
+
+  int get hashCode => PtlsValue.hashCodeIter(elemsList);
 
   // -------------------------------------------------------------------------
 

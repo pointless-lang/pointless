@@ -1,4 +1,5 @@
 
+import "package:collection/collection.dart";
 import "package:dartz/dartz.dart" as dartz;
 
 import "env.dart";
@@ -69,10 +70,31 @@ class PtlsObject extends PtlsValue {
 
   // -------------------------------------------------------------------------
 
+  bool operator==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    if (other is PtlsObject) {
+      if (other.label != label) {
+        return false;
+      }
+
+      return MapEquality().equals(other.env.valuesMap(), env.valuesMap());
+    }
+
+    return false;
+  }
+
+  // -------------------------------------------------------------------------
+
+  int get hashCode => PtlsValue.hashCodeMap({"label": label, ...env.valuesMap()});
+
+  // -------------------------------------------------------------------------
+
   String toString() {
     if (label == defaultLabel) {
        return "${env.defs}";
-
     }
 
    return "$label ${env.defs}";

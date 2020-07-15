@@ -16,16 +16,6 @@ class PtlsNumber extends PtlsValue {
 
   // -------------------------------------------------------------------------
 
-  bool operator==(Object other) {
-    if (other is PtlsNumber) {
-      return other.value == value;
-    }
-
-    return false;
-  }
-
-  // -------------------------------------------------------------------------
-
   PtlsValue getField(String name) {
     switch (name) {
       case "!getInt":
@@ -65,6 +55,16 @@ class PtlsNumber extends PtlsValue {
     }
 
     throw false; // should never get here
+  }
+  
+  // -------------------------------------------------------------------------
+
+  bool operator==(Object other) {
+    if (other is PtlsNumber) {
+      return other.value == value;
+    }
+
+    return false;
   }
 
   // -------------------------------------------------------------------------

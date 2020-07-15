@@ -1,4 +1,6 @@
 
+import "package:collection/collection.dart";
+
 import "ASTNode.dart";
 import "env.dart";
 import "interpreter.dart";
@@ -86,6 +88,24 @@ class PtlsList extends PtlsValue {
     var thunk = Thunk("", () => (tail as PtlsList).concat(env, rhsNode));
     return PtlsList(headThunk, thunk);
   }
+
+  // -------------------------------------------------------------------------
+
+  bool operator==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    if (other is PtlsList) {
+      return ListEquality().equals(other.toList(), toList());
+    }
+
+    return false;
+  }
+
+  // -------------------------------------------------------------------------
+
+  int get hashCode => PtlsValue.hashCodeIter(toList());
 
   // -------------------------------------------------------------------------
 

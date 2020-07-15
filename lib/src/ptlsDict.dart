@@ -1,4 +1,5 @@
 
+import "package:collection/collection.dart";
 import "package:dartz/dartz.dart" as dartz;
 
 import "ptlsBuiltIn.dart";
@@ -74,6 +75,24 @@ class PtlsDict extends PtlsValue {
     throw false; // should never get here
   }
   
+  // -------------------------------------------------------------------------
+
+  bool operator==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    
+    if (other is PtlsDict) {
+      return MapEquality().equals(other.map.toMap(), map.toMap());
+    }
+
+    return false;
+  }
+
+  // -------------------------------------------------------------------------
+
+  int get hashCode => PtlsValue.hashCodeMap(map.toMap());
+
   // -------------------------------------------------------------------------
 
   String toString() => "$map";
