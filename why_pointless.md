@@ -9,7 +9,7 @@ Here's the deal: I like the way that writing programs in scripting languages (li
 ### Comparison with Scripting Languages:
 *includes languages like Python and Javascript*
 
-Scripting languages are often seen as flexible and easy to use. My own experience has show me that languages which are *easy to use* also make it *easy to write bad programs*. One of the primary goals of Pointless is to use language design to encourage good software engineering practices, without sacrificing convenience or usability to the extent that I believe that existing statically-typed functional languages languages do.
+While scripting languages may be flexible, my own experience has show me that languages which are *easy to use* also make it *easy to write bad programs*. One of the primary goals of Pointless is to use language design to encourage good software engineering practices, without sacrificing convenience or usability to the extent that I believe that existing statically-typed functional languages languages do.
 
 **Correct Code vs Good Code**
 
