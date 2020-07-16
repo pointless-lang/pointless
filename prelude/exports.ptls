@@ -137,4 +137,6 @@ export {
   count,
   readFile,
   readFileLines,
+  toLower,
+  toUpper,
 }

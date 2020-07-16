@@ -18,6 +18,12 @@ class PtlsString extends PtlsValue {
 
   PtlsValue getField(String name, Location loc) {
     switch (name) {
+      case "!getLower":
+        return PtlsString(value.toLowerCase());
+
+      case "!getUpper":
+        return PtlsString(value.toUpperCase());
+
       case "!getInt":
         return PtlsNumber(int.parse(value));
 
