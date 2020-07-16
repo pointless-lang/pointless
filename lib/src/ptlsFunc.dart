@@ -1,6 +1,7 @@
 
 import "ASTNode.dart";
 import "env.dart";
+import "location.dart";
 import "ptlsLabel.dart";
 import "ptlsValue.dart";
 
@@ -17,12 +18,12 @@ class PtlsFunc extends PtlsValue {
 
   // -------------------------------------------------------------------------
 
-  PtlsValue getField(String name) {
+  PtlsValue getField(String name, Location loc) {
     switch (name) {
       case "!getType":
         return PtlsLabel("PtlsFunc");
 
-      default: super.getField(name); // throws error
+      default: super.getField(name, loc); // throws error
     }
 
     throw false; // should never get here

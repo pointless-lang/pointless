@@ -1,6 +1,7 @@
 
 import "package:collection/collection.dart";
 
+import "location.dart";
 import "ptlsError.dart";
 import "ptlsLabel.dart";
 import "ptlsList.dart";
@@ -42,7 +43,7 @@ class PtlsTuple extends PtlsValue {
 
   // -------------------------------------------------------------------------
 
-  PtlsValue getField(String name) {
+  PtlsValue getField(String name, Location loc) {
     switch (name) {
       case "!getLabel":
         return label;
@@ -56,7 +57,7 @@ class PtlsTuple extends PtlsValue {
       case "!getList":
         return PtlsList.fromValues(members);
 
-      default: super.getField(name); // throws error
+      default: super.getField(name, loc); // throws error
     }
 
     throw false; // should never get here

@@ -2,6 +2,7 @@
 import "package:collection/collection.dart";
 import "package:dartz/dartz.dart" as dartz;
 
+import "location.dart";
 import "ptlsError.dart";
 import "ptlsLabel.dart";
 import "ptlsList.dart";
@@ -59,7 +60,7 @@ class PtlsArray extends PtlsValue {
 
   // -------------------------------------------------------------------------
 
-  PtlsValue getField(String name) {
+  PtlsValue getField(String name, Location loc) {
     switch (name) {
       case "!getList":
         return PtlsList.fromValues(elems.toIterable());
@@ -73,7 +74,7 @@ class PtlsArray extends PtlsValue {
       case "!getLength":
         return PtlsNumber(elems.length());
 
-      default: super.getField(name); // throws error
+      default: super.getField(name, loc); // throws error
     }
 
     throw false; // should never get here

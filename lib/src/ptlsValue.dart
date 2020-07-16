@@ -2,6 +2,7 @@
 import "ASTNode.dart";
 import "env.dart";
 import "interpreter.dart";
+import "location.dart";
 import "nodeTypes.dart";
 import "ptlsArray.dart";
 import "ptlsDict.dart";
@@ -44,7 +45,7 @@ class PtlsValue {
 
   // -------------------------------------------------------------------------
 
-  PtlsValue getField(String name) {
+  PtlsValue getField(String name, Location loc) {
     // if is language field
     if (name[0] == "!") {
       var error = PtlsError("Type Error");

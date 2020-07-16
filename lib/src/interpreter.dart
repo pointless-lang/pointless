@@ -166,7 +166,7 @@ PtlsValue dispatch(Env env, ASTNode node, LinkedHashSet<Location> traceLocs) {
       case Node.FieldRef:
         var lhs = eval(env, node[0]);
         String name = (node[1] as ASTNode)[0];
-        return lhs.getField(name);
+        return lhs.getField(name, node.loc);
 
       // ---------------------------------------------------------------------
 

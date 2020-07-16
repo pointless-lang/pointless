@@ -2,6 +2,7 @@
 import "package:collection/collection.dart";
 import "package:dartz/dartz.dart" as dartz;
 
+import "location.dart";
 import "ptlsBuiltIn.dart";
 import "ptlsError.dart";
 import "ptlsLabel.dart";
@@ -52,7 +53,7 @@ class PtlsDict extends PtlsValue {
 
   // -------------------------------------------------------------------------
 
-  PtlsValue getField(String name) {
+  PtlsValue getField(String name, Location loc) {
     switch (name) {
       case "!getDelKey":
         return PtlsBuiltIn("!getDelKey(key)", delKey);
@@ -69,7 +70,7 @@ class PtlsDict extends PtlsValue {
       case "!getLength":
         return PtlsNumber(map.length());
 
-      default: super.getField(name); // throws error
+      default: super.getField(name, loc); // throws error
     }
 
     throw false; // should never get here

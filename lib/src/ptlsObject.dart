@@ -3,6 +3,7 @@ import "package:collection/collection.dart";
 import "package:dartz/dartz.dart" as dartz;
 
 import "env.dart";
+import "location.dart";
 import "ptlsDict.dart";
 import "ptlsError.dart";
 import "ptlsLabel.dart";
@@ -26,7 +27,7 @@ class PtlsObject extends PtlsValue {
 
   // -------------------------------------------------------------------------
 
-  PtlsValue getField(String name) {
+  PtlsValue getField(String name, Location loc) {
     if (env.defs.containsKey(name)) {
       return env.lookupName(name);
     }
@@ -45,7 +46,10 @@ class PtlsObject extends PtlsValue {
         });
         return PtlsDict(map);
 
-      default: if (name[0] == "!") { super.getField(name); };
+      default:
+        if (name[0] == "!") {
+          super.getField(name, loc);
+        }
     }
 
     var error = PtlsError("Type Error");

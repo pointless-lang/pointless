@@ -1,4 +1,5 @@
 
+import "location.dart";
 import "ptlsLabel.dart";
 import "ptlsNumber.dart";
 import "ptlsString.dart";
@@ -15,7 +16,7 @@ class PtlsBool extends PtlsValue {
 
   // -------------------------------------------------------------------------
 
-  PtlsValue getField(String name) {
+  PtlsValue getField(String name, Location loc) {
     switch (name) {
       case "!getInt":
         return PtlsNumber(value ? 1 : 0);
@@ -30,7 +31,7 @@ class PtlsBool extends PtlsValue {
       case "!getType":
         return PtlsLabel("PtlsBool");
 
-      default: super.getField(name); // throws error
+      default: super.getField(name, loc); // throws error
     }
 
     throw false; // should never get here

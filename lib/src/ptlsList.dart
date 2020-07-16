@@ -4,6 +4,7 @@ import "package:collection/collection.dart";
 import "ASTNode.dart";
 import "env.dart";
 import "interpreter.dart";
+import "location.dart";
 import "ptlsLabel.dart";
 import "ptlsValue.dart";
 import "thunk.dart";
@@ -57,7 +58,7 @@ class PtlsList extends PtlsValue {
 
   // -------------------------------------------------------------------------
 
-  PtlsValue getField(String name) {
+  PtlsValue getField(String name, Location loc) {
     switch (name) {
       case "!getHead":
         return head;
@@ -71,7 +72,7 @@ class PtlsList extends PtlsValue {
       case "!getType":
         return PtlsLabel("PtlsList");
 
-      default: super.getField(name); // throws error
+      default: super.getField(name, loc); // throws error
     }
 
     throw false; // should never get here

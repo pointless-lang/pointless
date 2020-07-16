@@ -1,8 +1,12 @@
 
 import "dart:io";
 import "dart:math";
-import "package:dartz/dartz.dart" as dartz;
+import "dart:core";
 
+import "package:dartz/dartz.dart" as dartz;
+import "package:path/path.dart" as dartPath;
+
+import "location.dart";
 import "ptlsArray.dart";
 import "ptlsBuiltIn.dart";
 import "ptlsError.dart";
@@ -61,6 +65,30 @@ class PtlsLabel extends PtlsValue {
 
   // -------------------------------------------------------------------------
 
+  PtlsValue readFile(PtlsValue path, bool getLines) {
+    var pathStr = (path.checkType([PtlsString]) as PtlsString).value;
+    var file = new File(pathStr);
+
+    if (!file.existsSync()) {
+      var error = PtlsError("File Error");
+      error.message = "File not found '$pathStr'";
+      throw error;
+    }
+
+    if (getLines) {
+      var lines = file.readAsLinesSync();
+      return PtlsList.fromValues([
+        for (var line in lines)
+        PtlsString(line)
+      ]);
+    }
+
+    var text = file.readAsStringSync();
+    return PtlsString(text);
+  }
+
+  // -------------------------------------------------------------------------
+
   PtlsValue getLines() {
     var line = stdin.readLineSync();
     if (line == null) {
@@ -96,8 +124,28 @@ class PtlsLabel extends PtlsValue {
 
   static var random = Random();
 
-  PtlsValue getField(String name) {
+  PtlsValue getField(String name, Location loc) {
     switch (name) {
+      case "!getReadFile":
+        checkLabel("IO", "!getReadFile");
+
+        return PtlsBuiltIn(
+          "!getReadFile(path)",
+          (path) => readFile(path, false)
+        );
+
+      case "!getReadFileLines":
+        checkLabel("IO", "!getReadFileLines");
+
+        return PtlsBuiltIn(
+          "!getReadFileLines(path)",
+          (path) => readFile(path, true)
+        );
+
+      case "!getSourcePath":
+        checkLabel("IO", "!getSourcePath");
+        return PtlsString(dartPath.dirname(loc.path));
+
       case "!getLines":
         checkLabel("IO", "!getLines");
         return getLines();
@@ -134,7 +182,7 @@ class PtlsLabel extends PtlsValue {
         return PtlsBuiltIn("!getWrapObject(obj)", getWrapObject);
 
       default:
-        super.getField(name); // throws error
+        super.getField(name, loc); // throws error
     }
 
     throw false; // should never get here
