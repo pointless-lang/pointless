@@ -103,33 +103,33 @@ PtlsValue handleBinaryOp(env, Tok op, ASTNode lhsNode, ASTNode rhsNode) {
     // -----------------------------------------------------------------------
 
     case Tok.LessThan: {
-      PtlsNumber lhs = evalCheck(env, lhsNode, [PtlsNumber]);
-      PtlsNumber rhs = evalCheck(env, rhsNode, [PtlsNumber]);
-      return PtlsBool(lhs.value < rhs.value);
+      dynamic lhs = evalCheck(env, lhsNode, [PtlsNumber, PtlsString]);
+      dynamic rhs = evalCheck(env, rhsNode, [PtlsNumber, PtlsString]);
+      return PtlsBool(lhs.value.compareTo(rhs.value) < 0);
     }
 
     // -----------------------------------------------------------------------
 
     case Tok.LessEq: {
-      PtlsNumber lhs = evalCheck(env, lhsNode, [PtlsNumber]);
-      PtlsNumber rhs = evalCheck(env, rhsNode, [PtlsNumber]);
-      return PtlsBool(lhs.value <= rhs.value);
+      dynamic lhs = evalCheck(env, lhsNode, [PtlsNumber, PtlsString]);
+      dynamic rhs = evalCheck(env, rhsNode, [PtlsNumber, PtlsString]);
+      return PtlsBool(lhs.value.compareTo(rhs.value) <= 0);
     }
 
     // -----------------------------------------------------------------------
 
     case Tok.GreaterThan: {
-      PtlsNumber lhs = evalCheck(env, lhsNode, [PtlsNumber]);
-      PtlsNumber rhs = evalCheck(env, rhsNode, [PtlsNumber]);
-      return PtlsBool(lhs.value > rhs.value);
+      dynamic lhs = evalCheck(env, lhsNode, [PtlsNumber, PtlsString]);
+      dynamic rhs = evalCheck(env, rhsNode, [PtlsNumber, PtlsString]);
+      return PtlsBool(lhs.value.compareTo(rhs.value) > 0);
     }
 
     // -----------------------------------------------------------------------
 
     case Tok.GreaterEq: {
-      PtlsNumber lhs = evalCheck(env, lhsNode, [PtlsNumber]);
-      PtlsNumber rhs = evalCheck(env, rhsNode, [PtlsNumber]);
-      return PtlsBool(lhs.value >= rhs.value);
+      dynamic lhs = evalCheck(env, lhsNode, [PtlsNumber, PtlsString]);
+      dynamic rhs = evalCheck(env, rhsNode, [PtlsNumber, PtlsString]);
+      return PtlsBool(lhs.value.compareTo(rhs.value) >= 0);
     }
 
     // -----------------------------------------------------------------------
