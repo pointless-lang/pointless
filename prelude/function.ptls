@@ -20,3 +20,17 @@ const(a, b) = a
 -- Get an infinte list [init, func(init), func(func(init)) ...]
 
 iterate(func, init) = [init] ++ iterate(func, func(init))
+
+-------------------------------------------------------------------------------
+-- call a function with the values in a given list as arguments
+
+apply(args, func) =
+  if isEmpty(args) then func
+  else apply(tail(args), func(head(args)))
+
+-------------------------------------------------------------------------------
+-- compose a list of functions
+-- example: composeAll([a, b, c]) = x => x |> a |> b |> c
+
+composeAll(funcs) =
+  reduceFirst(compose, funcs)
