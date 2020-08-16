@@ -28,6 +28,7 @@ enum Node {
   Try,
   Tuple,
   UnaryOp,
+  Upval,
   Where,
   With,
 }

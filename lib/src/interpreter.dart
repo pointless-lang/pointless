@@ -335,6 +335,11 @@ PtlsValue dispatch(Env env, ASTNode node, LinkedHashSet<Location> traceLocs) {
 
       // ---------------------------------------------------------------------
 
+      case Node.Upval:
+        return env.parent.lookupName(node[0]);
+
+      // ---------------------------------------------------------------------
+
       case Node.Where:
         PtlsObject obj = eval(env, node[1]);
         env = obj.env;
@@ -377,6 +382,7 @@ PtlsValue dispatch(Env env, ASTNode node, LinkedHashSet<Location> traceLocs) {
       case Node.Def:    throw false;
       case Node.Export: throw false;
 
+      default: throw false;
     }
   }
 }

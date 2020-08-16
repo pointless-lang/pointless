@@ -28,6 +28,7 @@ var keywords = {
   "throw": Tok.Throw,
   "try": Tok.Try,
   "catch": Tok.Catch,
+  "upval": Tok.Upval,
 };
 
 // ---------------------------------------------------------------------------

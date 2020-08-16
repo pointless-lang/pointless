@@ -60,6 +60,7 @@ enum Tok {
   Then,
   Throw,
   Try,
+  Upval,
   When,
   Where,
   Whitespace,

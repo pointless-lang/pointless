@@ -185,7 +185,7 @@ class Parser {
   // expression (if, for, cond, lambda, try, throw)
   // operation  (binary op, unary op)
   // unit       (field ref, index, call)
-  // unitBase   (literals, collections, parenthesized clauses)
+  // unitBase   (literals, collections, parenthesized clauses, upvals)
 
   // note that function calls can go up the hierarchy:
   // for example, getUnitBase calls getclause to get parenthetized clauses
@@ -421,10 +421,18 @@ class Parser {
 
   ASTNode getObject() {
     var loc = getNext([Tok.LBracket]).loc;
-
     List<ASTNode> defs = [];
+
     while (!isNext([Tok.RBracket])) {
-      defs.add(getDef());
+      if ( isNextMulti([Tok.Name, Tok.RBracket])
+        || isNextMulti([Tok.Name, Tok.Newline, Tok.Name])
+        || isNextMulti([Tok.Name, Tok.Semicolon])) {
+
+        defs.add(getName());
+
+      } else {
+        defs.add(getDef());
+      }
 
       if (isNext([Tok.RBracket])) {
         break;
@@ -543,11 +551,20 @@ class Parser {
   }
 
   // -------------------------------------------------------------------------
+  // example: upval name
+
+  ASTNode getUpval() {
+    var loc = getNext([Tok.Upval]).loc;
+    var name = getName()[0];
+    return ASTNode(Node.Upval, loc, [name]);
+  }
+
+  // -------------------------------------------------------------------------
 
   ASTNode getUnitBase() {
     var unitTokens = [
-      Tok.Number, Tok.String, Tok.Name, Tok.Label, Tok.Bool,
-      Tok.LArray, Tok.LParen, Tok.LBracket
+      Tok.Number, Tok.String, Tok.Name, Tok.Upval, Tok.Label,
+      Tok.Bool, Tok.LArray, Tok.LParen, Tok.LBracket
     ];
 
     // throw error if next token is not in unitTokens
@@ -559,7 +576,10 @@ class Parser {
         return getString(); 
 
       case Tok.Name:
-        return getName(); 
+        return getName();
+
+      case Tok.Upval:
+        return getUpval();
 
       case Tok.Label:
         return getLabel(); 
@@ -932,6 +952,7 @@ class Parser {
 
     return ASTNode(Node.Try, loc, [body, condition, handler]);
   }
+
   // -------------------------------------------------------------------------
   // example: throw ParseError
 
