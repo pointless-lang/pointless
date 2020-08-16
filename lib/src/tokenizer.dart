@@ -143,6 +143,10 @@ class Tokenizer {
     return rightSyms.containsKey(getChar(0));
   }
 
+  bool isMultiString() {
+    return getChar(0) == '"' && getChar(1) == '"' && getChar(2) == '"';
+  }
+
   bool isString() {
     return getChar(0) == '"';
   }
@@ -234,6 +238,40 @@ class Tokenizer {
     }
 
     return makeToken(Tok.Label);
+  }
+
+  // -------------------------------------------------------------------------
+
+  Token handleMultiString() {
+    // take opening quotes
+    advance();
+    advance();
+    advance();
+
+    while (hasChars(0) && !isMultiString()) {
+
+      // take escape chars in pairs
+      if (getChar(0) == "\\" && getChar(1) != null) {
+        advance(); // take slash
+        advance(); // take escape char
+        continue;
+      } 
+
+      advance(); // take next non-quote char
+    }
+
+    if (!hasChars(0)) {
+      var error = PtlsError("Tokenizer Error");
+      error.message = "Unmatched quote";
+      error.locs.add(locs[tokIndex]);
+      throw error;
+    }
+
+    // take closing quotes
+    advance();
+    advance();
+    advance();
+    return makeToken(Tok.String);
   }
 
   // -------------------------------------------------------------------------
@@ -334,6 +372,7 @@ class Tokenizer {
     if (isName()) return handleName();
     if (isField()) return handleField();
     if (isLabel()) return handleLabel();
+    if (isMultiString()) return handleMultiString();
     if (isString()) return handleString();
     if (isNumber()) return handleNumber();
     if (isOpSym()) return handleOpSym();

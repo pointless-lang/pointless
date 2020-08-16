@@ -211,7 +211,15 @@ class Parser {
 
   ASTNode getString() {
     var token = getNext([Tok.String]);
-    var value = token.value.substring(1, token.value.length - 1);
+    var value;
+
+    if (token.value.startsWith('"""')) {
+      value = token.value.substring(3, token.value.length - 3);
+
+    } else {
+      value = token.value.substring(1, token.value.length - 1);
+    }
+
     value = string_unescape.unescape(value);
     return ASTNode(Node.String, token.loc, [value]);
   }
