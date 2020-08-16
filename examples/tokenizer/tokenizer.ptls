@@ -104,6 +104,7 @@ isNewline      = matchChars([eq("\n")])
 isSeparator    = matchChars([inFunc(symbols.separators)])
 isLeftSym      = matchChars([inFunc(symbols.leftSyms)])
 isRightSym     = matchChars([inFunc(symbols.rightSyms)])
+isMultiString  = matchChars([eq("\""), eq("\""), eq("\"")])
 isString       = matchChars([eq("\"")])
 
 ------------------------------------------------------------------------------
@@ -159,7 +160,7 @@ getToken(tok) = cond {
 
   case isCustomField(tok)
     tok
-    |> skipVal -- take '.'
+    |> skipVal -- skip '.'
     |> advanceWhile([inFunc(alNums)])
     |> makeToken(const(Field))
 
@@ -167,7 +168,7 @@ getToken(tok) = cond {
 
   case isLangField(tok)
     tok
-    |> skipVal -- take '.'
+    |> skipVal -- skip '.'
     |> advance -- take '!'
     |> advanceWhile([inFunc(alNums)])
     |> makeToken(const(Field))
@@ -178,6 +179,15 @@ getToken(tok) = cond {
     tok
     |> advanceWhile([inFunc(alNums)]) -- take all alphanumeric chars
     |> makeToken(const(Label))
+
+  ----------------------------------------------------------------------------
+
+  case isMultiString(tok)
+    tok
+    |> skipVal |> skipVal |> skipVal -- skip opening '"""'
+    |> getMultiStringChars
+    |> skipVal |> skipVal |> skipVal -- skip closing '"""'
+    |> makeToken(const(String))
 
   ----------------------------------------------------------------------------
 
@@ -240,6 +250,24 @@ getToken(tok) = cond {
 ------------------------------------------------------------------------------
 -- Get chars inside string
 
+getMultiStringChars(tok) = cond {
+  case isEOF(tok)
+    -- reached end of file before closing quote
+    tokError(tok, "Unmatched quote")
+
+  case matchChars([eq("\\")], tok)
+    -- on backslash, move past backslash and escape char
+    getMultiStringChars(advance(advance(tok)))
+
+  case matchChars([eq("\""), eq("\""), eq("\"")], tok)
+    tok -- stop before taking closing quotes
+
+  else getMultiStringChars(advance(tok))
+}
+
+------------------------------------------------------------------------------
+-- Get chars inside string
+
 getStringChars(tok) = cond {
   case isEOF(tok)
     -- reached end of file before closing quote
@@ -278,7 +306,8 @@ checkOpSym(tok) =
 ------------------------------------------------------------------------------
 -- Throw TokenizerError
 
-tokError(tok, message) = throw TokenizerError(fullMessage)
+tokError(tok, message) =
+  throw TokenizerError(fullMessage)
   where fullMessage = format(
     "{}\nTokenizer Error:\n\n{}\n{}\n\n{}",
     [sep, message, sep, location.showLoc(tok.tokenLoc)]
@@ -347,18 +376,18 @@ convertSubExpr(pair) =
 ------------------------------------------------------------------------------
 
 getNeighborTruples(tokens) =
-  zipN([tokens, [None] ++ tokens, drop(1, tokens)])
+  zipN([tokens, [None] ++ tokens, drop(1, tokens) ++ [None]])
 
 ------------------------------------------------------------------------------
--- Special case: conver '-' to neg in 'a -b'
+-- Special case: convert '-' to neg in 'a -b'
 -- for examplem:
 --   array = [1 2 -3] 
 
 convertSubPadding(triple) =
-  if is(Sub, current) and is(Whitespace, last) and is(Number, next)
+  if is(Sub, current) and is(Whitespace, prev) and is(Number, next)
   then wrapObject(Neg, current)
   else current
-  where (current, last, next) = triple
+  where (current, prev, next) = triple
 
 ------------------------------------------------------------------------------
 
