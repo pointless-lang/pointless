@@ -139,4 +139,6 @@ export {
   readFileLines,
   toLower,
   toUpper,
+  apply,
+  composeAll,
 }
