@@ -7,11 +7,16 @@ output =
   |> map(showBeer)
   |> printLines
 
+beerFmt = """{} of beer on the wall!
+{} of beer!
+You take one down, pass it around
+{}"""
+
 showBeer(n) =
-  format("{} of beer on the wall!\n", [showBottle(n)]) +
-  format("{} of beer!\n", [showBottle(n)]) +
-  "You take one down, pass it around\n" +
-  nextBeer(n - 1)
+  format(
+    beerFmt,
+    [showBottle(n), showBottle(n), nextBeer(n - 1)]
+  )
 
 nextBeer(n) =
   if n == 0 then "No more bottles of beer on the wall!"
