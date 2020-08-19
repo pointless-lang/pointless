@@ -141,4 +141,5 @@ export {
   toUpper,
   apply,
   composeAll,
+  fromItems,
 }

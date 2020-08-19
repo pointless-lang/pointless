@@ -25,6 +25,15 @@ vals(dict) = dict.!getVals
 items(dict) = keys(dict) |> map(key => (key, dict[key])) 
 
 -------------------------------------------------------------------------------
+-- Make a dict from a list of (key, value) tuples pairs
+
+fromItems(pairs) =
+  reduce(addPair, {}, pairs) 
+
+addPair(result, pair) =
+  (result with $[key] = val) where (key, val) = pair
+
+-------------------------------------------------------------------------------
 -- Get value for a given key if present in dict, otherwise default
 
 getDefault(dict, default, key) =
