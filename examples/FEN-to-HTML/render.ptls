@@ -93,7 +93,7 @@ styles = """<style>
 
   .board {
     font-family: "merida";
-    font-size: 50px;
+    font-size: 40px;
     border: 1px solid #ccc;
     display: inline-block;
     padding: 3px;
