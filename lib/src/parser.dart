@@ -424,15 +424,7 @@ class Parser {
     List<ASTNode> defs = [];
 
     while (!isNext([Tok.RBracket])) {
-      if ( isNextMulti([Tok.Name, Tok.RBracket])
-        || isNextMulti([Tok.Name, Tok.Newline, Tok.Name])
-        || isNextMulti([Tok.Name, Tok.Semicolon])) {
-
-        defs.add(getName());
-
-      } else {
-        defs.add(getDef());
-      }
+      defs.add(getDef());
 
       if (isNext([Tok.RBracket])) {
         break;
