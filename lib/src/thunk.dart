@@ -29,8 +29,18 @@ class Thunk {
     if (value == null) {
       checkLock();
       lock = true;
-      value = func();
-      lock = false;
+      try {
+        value = func();
+
+      } catch(err) {
+        rethrow;
+
+      } finally {
+        // reset lock even in event of failure
+        // allows def to be re-evaulated when used in REPL
+        lock = false;
+      }
+
     }
     return value;
   }
