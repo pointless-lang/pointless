@@ -91,22 +91,14 @@ PtlsValue dispatch(Env env, ASTNode node, LinkedHashSet<Location> traceLocs) {
 
       case Node.Call:
         var func = evalCheck(env, node[0], [PtlsBuiltIn, PtlsFunc]);
-        var args = [for (var argNode in node[1]) eval(env, argNode)];
+        var arg = eval(env, node[1]);
 
         if (func is PtlsFunc) {
-          if (args.length + func.env.defs.length > func.params.length) {
-            var error = PtlsError("Type Error");
-            error.message = "Too many args (${args.length}) for '$func'";
-            throw error;
-          }
-
           var newEnv = func.env.clone();
 
-          for (var arg in args) {
-            var name = func.params[newEnv.defs.length];
-            var thunk = Thunk.fromValue(name, arg);
-            newEnv.addDefThunk(thunk);
-          }
+          var name = func.params[newEnv.defs.length];
+          var thunk = Thunk.fromValue(name, arg);
+          newEnv.addDefThunk(thunk);
 
           if (newEnv.defs.length < func.params.length) {
             return PtlsFunc(newEnv, func.params, func.body);
@@ -120,14 +112,7 @@ PtlsValue dispatch(Env env, ASTNode node, LinkedHashSet<Location> traceLocs) {
         }
 
         if (func is PtlsBuiltIn) {
-          if (args.length != 1) {
-            var error = PtlsError("Type Error");
-            error.message = "Invalid arg count ${args.length}";
-            error.message += " for built-in method ${func.signature}";
-            throw error;
-          }
-
-          return func.handler(args[0]);
+          return func.handler(arg);
         }
 
         throw false;

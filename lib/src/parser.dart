@@ -250,14 +250,14 @@ class Parser {
       var tuple = getTuple();
       var field = ASTNode(Node.Name, token.loc, ["!getWrapTuple"]);
       var ref = ASTNode(Node.FieldRef, token.loc, [label, field]);
-      return ASTNode(Node.Call, token.loc, [ref, [tuple]]);
+      return makeCall(ref, [tuple]);
     }
 
     if (isNext([Tok.LBracket])) {
       var object = getObject();
       var field = ASTNode(Node.Name, token.loc, ["!getWrapObject"]);
       var ref = ASTNode(Node.FieldRef, token.loc, [label, field]);
-      return ASTNode(Node.Call, token.loc, [ref, [object]]);
+      return makeCall(ref, [object]);
     }
 
     return label;
@@ -621,10 +621,20 @@ class Parser {
   // -------------------------------------------------------------------------
   // example: func(arg1, arg2, ...)
 
+  makeCall(func, args) {
+    var result = func;
+
+    for (var arg in args) {
+      result = ASTNode(Node.Call, arg.loc, [result, arg]);
+    }
+
+    return result;
+  }
+
   ASTNode getCall(ASTNode func) {
     var loc = peek([Tok.LParen]).loc;
     var args = getParenElements(getClause);
-    return ASTNode(Node.Call, loc, [func, args]);
+    return makeCall(func, args);
   }
 
   // -------------------------------------------------------------------------
@@ -719,7 +729,7 @@ class Parser {
       // desugar pipe as call
       if (token.tokType == Tok.Pipe) {
         var args = [lhs];
-        lhs = ASTNode(Node.Call, token.loc, [rhs, args]);
+        lhs = makeCall(rhs, args);
 
       } else {
         lhs = ASTNode(Node.BinaryOp, token.loc, [token.tokType, lhs, rhs]);
@@ -833,7 +843,7 @@ class Parser {
     var args = [func, iterable];
 
     var concatMap = ASTNode(Node.Name, loc, ["concatMap"]);
-    return ASTNode(Node.Call, loc, [concatMap, args]);
+    return makeCall(concatMap, args);
   }
 
   // -------------------------------------------------------------------------
