@@ -39,6 +39,12 @@ PtlsValue handleUnaryOp(env, Tok op, ASTNode operandNode) {
 
 // ---------------------------------------------------------------------------
 
+var limit = pow(2, 62);
+
+bool tooBig(num n) {
+  return n.abs() > limit;
+}
+
 PtlsValue handleBinaryOp(env, Tok op, ASTNode lhsNode, ASTNode rhsNode) {
 
   switch (op) {
@@ -139,6 +145,11 @@ PtlsValue handleBinaryOp(env, Tok op, ASTNode lhsNode, ASTNode rhsNode) {
 
       if (lhs is PtlsNumber) {
         PtlsNumber rhs = evalCheck(env, rhsNode, [PtlsNumber]);
+
+        if (tooBig(lhs.value.toDouble() + rhs.value.toDouble())) {
+          return PtlsNumber(lhs.value.toDouble() + rhs.value.toDouble());
+        }
+
         return PtlsNumber(lhs.value + rhs.value);
       }
 
@@ -151,6 +162,11 @@ PtlsValue handleBinaryOp(env, Tok op, ASTNode lhsNode, ASTNode rhsNode) {
     case Tok.Sub: {
       PtlsNumber lhs = evalCheck(env, lhsNode, [PtlsNumber]);
       PtlsNumber rhs = evalCheck(env, rhsNode, [PtlsNumber]);
+
+      if (tooBig(lhs.value.toDouble() - rhs.value.toDouble())) {
+        return PtlsNumber(lhs.value.toDouble() - rhs.value.toDouble());
+      }
+        
       return PtlsNumber(lhs.value - rhs.value);
     }
 
@@ -159,6 +175,11 @@ PtlsValue handleBinaryOp(env, Tok op, ASTNode lhsNode, ASTNode rhsNode) {
     case Tok.Mul: {
       PtlsNumber lhs = evalCheck(env, lhsNode, [PtlsNumber]);
       PtlsNumber rhs = evalCheck(env, rhsNode, [PtlsNumber]);
+
+      if (tooBig(lhs.value.toDouble() * rhs.value.toDouble())) {
+        return PtlsNumber(lhs.value.toDouble() * rhs.value.toDouble());
+      }
+
       return PtlsNumber(lhs.value * rhs.value);
     }
 
