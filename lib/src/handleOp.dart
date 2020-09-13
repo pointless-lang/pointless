@@ -146,8 +146,8 @@ PtlsValue handleBinaryOp(env, Tok op, ASTNode lhsNode, ASTNode rhsNode) {
       if (lhs is PtlsNumber) {
         PtlsNumber rhs = evalCheck(env, rhsNode, [PtlsNumber]);
 
-        if (tooBig(lhs.value.toDouble() + rhs.value.toDouble())) {
-          return PtlsNumber(lhs.value.toDouble() + rhs.value.toDouble());
+        if (tooBig(lhs.value.toDouble() + rhs.value)) {
+          return PtlsNumber(lhs.value.toDouble() + rhs.value);
         }
 
         return PtlsNumber(lhs.value + rhs.value);
@@ -163,8 +163,8 @@ PtlsValue handleBinaryOp(env, Tok op, ASTNode lhsNode, ASTNode rhsNode) {
       PtlsNumber lhs = evalCheck(env, lhsNode, [PtlsNumber]);
       PtlsNumber rhs = evalCheck(env, rhsNode, [PtlsNumber]);
 
-      if (tooBig(lhs.value.toDouble() - rhs.value.toDouble())) {
-        return PtlsNumber(lhs.value.toDouble() - rhs.value.toDouble());
+      if (tooBig(lhs.value.toDouble() - rhs.value)) {
+        return PtlsNumber(lhs.value.toDouble() - rhs.value);
       }
         
       return PtlsNumber(lhs.value - rhs.value);
@@ -176,8 +176,8 @@ PtlsValue handleBinaryOp(env, Tok op, ASTNode lhsNode, ASTNode rhsNode) {
       PtlsNumber lhs = evalCheck(env, lhsNode, [PtlsNumber]);
       PtlsNumber rhs = evalCheck(env, rhsNode, [PtlsNumber]);
 
-      if (tooBig(lhs.value.toDouble() * rhs.value.toDouble())) {
-        return PtlsNumber(lhs.value.toDouble() * rhs.value.toDouble());
+      if (tooBig(lhs.value.toDouble() * rhs.value)) {
+        return PtlsNumber(lhs.value.toDouble() * rhs.value);
       }
 
       return PtlsNumber(lhs.value * rhs.value);
@@ -209,6 +209,11 @@ PtlsValue handleBinaryOp(env, Tok op, ASTNode lhsNode, ASTNode rhsNode) {
     case Tok.Pow: {
       PtlsNumber lhs = evalCheck(env, lhsNode, [PtlsNumber]);
       PtlsNumber rhs = evalCheck(env, rhsNode, [PtlsNumber]);
+
+      if (tooBig(pow(lhs.value.toDouble(), rhs.value))) {
+        return PtlsNumber(pow(lhs.value.toDouble(), rhs.value));
+      }
+
       return PtlsNumber(pow(lhs.value, rhs.value));
     }
 
