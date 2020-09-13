@@ -472,13 +472,23 @@ class Parser {
   // get square-bracketed collection (list, 1D array, or 2D array)
 
   ASTNode getArrayLiteral() {
-    // '[]' parsed as empty list
-    if (isNextMulti([Tok.LArray, Tok.RArray])) {
+    // [] parsed as empty list
+    // use [ ] for empty array
+    
+    var oldIndex = index;
+    var loc = getNext([Tok.LArray]).loc;
+
+    if (isNextMulti([Tok.Whitespace, Tok.RArray], [])) {
+      getNext([Tok.Whitespace]);
+      getNext([Tok.RArray]);
+      return ASTNode(Node.Array, loc, [[]]);
+    }
+
+    if (isNextMulti([Tok.RArray])) {
+      index = oldIndex;
       return getList();
     }
 
-    int oldIndex = index;
-    getNext([Tok.LArray]);
     // this parse-then-restore strategy is theoretically infficient, 
     // but shouldn't matter in real-world cases
     getClause();
@@ -518,14 +528,28 @@ class Parser {
   // get curly-bracketed collection (map, set, or object)
 
   ASTNode getBracketLiteral() {
-    // empty brackets "{}" are an empty map
-    // use toSet([]) for empty set
+    // empty brackets {} are an empty map
+    // use {,} for empty set and {;} for empty object
+
     if (isNextMulti([Tok.LBracket, Tok.RBracket])) {
       return getDict();
     }
 
     int oldIndex = index;
-    getNext([Tok.LBracket]);
+    var loc = getNext([Tok.LBracket]).loc;
+
+    if (isNextMulti([Tok.Comma, Tok.RBracket], [])) {
+      getNext([Tok.Comma]);
+      getNext([Tok.RBracket]);
+      return ASTNode(Node.Set, loc, [[]]);
+    }
+
+    if (isNextMulti([Tok.Semicolon, Tok.RBracket], [])) {
+      getNext([Tok.Semicolon]);
+      getNext([Tok.RBracket]);
+      return ASTNode(Node.Object, loc, [[]]);
+    }
+
     getClause();
 
     if (isNext([Tok.Assign])) {
@@ -632,7 +656,6 @@ class Parser {
   }
 
   ASTNode getCall(ASTNode func) {
-    var loc = peek([Tok.LParen]).loc;
     var args = getParenElements(getClause);
     return makeCall(func, args);
   }
