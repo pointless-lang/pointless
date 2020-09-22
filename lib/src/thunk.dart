@@ -57,5 +57,5 @@ class Thunk {
 
   // -------------------------------------------------------------------------
 
-  String toString() => value?.toString() ?? "?";
+  String toString() => getValue().toString();
 }

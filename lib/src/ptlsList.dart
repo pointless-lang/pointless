@@ -110,19 +110,5 @@ class PtlsList extends PtlsValue {
 
   // -------------------------------------------------------------------------
 
-  String toString() {
-    dynamic list = this;
-    var memberStrs = <String>[];
-
-    while (list is PtlsList) {
-      memberStrs.add(list.headThunk.value?.toString() ?? "?");
-      list = list.tailThunk.value;
-    }
-
-    if (list == null) {
-      memberStrs.add("...");
-    }
-
-    return "[${memberStrs.join(", ")}]";
-  }
+  String toString() => "${toList()}";
 }

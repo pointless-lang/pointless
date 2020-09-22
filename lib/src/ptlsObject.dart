@@ -97,10 +97,15 @@ class PtlsObject extends PtlsValue {
   // -------------------------------------------------------------------------
 
   String toString() {
+    var defStr = [
+      for (var name in env.defs.keys)
+      "$name = ${env.defs[name].getValue()}"
+    ].join("; ");
+
     if (label == defaultLabel) {
-       return "${env.defs}";
+       return "{$defStr}";
     }
 
-   return "$label ${env.defs}";
+   return "$label {$defStr}";
   }
 }
