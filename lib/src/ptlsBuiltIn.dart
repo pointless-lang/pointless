@@ -1,6 +1,7 @@
 
 import "location.dart";
 import "ptlsLabel.dart";
+import "ptlsString.dart";
 import "ptlsValue.dart";
 
 // ---------------------------------------------------------------------------
@@ -19,6 +20,9 @@ class PtlsBuiltIn extends PtlsValue {
     switch (name) {
       case "!getType":
         return PtlsLabel("PtlsBuiltIn");
+
+      case "!getSignature":
+        return ptlsString(signature);
 
       default: super.getField(name, loc); // throws error
     }
