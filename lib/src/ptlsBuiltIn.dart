@@ -22,7 +22,7 @@ class PtlsBuiltIn extends PtlsValue {
         return PtlsLabel("PtlsBuiltIn");
 
       case "!getSignature":
-        return ptlsString(signature);
+        return PtlsString(signature);
 
       default: super.getField(name, loc); // throws error
     }

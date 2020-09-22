@@ -25,8 +25,8 @@ show(value) = cond {
   case is(PtlsArray, value)   showArray(value)
   case is(PtlsObject, value)  showObject(value)
   case is(PtlsTuple, value)   showTuple(value)
-  case is(PtlsFunc, value)    "PtlsFunc"
-  case is(PtlsBuiltIn, value) "PtlsBuiltIn"
+  case is(PtlsFunc, value)    showFunc(value)
+  case is(PtlsBuiltIn, value) showBuiltIn(value)
 }
 
 -------------------------------------------------------------------------------
@@ -78,3 +78,19 @@ showPairs(keyFunc, pairFmt, sep, dict) = "{" + pairStr + "}"
 -------------------------------------------------------------------------------
 
 reprPair(keyFunc, pair) = (keyFunc(a), repr(b)) where (a, b) = pair
+
+-------------------------------------------------------------------------------
+
+showFunc(value) =
+  if isEmpty(value.!getAppliedArgs)
+  then format("PtlsFunc({})", [paramStr])
+  else format("PtlsFunc({})({})", [argStr, paramStr])
+  where {
+    paramStr = value.!getParams |> join(", ")
+    argStr = value.!getAppliedArgs |> join(", ")
+  }
+
+-------------------------------------------------------------------------------
+
+showBuiltIn(value) =
+  format("PtlsBuiltIn({})", [value.!getSignature])

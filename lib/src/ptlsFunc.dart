@@ -60,7 +60,7 @@ class PtlsFunc extends PtlsValue {
   // -------------------------------------------------------------------------
 
   String toString() {
-    if (appliedParams.isEmpty) {
+    if (appliedArgs.isEmpty) {
       return "PtlsFunc(${newParams.join(", ")})";
 
     } else {
