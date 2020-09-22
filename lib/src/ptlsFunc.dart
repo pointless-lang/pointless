@@ -36,6 +36,21 @@ class PtlsFunc extends PtlsValue {
       case "!getType":
         return PtlsLabel("PtlsFunc");
 
+      case "!getParams":
+        return PtlsList.fromValues([
+          for (var param in newParams)
+          PtlsString(param)
+        ]);
+
+      case "!getAppliedParams":
+        return PtlsList.fromValues([
+          for (var param in appliedParams)
+          PtlsString(param)
+        ]);
+
+      case "!getAppliedArgs":
+        return PtlsList.fromValues(appliedArgs);
+
       default: super.getField(name, loc); // throws error
     }
 
