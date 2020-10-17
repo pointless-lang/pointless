@@ -211,9 +211,10 @@ hasPrefix(prefix, list) =
 -------------------------------------------------------------------------------
 -- Apply a function to each list element, make a list of the results
 
-map(func, list) =
+map(func, iterable) =
   if isEmpty(list) then []
   else [func(head(list))] ++ map(func, tail(list))
+  where list = toList(iterable)
 
 -------------------------------------------------------------------------------
 -- Apply a test to each list element, make new list of passing elements
