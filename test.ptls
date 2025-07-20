@@ -1,0 +1,12 @@
+print([rand.random()] * 10)
+
+-- fn foo()
+--   for x in range(10) do
+--     print(x)
+--     sleep(rand.random() * 1000)
+--   end
+-- end
+
+-- [foo, foo]
+--   | async.getFirst
+--   | print

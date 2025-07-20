@@ -196,7 +196,21 @@ export class Env {
         );
     }
 
-    // To Do: constrain * to literals for strings and lists, re-eval list elems
+    if (op === "*") {
+      switch (lhs.type) {
+        case "list":
+          const n = await this.eval(rhs);
+          checkType(n, "number");
+          checkWhole(n);
+          const values = [];
+
+          for (let i = 0; i < n; i++) {
+            values.push(...await this.evalEach(lhs.value));
+          }
+
+          return List(values);
+      }
+    }
 
     const a = await this.eval(lhs);
     const b = await this.eval(rhs);
@@ -222,18 +236,18 @@ export class Env {
 
         break;
       }
-      case "*": {
-        switch (getType(a)) {
-          case "string":
-            checkType(b, "number");
-            checkWhole(b);
-            return a.repeat(b);
-          case "list":
-            checkType(b, "number");
-            checkWhole(b);
-            return List(Repeat(a, b)).flatten(true);
-        }
-      }
+      // case "*": {
+      //   switch (getType(a)) {
+      //     case "string":
+      //       checkType(b, "number");
+      //       checkWhole(b);
+      //       return a.repeat(b);
+      //     case "list":
+      //       checkType(b, "number");
+      //       checkWhole(b);
+      //       return List(Repeat(a, b)).flatten(true);
+      //   }
+      // }
     }
 
     checkType(a, "number");
