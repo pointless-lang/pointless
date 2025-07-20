@@ -46,7 +46,10 @@ export class Env {
       env = env.parent;
     }
 
-    const entries = allDefs.toReversed().map(defs => [...defs]).flat();
+    const entries = allDefs
+      .toReversed()
+      .map((defs) => [...defs])
+      .flat();
     return new Env(undefined, new Map(entries));
   }
 
@@ -463,7 +466,7 @@ export class Env {
 
   evalFn(node) {
     const { name, params, body } = node.value;
-    
+
     // Anon functions have nam "fn"
     const parent = name === "fn" ? this.snapshot() : this;
 

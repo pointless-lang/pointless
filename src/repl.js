@@ -42,7 +42,7 @@ import { Panic } from "./panic.js";
 // > echo: 2
 // > echo: 3
 // > echo: 4
-// > 
+// >
 //
 // Instead of this result (what you'd get without async)
 //
