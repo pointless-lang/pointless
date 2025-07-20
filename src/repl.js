@@ -10,6 +10,8 @@ import { Panic } from "./panic.js";
 const env = std.spawn();
 
 export async function repl() {
+  // very silly default behavior from eslint here imo
+  // https://github.com/eslint/eslint/issues/5477
   // eslint-disable-next-line no-constant-condition
   while (true) {
     try {

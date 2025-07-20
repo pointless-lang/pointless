@@ -1,6 +1,4 @@
-import { Ref } from "../../src/ref.js";
 import { checkType } from "../../src/values.js";
-import { Panic } from "../../src/panic.js";
 import { List } from "immutable";
 
 export async function sleep(ms) {
