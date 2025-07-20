@@ -108,7 +108,7 @@ export function tokenize(path, source) {
   const tokens = [];
   let index = 0;
   // line and column are 1 indexed
-  let loc = new Loc(1, 1, path, source);
+  let loc = new Loc(1, 1, path, () => source);
 
   while (index < source.length) {
     // check rules in order

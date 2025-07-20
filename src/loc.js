@@ -1,15 +1,14 @@
 export class Loc {
-  constructor(line, column, path, source) {
+  constructor(line, column, path, getSource) {
     this.line = line;
     this.column = column;
     this.path = path;
-    // easiest to just store this instead of loading it later
-    // since some locs isn't coming from a file (repl input)
-    this.source = source;
+    // store as thunk instead of value for less cluttered logs
+    this.getSource = getSource;
   }
 
   show(context) {
-    const sourceLine = this.source.split("\n")[this.line - 1];
+    const sourceLine = this.getSource().split("\n")[this.line - 1];
     const pointer = " ".repeat(this.column - 1) + "^";
 
     const pos = this.path
@@ -35,7 +34,7 @@ export class Loc {
       }
     }
 
-    return new Loc(line, column, this.path, this.source);
+    return new Loc(line, column, this.path, this.getSource);
   }
 
   sameLine(other) {
