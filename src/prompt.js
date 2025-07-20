@@ -22,9 +22,11 @@ async function loadHistory() {
   }
 }
 
-const history = await loadHistory();
+let history;
 
 export async function getLine(message) {
+  history ??= await loadHistory();
+
   return new Promise((resolve, reject) => {
     let open = true;
 
