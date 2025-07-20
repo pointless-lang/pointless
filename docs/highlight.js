@@ -3,20 +3,19 @@ export function highlight(tokens) {
 }
 
 const stdMods = new Set([
-  "async",
-  "char",
-  "console",
-  "err",
-  "file",
-  "list",
-  "math",
-  "nada",
-  "num",
-  "obj",
-  "rand",
-  "re",
-  "ref",
-  "set",
+  "async", 
+  "char", 
+  "console", 
+  "err", 
+  "file", 
+  "list", 
+  "math", 
+  "nada", 
+  "obj", 
+  "rand", 
+  "re", 
+  "ref", 
+  "set", 
   "sh",
   "std",
   "str",
@@ -96,10 +95,6 @@ class Highlighter {
   has(...types) {
     for (let index = this.index; index < this.tokens.length; index++) {
       const token = this.tokens[index];
-
-      if (token.matches("endOfFile")) {
-        return types.includes(undefined);
-      }
 
       if (token.matches(...types)) {
         return true;
@@ -243,7 +238,7 @@ class Highlighter {
             "elif",
             "else",
             "end",
-            undefined,
+            "endOfFile",
           )
         ) {
           if (last.type === "name") {
