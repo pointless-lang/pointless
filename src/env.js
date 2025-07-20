@@ -30,6 +30,26 @@ export class Env {
     return new Env(this, defs);
   }
 
+  snapshot() {
+    // Make anon functions capture snapshot of parent env. This way they
+    // aren't self-referential and can be handled by simple reference
+    // counting. Named functions that can reference themselves can only
+    // be declared at top level not in loops or other functions. Not
+    // relavant now but important semantics for optimization later on.
+    // Also fixes issue of closing over loop variables in for loops.
+
+    const allDefs = [];
+    let env = this;
+
+    while (env) {
+      allDefs.push(env.defs);
+      env = env.parent;
+    }
+
+    const entries = allDefs.toReversed().map(defs => [...defs]).flat();
+    return new Env(undefined, new Map(entries));
+  }
+
   setBlame(loc) {
     this.blameLocs[this.blameLocs.length - 1] = loc;
   }
@@ -443,10 +463,13 @@ export class Env {
 
   evalFn(node) {
     const { name, params, body } = node.value;
+    
+    // Anon functions have nam "fn"
+    const parent = name === "fn" ? this.snapshot() : this;
 
     const handler = async (...args) => {
       const defs = new Map(params.map((param, index) => [param, args[index]]));
-      const env = this.spawn(defs);
+      const env = parent.spawn(defs);
 
       try {
         return await env.eval(body);
@@ -481,7 +504,11 @@ export class Env {
   }
 
   async evalFor(node) {
-    // TO DO: address loop closure scope issue
+    // for loops suffer from same issue as in JS where loop variable gets
+    // which has potential to give weird behavior with closures, but ptls
+    // anon functions will (eventually) capture snapshot of env not full
+    // closure which will make the issue irrelevant
+
     const { name, range: rangeNode, body } = node.value;
     let range = await this.eval(rangeNode, "list", "table", "object", "set");
 
@@ -501,7 +528,6 @@ export class Env {
   }
 
   async evalTandemFor(node) {
-    // TO DO: address loop closure scope issue
     const { keyName, valName, range: rangeNode, body } = node.value;
     let range = await this.eval(rangeNode, "list", "table", "object", "set");
 

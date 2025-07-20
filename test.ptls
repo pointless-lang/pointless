@@ -1,12 +1,31 @@
-print([rand.random()] * 10)
+x = 0
 
--- fn foo()
---   for x in range(10) do
---     print(x)
---     sleep(rand.random() * 1000)
---   end
--- end
+fn foo()
+  print(x)
+end
 
--- [foo, foo]
---   | async.getFirst
---   | print
+foo()
+
+x = 1
+
+foo()
+
+y = 0
+
+bar = fn() print(y) end
+
+bar()
+
+y = 1
+
+bar()
+
+fs = []
+
+for n in range(10) do
+  fs |= push(fn() print(n) end)
+end
+
+for f in fs do
+  f()
+end
