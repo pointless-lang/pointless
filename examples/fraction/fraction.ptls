@@ -1,0 +1,42 @@
+fn gcd(a, b)
+  while b != 0 do
+    tmp = b
+    b = a % b
+    a = tmp
+  end
+  a
+end
+
+fn new(n, d)
+  assert(num.isInt(n))
+  assert(num.isInt(d))
+  assert(d != 0)
+
+  factor = gcd(n, d)
+  n /= factor
+  d /= factor
+
+  { n, d }
+end
+
+fn show(fract)
+  "$fract.n/$fract.d"
+end
+
+fn value(fract)
+  fract.n / fract.d
+end
+
+fn add(a, b)
+  n = a.n * b.d + b.n * a.d
+  d = a.d * b.d
+  new(n, d)
+end
+
+fn mul(a, b)
+  n = a.n * b.n
+  d = a.d * b.d
+  new(n, d)
+end
+
+{ new, show, value, add, mul }

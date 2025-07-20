@@ -1,0 +1,40 @@
+games = import "csv:games.csv"
+
+fn getStats(group)
+  numGames = len(group)
+
+  wins = group
+    ? arg.scored > arg.allowed
+    | len
+
+  scored = sum(group.scored)
+  allowed = sum(group.allowed)
+
+  {
+    wins,
+    losses: numGames - wins,
+    winPct: roundTo(wins / numGames, 3),
+    scored,
+    scoredPG: roundTo(scored / numGames, 1),
+    allowed,
+    allowedPG: roundTo(allowed / numGames, 1),
+    diff: scored - allowed,
+  }
+end
+
+home = table.of({
+  team: games.homeTeam,
+  scored: games.homeScore,
+  allowed: games.awayScore,
+})
+
+away = table.of({
+  team: games.awayTeam,
+  scored: games.awayScore,
+  allowed: games.homeScore,
+})
+
+(home + away)
+  | table.summarize("team", getStats)
+  | sortDescBy("winPct")
+  | print

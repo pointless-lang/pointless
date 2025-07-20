@@ -1,0 +1,15 @@
+fn sort(nums)
+  if len(nums) <= 1 then
+    nums
+  else
+    pivot = nums[0]
+    left = nums ? arg < pivot
+    middle = nums ? arg == pivot
+    right = nums ? arg > pivot
+    sort(left) + middle + sort(right)
+  end
+end
+
+[3, 1, 4, 1, 5, 9, 2, 6, 5, 4]
+  | sort
+  | print

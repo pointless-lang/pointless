@@ -1,0 +1,15 @@
+coins = table.of({
+  name: ["Quarter", "Dime", "Nickle", "Penny"],
+  value: [25, 10, 5, 1],
+})
+
+cents = math.toNum(prompt("Enter cents: "))
+
+print("-" * 10)
+
+for coin in coins do
+  count = math.floor(cents / coin.value)
+  cents -= count * coin.value
+  plural = if count == 1 then "" else "s" end
+  print("$count $coin.name$plural")
+end

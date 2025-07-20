@@ -1,0 +1,12 @@
+fract = import "fraction.ptls"
+
+a = fract.new(5, 9)
+b = fract.new(3, 4)
+c = fract.new(1, 2)
+
+d = a
+  | fract.mul(b)
+  | fract.add(c)
+
+print(fract.show(d))
+print(d)

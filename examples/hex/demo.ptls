@@ -1,0 +1,13 @@
+hex = import "hex.ptls"
+
+0
+  | hex.toHex
+  | print
+
+1234
+  | hex.toHex
+  | print
+
+"2d4"
+  | hex.parse
+  | print

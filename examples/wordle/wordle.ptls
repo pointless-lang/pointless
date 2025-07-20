@@ -1,0 +1,41 @@
+words = set.of(import "lines:words.txt")
+
+answer = rand.sample(words)
+
+fn getScore(guess)
+  if not has(words, guess) then
+    return
+  end
+
+  score = chars("⬜⬜⬜⬜⬜")
+  counts = {}
+
+  for i in range(5) do
+    if guess[i] == answer[i] then
+      score[i] = "🟩"
+    else
+      counts |= obj.setDefault(answer[i], 0)
+      counts[answer[i]] += 1
+    end
+  end
+
+  for i in range(5) do
+    if
+      score[i] != "🟩" and
+      obj.getDefault(counts, guess[i], 0) > 0
+    then
+      score[i] = "🟨"
+      counts[guess[i]] -= 1
+    end
+  end
+
+  join(score, "")
+end
+
+while
+  guess = prompt("Enter a guess: ")
+  console.write("\u001b[1A\u001b[2K")
+  score = getScore(guess)
+  print("$guess $score")
+  score != "🟩🟩🟩🟩🟩"
+do end

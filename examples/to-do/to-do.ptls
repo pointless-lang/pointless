@@ -1,0 +1,31 @@
+fn showTask(task)
+  mark = if task.done then "x" else " " end
+  print("[$mark] $task.name")
+end
+
+fn app()
+  tasks = table.new(["name", "done"])
+
+  while true do
+    clear()
+    print("tasks:\n")
+    
+    tasks
+      | sortBy(["done", "name"])
+      $ showTask
+      
+    name = prompt("\ntask name: ")
+
+    if not has(tasks, { name }) then
+      tasks |= push({ name, done: false })
+
+    elif not tasks[{ name }].done then
+      tasks[{ name }].done = true
+
+    else
+      tasks |= remove({ name })
+    end
+  end
+end
+
+app()

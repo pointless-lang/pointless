@@ -1,0 +1,6 @@
+fn isPalindrome(word)
+  word == reverse(word)
+end
+
+print(isPalindrome("racecar"))
+print(isPalindrome("palindrome"))

@@ -1,0 +1,36 @@
+hexDigits = chars("0123456789abcdef")
+
+fn parse(string)
+  assert(len(string) > 0)
+
+  digits = string
+    | str.toLower
+    | reverse
+    | chars
+
+  result = 0
+
+  for digit in digits do
+    result *= 16
+    result += list.indexOf(hexDigits, digit)
+  end
+
+  result
+end
+
+fn toHex(n)
+  assert(n >= 0)
+  assert(num.isInt(n))
+
+  result = ""
+
+  while
+    result += hexDigits[n % 16]
+    n = math.floor(n / 16)
+    n > 0
+  do end
+
+  reverse(result)
+end
+
+{ parse, toHex }

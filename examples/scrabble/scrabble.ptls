@@ -1,0 +1,22 @@
+points = import "json:points.json"
+text = import "text:alice.txt"
+
+fn wordInfo(word)
+  score = word
+    | chars
+    $ points[arg]
+    | sum
+
+  { letter: word[0], word, score }
+end
+
+text
+  | split(" ")
+  | list.unique
+  $ wordInfo
+  | table.of
+  | groupBy("letter")
+  $ table.top("score", 1)
+  | table.merge
+  | sortBy("letter")
+  | print

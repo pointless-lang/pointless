@@ -1,0 +1,11 @@
+currentYear = math.toNum(prompt("current year: "))
+birthYear = math.toNum(prompt("your birth year: "))
+dogBirthYear = math.toNum(prompt("dog birth year: "))
+
+age = currentYear - birthYear
+dogAge = currentYear - dogBirthYear
+dogYearsAge = 7 * dogAge
+
+print("your age: $age")
+print("dog age: $dogAge")
+print("dog age (dog year): $dogYearsAge")

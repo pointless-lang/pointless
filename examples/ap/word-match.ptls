@@ -1,0 +1,16 @@
+-- https://apcentral.collegeboard.org/media/pdf/ap21-frq-computer-science-a.pdf
+
+fn scoreGuess(word, guess)
+  matches = 0
+
+  while word != "" do
+    matches += math.toNum(str.startsWith(word, guess))
+    word |= drop(1)
+  end
+
+  matches * len(guess) ** 2
+end
+
+"mississippi"
+  | scoreGuess("iss")
+  | print

@@ -1,0 +1,60 @@
+fn getMid(tile, next)
+  if next then
+    if tile then "│" else "┤" end
+  else
+    if tile then "├" else "┼" end
+  end
+end
+
+fn showBoard(board)
+  if isEmpty(board) then
+    return ""
+  end
+  
+  rows = ["", "", ""]
+
+  rows[0] += "┌"
+  rows[1] += getMid(true, board[0])
+  rows[2] += "└"
+
+  for index, tile in board do
+    if tile then
+      rows[0] += "─"
+      rows[1] += " "
+      rows[2] += "─"
+    else
+      rows[0] += "───"
+      rows[1] += "───"
+      rows[2] += "───"
+    end
+
+    if index < len(board) - 1 then
+      rows[0] += "┬"
+      rows[1] += getMid(tile, board[index + 1])
+      rows[2] += "┴"
+    end
+  end
+
+  rows[0] += "┐"
+  rows[1] += getMid(tile, true)
+  rows[2] += "┘"
+
+  rows
+    | join("\n")
+    | print
+end
+
+fn getTilings(width)
+  oldBoards = []
+  boards = [[]]
+
+  for width do
+    newBoards = (boards $ push(true)) + (oldBoards $ push(false))
+    oldBoards = boards
+    boards = newBoards
+  end
+
+  boards
+end
+
+getTilings(5) $ showBoard

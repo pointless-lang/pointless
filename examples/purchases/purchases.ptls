@@ -1,0 +1,19 @@
+-- https://www.sumsar.net/blog/pandas-feels-clunky-when-coming-from-r/
+
+purchases = import "csv:purchases.csv"
+
+fn calcTotal(group)
+  threshold = list.median(group.amount) * 10
+
+  total = group
+    ? arg.amount <= threshold
+    $ arg.amount - arg.discount
+    | sum
+
+  { total }
+end
+
+purchases
+  | table.summarize("country", calcTotal)
+  | sortDescBy("total")
+  | print

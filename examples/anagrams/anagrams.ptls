@@ -1,0 +1,18 @@
+fn getChars(word)
+  word
+    | chars
+    | sort
+    | join("")
+end
+
+groups = import "lines:unixdict.txt"
+  | list.groupBy(getChars)
+  | obj.values
+
+maxLen = groups
+  $ len
+  | max
+
+groups
+  ? len(arg) == maxLen
+  | print

@@ -1,0 +1,39 @@
+network = import "json:network.json"
+
+fn advance(state, network)
+  station = state.queue[0]
+  state.queue |= drop(1)
+
+  for child in network[station] do
+    if not has(state.paths, child) then
+      state.queue |= push(child)
+      state.paths[child] = push(state.paths[station], child)
+    end
+  end
+
+  state
+end
+
+fn route(network, src, dest)
+  state = {
+    queue: [src],
+    paths: { (src): [src] },
+  }
+
+  while state.queue[0] != dest do
+    state |= advance(network)
+  end
+
+  state.paths[dest]
+end
+
+fn showRoute(stations)
+  stations
+    $ "• $arg"
+    | join("\n│\n")
+end
+
+network
+  | route("jarry", "charlevoix")
+  | showRoute
+  | print

@@ -1,0 +1,11 @@
+cities = import "csv:pa-cities.csv"
+
+-- https://en.wikipedia.org/wiki/Benford%27s_law
+
+digitStats = cities.population
+  $ chars(str.of(arg))[0]
+  | list.counts
+
+digitStats.share $= roundTo(arg * 100, 1)
+
+print(digitStats)

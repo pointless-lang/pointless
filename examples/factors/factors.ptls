@@ -1,0 +1,17 @@
+fn factors(num)
+  div = 2
+  result = []
+
+  while num > 1 do
+    if num % div == 0 then
+      result |= push(div)
+      num /= div
+    else
+      div += 1
+    end
+  end
+
+  result
+end
+
+print(factors(60))

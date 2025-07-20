@@ -1,0 +1,60 @@
+-- maze adapted from https://rosettacode.org/wiki/Maze_generation#Lua
+
+maze = "
+███████████████
+█A█     █B█   █
+█ █ ███ █ ███ █
+█ █ █ █ █     █
+█ █ █ █ █████ █
+█   █ █     █ █
+█ ███ █████ █ █
+█     █       █
+███████████████
+"
+
+board = maze
+  | str.lines
+  $ chars
+
+print(board)
+
+fn update(board, r, c, marker)
+  board[r][c] = marker  
+  clear()
+
+  board
+    $ join("")
+    | join("\n")
+    | print
+
+  sleep(40)
+  board
+end
+
+fn solve(board, r, c)
+  cell = board[r][c]
+  
+  if cell == "▒" or cell == "█" then
+    return false
+  end
+  
+  board |= update(r, c, "▒")
+
+  if cell == "B" then
+    return true
+  end
+
+  if
+    solve(board, r - 1, c) or
+    solve(board, r + 1, c) or
+    solve(board, r, c + 1) or
+    solve(board, r, c - 1)
+  then
+    return true
+  end
+
+  update(board, r, c, " ")
+  false
+end
+
+solve(board, 1, 1)

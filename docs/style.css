@@ -1,0 +1,238 @@
+html {
+  padding: 10px;
+}
+
+main {
+  font-size: 16px;
+  font-family: ubuntu;
+  color: #333;
+  width: 800px;
+  margin: 0px auto;
+}
+
+p {
+  line-height: 25px;
+}
+
+a {
+  text-decoration: none;
+  color: #2868ff;
+}
+
+h1,
+h2,
+h3 {
+  break-after: avoid;
+
+  a {
+    color: #444;
+  }
+}
+
+h1 {
+  font-size: 26px;
+}
+
+h2 {
+  margin: 40px 0px 20px 0px;
+  font-size: 22px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+/* Has to come before pre so that pre code rule
+has higher precendence than blockquote code */
+
+blockquote {
+  display: flow-root; /* prevent child margin collapse */
+  padding: 0px 18px;
+  background-color: #ffe8cf;
+  margin: 24px 0px;
+  color: #222;
+
+  code {
+    background-color: #fffaf4;
+  }
+
+  h2 {
+    margin: 20px 0px;
+  }
+}
+
+pre {
+  padding: 10px 12px;
+  overflow: auto;
+  background-color: #eee;
+  border: 2px solid #d9d9d9;
+  color: #555;
+  white-space: pre-wrap;
+
+  &:has(code.ptls) {
+    background-color: #fff4e5;
+    border-color: #f0dbc0;
+  }
+
+  code {
+    background-color: transparent;
+    padding: 0px;
+    white-space: pre-wrap;
+  }
+}
+
+pre + .result {
+  margin-top: -6px;
+}
+
+.var-name {
+  font-size: 12px;
+  font-family: monospace;
+  color: #777;
+  font-weight: bold;
+  margin: -10px -10px -2px -10px;
+  padding: 10px;
+}
+
+pre,
+blockquote,
+table,
+.snippet {
+  break-inside: avoid;
+}
+
+p,
+pre {
+  margin: 18px 0px;
+}
+
+pre,
+code,
+blockquote {
+  border-radius: 3px;
+}
+
+code {
+  background-color: #ffead0;
+  padding: 1px 4px;
+  white-space: nowrap;
+}
+
+pre,
+code {
+  font-size: 14px;
+}
+
+li {
+  margin: 10px 0;
+}
+
+table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin: 0px auto;
+  background-color: white;
+  color: #333;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #eee;
+}
+
+th,
+td {
+  border: 2px solid #ddd;
+  padding: 5px 10px;
+}
+
+.ptls .call,
+.ptls .std {
+  color: #256bd7;
+}
+
+.ptls .string {
+  color: #557b00;
+}
+
+.ptls .comment {
+  color: #707070;
+}
+
+.ptls .keyword,
+.ptls .interpolated,
+.ptls .escape {
+  color: #9c55a6;
+}
+
+.ptls .function {
+  color: #008068;
+}
+
+.ptls .argument,
+.ptls .number {
+  color: #a85e00;
+}
+
+.ptls .operator,
+.ptls .constant {
+  color: #c1431c;
+}
+
+.std-def {
+  margin: 20px 0px;
+
+  h3 {
+    font-family: monospace;
+    font-size: 16px;
+    display: inline-block;
+    margin-bottom: 0px;
+  }
+
+  .contents {
+    margin-left: 20px;
+  }
+
+  .tag {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 2px 4px;
+    color: #555;
+    border-radius: 3px;
+
+    &[title="Global"] {
+      background-color: #ffc180;
+
+      &::before {
+        content: "G";
+      }
+    }
+
+    &[title="Overloaded"] {
+      background-color: #f1bff1;
+
+      &::before {
+        content: "O";
+      }
+    }
+
+    &[title="Constant"] {
+      background-color: #bfdaf1;
+
+      &::before {
+        content: "C";
+      }
+    }
+  }
+
+  .overload-link {
+    a {
+      font-family: monospace;
+    }
+  }
+}
+
+.overloads {
+  a {
+    font-family: monospace;
+  }
+}

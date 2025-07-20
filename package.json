@@ -1,0 +1,33 @@
+{
+  "name": "pointless",
+  "version": "0.2.0",
+  "type": "module",
+  "scripts": {
+    "fmt": "prettier --write --prose-wrap=always src std docs examples",
+    "lint": "eslint src std docs"
+  },
+  "devDependencies": {
+    "eslint": "8.57.0",
+    "prettier": "^3.4.2"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es2024": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "rules": {}
+  },
+  "dependencies": {
+    "command-line-args": "^6.0.1",
+    "csv-parse": "^5.6.0",
+    "immutable": "^4.3.7",
+    "lodash": "^4.17.21",
+    "marked": ">=15",
+    "marked-highlight": "^2.2.1",
+    "typescript": "^5.4.5"
+  }
+}

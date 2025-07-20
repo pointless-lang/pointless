@@ -1,0 +1,136 @@
+size = 10
+
+fn newGoal()
+  x = rand.range(size)
+  y = rand.range(size)
+  { x, y }
+end
+
+gameRef = ref.of({
+  size,
+  fps: 8,
+  playing: true,
+  growing: false,
+  head: { x: 1, y: 1 },
+  body: table.new(["x", "y"]),
+  goal: newGoal(),
+  score: 0,
+})
+
+deltaRef = ref.of({ x: 1, y: 0 })
+
+fn printBoard(board)
+  border = "──" * size
+
+  board
+    $ join("")
+    $ "│$arg│"
+    | join("\n")
+    | "┌$border┐\n$arg\n└$border┘"
+    | print
+end
+
+fn setBlock(board, loc, code)
+  board[loc.y][loc.x] = "\u001b[$(code)m██\u001b[0m"
+  board
+end
+
+fn render(game)
+  board = [["  "] * size] * size
+
+  board |= setBlock(game.goal, 31)
+
+  for loc in game.body do
+    board |= setBlock(loc, 34)
+  end
+
+  board |= setBlock(game.head, 32)
+
+  clear()
+  print("score: $game.score")
+  printBoard(board)
+end
+
+fn moveHead(game)
+  game.body |= push(game.head)
+
+  if not game.growing then
+    game.body |= drop(1)
+  end
+
+  game.growing = false
+
+  delta = ref.get(deltaRef)
+
+  game.head.x += delta.x
+  game.head.y += delta.y
+  game.head.x %= size
+  game.head.y %= size
+  
+  game
+end
+
+fn checkCollision(game)
+  if has(game.body, game.head) then
+    game.playing = false
+    console.pauseStdin()
+    render(game)
+  end
+
+  game
+end
+
+fn atGoal(game)
+  game.goal == game.head or has(game.body, game.goal)
+end
+
+fn checkGoal(game)
+  if atGoal(game) then
+    game.growing = true
+
+    while atGoal(game) do
+      game.goal = newGoal()
+    end
+
+    game.score += 1
+  end
+
+  game
+end
+
+fn getInput()
+  while true do
+    key = console.rawKey().name
+
+    delta =
+      if key == "left" then
+        { x: -1, y: 0 }
+      elif key == "right" then
+        { x: 1, y: 0 }
+      elif key == "up" then
+        { x: 0, y: -1 }
+      elif key == "down" then
+        { x: 0, y: 1 }
+      end
+     
+    ref.set(deltaRef, delta)
+  end
+end
+
+fn update()
+  while
+    game = ref.get(gameRef)
+    game.playing
+  do
+    game |= arg
+      | moveHead
+      | checkGoal
+      | checkCollision
+    
+    ref.set(gameRef, game)
+    render(game)
+    sleep(1000 / game.fps)
+  end
+end
+
+async.getFirst([getInput, update])

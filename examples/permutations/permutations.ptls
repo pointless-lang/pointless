@@ -1,0 +1,22 @@
+fn permutations(elems)
+  if elems == [] then 
+    [[]]
+  else
+    elems
+      $ subPermute(elems)
+      | list.merge
+  end
+end
+
+fn subPermute(elem, elems)
+  elems
+    ? arg != elem
+    | permutations
+    $ [elem] + arg
+end
+
+"tea"
+  | chars
+  | permutations
+  $ join("")
+  | print

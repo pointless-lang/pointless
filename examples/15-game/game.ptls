@@ -1,0 +1,72 @@
+fn update(board, key)
+  oldInd = list.indexOf(board, "")
+  r = math.floor(oldInd / 4)
+  c = oldInd % 4
+
+  if key == "left" then
+    c += 1
+  elif key == "right" then
+    c -= 1
+  elif key == "up" then
+    r += 1
+  elif key == "down" then
+    r -= 1
+  end
+
+  newInd = math.clamp(r, 0, 3) * 4 + math.clamp(c, 0, 3)
+  list.swap(board, oldInd, newInd)
+end
+
+fn makeBoard()
+  board = rand.shuffle(span(1, 15))
+  swaps = 0
+
+  for i in range(15) do
+    for j in range(i) do
+      swaps += math.toNum(board[i] < board[j])
+    end
+  end
+
+  if math.isEven(swaps) then
+    board |= list.swap(0, 1)
+  end
+
+  [""] + board
+end
+
+fn show(board)
+  template = "
+  ╭────┬────┬────┬────╮
+  │ .. │ .. │ .. │ .. │
+  ├────┼────┼────┼────┤
+  │ .. │ .. │ .. │ .. │
+  ├────┼────┼────┼────┤
+  │ .. │ .. │ .. │ .. │
+  ├────┼────┼────┼────┤
+  │ .. │ .. │ .. │ .. │
+  ╰────┴────┴────┴────╯
+  "
+
+  for cell in board do
+    padded = str.padLeft(cell, 2)
+    template |= str.replaceFirst("..", padded)
+  end
+
+  clear()
+  print(template)
+end
+
+solved = span(1, 15) + [""]
+
+fn play()
+  board = makeBoard()
+
+  while
+    show(board)
+    board != solved
+  do    
+    board |= update(console.rawKey().name)
+  end
+end
+
+play()

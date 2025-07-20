@@ -1,0 +1,22 @@
+fn sublists(elems, index)
+  if index == len(elems) then
+    [[]]
+  else
+    prefix = [elems[index]]
+    suffixes = sublists(elems, index + 1)
+    (suffixes $ prefix + arg) + suffixes
+  end
+end
+
+fn subsets(elems)
+  elems
+    | list.of
+    | sublists(0)
+    $ set.of
+end
+
+"abcd"
+  | chars
+  | set.of
+  | subsets
+  | print

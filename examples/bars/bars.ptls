@@ -1,0 +1,22 @@
+-- Given a list of integers each greater than zero, print a vertical bar chart
+-- where each number `n` is shown as a bottom-aligned column of `X` characters
+-- of height n.
+--
+-- For the numbers [1, 4, 2, 7, 3, 1] the output should be:
+--
+--    X
+--    X
+--    X
+--  X X
+--  X XX
+--  XXXX
+-- XXXXXX
+
+numbers = [1, 4, 2, 7, 3, 1]
+
+for threshold in span(max(numbers), 1) do
+  numbers
+    $ if arg >= threshold then "X" else " " end
+    | join("")
+    | print
+end

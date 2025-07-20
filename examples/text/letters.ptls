@@ -1,0 +1,7 @@
+import "text:avoid.txt"
+  | str.toLower
+  | chars
+  ? str.isAlpha
+  | list.counts
+  | sortBy("value")
+  | print

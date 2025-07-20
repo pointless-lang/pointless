@@ -1,0 +1,86 @@
+fn isMatch(word)
+  letters = word
+    | chars
+    | set.of
+
+  set.hasAll(alphabet, letters) and has(letters, required)
+end
+
+fn getScore(word)
+  if len(word) == 4 then
+    return 1
+  end
+
+  unique = word
+    | chars
+    | set.of
+    | len
+
+  if unique == 7 then
+    len(word) + 7
+  else
+    len(word)
+  end
+end
+
+while
+  alphabet = "abcdefghijklmnopqrstuvwxyz"
+    | chars
+    | rand.shuffle
+    | take(7)
+
+  required = alphabet[3]
+  alphabet |= set.of
+
+  answers = import "lines:words.txt"
+    ? len(arg) >= 4
+    ? isMatch
+    | set.of
+
+  maxScore = answers
+    | list.of
+    $ getScore
+    | sum
+
+  maxScore == 0
+do end
+
+guessed = set.empty
+score = 0
+
+while score < maxScore do
+  grid = "
+     . .
+    . . .
+     . .
+  "
+
+  for letter in alphabet do
+    grid |= str.replaceFirst(".", letter)
+  end
+
+  print(grid)
+
+  guessed
+    | list.of
+    | join(" ")
+    | print("Guessed: $arg")
+
+  print("Score: $score / $maxScore")
+  guess = prompt("Guess: ")
+
+  if guess == "" then
+    print(answers)
+  end
+
+  if not has(answers, guess) then
+    print("Invalid word")
+  elif has(guessed, guess) then
+    print("Already guessed")
+  else
+    guessed |= set.add(guess)
+    score += getScore(guess)
+  end
+
+  print("")
+end

@@ -1,0 +1,35 @@
+fn showRow(radius, sym, height)
+  padding = " " * (height - radius)
+  width = radius * 2 + 1
+  padding + sym * width + padding
+end
+
+fn showRows(tower, height)
+  numBlanks = height - len(tower) + 1
+  blanks = [showRow(0, "░", height)] * numBlanks
+
+  rows = tower
+    | reverse
+    $ showRow("▇", height)
+
+  blanks + rows
+end
+
+fn showTowers(towers, height)
+  sep = [" "] * (height + 1)
+  combined = sep
+
+  for tower in towers do
+    rows = showRows(tower, height)
+
+    for index, row in rows do
+      combined[index] += row + sep[index]
+    end
+  end
+
+  clear()
+  combined $ print
+  sleep(200)
+end
+
+showTowers

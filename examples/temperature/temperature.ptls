@@ -1,0 +1,4 @@
+prompt("Degrees C: ")
+  | math.toNum
+  | arg * 9 / 5 + 32
+  | print("Degrees F: $arg")

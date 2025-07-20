@@ -1,0 +1,55 @@
+cells = [
+  [1, 0, 1, 1, 1, 0, 0, 1],
+  [0, 1, 1, 1, 0, 0, 1, 0],
+  [1, 0, 1, 1, 0, 0, 0, 1],
+  [1, 1, 1, 0, 0, 1, 0, 0],
+  [1, 1, 0, 1, 1, 1, 0, 1],
+  [0, 0, 0, 1, 0, 0, 1, 0],
+  [0, 0, 1, 1, 1, 0, 1, 0],
+  [0, 0, 1, 0, 1, 0, 0, 0],
+]
+
+height = len(cells)
+width = len(cells[0])
+
+fn next(cells, r, c)
+  cell = cells[r][c]
+  nbrs = -cell
+
+  for dr in span(-1, 1) do
+    for dc in span(-1, 1) do
+      nbrs += cells[(r + dr) % height][(c + dc) % width]
+    end
+  end
+
+  math.toNum(nbrs == 3 or nbrs + cell == 3)
+end
+
+fn update(cells)
+  newCells = cells
+
+  for r in range(height) do
+    for c in range(width) do
+      newCells[r][c] = next(cells, r, c)
+    end
+  end
+
+  newCells
+end
+
+fn showRow(row)
+  row
+    $ if arg == 1 then "■ " else "  " end
+    | join("")
+end
+
+for 200 do
+  clear()
+  cells
+    $ showRow
+    | join("\n")
+    | print
+
+  sleep(20)
+  cells |= update
+end

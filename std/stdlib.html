@@ -1,0 +1,3928 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="../docs/style.css" />
+    <title>Standard Library</title>
+  </head>
+
+  <body>
+    <main>
+      <h2>
+        <a name="async" href="#async">async</a>
+      </h2>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="async.branch" href="#async.branch"
+              >async.branch(func)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="async.cancel" href="#async.cancel"
+              >async.cancel(ref)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="async.loop" href="#async.loop"
+              >async.loop(func)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="async.race" href="#async.race"
+              >async.race(funcs)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="async.sleep" href="#async.sleep"
+              >async.sleep(ms)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <h2>
+        <a name="char" href="#char">char</a>
+      </h2>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="char.of" href="#char.of">char.of(code)</a>
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Get a string containing the character with UTF-16 <code>code</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">char</span>.<span class="call">of</span>(<span class="number">65</span>)
+<span class="std">char</span>.<span class="call">of</span>(<span class="number">128578</span>)</code></pre>
+            <pre class="result" style=""><code>"A"
+"🙂"</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="char.span" href="#char.span"
+              >char.span(from, to)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Return the list of characters between <code>from</code> to
+            <code>to</code>, inclusive.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">char</span>.<span class="call">span</span>(<span class="string">&quot;a&quot;</span>, <span class="string">&quot;e&quot;</span>)
+<span class="std">char</span>.<span class="call">span</span>(<span class="string">&quot;α&quot;</span>, <span class="string">&quot;ε&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>["a", "b", "c", "d", "e"]
+["α", "β", "γ", "δ", "ε"]</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <h2>
+        <a name="console" href="#console">console</a>
+      </h2>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="console.clear" href="#console.clear"
+              >console.clear()</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="console.debug" href="#console.debug"
+              >console.debug(value)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a
+              class="def-name"
+              name="console.pauseStdin"
+              href="#console.pauseStdin"
+              >console.pauseStdin()</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="console.print" href="#console.print"
+              >console.print(value)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="console.prompt" href="#console.prompt"
+              >console.prompt(message)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="console.rawKey" href="#console.rawKey"
+              >console.rawKey()</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="console.warn" href="#console.warn"
+              >console.warn(value)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="console.write" href="#console.write"
+              >console.write(string)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <h2>
+        <a name="err" href="#err">err</a>
+      </h2>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="err.catch" href="#err.catch"
+              >err.catch(func, handler)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="err.throw" href="#err.throw"
+              >err.throw(value)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="err.assert" href="#err.assert"
+              >err.assert(predicate)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <h2>
+        <a name="file" href="#file">file</a>
+      </h2>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="file.read" href="#file.read"
+              >file.read(path)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="file.write" href="#file.write"
+              >file.write(path, value)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <h2>
+        <a name="list" href="#list">list</a>
+      </h2>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.all" href="#list.all"
+              >list.all(list)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.any" href="#list.any"
+              >list.any(list)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.average" href="#list.average"
+              >list.average(numbers)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.bottom" href="#list.bottom"
+              >list.bottom(list, count)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.chunks" href="#list.chunks"
+              >list.chunks(list, count)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.count" href="#list.count"
+              >list.count(list, value)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.counts" href="#list.counts"
+              >list.counts(list)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.drop" href="#list.drop"
+              >list.drop(list, count)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.drop">overloads.drop</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.dropLast" href="#list.dropLast"
+              >list.dropLast(list, count)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.dropLast">overloads.dropLast</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.filter" href="#list.filter"
+              >list.filter(list, condition)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.find" href="#list.find"
+              >list.find(list, condition)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.first" href="#list.first"
+              >list.first(list)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.get" href="#list.get"
+              >list.get(list, index)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.groupBy" href="#list.groupBy"
+              >list.groupBy(list, func)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.has" href="#list.has"
+              >list.has(list, value)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.has">overloads.has</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.hasAll" href="#list.hasAll"
+              >list.hasAll(list, values)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.indexOf" href="#list.indexOf"
+              >list.indexOf(list, value)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.isEmpty" href="#list.isEmpty"
+              >list.isEmpty(list)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.isEmpty">overloads.isEmpty</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.last" href="#list.last"
+              >list.last(list)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.len" href="#list.len"
+              >list.len(list)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.len">overloads.len</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.map" href="#list.map"
+              >list.map(list, func)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.max" href="#list.max"
+              >list.max(numbers)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.median" href="#list.median"
+              >list.median(numbers)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.merge" href="#list.merge"
+              >list.merge(lists)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.min" href="#list.min"
+              >list.min(numbers)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.normalize" href="#list.normalize"
+              >list.normalize(numbers)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.of" href="#list.of"
+              >list.of(values)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.percents" href="#list.percents"
+              >list.percents(numbers)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.pop" href="#list.pop"
+              >list.pop(list)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.pop">overloads.pop</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.push" href="#list.push"
+              >list.push(list, value)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.push">overloads.push</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.put" href="#list.put"
+              >list.put(value, list, index)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.range" href="#list.range"
+              >list.range(limit)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.remove" href="#list.remove"
+              >list.remove(list, value)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.remove">overloads.remove</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.removeAll" href="#list.removeAll"
+              >list.removeAll(list, values)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.repeat" href="#list.repeat"
+              >list.repeat(value, count)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.reverse" href="#list.reverse"
+              >list.reverse(list)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.reverse">overloads.reverse</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.set" href="#list.set"
+              >list.set(list, index, value)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.sort" href="#list.sort"
+              >list.sort(list)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.sortBy" href="#list.sortBy"
+              >list.sortBy(list, ranker)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.sortBy">overloads.sortBy</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.sortDesc" href="#list.sortDesc"
+              >list.sortDesc(list)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.sortDescBy" href="#list.sortDescBy"
+              >list.sortDescBy(list, ranker)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in
+            <a href="#overloads.sortDescBy">overloads.sortDescBy</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.span" href="#list.span"
+              >list.span(from, to)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.sum" href="#list.sum"
+              >list.sum(numbers)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.swap" href="#list.swap"
+              >list.swap(list, indexA, indexB)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.take" href="#list.take"
+              >list.take(list, count)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.take">overloads.take</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.takeLast" href="#list.takeLast"
+              >list.takeLast(list, count)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.takeLast">overloads.takeLast</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.top" href="#list.top"
+              >list.top(list, count)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="list.unique" href="#list.unique"
+              >list.unique(list)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <h2>
+        <a name="math" href="#math">math</a>
+      </h2>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.abs" href="#math.abs">math.abs(n)</a>
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Return the absolute value of <code>n</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">abs</span>(<span class="operator">-</span><span class="number">10</span>)
+<span class="std">math</span>.<span class="call">abs</span>(<span class="number">10</span>)</code></pre>
+            <pre class="result" style=""><code>10
+10</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.acos" href="#math.acos"
+              >math.acos(n)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Return the arccosine (inverse cosine) of <code>n</code>, in radians.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">acos</span>(<span class="number">1</span>)
+<span class="std">math</span>.<span class="call">acos</span>(<span class="number">0</span>)</code></pre>
+            <pre class="result" style=""><code>0
+1.5707963267948966</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.asin" href="#math.asin"
+              >math.asin(n)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Return the arcsine (inverse sine) of <code>n</code>, in radians.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">asin</span>(<span class="number">1</span>)
+<span class="std">math</span>.<span class="call">asin</span>(<span class="number">0</span>)</code></pre>
+            <pre class="result" style=""><code>1.5707963267948966
+0</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.atan" href="#math.atan"
+              >math.atan(n)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Return the arctangent (inverse tangent) of <code>n</code>, in
+            radians.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">atan</span>(<span class="number">1</span>)
+<span class="std">math</span>.<span class="call">atan</span>(<span class="number">0</span>)</code></pre>
+            <pre class="result" style=""><code>0.7853981633974483
+0</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.atan2" href="#math.atan2"
+              >math.atan2(y, x)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Return the arctangent (inverse tangent) of <code>y / x</code>, using
+            the signs to determine the correct quadrant.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">atan2</span>(<span class="number">1</span>, <span class="number">1</span>)
+<span class="std">math</span>.<span class="call">atan2</span>(<span class="number">1</span>, <span class="operator">-</span><span class="number">1</span>)</code></pre>
+            <pre class="result" style=""><code>0.7853981633974483
+2.356194490192345</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.ceil" href="#math.ceil"
+              >math.ceil(n)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Round <code>n</code> up to the nearest integer.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">ceil</span>(<span class="number">1.5</span>)</code></pre>
+            <pre class="result" style=""><code>2</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.clamp" href="#math.clamp"
+              >math.clamp(n, min, max)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Clamp <code>n</code> within the range <code>min</code> and
+            <code>max</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">clamp</span>(<span class="number">17</span>, <span class="number">10</span>, <span class="number">20</span>)
+<span class="std">math</span>.<span class="call">clamp</span>(<span class="number">21</span>, <span class="number">10</span>, <span class="number">20</span>)
+<span class="std">math</span>.<span class="call">clamp</span>(<span class="number">9</span>, <span class="number">10</span>, <span class="number">20</span>)</code></pre>
+            <pre class="result" style=""><code>17
+20
+10</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.cos" href="#math.cos">math.cos(n)</a>
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Return the cosine of <code>n</code> radians.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">cos</span>(<span class="std">math</span>.pi <span class="operator">/</span> <span class="number">3</span>)</code></pre>
+            <pre class="result" style=""><code>0.5000000000000001</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3><a class="def-name" name="math.e" href="#math.e">math.e</a></h3>
+          <span class="tag" title="Constant"></span>
+        </div>
+
+        <div class="contents">
+          <div class="snippet">
+            <pre class="result" style=""><code>2.718281828459045</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.floor" href="#math.floor"
+              >math.floor(n)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Round <code>n</code> down to the nearest integer.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">floor</span>(<span class="number">1.5</span>)</code></pre>
+            <pre class="result" style=""><code>1</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.inf" href="#math.inf">math.inf</a>
+          </h3>
+          <span class="tag" title="Constant"></span>
+        </div>
+
+        <div class="contents">
+          <div class="snippet">
+            <pre class="result" style=""><code>math.inf</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.isEven" href="#math.isEven"
+              >math.isEven(n)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Check whether an integer <code>n</code> is even.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">isEven</span>(<span class="operator">-</span><span class="number">6</span>)
+<span class="std">math</span>.<span class="call">isEven</span>(<span class="operator">-</span><span class="number">7</span>)</code></pre>
+            <pre class="result" style=""><code>true
+false</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.isInt" href="#math.isInt"
+              >math.isInt(n)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Check whether <code>n</code> is a whole number.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">isInt</span>(<span class="number">42</span>)
+<span class="std">math</span>.<span class="call">isInt</span>(<span class="number">3.14</span>)</code></pre>
+            <pre class="result" style=""><code>true
+false</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.isOdd" href="#math.isOdd"
+              >math.isOdd(n)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Check whether an integer <code>n</code> is odd.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">isOdd</span>(<span class="operator">-</span><span class="number">6</span>)
+<span class="std">math</span>.<span class="call">isOdd</span>(<span class="operator">-</span><span class="number">7</span>)</code></pre>
+            <pre class="result" style=""><code>false
+true</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.ln" href="#math.ln">math.ln(n)</a>
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Return the natural logarithm (base e) of <code>n</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">ln</span>(<span class="std">math</span>.e <span class="operator">**</span> <span class="number">5</span>)</code></pre>
+            <pre class="result" style=""><code>5</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.log10" href="#math.log10"
+              >math.log10(n)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Return the base-10 logarithm of <code>n</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">log10</span>(<span class="number">100</span>)</code></pre>
+            <pre class="result" style=""><code>2</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.log2" href="#math.log2"
+              >math.log2(n)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Return the base-2 logarithm of <code>n</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">log2</span>(<span class="number">256</span>)</code></pre>
+            <pre class="result" style=""><code>8</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.logBase" href="#math.logBase"
+              >math.logBase(a, b)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Return the logarithm of <code>a</code> with base <code>b</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">logBase</span>(<span class="number">625</span>, <span class="number">5</span>)</code></pre>
+            <pre class="result" style=""><code>4</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.max" href="#math.max"
+              >math.max(a, b)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Return the maximum of <code>a</code> and <code>b</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">max</span>(<span class="number">7</span>, <span class="operator">-</span><span class="number">17</span>)</code></pre>
+            <pre class="result" style=""><code>7</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.min" href="#math.min"
+              >math.min(a, b)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Return the minimum of <code>a</code> and <code>b</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">min</span>(<span class="number">7</span>, <span class="operator">-</span><span class="number">17</span>)</code></pre>
+            <pre class="result" style=""><code>-17</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.nan" href="#math.nan">math.nan</a>
+          </h3>
+          <span class="tag" title="Constant"></span>
+        </div>
+
+        <div class="contents">
+          <div class="snippet">
+            <pre class="result" style=""><code>math.nan</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.pi" href="#math.pi">math.pi</a>
+          </h3>
+          <span class="tag" title="Constant"></span>
+        </div>
+
+        <div class="contents">
+          <div class="snippet">
+            <pre class="result" style=""><code>3.141592653589793</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.round" href="#math.round"
+              >math.round(n)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents">
+          <p>
+            Round <code>n</code> to the nearest integer using
+            <a
+              href="https://en.wikipedia.org/wiki/Rounding#Rounding_half_to_even"
+              >banker&#39;s rounding</a
+            >.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">round</span>(<span class="number">3.14</span>)
+<span class="std">math</span>.<span class="call">round</span>(<span class="number">2.5</span>)
+<span class="std">math</span>.<span class="call">round</span>(<span class="number">3.5</span>)</code></pre>
+            <pre class="result" style=""><code>3
+2
+4</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.roundTo" href="#math.roundTo"
+              >math.roundTo(n, decimals)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents">
+          <p>
+            Round <code>n</code> to the <code>decimals</code> places. If
+            <code>decimals</code> is negative then rounding is done to the
+            corresponding power of <code>10</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">roundTo</span>(<span class="number">17.45</span>, <span class="number">1</span>)
+<span class="std">math</span>.<span class="call">roundTo</span>(<span class="number">17.45</span>, <span class="operator">-</span><span class="number">1</span>)</code></pre>
+            <pre class="result" style=""><code>17.5
+20</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.sign" href="#math.sign"
+              >math.sign(n)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Return the sign of <code>n</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">sign</span>(<span class="number">7.5</span>)
+<span class="std">math</span>.<span class="call">sign</span>(<span class="operator">-</span><span class="number">7.5</span>)
+<span class="std">math</span>.<span class="call">sign</span>(<span class="number">0</span>)</code></pre>
+            <pre class="result" style=""><code>1
+-1
+0</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.sin" href="#math.sin">math.sin(n)</a>
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Return the cosine of <code>n</code> radians.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">sin</span>(<span class="std">math</span>.pi <span class="operator">/</span> <span class="number">6</span>)</code></pre>
+            <pre class="result" style=""><code>0.49999999999999994</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.sqrt" href="#math.sqrt"
+              >math.sqrt(n)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Return the square root of a positive number <code>n</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">sqrt</span>(<span class="number">2</span>)</code></pre>
+            <pre class="result" style=""><code>1.4142135623730951</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.tan" href="#math.tan">math.tan(n)</a>
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Return the tangent of <code>n</code> (in radians).</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">tan</span>(<span class="std">math</span>.pi <span class="operator">/</span> <span class="number">3</span>)</code></pre>
+            <pre class="result" style=""><code>1.7320508075688767</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.toDegrees" href="#math.toDegrees"
+              >math.toDegrees(radians)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Convert <code>radians</code> to degrees.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">toDegrees</span>(<span class="std">math</span>.pi <span class="operator">/</span> <span class="number">2</span>)</code></pre>
+            <pre class="result" style=""><code>90</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.toNum" href="#math.toNum"
+              >math.toNum(value)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Convert <code>value</code> to a number, where <code>value</code> is
+            a string or boolean.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">toNum</span>(<span class="string">&quot;45.67&quot;</span>)
+<span class="std">math</span>.<span class="call">toNum</span>(<span class="constant">true</span>)
+<span class="std">math</span>.<span class="call">toNum</span>(<span class="constant">false</span>)</code></pre>
+            <pre class="result" style=""><code>45.67
+1
+0</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="math.toRadians" href="#math.toRadians"
+              >math.toRadians(degrees)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Convert <code>degrees</code> to radians.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">toRadians</span>(<span class="number">90</span>)</code></pre>
+            <pre class="result" style=""><code>1.5707963267948966</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <h2>
+        <a name="nada" href="#nada">nada</a>
+      </h2>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="nada.orElse" href="#nada.orElse"
+              >nada.orElse(value, default)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Return <code>default</code> if <code>value</code> is
+            <code>none</code>, otherwise return <code>value</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">nada</span>.<span class="call">orElse</span>(<span class="string">&quot;pdf&quot;</span>, <span class="string">&quot;txt&quot;</span>)
+<span class="std">nada</span>.<span class="call">orElse</span>(<span class="constant">none</span>, <span class="string">&quot;txt&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>"pdf"
+"txt"</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <h2>
+        <a name="obj" href="#obj">obj</a>
+      </h2>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="obj.focus" href="#obj.focus"
+              >obj.focus(object, keys)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="obj.get" href="#obj.get"
+              >obj.get(object, key)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="obj.getDefault" href="#obj.getDefault"
+              >obj.getDefault(object, key, default)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="obj.has" href="#obj.has"
+              >obj.has(object, key)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.has">overloads.has</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="obj.isEmpty" href="#obj.isEmpty"
+              >obj.isEmpty(object)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.isEmpty">overloads.isEmpty</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="obj.keys" href="#obj.keys"
+              >obj.keys(object)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="obj.len" href="#obj.len"
+              >obj.len(object)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.len">overloads.len</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="obj.matches" href="#obj.matches"
+              >obj.matches(object, matcher)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="obj.merge" href="#obj.merge"
+              >obj.merge(objects)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="obj.put" href="#obj.put"
+              >obj.put(value, object, key)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="obj.remove" href="#obj.remove"
+              >obj.remove(object, key)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.remove">overloads.remove</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="obj.removeAll" href="#obj.removeAll"
+              >obj.removeAll(object, keys)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="obj.rename" href="#obj.rename"
+              >obj.rename(object, old, new)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="obj.select" href="#obj.select"
+              >obj.select(object, keys)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.select">overloads.select</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="obj.set" href="#obj.set"
+              >obj.set(object, key, value)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="obj.setDefault" href="#obj.setDefault"
+              >obj.setDefault(object, key, value)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="obj.values" href="#obj.values"
+              >obj.values(object)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <h2>
+        <a name="overloads" href="#overloads">overloads</a>
+      </h2>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="overloads.drop" href="#overloads.drop"
+              >overloads.drop(values, count)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents">
+          <p>Overload of:</p>
+          <ul class="overloads">
+            <li><a href="#list.drop">list.drop(list, count)</a></li>
+            <li><a href="#str.drop">str.drop(string, count)</a></li>
+            <li><a href="#table.drop">table.drop(table, count)</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a
+              class="def-name"
+              name="overloads.dropLast"
+              href="#overloads.dropLast"
+              >overloads.dropLast(values, count)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents">
+          <p>Overload of:</p>
+          <ul class="overloads">
+            <li><a href="#list.dropLast">list.dropLast(list, count)</a></li>
+            <li><a href="#str.dropLast">str.dropLast(string, count)</a></li>
+            <li><a href="#table.dropLast">table.dropLast(table, count)</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="overloads.has" href="#overloads.has"
+              >overloads.has(value, elem)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents">
+          <p>Overload of:</p>
+          <ul class="overloads">
+            <li><a href="#list.has">list.has(list, value)</a></li>
+            <li><a href="#obj.has">obj.has(object, key)</a></li>
+            <li><a href="#set.has">set.has(set, value)</a></li>
+            <li><a href="#table.has">table.has(table, selector)</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a
+              class="def-name"
+              name="overloads.isEmpty"
+              href="#overloads.isEmpty"
+              >overloads.isEmpty(values)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents">
+          <p>Overload of:</p>
+          <ul class="overloads">
+            <li><a href="#list.isEmpty">list.isEmpty(list)</a></li>
+            <li><a href="#obj.isEmpty">obj.isEmpty(object)</a></li>
+            <li><a href="#set.isEmpty">set.isEmpty(set)</a></li>
+            <li><a href="#str.isEmpty">str.isEmpty(string)</a></li>
+            <li><a href="#table.isEmpty">table.isEmpty(table)</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="overloads.len" href="#overloads.len"
+              >overloads.len(values)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents">
+          <p>Overload of:</p>
+          <ul class="overloads">
+            <li><a href="#list.len">list.len(list)</a></li>
+            <li><a href="#obj.len">obj.len(object)</a></li>
+            <li><a href="#set.len">set.len(set)</a></li>
+            <li><a href="#str.len">str.len(string)</a></li>
+            <li><a href="#table.len">table.len(table)</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="overloads.pop" href="#overloads.pop"
+              >overloads.pop(values)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents">
+          <p>Overload of:</p>
+          <ul class="overloads">
+            <li><a href="#list.pop">list.pop(list)</a></li>
+            <li><a href="#table.pop">table.pop(table)</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="overloads.push" href="#overloads.push"
+              >overloads.push(values, item)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents">
+          <p>Overload of:</p>
+          <ul class="overloads">
+            <li><a href="#list.push">list.push(list, value)</a></li>
+            <li><a href="#table.push">table.push(table, row)</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="overloads.remove" href="#overloads.remove"
+              >overloads.remove(values, elem)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents">
+          <p>Overload of:</p>
+          <ul class="overloads">
+            <li><a href="#list.remove">list.remove(list, value)</a></li>
+            <li><a href="#obj.remove">obj.remove(object, key)</a></li>
+            <li><a href="#set.remove">set.remove(set, value)</a></li>
+            <li><a href="#table.remove">table.remove(table, selector)</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a
+              class="def-name"
+              name="overloads.reverse"
+              href="#overloads.reverse"
+              >overloads.reverse(values)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents">
+          <p>Overload of:</p>
+          <ul class="overloads">
+            <li><a href="#list.reverse">list.reverse(list)</a></li>
+            <li><a href="#str.reverse">str.reverse(string)</a></li>
+            <li><a href="#table.reverse">table.reverse(table)</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="overloads.select" href="#overloads.select"
+              >overloads.select(collection, keys)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents">
+          <p>Overload of:</p>
+          <ul class="overloads">
+            <li><a href="#obj.select">obj.select(object, keys)</a></li>
+            <li><a href="#table.select">table.select(table, keys)</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="overloads.sortBy" href="#overloads.sortBy"
+              >overloads.sortBy(values, ranker)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents">
+          <p>Overload of:</p>
+          <ul class="overloads">
+            <li><a href="#list.sortBy">list.sortBy(list, ranker)</a></li>
+            <li><a href="#table.sortBy">table.sortBy(table, keys)</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a
+              class="def-name"
+              name="overloads.sortDescBy"
+              href="#overloads.sortDescBy"
+              >overloads.sortDescBy(values, ranker)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents">
+          <p>Overload of:</p>
+          <ul class="overloads">
+            <li>
+              <a href="#list.sortDescBy">list.sortDescBy(list, ranker)</a>
+            </li>
+            <li>
+              <a href="#table.sortDescBy">table.sortDescBy(table, keys)</a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="overloads.take" href="#overloads.take"
+              >overloads.take(values, count)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents">
+          <p>Overload of:</p>
+          <ul class="overloads">
+            <li><a href="#list.take">list.take(list, count)</a></li>
+            <li><a href="#str.take">str.take(string, count)</a></li>
+            <li><a href="#table.take">table.take(table, count)</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a
+              class="def-name"
+              name="overloads.takeLast"
+              href="#overloads.takeLast"
+              >overloads.takeLast(values, count)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents">
+          <p>Overload of:</p>
+          <ul class="overloads">
+            <li><a href="#list.takeLast">list.takeLast(list, count)</a></li>
+            <li><a href="#str.takeLast">str.takeLast(string, count)</a></li>
+            <li><a href="#table.takeLast">table.takeLast(table, count)</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <h2>
+        <a name="rand" href="#rand">rand</a>
+      </h2>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="rand.random" href="#rand.random"
+              >rand.random()</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Get a random fractional number between <code>0</code> and
+            <code>1</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">rand</span>.<span class="call">random</span>()</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="rand.range" href="#rand.range"
+              >rand.range(limit)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Return a random integer between <code>0</code> and
+            <code>limit - 1</code>, inclusive.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">rand</span>.<span class="call">range</span>(<span class="number">10</span>)</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="rand.sample" href="#rand.sample"
+              >rand.sample(values)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Return a random element from <code>values</code>, where
+            <code>values</code> is a list, table, or set.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">rand</span>.<span class="call">sample</span>([<span class="string">&quot;hearts&quot;</span>, <span class="string">&quot;diamonds&quot;</span>, <span class="string">&quot;clubs&quot;</span>, <span class="string">&quot;spades&quot;</span>])</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="rand.shuffle" href="#rand.shuffle"
+              >rand.shuffle(values)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Shuffles <code>values</code>, where values is a list or table.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">rand</span>.<span class="call">shuffle</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="rand.span" href="#rand.span"
+              >rand.span(from, to)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Return a random integer between <code>from</code> and
+            <code>to</code>, inclusive.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">rand</span>.<span class="call">span</span>(<span class="number">1</span>, <span class="number">10</span>)</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <h2>
+        <a name="re" href="#re">re</a>
+      </h2>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="re.escape" href="#re.escape"
+              >re.escape(chars)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="re.match" href="#re.match"
+              >re.match(string, pattern)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="re.replace" href="#re.replace"
+              >re.replace(string, pattern, replacement)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="re.replaceBy" href="#re.replaceBy"
+              >re.replaceBy(string, pattern, replacer)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="re.split" href="#re.split"
+              >re.split(string, pattern)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="re.test" href="#re.test"
+              >re.test(string, pattern)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <h2>
+        <a name="ref" href="#ref">ref</a>
+      </h2>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="ref.get" href="#ref.get">ref.get(ref)</a>
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="ref.of" href="#ref.of">ref.of(value)</a>
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="ref.put" href="#ref.put"
+              >ref.put(value, ref)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="ref.set" href="#ref.set"
+              >ref.set(ref, value)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <h2>
+        <a name="set" href="#set">set</a>
+      </h2>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="set.add" href="#set.add"
+              >set.add(set, value)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="set.empty" href="#set.empty">set.empty</a>
+          </h3>
+          <span class="tag" title="Constant"></span>
+        </div>
+
+        <div class="contents">
+          <div class="snippet">
+            <pre class="result" style=""><code>set.of([])</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="set.has" href="#set.has"
+              >set.has(set, value)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.has">overloads.has</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="set.hasAll" href="#set.hasAll"
+              >set.hasAll(set, values)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="set.intersection" href="#set.intersection"
+              >set.intersection(set, values)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="set.isEmpty" href="#set.isEmpty"
+              >set.isEmpty(set)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.isEmpty">overloads.isEmpty</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="set.len" href="#set.len">set.len(set)</a>
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.len">overloads.len</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="set.merge" href="#set.merge"
+              >set.merge(set, values)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="set.of" href="#set.of">set.of(values)</a>
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="set.powerset" href="#set.powerset"
+              >set.powerset(set)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="set.remove" href="#set.remove"
+              >set.remove(set, value)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.remove">overloads.remove</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="set.removeAll" href="#set.removeAll"
+              >set.removeAll(set, values)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <h2>
+        <a name="sh" href="#sh">sh</a>
+      </h2>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="sh.ls" href="#sh.ls">sh.ls(path)</a>
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <h2>
+        <a name="str" href="#str">str</a>
+      </h2>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.chars" href="#str.chars"
+              >str.chars(string)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents">
+          <p>
+            Split <code>string</code> into a list of single-character strings.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">len</span>(<span class="string">&quot;&quot;</span>)
+<span class="call">chars</span>(<span class="string">&quot;Hello World!&quot;</span>)
+<span class="call">chars</span>(<span class="string">&quot;🧑🏽&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>0
+["H", "e", "l", "l", "o", " ", "W", "o", "r", "l", "d", "!"]
+["🧑", "🏽"]</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.contains" href="#str.contains"
+              >str.contains(string, substr)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Check whether <code>string</code> contains the substring
+            <code>substr</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">contains</span>(<span class="string">&quot;assume&quot;</span>, <span class="string">&quot;sum&quot;</span>)
+<span class="std">str</span>.<span class="call">contains</span>(<span class="string">&quot;assume&quot;</span>, <span class="string">&quot;you&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>true
+false</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.drop" href="#str.drop"
+              >str.drop(string, count)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p>
+            Get a copy of <code>string</code> with the first
+            <code>count</code> characters removed. If
+            <code>count &gt;= len(string)</code> then the
+            <code>&quot;&quot;</code> is returned.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">drop</span>(<span class="string">&quot;Hello World!&quot;</span>, <span class="number">5</span>)</code></pre>
+            <pre class="result" style=""><code>" World!"</code></pre>
+          </div>
+
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.drop">overloads.drop</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.dropLast" href="#str.dropLast"
+              >str.dropLast(string, count)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p>
+            Get a copy of <code>string</code> with the last
+            <code>count</code> characters removed. If
+            <code>count &gt;= len(string)</code> then the
+            <code>&quot;&quot;</code> is returned.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">dropLast</span>(<span class="string">&quot;Hello World!&quot;</span>, <span class="number">5</span>)</code></pre>
+            <pre class="result" style=""><code>"Hello W"</code></pre>
+          </div>
+
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.dropLast">overloads.dropLast</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.endsWith" href="#str.endsWith"
+              >str.endsWith(string, prefix)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Check whether <code>string</code> ends with <code>prefix</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">endsWith</span>(<span class="string">&quot;apple pie&quot;</span>, <span class="string">&quot;pie&quot;</span>)
+<span class="std">str</span>.<span class="call">endsWith</span>(<span class="string">&quot;apple pie&quot;</span>, <span class="string">&quot;cake&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>true
+false</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.get" href="#str.get"
+              >str.get(string, index)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Get the character at position <code>index</code> in
+            <code>string</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">get</span>(<span class="string">&quot;Hello World!&quot;</span>, <span class="number">1</span>)
+<span class="std">str</span>.<span class="call">get</span>(<span class="string">&quot;Hello World!&quot;</span>, <span class="operator">-</span><span class="number">2</span>)</code></pre>
+            <pre class="result" style=""><code>"e"
+"d"</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.indexOf" href="#str.indexOf"
+              >str.indexOf(string, subStr)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Get the index of the first occurrence of <code>subStr</code> in
+            <code>string</code>. Returns <code>none</code> if
+            <code>string</code> does not contain <code>substr</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">indexOf</span>(<span class="string">&quot;mississippi&quot;</span>, <span class="string">&quot;issi&quot;</span>)
+<span class="std">str</span>.<span class="call">indexOf</span>(<span class="string">&quot;mississippi&quot;</span>, <span class="string">&quot;bama&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>1
+none</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.isAlpha" href="#str.isAlpha"
+              >str.isAlpha(string)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Check if <code>string</code> contains only Unicode letters.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">isAlpha</span>(<span class="string">&quot;hello&quot;</span>)
+<span class="std">str</span>.<span class="call">isAlpha</span>(<span class="string">&quot;你好&quot;</span>)
+<span class="std">str</span>.<span class="call">isAlpha</span>(<span class="string">&quot;hi!&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>true
+true
+false</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.isAlphaNum" href="#str.isAlphaNum"
+              >str.isAlphaNum(string)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Check if <code>string</code> contains only Unicode letters or
+            digits.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">isAlphaNum</span>(<span class="string">&quot;hello456&quot;</span>)
+<span class="std">str</span>.<span class="call">isAlphaNum</span>(<span class="string">&quot;你好٤٥٦&quot;</span>)
+<span class="std">str</span>.<span class="call">isAlphaNum</span>(<span class="string">&quot;hi!&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>true
+true
+false</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.isAsciiAlpha" href="#str.isAsciiAlpha"
+              >str.isAsciiAlpha(string)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Check if <code>string</code> contains only ASCII letters.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">isAsciiAlpha</span>(<span class="string">&quot;hello&quot;</span>)
+<span class="std">str</span>.<span class="call">isAsciiAlpha</span>(<span class="string">&quot;你好&quot;</span>)
+<span class="std">str</span>.<span class="call">isAsciiAlpha</span>(<span class="string">&quot;hi!&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>true
+false
+false</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a
+              class="def-name"
+              name="str.isAsciiAlphaNum"
+              href="#str.isAsciiAlphaNum"
+              >str.isAsciiAlphaNum(string)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Check if <code>string</code> contains only ASCII letters or digits.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">isAsciiAlphaNum</span>(<span class="string">&quot;hello456&quot;</span>)
+<span class="std">str</span>.<span class="call">isAsciiAlphaNum</span>(<span class="string">&quot;你好٤٥٦&quot;</span>)
+<span class="std">str</span>.<span class="call">isAsciiAlphaNum</span>(<span class="string">&quot;hi!&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>true
+false
+false</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.isAsciiDigit" href="#str.isAsciiDigit"
+              >str.isAsciiDigit(string)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Check if <code>string</code> contains only ASCII digits.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">isAsciiDigit</span>(<span class="string">&quot;456&quot;</span>)
+<span class="std">str</span>.<span class="call">isAsciiDigit</span>(<span class="string">&quot;٤٥٦&quot;</span>)
+<span class="std">str</span>.<span class="call">isAsciiDigit</span>(<span class="string">&quot;hello&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>true
+false
+false</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.isDigit" href="#str.isDigit"
+              >str.isDigit(string)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Check if <code>string</code> contains only Unicode digits.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">isDigit</span>(<span class="string">&quot;456&quot;</span>)
+<span class="std">str</span>.<span class="call">isDigit</span>(<span class="string">&quot;٤٥٦&quot;</span>)
+<span class="std">str</span>.<span class="call">isDigit</span>(<span class="string">&quot;hello&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>true
+true
+false</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.isEmpty" href="#str.isEmpty"
+              >str.isEmpty(string)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p>Check if <code>string</code> is empty (if its length is zero).</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">isEmpty</span>(<span class="string">&quot;&quot;</span>)
+<span class="call">isEmpty</span>(<span class="string">&quot; &quot;</span>)
+<span class="call">isEmpty</span>(<span class="string">&quot;asdf&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>true
+false
+false</code></pre>
+          </div>
+
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.isEmpty">overloads.isEmpty</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.isLower" href="#str.isLower"
+              >str.isLower(string)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Check whether <code>str.toLower(string) == string</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">isLower</span>(<span class="string">&quot;hello world!&quot;</span>)
+<span class="std">str</span>.<span class="call">isLower</span>(<span class="string">&quot;Hello World!&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>true
+false</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.isUpper" href="#str.isUpper"
+              >str.isUpper(string)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Check whether <code>str.toUpper(string) == string</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">isUpper</span>(<span class="string">&quot;HELLO WORLD!&quot;</span>)
+<span class="std">str</span>.<span class="call">isUpper</span>(<span class="string">&quot;Hello World!&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>true
+false</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.join" href="#str.join"
+              >str.join(list, separator)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents">
+          <p>
+            Join the values in <code>list</code> into a single string, inserting
+            <code>separator</code> between them. Each value is converted to a
+            string using <code>of</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">join</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], <span class="string">&quot; -&gt; &quot;</span>)
+<span class="call">join</span>([<span class="string">&quot;Hello&quot;</span>, <span class="string">&quot; &quot;</span>, <span class="string">&quot;World&quot;</span>, <span class="string">&quot;!&quot;</span>], <span class="string">&quot;&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>"1 -> 2 -> 3 -> 4"
+"Hello World!"</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.len" href="#str.len"
+              >str.len(string)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p>Get the length of <code>string</code> in characters.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">len</span>(<span class="string">&quot;&quot;</span>)
+<span class="call">len</span>(<span class="string">&quot;Hello World!&quot;</span>)
+<span class="call">len</span>(<span class="string">&quot;🧑🏽&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>0
+12
+2</code></pre>
+          </div>
+
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.len">overloads.len</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.lines" href="#str.lines"
+              >str.lines(string)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Return a list of the lines in <code>string</code>, where lines are
+            separeted by the regex <code>\r?\n</code>. Separators are not
+            inclued in the returned lines.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">lines</span>(<span class="string">&quot;foo</span><span class="escape">\n</span><span class="escape">\n</span><span class="string">bar</span><span class="escape">\r</span><span class="escape">\n</span><span class="string">baz</span><span class="escape">\n</span><span class="string">&quot;</span>)</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>["foo", "", "bar", "baz", ""]</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.of" href="#str.of">str.of(value)</a>
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Get the string representation of <code>value</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">of</span>([<span class="number">100</span>, <span class="constant">false</span>, <span class="string">&quot;foo&quot;</span>])</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>"[100, false, \"foo\"]"</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.padLeft" href="#str.padLeft"
+              >str.padLeft(value, n)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Convert <code>value</code> to a string and pad it on the left with
+            spaces so that the total length is at least
+            <code>n</code> characters.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">padLeft</span>(<span class="string">&quot;Java&quot;</span>, <span class="number">10</span>)
+<span class="std">str</span>.<span class="call">padLeft</span>(<span class="string">&quot;JavaScript&quot;</span>, <span class="number">10</span>)</code></pre>
+            <pre class="result" style=""><code>"      Java"
+"JavaScript"</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.padRight" href="#str.padRight"
+              >str.padRight(value, n)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Convert <code>value</code> to a string and pad it on the left with
+            spaces so that the total length is at least
+            <code>n</code> characters.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">padRight</span>(<span class="string">&quot;Java&quot;</span>, <span class="number">10</span>)
+<span class="std">str</span>.<span class="call">padRight</span>(<span class="string">&quot;JavaScript&quot;</span>, <span class="number">10</span>)</code></pre>
+            <pre class="result" style=""><code>"Java      "
+"JavaScript"</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.repeat" href="#str.repeat"
+              >str.repeat(string, count)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Repeat <code>string</code> <code>count</code> times. If
+            <code>count &lt;= 0</code>, then <code>&quot;&quot;</code> is
+            returned.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">repeat</span>(<span class="string">&quot;la&quot;</span>, <span class="number">5</span>)</code></pre>
+            <pre class="result" style=""><code>"lalalalala"</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.replace" href="#str.replace"
+              >str.replace(string, substr, replacement)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Replace all occurrences of <code>substr</code> in
+            <code>string</code> with <code>replacement</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">replace</span>(<span class="string">&quot;A catalog of cats&quot;</span>, <span class="string">&quot;cat&quot;</span>, <span class="string">&quot;dog&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>"A dogalog of dogs"</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.replaceFirst" href="#str.replaceFirst"
+              >str.replaceFirst(string, substr, replacement)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Replace the first occurrence of <code>substr</code> in
+            <code>string</code> with <code>replacement</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">replaceFirst</span>(<span class="string">&quot;x x&quot;</span>, <span class="string">&quot;x&quot;</span>, <span class="string">&quot;A&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>"A x"</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.reverse" href="#str.reverse"
+              >str.reverse(string)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p>Reverse the characters in <code>string</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">reverse</span>(<span class="string">&quot;Hello World!&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>"!dlroW olleH"</code></pre>
+          </div>
+
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.reverse">overloads.reverse</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.split" href="#str.split"
+              >str.split(string, separator)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents">
+          <p>
+            Split <code>string</code> into a list of substrings using
+            <code>separator</code> as the delimiter. <code>separator</code> is
+            not included in the resulting substrings.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">split</span>(<span class="string">&quot;a,b,,c&quot;</span>, <span class="string">&quot;,&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>["a", "b", "", "c"]</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.startsWith" href="#str.startsWith"
+              >str.startsWith(string, prefix)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Check whether <code>string</code> begins with <code>prefix</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">startsWith</span>(<span class="string">&quot;apple pie&quot;</span>, <span class="string">&quot;app&quot;</span>)
+<span class="std">str</span>.<span class="call">startsWith</span>(<span class="string">&quot;apple pie&quot;</span>, <span class="string">&quot;pecan&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>true
+false</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.take" href="#str.take"
+              >str.take(string, count)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p>
+            Get a string containing the first <code>count</code> characters from
+            <code>string</code>. If <code>count &gt;= len(string)</code> then
+            the entire string is returned.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">take</span>(<span class="string">&quot;Hello World!&quot;</span>, <span class="number">5</span>)</code></pre>
+            <pre class="result" style=""><code>"Hello"</code></pre>
+          </div>
+
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.take">overloads.take</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.takeLast" href="#str.takeLast"
+              >str.takeLast(string, count)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p>
+            Get a string containing the last <code>count</code> characters from
+            <code>string</code>. If <code>count &gt;= len(string)</code> then
+            the entire string is returned.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">takeLast</span>(<span class="string">&quot;Hello World!&quot;</span>, <span class="number">5</span>)</code></pre>
+            <pre class="result" style=""><code>"orld!"</code></pre>
+          </div>
+
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.takeLast">overloads.takeLast</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.toLower" href="#str.toLower"
+              >str.toLower(string)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Convert <code>string</code> to lowercase.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">toLower</span>(<span class="string">&quot;Hello World!&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>"hello world!"</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.toUpper" href="#str.toUpper"
+              >str.toUpper(string)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Convert <code>string</code> to uppercase.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">toUpper</span>(<span class="string">&quot;Hello World!&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>"HELLO WORLD!"</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.trim" href="#str.trim"
+              >str.trim(string)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Remove the leading and trailing whitespace from <code>string</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">trim</span>(<span class="string">&quot;  hello</span><span class="escape">\n</span><span class="string">&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>"hello"</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <h2>
+        <a name="table" href="#table">table</a>
+      </h2>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.new" href="#table.new"
+              >table.new(keys)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.bottom" href="#table.bottom"
+              >table.bottom(table, keys, count)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.counts" href="#table.counts"
+              >table.counts(table)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a
+              class="def-name"
+              name="table.defaultCols"
+              href="#table.defaultCols"
+              >table.defaultCols(table, keys)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.drop" href="#table.drop"
+              >table.drop(table, count)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.drop">overloads.drop</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.dropLast" href="#table.dropLast"
+              >table.dropLast(table, count)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.dropLast">overloads.dropLast</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.filter" href="#table.filter"
+              >table.filter(table, condition)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.find" href="#table.find"
+              >table.find(table, matcher)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.first" href="#table.first"
+              >table.first(table)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.focus" href="#table.focus"
+              >table.focus(table, keys)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.get" href="#table.get"
+              >table.get(table, selector)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.groupBy" href="#table.groupBy"
+              >table.groupBy(table, keys)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.has" href="#table.has"
+              >table.has(table, selector)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.has">overloads.has</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.indexOf" href="#table.indexOf"
+              >table.indexOf(table, matcher)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.isEmpty" href="#table.isEmpty"
+              >table.isEmpty(table)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.isEmpty">overloads.isEmpty</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.keys" href="#table.keys"
+              >table.keys(table)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.last" href="#table.last"
+              >table.last(table)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.len" href="#table.len"
+              >table.len(table)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.len">overloads.len</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.map" href="#table.map"
+              >table.map(table, func)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.match" href="#table.match"
+              >table.match(table, matcher)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.merge" href="#table.merge"
+              >table.merge(tables)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.of" href="#table.of"
+              >table.of(contents)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.pop" href="#table.pop"
+              >table.pop(table)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.pop">overloads.pop</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.push" href="#table.push"
+              >table.push(table, row)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.push">overloads.push</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.put" href="#table.put"
+              >table.put(value, table, selector)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.remove" href="#table.remove"
+              >table.remove(table, selector)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.remove">overloads.remove</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.removeKeys" href="#table.removeKeys"
+              >table.removeKeys(table, keys)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.rename" href="#table.rename"
+              >table.rename(table, old, new)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.reverse" href="#table.reverse"
+              >table.reverse(table)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.reverse">overloads.reverse</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.rows" href="#table.rows"
+              >table.rows(table)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.select" href="#table.select"
+              >table.select(table, keys)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.select">overloads.select</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.set" href="#table.set"
+              >table.set(table, selector, value)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.sortBy" href="#table.sortBy"
+              >table.sortBy(table, keys)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.sortBy">overloads.sortBy</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.sortDescBy" href="#table.sortDescBy"
+              >table.sortDescBy(table, keys)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in
+            <a href="#overloads.sortDescBy">overloads.sortDescBy</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.summarize" href="#table.summarize"
+              >table.summarize(table, keys, reducer)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.take" href="#table.take"
+              >table.take(table, count)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.take">overloads.take</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.takeLast" href="#table.takeLast"
+              >table.takeLast(table, count)</a
+            >
+          </h3>
+
+          <span class="tag" title="Global"></span>
+          <span class="tag" title="Overloaded"></span>
+        </div>
+
+        <div class="contents">
+          <p class="overload-link">
+            Overloaded in <a href="#overloads.takeLast">overloads.takeLast</a>
+          </p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.top" href="#table.top"
+              >table.top(table, keys, count)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.unique" href="#table.unique"
+              >table.unique(table)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+    </main>
+  </body>
+</html>
+

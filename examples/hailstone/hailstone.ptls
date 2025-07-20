@@ -1,0 +1,39 @@
+fn step(n)
+  if n % 2 == 0 then
+    n / 2
+  else
+    n * 3 + 1
+  end
+end
+
+fn hailstone(n)
+  values = [n]
+
+  while n > 1 do
+    n |= step
+    values |= push(n)
+  end
+
+  values
+end
+
+bars = chars("▁▂▃▄▅▆▇█")
+
+fn scale(n, maxVal)
+  8 * (n - 1) / (maxVal - 1)
+end
+
+fn getBar(scaled)
+  bars[math.min(math.floor(scaled), 7)]
+end
+
+fn chart(values)
+  values
+    $ scale(max(values))
+    $ getBar
+    | join("")
+end
+
+hailstone(7)
+  | chart
+  | print

@@ -1,0 +1,16 @@
+fn height(n)
+  round(10 + 10 * math.cos(n / 4))
+end
+
+fn plot(n)
+  a = height(n)
+  b = height(n + 6)
+  before = " " * math.min(a, b)
+  between = "." * math.abs(a - b)
+  "$before*$between*"
+end
+
+for n in range(60) do
+  print(plot(n))
+  sleep(40)
+end

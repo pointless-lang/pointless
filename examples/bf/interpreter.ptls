@@ -1,0 +1,50 @@
+ops = chars(",>,[-<+>]<.")
+
+stack = []
+jumps = {}
+
+for index, op in ops do
+  if op == "[" then
+    stack |= push(index)
+  elif op == "]" then
+    jumps[stack[-1]] = index
+    jumps[index] = stack[-1]
+    stack |= pop
+  end
+end
+
+vm = {
+  ops,
+  input: [7, 8],
+  ip: 0,
+  dp: 0,
+  data: [0, 0, 0, 0, 0, 0, 0, 0],
+  jumps,
+}
+
+fn runOp(vm)
+  op = vm.ops[vm.ip]
+  byte = vm.data[vm.dp]
+
+  if   op == ">" then vm.dp += 1
+  elif op == "<" then vm.dp -= 1
+  elif op == "+" then vm.data[vm.dp] += 1
+  elif op == "-" then vm.data[vm.dp] -= 1
+  elif op == "." then print(byte)
+  elif op == "," then
+    vm.data[vm.dp] = vm.input[0]
+    vm.input |= drop(1)
+  end
+
+  if op == "[" and byte == 0 or op == "]" and byte != 0 then
+    vm.ip = vm.jumps[vm.ip]
+  else
+    vm.ip += 1
+  end
+
+  vm
+end
+
+while vm.ip < len(vm.ops) do
+  vm |= runOp
+end

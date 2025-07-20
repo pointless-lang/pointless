@@ -1,0 +1,87 @@
+board = import "easy-puzzle.ptls"
+
+rows = [[false] * 9] * 9
+cols = [[false] * 9] * 9
+blocks = [[[false] * 9] * 3] * 3
+
+for r, row in board do
+  for c, n in row do
+    if n > 0 then
+      i = n - 1
+      rows[r][i] = true
+      cols[c][i] = true
+      br = math.floor(r / 3)
+      bc = math.floor(c / 3)
+      blocks[br][bc][i] = true
+    end
+  end
+end
+
+fn solve(solver, r, c)
+  if c == 9 then
+    c = 0
+    r += 1
+  end
+
+  if r == 9 then
+    solver.solved = true
+    return solver
+  end
+
+  if solver.board[r][c] > 0 then
+    return solve(solver, r, c + 1)
+  end
+
+  br = math.floor(r / 3)
+  bc = math.floor(c / 3)
+
+  for n in span(1, 9) do
+    i = n - 1
+
+    conflict =
+      solver.rows[r][i] or
+      solver.cols[c][i] or
+      solver.blocks[br][bc][i]
+
+    if not conflict then
+      solver.board[r][c] = n
+      solver.rows[r][i] = true
+      solver.cols[c][i] = true
+      solver.blocks[br][bc][i] = true
+
+      solver |= solve(r, c + 1)
+
+      if solver.solved then
+        return solver
+      end
+
+      solver.board[r][c] = 0
+      solver.rows[r][i] = false
+      solver.cols[c][i] = false
+      solver.blocks[br][bc][i] = false
+    end
+  end
+
+  solver
+end
+
+fn showRow(row)
+  row
+    $ if arg == 0 then " " else arg end
+    | list.chunks(3)
+    $ join(" ")
+    | join(" | ")
+end
+
+fn show(solver)
+  solver.board
+    $ showRow
+    | list.chunks(3)
+    $ join("\n")
+    | join("\n------+-------+------\n")
+end
+
+{ board, rows, cols, blocks, solved: false }
+  | solve(0, 0)
+  | show
+  | print

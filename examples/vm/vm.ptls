@@ -1,0 +1,146 @@
+source = import "lines:chart.asm"
+
+instrs = source
+  $ str.trim
+  ? not (isEmpty(arg) or str.startsWith(arg, "--"))
+
+vm = {
+  ip: 0,
+  lastMem: none,
+  output: "",
+  halted: false,
+  steps: 0,
+  registers: [0] * 4,
+  memory: [],
+}
+
+fn regIndex(regName)
+  regName
+    | drop(1)
+    | math.toNum
+end
+
+fn evalArg(token, vm)
+  if str.startsWith(token, "r") then
+    vm.registers[regIndex(token)]
+  else
+    math.toNum(token)
+  end
+end
+
+binOps = set.of([
+  "add", "sub", "mul", "div", "mod", "eq", "gt", "lt", "and", "or"
+])
+
+fn binOp(op, a, b)
+  if   op == "add" then a + b
+  elif op == "sub" then a - b
+  elif op == "mul" then a * b
+  elif op == "div" then floor(a / b)
+  elif op == "mod" then a % b
+  elif op == "eq"  then math.toNum(a == b)
+  elif op == "gt"  then math.toNum(a > b)
+  elif op == "lt"  then math.toNum(a < b)
+  elif op == "and" then math.toNum(a != 0 and b != 0)
+  elif op == "or"  then math.toNum(a != 0 or b != 0)
+  end
+end
+
+fn runInst(vm, inst)
+  tokens = split(inst, " ")
+  op = tokens[0]
+
+  setReg = fn(vm, value)
+    vm.registers[regIndex(tokens[1])] = value
+    vm
+  end
+
+  args = tokens
+    | drop(1)
+    $ evalArg(vm)
+
+  ipDelta = 1
+
+  if has(binOps, op) then
+    vm |= setReg(binOp(op, args[0], args[1]))
+  elif op == "not" then
+    vm |= setReg(math.toNum(args[0] == 0))
+  elif op == "set" then
+    vm |= setReg(args[1])
+  elif op == "jmp" then
+    ipDelta = args[0]
+  elif op == "jeq" then
+    ipDelta = if args[1] == args[2] then args[0] else 1 end
+  elif op == "jne" then
+    ipDelta = if args[1] != args[2] then args[0] else 1 end
+  elif op == "halt" then
+    vm.halted = true
+  elif op == "init" then
+    vm.memory = args
+  elif op == "load" then
+    vm |= setReg(vm.memory[args[1]])
+    vm.lastMem = args[1]
+  elif op == "store" then
+    vm.memory[args[1]] = args[0]
+    vm.lastMem = args[1]
+  elif op == "print" then
+    vm.output += char.of(args[0])
+  else
+    throw({ err: "invalid instruction", op })
+  end
+
+  vm.ip += ipDelta
+  vm
+end
+
+fn logInstrs(vm)
+  for index, inst in instrs do
+    if vm.ip == index then
+      print("> $inst")
+    else
+      print("  $inst")
+    end
+  end
+end
+
+fn logRegs(vm)
+  print("")
+  for index, value in vm.registers do
+    print("r$index: $value")
+  end
+end
+
+fn logMem(vm)
+  print("")
+  items = []
+
+  for index, n in vm.memory do
+    if index == vm.lastMem then
+      items |= push("*$n")
+    else
+      items |= push(" $n")
+    end
+  end
+
+  items
+    | join(", ")
+    | print("memory: [$arg]")
+end
+
+fn logOutput(vm)
+  console.write("\n$vm.output")
+end
+
+fn run(vm)
+  while not vm.halted do
+    clear()
+    logInstrs(vm)
+    vm |= runInst(instrs[vm.ip])
+    logRegs(vm)
+    logMem(vm)
+    logOutput(vm)
+    sleep(40)
+  end
+end
+
+run(vm)
