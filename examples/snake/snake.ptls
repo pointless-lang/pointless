@@ -6,7 +6,7 @@ fn newGoal()
   { x, y }
 end
 
-gameRef = ref.of({
+game = {
   size,
   fps: 8,
   playing: true,
@@ -15,7 +15,7 @@ gameRef = ref.of({
   body: table.new(["x", "y"]),
   goal: newGoal(),
   score: 0,
-})
+}
 
 deltaRef = ref.of({ x: 1, y: 0 })
 
@@ -118,16 +118,12 @@ fn getInput()
 end
 
 fn update()
-  while
-    game = ref.get(gameRef)
-    game.playing
-  do
+  while game.playing do
     game |= arg
       | moveHead
       | checkGoal
       | checkCollision
     
-    ref.set(gameRef, game)
     render(game)
     sleep(1000 / game.fps)
   end
