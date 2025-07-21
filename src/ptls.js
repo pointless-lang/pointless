@@ -12,8 +12,7 @@ async function run() {
     }
   } catch (err) {
     if (err instanceof Panic) {
-      // use Panic.toString for Panics and Errs
-      console.log(Panic.prototype.toString.call(err));
+      console.log(err);
     }
 
     throw err;

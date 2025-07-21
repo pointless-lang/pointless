@@ -8,7 +8,7 @@ import { markedHighlight } from "marked-highlight";
 import commandLineArgs from "command-line-args";
 
 async function processSource(code, config, filePath, env) {
-  const tokens = tokenize(filePath, code);
+  const tokens = tokenize(`${filePath}:embedded`, code);
 
   let html = `<div class="snippet">`;
 
@@ -29,6 +29,7 @@ async function processSource(code, config, filePath, env) {
 
     const results = [];
     let lastDef;
+    let panic = "";
 
     for (const statement of parse(tokens)) {
       try {
@@ -47,17 +48,22 @@ async function processSource(code, config, filePath, env) {
           `;
         }
       } catch (err) {
-        console.error(String(err));
+        if (!config["panics"]) {
+          console.error(String(err));
+        }
+
         results.push(String(err));
+        panic = " panic";
+        break;
       }
     }
 
     if (echo) {
       if (results.length) {
-        html += `<pre class="result" style="${maxHeight}"><code>${results.join("\n")}</code></pre>`;
+        html += `<pre class="result${panic}" style="${maxHeight}"><code>${results.join("\n")}</code></pre>`;
       }
 
-      if (lastDef) {
+      if (lastDef && !panic) {
         html += lastDef;
       }
     }
@@ -74,6 +80,7 @@ const options = [
   { name: "compact", type: Boolean },
   { name: "raw", type: Boolean },
   { name: "hide", type: Boolean },
+  { name: "panics", type: Boolean },
   { name: "max-height", type: Number },
 ];
 

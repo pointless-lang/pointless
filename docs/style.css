@@ -85,6 +85,11 @@ pre + .result {
   margin-top: -6px;
 }
 
+.panic {
+  background-color: #ffe0e0;
+  border-color: #eab2b2;
+}
+
 .var-name {
   font-size: 12px;
   font-family: monospace;
