@@ -171,7 +171,7 @@ export async function rawKey() {
 }
 
 export function pauseStdin() {
-  // Temporary workaround for lack of JS promise cancellation.
+  // *Temporary workaround for lack of JS promise cancellation.*
 
   stdin.pause();
 }

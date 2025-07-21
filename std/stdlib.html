@@ -22,7 +22,26 @@
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Given a list of zero-argument functions <code>funcs</code>, run each
+            function concurrently until all of the functions finish. Return the
+            returned values from these functions as a list.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">getA</span>()
+  <span class="call">sleep</span>(<span class="number">200</span>)
+  <span class="string">&quot;a&quot;</span>
+<span class="keyword">end</span>
+
+<span class="keyword">fn</span> <span class="function">getB</span>()
+  <span class="call">sleep</span>(<span class="number">100</span>)
+  <span class="string">&quot;b&quot;</span>
+<span class="keyword">end</span>
+
+<span class="std">async</span>.<span class="call">getAll</span>([getA, getB]) <span class="comment">-- Returns [&quot;a&quot;, b&quot;] after 200 ms</span></code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -34,7 +53,33 @@
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Given a list of zero-argument functions <code>funcs</code>, run each
+            function concurrently until one of the functions finishes. Return
+            the value from this function.
+          </p>
+          <p>
+            <em
+              >Note: the functions that are still running when the first
+              function finishes should be stopped; however, limitations of JS
+              currently prevent this.</em
+            >
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">getA</span>()
+  <span class="call">sleep</span>(<span class="number">200</span>)
+  <span class="string">&quot;a&quot;</span>
+<span class="keyword">end</span>
+
+<span class="keyword">fn</span> <span class="function">getB</span>()
+  <span class="call">sleep</span>(<span class="number">100</span>)
+  <span class="string">&quot;b&quot;</span>
+<span class="keyword">end</span>
+
+<span class="std">async</span>.<span class="call">getFirst</span>([getA, getB]) <span class="comment">-- Returns &quot;b&quot; after 100 ms</span></code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -47,7 +92,15 @@
           <span class="tag" title="Global"></span>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Pause the current execution branch for <code>ms</code> milliseconds
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">sleep</span>(<span class="number">1000</span>) <span class="comment">-- Pause for 1 second</span></code></pre>
+            <pre class="result" style=""><code>none</code></pre>
+          </div>
+        </div>
       </section>
 
       <h2>
@@ -172,7 +225,9 @@
         </div>
 
         <div class="contents">
-          <p>Temporary workaround for lack of JS promise cancellation.</p>
+          <p>
+            <em>Temporary workaround for lack of JS promise cancellation.</em>
+          </p>
         </div>
       </section>
 
