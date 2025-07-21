@@ -99,8 +99,9 @@ export function round(n) {
 }
 
 export function roundTo(n, decimals) {
-  // Round `n` to the `decimals` places. If `decimals` is negative then
-  // rounding is done to the corresponding power of `10`.
+  // Round `n` to `decimals` places using [banker's rounding](https://en.wikipedia.org/wiki/Rounding#Rounding_half_to_even)
+  // If `decimals` is negative then rounding is done to the corresponding
+  // power of `10`.
   //
   // ```ptls
   // math.roundTo(17.45, 1)
@@ -156,8 +157,8 @@ export function sign(n) {
   // Return the sign of `n`.
   //
   // ```ptls
-  // math.sign(7.5)
-  // math.sign(-7.5)
+  // math.sign(7)
+  // math.sign(-7)
   // math.sign(0)
   // ```
 
@@ -332,7 +333,7 @@ export function toDegrees(radians) {
   // Convert `radians` to degrees.
   //
   // ```ptls
-  // math.toDegrees(math.pi / 2)
+  // math.toDegrees(math.pi)
   // ```
 
   checkType(radians, "number");
@@ -343,7 +344,7 @@ export function toRadians(degrees) {
   // Convert `degrees` to radians.
   //
   // ```ptls
-  // math.toRadians(90)
+  // math.toRadians(180)
   // ```
 
   checkType(degrees, "number");

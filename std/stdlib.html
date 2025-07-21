@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -16,8 +16,8 @@
       <section class="std-def">
         <div>
           <h3>
-            <a class="def-name" name="async.branch" href="#async.branch"
-              >async.branch(func)</a
+            <a class="def-name" name="async.getAll" href="#async.getAll"
+              >async.getAll(funcs)</a
             >
           </h3>
         </div>
@@ -28,32 +28,8 @@
       <section class="std-def">
         <div>
           <h3>
-            <a class="def-name" name="async.cancel" href="#async.cancel"
-              >async.cancel(ref)</a
-            >
-          </h3>
-        </div>
-
-        <div class="contents"></div>
-      </section>
-
-      <section class="std-def">
-        <div>
-          <h3>
-            <a class="def-name" name="async.loop" href="#async.loop"
-              >async.loop(func)</a
-            >
-          </h3>
-        </div>
-
-        <div class="contents"></div>
-      </section>
-
-      <section class="std-def">
-        <div>
-          <h3>
-            <a class="def-name" name="async.race" href="#async.race"
-              >async.race(funcs)</a
+            <a class="def-name" name="async.getFirst" href="#async.getFirst"
+              >async.getFirst(funcs)</a
             >
           </h3>
         </div>
@@ -135,7 +111,12 @@
           <span class="tag" title="Global"></span>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>Clear the console.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">clear</span>() <span class="comment">-- Clears the console</span></code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -147,22 +128,35 @@
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Print <code>value</code>, including quotes if <code>value</code> is
+            a string, and return <code>value</code>. Useful for debugging and
+            logging.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">debug</span>(<span class="string">&quot;Hello&quot;</span>) <span class="comment">-- Prints &quot;Hello&quot;</span></code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
         <div>
           <h3>
-            <a
-              class="def-name"
-              name="console.pauseStdin"
-              href="#console.pauseStdin"
-              >console.pauseStdin()</a
+            <a class="def-name" name="console.error" href="#console.error"
+              >console.error(value)</a
             >
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Print <code>value</code> to stderr, and return <code>value</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">error</span>(<span class="string">&quot;Hello&quot;</span>) <span class="comment">-- Prints Hello to stderr</span></code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -175,7 +169,12 @@
           <span class="tag" title="Global"></span>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>Print <code>value</code>, and return <code>value</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">print</span>(<span class="string">&quot;Hello&quot;</span>) <span class="comment">-- Prints Hello</span></code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -188,7 +187,15 @@
           <span class="tag" title="Global"></span>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Prompt the user for input, displaying
+            <code>message</code> beforehand. User input is returned as a string.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">prompt</span>(<span class="string">&quot;Enter your name: &quot;</span>) <span class="comment">-- Prompts user for their name</span></code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -206,25 +213,18 @@
       <section class="std-def">
         <div>
           <h3>
-            <a class="def-name" name="console.warn" href="#console.warn"
-              >console.warn(value)</a
-            >
-          </h3>
-        </div>
-
-        <div class="contents"></div>
-      </section>
-
-      <section class="std-def">
-        <div>
-          <h3>
             <a class="def-name" name="console.write" href="#console.write"
               >console.write(string)</a
             >
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>Print <code>string</code> without adding a trailing newline.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">write</span>(<span class="string">&quot;Hello&quot;</span>) <span class="comment">-- Prints Hello without a trailing newline</span></code></pre>
+          </div>
+        </div>
       </section>
 
       <h2>
@@ -1431,8 +1431,12 @@ true</code></pre>
 
         <div class="contents">
           <p>
-            Round <code>n</code> to the <code>decimals</code> places. If
-            <code>decimals</code> is negative then rounding is done to the
+            Round <code>n</code> to <code>decimals</code> places using
+            <a
+              href="https://en.wikipedia.org/wiki/Rounding#Rounding_half_to_even"
+              >banker&#39;s rounding</a
+            >
+            If <code>decimals</code> is negative then rounding is done to the
             corresponding power of <code>10</code>.
           </p>
           <div class="snippet">
@@ -1456,8 +1460,8 @@ true</code></pre>
         <div class="contents">
           <p>Return the sign of <code>n</code>.</p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="std">math</span>.<span class="call">sign</span>(<span class="number">7.5</span>)
-<span class="std">math</span>.<span class="call">sign</span>(<span class="operator">-</span><span class="number">7.5</span>)
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">sign</span>(<span class="number">7</span>)
+<span class="std">math</span>.<span class="call">sign</span>(<span class="operator">-</span><span class="number">7</span>)
 <span class="std">math</span>.<span class="call">sign</span>(<span class="number">0</span>)</code></pre>
             <pre class="result" style=""><code>1
 -1
@@ -1528,8 +1532,8 @@ true</code></pre>
         <div class="contents">
           <p>Convert <code>radians</code> to degrees.</p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="std">math</span>.<span class="call">toDegrees</span>(<span class="std">math</span>.pi <span class="operator">/</span> <span class="number">2</span>)</code></pre>
-            <pre class="result" style=""><code>90</code></pre>
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">toDegrees</span>(<span class="std">math</span>.pi)</code></pre>
+            <pre class="result" style=""><code>180</code></pre>
           </div>
         </div>
       </section>
@@ -1571,8 +1575,8 @@ true</code></pre>
         <div class="contents">
           <p>Convert <code>degrees</code> to radians.</p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="std">math</span>.<span class="call">toRadians</span>(<span class="number">90</span>)</code></pre>
-            <pre class="result" style=""><code>1.5707963267948966</code></pre>
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">toRadians</span>(<span class="number">180</span>)</code></pre>
+            <pre class="result" style=""><code>3.141592653589793</code></pre>
           </div>
         </div>
       </section>
@@ -3925,3 +3929,4 @@ false</code></pre>
     </main>
   </body>
 </html>
+
