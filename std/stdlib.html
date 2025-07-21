@@ -162,6 +162,23 @@
       <section class="std-def">
         <div>
           <h3>
+            <a
+              class="def-name"
+              name="console.pauseStdin"
+              href="#console.pauseStdin"
+              >console.pauseStdin()</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Temporary workaround for lack of JS promise cancellation.</p>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
             <a class="def-name" name="console.print" href="#console.print"
               >console.print(value)</a
             >
@@ -207,7 +224,58 @@
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Read a single keypress from the terminal in raw mode. Returns an
+            object with the following keypress event details:
+          </p>
+          <ul>
+            <li>
+              <code>str</code>: the character, if printable, or
+              <code>none</code>.
+            </li>
+            <li><code>name</code>: name of the key.</li>
+            <li><code>ctrl</code>: is <kbd>Ctrl</kbd> pressed.</li>
+            <li><code>meta</code>: is <kbd>Meta</kbd> pressed.</li>
+            <li><code>shift</code>: is <kbd>Shift</kbd> pressed.</li>
+            <li><code>sequence</code>: the raw input sequence.</li>
+          </ul>
+          <p>
+            Panics on <kbd>Ctrl</kbd> + <kbd>C</kbd> or <kbd>Ctrl</kbd> +
+            <kbd>D</kbd>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">key <span class="operator">=</span> <span class="std">console</span>.<span class="call">rawKey</span>()</code></pre>
+          </div>
+          <p>Sample outputs:</p>
+          <p>For <kbd>Ctrl</kbd> + <kbd>A</kbd>:</p>
+          <pre><code>{
+  str: "\u0001",
+  name: "a",
+  ctrl: true,
+  meta: false,
+  shift: false,
+  sequence: "\u0001",
+}</code></pre>
+          <p>For <kbd>Space</kbd>:</p>
+          <pre><code>{
+  str: " ",
+  name: "space",
+  ctrl: false,
+  meta: false,
+  shift: false,
+  sequence: " ",
+}</code></pre>
+          <p>For <kbd>Left Arrow</kbd>:</p>
+          <pre><code>{
+  str: none,
+  name: "left",
+  ctrl: false,
+  meta: false,
+  shift: false,
+  sequence: "\u001b[D",
+}</code></pre>
+        </div>
       </section>
 
       <section class="std-def">
@@ -398,7 +466,8 @@
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.drop">overloads.drop</a>
+            Accessible as global through
+            <a href="#overloads.drop">overloads.drop</a>.
           </p>
         </div>
       </section>
@@ -417,7 +486,8 @@
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.dropLast">overloads.dropLast</a>
+            Accessible as global through
+            <a href="#overloads.dropLast">overloads.dropLast</a>.
           </p>
         </div>
       </section>
@@ -496,7 +566,8 @@
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.has">overloads.has</a>
+            Accessible as global through
+            <a href="#overloads.has">overloads.has</a>.
           </p>
         </div>
       </section>
@@ -539,7 +610,8 @@
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.isEmpty">overloads.isEmpty</a>
+            Accessible as global through
+            <a href="#overloads.isEmpty">overloads.isEmpty</a>.
           </p>
         </div>
       </section>
@@ -570,7 +642,8 @@
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.len">overloads.len</a>
+            Accessible as global through
+            <a href="#overloads.len">overloads.len</a>.
           </p>
         </div>
       </section>
@@ -687,7 +760,8 @@
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.pop">overloads.pop</a>
+            Accessible as global through
+            <a href="#overloads.pop">overloads.pop</a>.
           </p>
         </div>
       </section>
@@ -706,7 +780,8 @@
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.push">overloads.push</a>
+            Accessible as global through
+            <a href="#overloads.push">overloads.push</a>.
           </p>
         </div>
       </section>
@@ -750,7 +825,8 @@
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.remove">overloads.remove</a>
+            Accessible as global through
+            <a href="#overloads.remove">overloads.remove</a>.
           </p>
         </div>
       </section>
@@ -793,7 +869,8 @@
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.reverse">overloads.reverse</a>
+            Accessible as global through
+            <a href="#overloads.reverse">overloads.reverse</a>.
           </p>
         </div>
       </section>
@@ -837,7 +914,8 @@
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.sortBy">overloads.sortBy</a>
+            Accessible as global through
+            <a href="#overloads.sortBy">overloads.sortBy</a>.
           </p>
         </div>
       </section>
@@ -869,8 +947,8 @@
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in
-            <a href="#overloads.sortDescBy">overloads.sortDescBy</a>
+            Accessible as global through
+            <a href="#overloads.sortDescBy">overloads.sortDescBy</a>.
           </p>
         </div>
       </section>
@@ -927,7 +1005,8 @@
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.take">overloads.take</a>
+            Accessible as global through
+            <a href="#overloads.take">overloads.take</a>.
           </p>
         </div>
       </section>
@@ -946,7 +1025,8 @@
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.takeLast">overloads.takeLast</a>
+            Accessible as global through
+            <a href="#overloads.takeLast">overloads.takeLast</a>.
           </p>
         </div>
       </section>
@@ -989,10 +1069,8 @@
         <div class="contents">
           <p>Return the absolute value of <code>n</code>.</p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="std">math</span>.<span class="call">abs</span>(<span class="operator">-</span><span class="number">10</span>)
-<span class="std">math</span>.<span class="call">abs</span>(<span class="number">10</span>)</code></pre>
-            <pre class="result" style=""><code>10
-10</code></pre>
+            <pre><code class="ptls"><span class="std">math</span>.<span class="call">abs</span>(<span class="operator">-</span><span class="number">10</span>)</code></pre>
+            <pre class="result" style=""><code>10</code></pre>
           </div>
         </div>
       </section>
@@ -1523,6 +1601,21 @@ true</code></pre>
       <section class="std-def">
         <div>
           <h3>
+            <a class="def-name" name="math.tau" href="#math.tau">math.tau</a>
+          </h3>
+          <span class="tag" title="Constant"></span>
+        </div>
+
+        <div class="contents">
+          <div class="snippet">
+            <pre class="result" style=""><code>6.283185307179586</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
             <a class="def-name" name="math.toDegrees" href="#math.toDegrees"
               >math.toDegrees(radians)</a
             >
@@ -1600,10 +1693,10 @@ true</code></pre>
             <code>none</code>, otherwise return <code>value</code>.
           </p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="std">nada</span>.<span class="call">orElse</span>(<span class="string">&quot;pdf&quot;</span>, <span class="string">&quot;txt&quot;</span>)
-<span class="std">nada</span>.<span class="call">orElse</span>(<span class="constant">none</span>, <span class="string">&quot;txt&quot;</span>)</code></pre>
-            <pre class="result" style=""><code>"pdf"
-"txt"</code></pre>
+            <pre><code class="ptls"><span class="std">nada</span>.<span class="call">orElse</span>(<span class="constant">none</span>, <span class="string">&quot;txt&quot;</span>)
+<span class="std">nada</span>.<span class="call">orElse</span>(<span class="string">&quot;png&quot;</span>, <span class="string">&quot;txt&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>"txt"
+"png"</code></pre>
           </div>
         </div>
       </section>
@@ -1662,7 +1755,8 @@ true</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.has">overloads.has</a>
+            Accessible as global through
+            <a href="#overloads.has">overloads.has</a>.
           </p>
         </div>
       </section>
@@ -1681,7 +1775,8 @@ true</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.isEmpty">overloads.isEmpty</a>
+            Accessible as global through
+            <a href="#overloads.isEmpty">overloads.isEmpty</a>.
           </p>
         </div>
       </section>
@@ -1712,7 +1807,8 @@ true</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.len">overloads.len</a>
+            Accessible as global through
+            <a href="#overloads.len">overloads.len</a>.
           </p>
         </div>
       </section>
@@ -1767,7 +1863,8 @@ true</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.remove">overloads.remove</a>
+            Accessible as global through
+            <a href="#overloads.remove">overloads.remove</a>.
           </p>
         </div>
       </section>
@@ -1810,7 +1907,8 @@ true</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.select">overloads.select</a>
+            Accessible as global through
+            <a href="#overloads.select">overloads.select</a>.
           </p>
         </div>
       </section>
@@ -2425,7 +2523,8 @@ true</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.has">overloads.has</a>
+            Accessible as global through
+            <a href="#overloads.has">overloads.has</a>.
           </p>
         </div>
       </section>
@@ -2468,7 +2567,8 @@ true</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.isEmpty">overloads.isEmpty</a>
+            Accessible as global through
+            <a href="#overloads.isEmpty">overloads.isEmpty</a>.
           </p>
         </div>
       </section>
@@ -2485,7 +2585,8 @@ true</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.len">overloads.len</a>
+            Accessible as global through
+            <a href="#overloads.len">overloads.len</a>.
           </p>
         </div>
       </section>
@@ -2538,7 +2639,8 @@ true</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.remove">overloads.remove</a>
+            Accessible as global through
+            <a href="#overloads.remove">overloads.remove</a>.
           </p>
         </div>
       </section>
@@ -2646,7 +2748,8 @@ false</code></pre>
           </div>
 
           <p class="overload-link">
-            Overloaded in <a href="#overloads.drop">overloads.drop</a>
+            Accessible as global through
+            <a href="#overloads.drop">overloads.drop</a>.
           </p>
         </div>
       </section>
@@ -2676,7 +2779,8 @@ false</code></pre>
           </div>
 
           <p class="overload-link">
-            Overloaded in <a href="#overloads.dropLast">overloads.dropLast</a>
+            Accessible as global through
+            <a href="#overloads.dropLast">overloads.dropLast</a>.
           </p>
         </div>
       </section>
@@ -2914,7 +3018,8 @@ false</code></pre>
           </div>
 
           <p class="overload-link">
-            Overloaded in <a href="#overloads.isEmpty">overloads.isEmpty</a>
+            Accessible as global through
+            <a href="#overloads.isEmpty">overloads.isEmpty</a>.
           </p>
         </div>
       </section>
@@ -3008,7 +3113,8 @@ false</code></pre>
           </div>
 
           <p class="overload-link">
-            Overloaded in <a href="#overloads.len">overloads.len</a>
+            Accessible as global through
+            <a href="#overloads.len">overloads.len</a>.
           </p>
         </div>
       </section>
@@ -3163,8 +3269,8 @@ false</code></pre>
             <code>string</code> with <code>replacement</code>.
           </p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="std">str</span>.<span class="call">replaceFirst</span>(<span class="string">&quot;x x&quot;</span>, <span class="string">&quot;x&quot;</span>, <span class="string">&quot;A&quot;</span>)</code></pre>
-            <pre class="result" style=""><code>"A x"</code></pre>
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">replaceFirst</span>(<span class="string">&quot;A catalog of cats&quot;</span>, <span class="string">&quot;cat&quot;</span>, <span class="string">&quot;dog&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>"A dogalog of cats"</code></pre>
           </div>
         </div>
       </section>
@@ -3189,7 +3295,8 @@ false</code></pre>
           </div>
 
           <p class="overload-link">
-            Overloaded in <a href="#overloads.reverse">overloads.reverse</a>
+            Accessible as global through
+            <a href="#overloads.reverse">overloads.reverse</a>.
           </p>
         </div>
       </section>
@@ -3263,7 +3370,8 @@ false</code></pre>
           </div>
 
           <p class="overload-link">
-            Overloaded in <a href="#overloads.take">overloads.take</a>
+            Accessible as global through
+            <a href="#overloads.take">overloads.take</a>.
           </p>
         </div>
       </section>
@@ -3292,7 +3400,8 @@ false</code></pre>
           </div>
 
           <p class="overload-link">
-            Overloaded in <a href="#overloads.takeLast">overloads.takeLast</a>
+            Accessible as global through
+            <a href="#overloads.takeLast">overloads.takeLast</a>.
           </p>
         </div>
       </section>
@@ -3422,7 +3531,8 @@ false</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.drop">overloads.drop</a>
+            Accessible as global through
+            <a href="#overloads.drop">overloads.drop</a>.
           </p>
         </div>
       </section>
@@ -3441,7 +3551,8 @@ false</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.dropLast">overloads.dropLast</a>
+            Accessible as global through
+            <a href="#overloads.dropLast">overloads.dropLast</a>.
           </p>
         </div>
       </section>
@@ -3532,7 +3643,8 @@ false</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.has">overloads.has</a>
+            Accessible as global through
+            <a href="#overloads.has">overloads.has</a>.
           </p>
         </div>
       </section>
@@ -3563,7 +3675,8 @@ false</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.isEmpty">overloads.isEmpty</a>
+            Accessible as global through
+            <a href="#overloads.isEmpty">overloads.isEmpty</a>.
           </p>
         </div>
       </section>
@@ -3606,7 +3719,8 @@ false</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.len">overloads.len</a>
+            Accessible as global through
+            <a href="#overloads.len">overloads.len</a>.
           </p>
         </div>
       </section>
@@ -3673,7 +3787,8 @@ false</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.pop">overloads.pop</a>
+            Accessible as global through
+            <a href="#overloads.pop">overloads.pop</a>.
           </p>
         </div>
       </section>
@@ -3692,7 +3807,8 @@ false</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.push">overloads.push</a>
+            Accessible as global through
+            <a href="#overloads.push">overloads.push</a>.
           </p>
         </div>
       </section>
@@ -3723,7 +3839,8 @@ false</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.remove">overloads.remove</a>
+            Accessible as global through
+            <a href="#overloads.remove">overloads.remove</a>.
           </p>
         </div>
       </section>
@@ -3766,7 +3883,8 @@ false</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.reverse">overloads.reverse</a>
+            Accessible as global through
+            <a href="#overloads.reverse">overloads.reverse</a>.
           </p>
         </div>
       </section>
@@ -3797,7 +3915,8 @@ false</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.select">overloads.select</a>
+            Accessible as global through
+            <a href="#overloads.select">overloads.select</a>.
           </p>
         </div>
       </section>
@@ -3828,7 +3947,8 @@ false</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.sortBy">overloads.sortBy</a>
+            Accessible as global through
+            <a href="#overloads.sortBy">overloads.sortBy</a>.
           </p>
         </div>
       </section>
@@ -3847,8 +3967,8 @@ false</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in
-            <a href="#overloads.sortDescBy">overloads.sortDescBy</a>
+            Accessible as global through
+            <a href="#overloads.sortDescBy">overloads.sortDescBy</a>.
           </p>
         </div>
       </section>
@@ -3879,7 +3999,8 @@ false</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.take">overloads.take</a>
+            Accessible as global through
+            <a href="#overloads.take">overloads.take</a>.
           </p>
         </div>
       </section>
@@ -3898,7 +4019,8 @@ false</code></pre>
 
         <div class="contents">
           <p class="overload-link">
-            Overloaded in <a href="#overloads.takeLast">overloads.takeLast</a>
+            Accessible as global through
+            <a href="#overloads.takeLast">overloads.takeLast</a>.
           </p>
         </div>
       </section>

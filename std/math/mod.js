@@ -3,6 +3,8 @@ import { checkPositive, checkNumResult, checkWhole } from "../../src/num.js";
 import { Panic } from "../../src/panic.js";
 
 export const pi = Math.PI;
+// https://www.tauday.com/tau-manifesto
+export const tau = pi * 2;
 export const e = Math.E;
 
 // cursed
@@ -50,7 +52,6 @@ export function abs(n) {
   //
   // ```ptls
   // math.abs(-10)
-  // math.abs(10)
   // ```
 
   checkType(n, "number");

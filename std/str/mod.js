@@ -218,7 +218,7 @@ export async function replaceFirst(string, substr, replacement) {
   // Replace the first occurrence of `substr` in `string` with `replacement`.
   //
   // ```ptls
-  // str.replaceFirst("x x", "x", "A")
+  // str.replaceFirst("A catalog of cats", "cat", "dog")
   // ```
 
   checkType(string, "string");

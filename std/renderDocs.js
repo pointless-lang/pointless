@@ -48,7 +48,7 @@ async function showDef(modName, name, value) {
 
     overloadLink = `
       <p class="overload-link">
-        Overloaded in <a href="#${overloader.name}">${overloader.name}</a>
+        Accessible as global through <a href="#${overloader.name}">${overloader.name}</a>.
       </p>
     `;
   } else if (globals[name] === value) {

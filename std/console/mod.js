@@ -76,6 +76,63 @@ export async function prompt(message) {
 }
 
 export async function rawKey() {
+  // Read a single keypress from the terminal in raw mode.
+  // Returns an object with the following keypress event details:
+  //
+  // - `str`: the character, if printable, or `none`.
+  // - `name`: name of the key.
+  // - `ctrl`: is <kbd>Ctrl</kbd> pressed.
+  // - `meta`: is <kbd>Meta</kbd> pressed.
+  // - `shift`: is <kbd>Shift</kbd> pressed.
+  // - `sequence`: the raw input sequence.
+  //
+  // Panics on <kbd>Ctrl</kbd> + <kbd>C</kbd> or <kbd>Ctrl</kbd> + <kbd>D</kbd>.
+  //
+  // ```ptls --no-eval
+  // key = console.rawKey()
+  // ```
+  //
+  // Sample outputs:
+  //
+  // For <kbd>Ctrl</kbd> + <kbd>A</kbd>:
+  //
+  // ```
+  // {
+  //   str: "\u0001",
+  //   name: "a",
+  //   ctrl: true,
+  //   meta: false,
+  //   shift: false,
+  //   sequence: "\u0001",
+  // }
+  // ```
+  //
+  // For <kbd>Space</kbd>:
+  //
+  // ```
+  // {
+  //   str: " ",
+  //   name: "space",
+  //   ctrl: false,
+  //   meta: false,
+  //   shift: false,
+  //   sequence: " ",
+  // }
+  // ```
+  //
+  // For <kbd>Left Arrow</kbd>:
+  //
+  // ```
+  // {
+  //   str: none,
+  //   name: "left",
+  //   ctrl: false,
+  //   meta: false,
+  //   shift: false,
+  //   sequence: "\u001b[D",
+  // }
+  // ```
+
   return new Promise((resolve, reject) => {
     emitKeypressEvents(stdin);
     stdin.setRawMode(true);
@@ -102,7 +159,7 @@ export async function rawKey() {
 
       const map = new Map()
         .set("str", str ?? null)
-        .set("name", key.name ?? null)
+        .set("name", key.name)
         .set("ctrl", key.ctrl)
         .set("meta", key.meta)
         .set("shift", key.shift)
@@ -113,6 +170,8 @@ export async function rawKey() {
   });
 }
 
-// export function pauseStdin() {
-//   stdin.pause();
-// }
+export function pauseStdin() {
+  // Temporary workaround for lack of JS promise cancellation.
+
+  stdin.pause();
+}
