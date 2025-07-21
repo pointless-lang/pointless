@@ -1,9 +1,1 @@
-fn getFirst(values)
-  if isEmpty(values) then
-    err.throw("values may not be empty")
-  end
-   
-  values[0]
-end
-
-err.catch(fn() getFirst([]) end, fn(payload) none end)
+print(fs.write("tmp", "asdf"))
