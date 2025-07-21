@@ -363,7 +363,30 @@
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Call the zero-argument function <code>func</code>. If
+            <code>func</code> throws an error, return
+            <code>handler(payload)</code> where <code>payload</code> is the
+            error payload. If no error is thrown then return the value returned
+            from <code>func</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">getFirst</span>(<span class="argument">values</span>)
+  <span class="keyword">if</span> <span class="call">isEmpty</span>(values) <span class="keyword">then</span>
+    <span class="std">err</span>.<span class="call">throw</span>(<span class="string">&quot;values may not be empty&quot;</span>)
+  <span class="keyword">end</span>
+   
+  values[<span class="number">0</span>]
+<span class="keyword">end</span>
+
+<span class="std">err</span>.<span class="call">catch</span>(
+  <span class="keyword">fn</span>() <span class="call">getFirst</span>([]) <span class="keyword">end</span>,
+  <span class="keyword">fn</span>(<span class="argument">payload</span>) <span class="constant">none</span> <span class="keyword">end</span>
+)</code></pre>
+            <pre class="result" style=""><code>none</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -375,7 +398,30 @@
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>Throw an error with payload <code>value</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">getFirst</span>(<span class="argument">values</span>)
+  <span class="keyword">if</span> <span class="call">isEmpty</span>(values) <span class="keyword">then</span>
+    <span class="std">err</span>.<span class="call">throw</span>(<span class="string">&quot;values may not be empty&quot;</span>)
+  <span class="keyword">end</span>
+   
+  values[<span class="number">0</span>]
+<span class="keyword">end</span>
+
+<span class="call">getFirst</span>([])</code></pre>
+            <pre class="result panic" style=""><code>panic: unhandled error
+value: "values may not be empty"
+
+    err.throw("values may not be empty")
+             ^
+At std:embedded:3:14 in getFirst(values)
+
+getFirst([])
+        ^
+At std:embedded:9:9</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -388,7 +434,18 @@
           <span class="tag" title="Global"></span>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>Panic if <code>predicate</code> is <code>false</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls">age <span class="operator">=</span> <span class="operator">-</span><span class="number">17</span>
+<span class="call">assert</span>(age <span class="operator">&gt;=</span> <span class="number">0</span>)</code></pre>
+            <pre class="result panic" style=""><code>panic: assertion error
+
+assert(age >= 0)
+      ^
+At std:embedded:2:7</code></pre>
+          </div>
+        </div>
       </section>
 
       <h2>
