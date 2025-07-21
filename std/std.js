@@ -117,7 +117,6 @@ addOverload("dropLast", ["values", "count"], "list", "table", "string");
 addOverload("has", ["value", "elem"], "set", "list", "object", "table");
 addOverload("isEmpty", ["values"], "list", "object", "set", "table", "string");
 addOverload("len", ["values"], "list", "object", "set", "table", "string");
-addOverload("pop", ["values"], "list", "table");
 addOverload("push", ["values", "item"], "list", "table");
 addOverload("remove", ["values", "elem"], "set", "list", "object", "table");
 addOverload("reverse", ["values"], "list", "table", "string");
