@@ -12,7 +12,7 @@ async function run() {
     }
   } catch (err) {
     if (err instanceof Panic) {
-      console.log(err);
+      console.log(String(err));
     }
 
     throw err;
