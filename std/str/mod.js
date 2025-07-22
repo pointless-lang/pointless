@@ -164,7 +164,7 @@ export function split(string, separator) {
 
 export function join(list, separator) {
   // Join the values in `list` into a single string, inserting `separator` between them.
-  // Each value is converted to a string using `of`.
+  // Each value is converted to a string using `str.of`.
   //
   // ```ptls
   // join([1, 2, 3, 4], " -> ")
@@ -181,6 +181,12 @@ export function repeat(string, count) {
   //
   // ```ptls
   // str.repeat("la", 5)
+  // ```
+  //
+  // *Note that this can also be accomplished using the `*` operator*:
+  //
+  // ```ptls
+  // "la" * 5
   // ```
 
   checkType(string, "string");
@@ -297,7 +303,7 @@ export function padLeft(value, n) {
 }
 
 export function padRight(value, n) {
-  // Convert `value` to a string and pad it on the left with spaces
+  // Convert `value` to a string and pad it on the right with spaces
   // so that the total length is at least `n` characters.
   //
   // ```ptls

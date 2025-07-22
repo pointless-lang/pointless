@@ -67,7 +67,9 @@ export const globals = {
   roundTo: native.math.roundTo,
   sleep: native.async.sleep,
   sort: native.list.sort,
+  sortBy: native.table.sortBy,
   sortDesc: native.list.sortDesc,
+  sortDescBy: native.table.sortDescBy,
   span: native.list.span,
   split: native.str.split,
   sum: native.list.sum,
@@ -121,8 +123,8 @@ addOverload("push", ["values", "item"], "list", "table");
 addOverload("remove", ["values", "elem"], "set", "list", "object", "table");
 addOverload("reverse", ["values"], "list", "table", "string");
 addOverload("select", ["collection", "keys"], "object", "table");
-addOverload("sortBy", ["values", "ranker"], "list", "table");
-addOverload("sortDescBy", ["values", "ranker"], "list", "table");
+// addOverload("sortBy", ["values", "ranker"], "list", "table");
+// addOverload("sortDescBy", ["values", "ranker"], "list", "table");
 addOverload("take", ["values", "count"], "list", "table", "string");
 addOverload("takeLast", ["values", "count"], "list", "table", "string");
 

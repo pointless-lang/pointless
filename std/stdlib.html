@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -367,24 +367,28 @@
           <p>
             Call the zero-argument function <code>func</code>. If
             <code>func</code> throws an error, return
-            <code>handler(payload)</code> where <code>payload</code> is the
-            error payload. If no error is thrown then return the value returned
-            from <code>func</code>.
+            <code>handler(value)</code> where <code>value</code> is the error
+            value. If no error is thrown then return the value returned from
+            <code>func</code>.
           </p>
           <div class="snippet">
             <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">getFirst</span>(<span class="argument">values</span>)
   <span class="keyword">if</span> <span class="call">isEmpty</span>(values) <span class="keyword">then</span>
     <span class="std">err</span>.<span class="call">throw</span>(<span class="string">&quot;values may not be empty&quot;</span>)
   <span class="keyword">end</span>
-   
+
   values[<span class="number">0</span>]
 <span class="keyword">end</span>
 
-<span class="std">err</span>.<span class="call">catch</span>(
-  <span class="keyword">fn</span>() <span class="call">getFirst</span>([]) <span class="keyword">end</span>,
-  <span class="keyword">fn</span>(<span class="argument">payload</span>) <span class="constant">none</span> <span class="keyword">end</span>
-)</code></pre>
-            <pre class="result" style=""><code>none</code></pre>
+<span class="keyword">fn</span> <span class="function">showErr</span>(<span class="argument">msg</span>)
+  <span class="string">&quot;an error occured: </span><span class="interpolated">$msg</span><span class="string">&quot;</span>
+<span class="keyword">end</span>
+
+<span class="std">err</span>.<span class="call">catch</span>(<span class="keyword">fn</span>() <span class="call">getFirst</span>([<span class="number">0</span>, <span class="number">1</span>]) <span class="keyword">end</span>, showErr)
+
+<span class="std">err</span>.<span class="call">catch</span>(<span class="keyword">fn</span>() <span class="call">getFirst</span>([]) <span class="keyword">end</span>, showErr)</code></pre>
+            <pre class="result" style=""><code>0
+"an error occured: values may not be empty"</code></pre>
           </div>
         </div>
       </section>
@@ -405,7 +409,7 @@
   <span class="keyword">if</span> <span class="call">isEmpty</span>(values) <span class="keyword">then</span>
     <span class="std">err</span>.<span class="call">throw</span>(<span class="string">&quot;values may not be empty&quot;</span>)
   <span class="keyword">end</span>
-   
+
   values[<span class="number">0</span>]
 <span class="keyword">end</span>
 
@@ -448,32 +452,77 @@ At std:embedded:2:7</code></pre>
         </div>
       </section>
 
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="err.orElse" href="#err.orElse"
+              >err.orElse(func, default)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Call the zero-argument function <code>func</code>. If
+            <code>func</code> throws an error, return <code>default</code>,
+            otherwise return the value returned from <code>func</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">getFirst</span>(<span class="argument">values</span>)
+  <span class="keyword">if</span> <span class="call">isEmpty</span>(values) <span class="keyword">then</span>
+    <span class="std">err</span>.<span class="call">throw</span>(<span class="string">&quot;values may not be empty&quot;</span>)
+  <span class="keyword">end</span>
+
+  values[<span class="number">0</span>]
+<span class="keyword">end</span>
+
+<span class="std">err</span>.<span class="call">orElse</span>(<span class="keyword">fn</span>() <span class="call">getFirst</span>([<span class="number">0</span>, <span class="number">1</span>]) <span class="keyword">end</span>, <span class="constant">none</span>)
+
+<span class="std">err</span>.<span class="call">orElse</span>(<span class="keyword">fn</span>() <span class="call">getFirst</span>([]) <span class="keyword">end</span>, <span class="constant">none</span>)</code></pre>
+            <pre class="result" style=""><code>0
+none</code></pre>
+          </div>
+        </div>
+      </section>
+
       <h2>
-        <a name="file" href="#file">file</a>
+        <a name="fs" href="#fs">fs</a>
       </h2>
 
       <section class="std-def">
         <div>
           <h3>
-            <a class="def-name" name="file.read" href="#file.read"
-              >file.read(path)</a
-            >
+            <a class="def-name" name="fs.read" href="#fs.read">fs.read(path)</a>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>Read the text file at <code>path</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls">fs.<span class="call">read</span>(<span class="string">&quot;lyrics.txt&quot;</span>)</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
         <div>
           <h3>
-            <a class="def-name" name="file.write" href="#file.write"
-              >file.write(path, value)</a
+            <a class="def-name" name="fs.write" href="#fs.write"
+              >fs.write(path, value)</a
             >
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Convert <code>value</code> to a string and write to the file at
+            <code>path</code>, creating the file if it doesn&#39;t already
+            exist.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">fs.<span class="call">write</span>(<span class="string">&quot;lyrics.txt&quot;</span>, <span class="string">&quot;I hope you understand, everybody scams&quot;</span>)</code></pre>
+          </div>
+        </div>
       </section>
 
       <h2>
@@ -489,7 +538,20 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Check whether every value in a <code>list</code> of booleans is
+            <code>true</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">all</span>([])
+<span class="std">list</span>.<span class="call">all</span>([<span class="constant">true</span>, <span class="constant">true</span>, <span class="constant">true</span>])
+<span class="std">list</span>.<span class="call">all</span>([<span class="constant">true</span>, <span class="constant">true</span>, <span class="constant">false</span>])</code></pre>
+            <pre class="result" style=""><code>true
+true
+false</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -501,7 +563,20 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Check whether any value in a <code>list</code> of booleans is
+            <code>true</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">any</span>([])
+<span class="std">list</span>.<span class="call">any</span>([<span class="constant">false</span>, <span class="constant">false</span>, <span class="constant">false</span>])
+<span class="std">list</span>.<span class="call">any</span>([<span class="constant">false</span>, <span class="constant">false</span>, <span class="constant">true</span>])</code></pre>
+            <pre class="result" style=""><code>false
+false
+true</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -513,7 +588,13 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>Get the average of <code>numbers</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">average</span>([<span class="number">10</span>, <span class="number">50</span>, <span class="number">60</span>])</code></pre>
+            <pre class="result" style=""><code>40</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -525,7 +606,16 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Return the <code>count</code> lowest-ranking values of
+            <code>list</code> in ascending order.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">bottom</span>([<span class="number">3</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>], <span class="number">5</span>)</code></pre>
+            <pre class="result" style=""><code>[1, 1, 2, 3, 4]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -537,7 +627,19 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Split <code>list</code> into chunks of length
+            <code>count</code> (the final chunk may. be shorter).
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">chunks</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>], <span class="number">3</span>)</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>[[1, 2, 3], [4, 5, 6], [7, 8]]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -549,7 +651,16 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Count the number of times <code>value</code> appears in
+            <code>list</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">count</span>([<span class="number">1</span>, <span class="number">9</span>, <span class="number">9</span>, <span class="number">6</span>], <span class="number">9</span>)</code></pre>
+            <pre class="result" style=""><code>2</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -561,7 +672,27 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Get the counts and total shares for the values in <code>list</code>.
+            Returns a table with columns <code>value</code>, <code>count</code>,
+            and <code>share</code>, sorted descending by <code>count</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">counts</span>([<span class="string">&quot;NY&quot;</span>, <span class="string">&quot;CA&quot;</span>, <span class="string">&quot;IL&quot;</span>, <span class="string">&quot;TX&quot;</span>, <span class="string">&quot;AZ&quot;</span>, <span class="string">&quot;PA&quot;</span>, <span class="string">&quot;TX&quot;</span>, <span class="string">&quot;CA&quot;</span>, <span class="string">&quot;TX&quot;</span>, <span class="string">&quot;FL&quot;</span>])</code></pre>
+            <pre class="result" style=""><code>┌───────┬───────┬───────┐
+│ value │ count │ share │ x 7
+├───────┼───────┼───────┤
+│ TX    │     3 │   0.3 │
+│ CA    │     2 │   0.2 │
+│ NY    │     1 │   0.1 │
+│ IL    │     1 │   0.1 │
+│ AZ    │     1 │   0.1 │
+│ PA    │     1 │   0.1 │
+│ FL    │     1 │   0.1 │
+└───────┴───────┴───────┘</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -577,6 +708,14 @@ At std:embedded:2:7</code></pre>
         </div>
 
         <div class="contents">
+          <p>
+            Get the first <code>count</code> elements from <code>list</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">drop</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>, <span class="string">&quot;e&quot;</span>], <span class="number">3</span>)</code></pre>
+            <pre class="result" style=""><code>["d", "e"]</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.drop">overloads.drop</a>.
@@ -597,6 +736,14 @@ At std:embedded:2:7</code></pre>
         </div>
 
         <div class="contents">
+          <p>
+            Get the first <code>count</code> elements from <code>list</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">dropLast</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>, <span class="string">&quot;e&quot;</span>], <span class="number">3</span>)</code></pre>
+            <pre class="result" style=""><code>["a", "b"]</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.dropLast">overloads.dropLast</a>.
@@ -613,7 +760,26 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Get the values in <code>list</code> that satisfy
+            <code>condition</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">filter</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], <span class="std">math</span>.isEven)</code></pre>
+            <pre class="result" style=""><code>[2, 4]</code></pre>
+          </div>
+          <p>
+            <em
+              >Note that this can also be accomplished using the
+              <code>?</code> operator</em
+            >:
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>] <span class="operator">?</span> <span class="std">math</span>.<span class="call">isEven</span></code></pre>
+            <pre class="result" style=""><code>[2, 4]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -625,19 +791,18 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
-      </section>
-
-      <section class="std-def">
-        <div>
-          <h3>
-            <a class="def-name" name="list.first" href="#list.first"
-              >list.first(list)</a
-            >
-          </h3>
+        <div class="contents">
+          <p>
+            Get the first value in <code>list</code> that satisfies
+            <code>condition</code>, or <code>none</code> if no match is present.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">find</span>([<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>], <span class="std">math</span>.isEven)
+<span class="std">list</span>.<span class="call">find</span>([<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>], <span class="keyword">fn</span>(<span class="argument">n</span>) n <span class="operator">&lt;</span> <span class="number">5</span> <span class="keyword">end</span>)</code></pre>
+            <pre class="result" style=""><code>8
+none</code></pre>
+          </div>
         </div>
-
-        <div class="contents"></div>
       </section>
 
       <section class="std-def">
@@ -649,7 +814,23 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>Return the value at <code>index</code> in <code>list</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">get</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>], <span class="number">2</span>)</code></pre>
+            <pre class="result" style=""><code>"c"</code></pre>
+          </div>
+          <p>
+            <em
+              >Note that this can also be accomplished using the index
+              <code>[]</code> operator</em
+            >:
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>][<span class="number">2</span>]</code></pre>
+            <pre class="result" style=""><code>"c"</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -661,7 +842,24 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Group each <code>value</code> in <code>list</code> according to
+            <code>func(value)</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">groupBy</span>(
+  [<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;pear&quot;</span>, <span class="string">&quot;peach&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;plum&quot;</span>, <span class="string">&quot;apricot&quot;</span>, <span class="string">&quot;orange&quot;</span>],
+  <span class="keyword">fn</span>(<span class="argument">word</span>) <span class="call">chars</span>(word)[<span class="number">0</span>] <span class="keyword">end</span>
+)</code></pre>
+            <pre class="result" style=""><code>{
+  a: ["apple", "apricot"],
+  p: ["pear", "peach", "plum"],
+  b: ["banana"],
+  o: ["orange"],
+}</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -677,6 +875,14 @@ At std:embedded:2:7</code></pre>
         </div>
 
         <div class="contents">
+          <p>Return whether <code>list</code> contains <code>value</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">has</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>], <span class="string">&quot;b&quot;</span>)
+<span class="call">has</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>], <span class="string">&quot;d&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>true
+false</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.has">overloads.has</a>.
@@ -693,7 +899,18 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Return whether <code>list</code> contains every value in
+            <code>values</code>, where <code>values</code> is a list or set.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">hasAll</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>], [<span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>])
+<span class="std">list</span>.<span class="call">hasAll</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>], [<span class="string">&quot;d&quot;</span>, <span class="string">&quot;c&quot;</span>])</code></pre>
+            <pre class="result" style=""><code>true
+false</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -705,7 +922,19 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Get the index of the first occurence of <code>value</code> in
+            <code>list</code>, or <code>none</code> if <code>value</code> does
+            not appear in <code>list</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">indexOf</span>([<span class="number">1</span>, <span class="number">9</span>, <span class="number">9</span>, <span class="number">6</span>], <span class="number">9</span>)
+<span class="std">list</span>.<span class="call">indexOf</span>([<span class="number">1</span>, <span class="number">9</span>, <span class="number">9</span>, <span class="number">6</span>], <span class="number">0</span>)</code></pre>
+            <pre class="result" style=""><code>1
+none</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -721,23 +950,19 @@ At std:embedded:2:7</code></pre>
         </div>
 
         <div class="contents">
+          <p>Check whether <code>list</code> is empty.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">isEmpty</span>([])
+<span class="call">isEmpty</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>])</code></pre>
+            <pre class="result" style=""><code>true
+false</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.isEmpty">overloads.isEmpty</a>.
           </p>
         </div>
-      </section>
-
-      <section class="std-def">
-        <div>
-          <h3>
-            <a class="def-name" name="list.last" href="#list.last"
-              >list.last(list)</a
-            >
-          </h3>
-        </div>
-
-        <div class="contents"></div>
       </section>
 
       <section class="std-def">
@@ -753,6 +978,12 @@ At std:embedded:2:7</code></pre>
         </div>
 
         <div class="contents">
+          <p>Return the length of a list.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">len</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>])</code></pre>
+            <pre class="result" style=""><code>4</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.len">overloads.len</a>.
@@ -769,7 +1000,25 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Transform each value in <code>list</code> using <code>func</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">map</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], <span class="keyword">fn</span>(<span class="argument">n</span>) n <span class="operator">*</span> <span class="number">2</span> <span class="keyword">end</span>)</code></pre>
+            <pre class="result" style=""><code>[2, 4, 6, 8]</code></pre>
+          </div>
+          <p>
+            <em
+              >Note that this can also be accomplished using the
+              <code>$</code> operator</em
+            >:
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>] <span class="operator">$</span> <span class="keyword">arg</span> <span class="operator">*</span> <span class="number">2</span></code></pre>
+            <pre class="result" style=""><code>[2, 4, 6, 8]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -782,7 +1031,13 @@ At std:embedded:2:7</code></pre>
           <span class="tag" title="Global"></span>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>Get the maximum of <code>numbers</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">max</span>([<span class="number">1</span>, <span class="operator">-</span><span class="number">7</span>, <span class="number">50</span>])</code></pre>
+            <pre class="result" style=""><code>50</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -794,7 +1049,15 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>Get the median of <code>numbers</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">median</span>([<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])
+<span class="std">list</span>.<span class="call">median</span>([<span class="number">7</span>, <span class="number">9</span>])</code></pre>
+            <pre class="result" style=""><code>2
+8</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -806,7 +1069,16 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>Merge (flatten) <code>lists</code> into a single list.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">merge</span>([[<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>], [<span class="string">&quot;c&quot;</span>], [<span class="string">&quot;d&quot;</span>, <span class="string">&quot;e&quot;</span>]])</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>["a", "b", "c", "d", "e"]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -819,7 +1091,13 @@ At std:embedded:2:7</code></pre>
           <span class="tag" title="Global"></span>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>Get the minimum of <code>numbers</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">min</span>([<span class="number">1</span>, <span class="operator">-</span><span class="number">7</span>, <span class="number">50</span>])</code></pre>
+            <pre class="result" style=""><code>-7</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -831,7 +1109,16 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Scale a list of non-negative numbers so they sum to 1. Requires that
+            <code>sum(numbers) &gt; 0</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">normalize</span>([<span class="number">5</span>, <span class="number">7</span>, <span class="number">8</span>])</code></pre>
+            <pre class="result" style=""><code>[0.25, 0.35, 0.4]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -843,7 +1130,22 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Get a list containing each value in <code>values</code>.
+            <code>values</code> may be a set, table, or list. If
+            <code>values</code> is a table then
+            <code>list.of(values)</code> returns a list of the table&#39;s rows.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">s <span class="operator">=</span> <span class="std">set</span>.<span class="call">of</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>])
+<span class="std">list</span>.<span class="call">of</span>(s)
+t <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>({ name: [<span class="string">&quot;Ducky&quot;</span>, <span class="string">&quot;Clementine&quot;</span>], type: [<span class="string">&quot;dog&quot;</span>, <span class="string">&quot;bird&quot;</span>] })
+<span class="std">list</span>.<span class="call">of</span>(t)</code></pre>
+            <pre class="result" style=""><code>["a", "b", "c", "d"]
+[{ name: "Ducky", type: "dog" }, { name: "Clementine", type: "bird" }]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -855,7 +1157,17 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Scale a list of non-negative numbers so they sum to 100. Requires
+            that
+            <code>sum(numbers) &gt; 0</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">percents</span>([<span class="number">5</span>, <span class="number">7</span>, <span class="number">8</span>])</code></pre>
+            <pre class="result" style=""><code>[25, 35, 40]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -865,16 +1177,14 @@ At std:embedded:2:7</code></pre>
               >list.pop(list)</a
             >
           </h3>
-
-          <span class="tag" title="Global"></span>
-          <span class="tag" title="Overloaded"></span>
         </div>
 
         <div class="contents">
-          <p class="overload-link">
-            Accessible as global through
-            <a href="#overloads.pop">overloads.pop</a>.
-          </p>
+          <p>Remove the last element from <code>list</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">pop</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>, <span class="string">&quot;e&quot;</span>])</code></pre>
+            <pre class="result" style=""><code>["a", "b", "c", "d"]</code></pre>
+          </div>
         </div>
       </section>
 
@@ -891,6 +1201,12 @@ At std:embedded:2:7</code></pre>
         </div>
 
         <div class="contents">
+          <p>Add <code>value</code> to the end of <code>list</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">push</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>], <span class="string">&quot;d&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>["a", "b", "c", "d"]</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.push">overloads.push</a>.
@@ -907,7 +1223,16 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Replace the element at <code>index</code> in <code>list</code> with
+            <code>value</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">put</span>(<span class="string">&quot;c&quot;</span>, [<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;d&quot;</span>, <span class="string">&quot;d&quot;</span>], <span class="number">2</span>)</code></pre>
+            <pre class="result" style=""><code>["a", "b", "c", "d"]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -920,7 +1245,21 @@ At std:embedded:2:7</code></pre>
           <span class="tag" title="Global"></span>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Get a list of integers between <code>0</code> and
+            <code>limit - 1</code>, inclusive. <code>limit</code> must be an
+            integer. If <code>limit &lt; 1</code> then <code>[]</code> is
+            returned.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">range</span>(<span class="number">10</span>)</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -936,6 +1275,14 @@ At std:embedded:2:7</code></pre>
         </div>
 
         <div class="contents">
+          <p>
+            Remove all occurences of <code>value</code> from <code>list</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">remove</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="constant">none</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="constant">none</span>], <span class="constant">none</span>)</code></pre>
+            <pre class="result" style=""><code>[1, 2, 3, 4]</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.remove">overloads.remove</a>.
@@ -952,7 +1299,16 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Remove all occurences of each value in <code>values</code> from
+            <code>list</code>, where <code>values</code> is a list or set.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">removeAll</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="constant">none</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="constant">none</span>], [<span class="constant">none</span>, <span class="number">0</span>])</code></pre>
+            <pre class="result" style=""><code>[1, 2, 3, 4]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -964,7 +1320,32 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Create a list containing <code>value</code> repeated
+            <code>count</code> times.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">repeat</span>(<span class="string">&quot;0&quot;</span>, <span class="number">5</span>)</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>["0", "0", "0", "0", "0"]</code></pre>
+          </div>
+          <p>
+            <em
+              >Note that this can also be accomplished using the
+              <code>*</code> operator</em
+            >:
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">[<span class="string">&quot;0&quot;</span>] <span class="operator">*</span> <span class="number">5</span></code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>["0", "0", "0", "0", "0"]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -980,6 +1361,12 @@ At std:embedded:2:7</code></pre>
         </div>
 
         <div class="contents">
+          <p>Reverse <code>list</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">reverse</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>])</code></pre>
+            <pre class="result" style=""><code>["d", "c", "b", "a"]</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.reverse">overloads.reverse</a>.
@@ -996,7 +1383,30 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Replace the element at <code>index</code> in <code>list</code> with
+            <code>value</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">set</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;d&quot;</span>, <span class="string">&quot;d&quot;</span>], <span class="number">2</span>, <span class="string">&quot;c&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>["a", "b", "c", "d"]</code></pre>
+          </div>
+          <p>
+            <em
+              >Note that this can also be accomplished using variable
+              assignment</em
+            >:
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">letters <span class="operator">=</span> [<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;d&quot;</span>, <span class="string">&quot;d&quot;</span>]
+letters[<span class="number">2</span>] <span class="operator">=</span> <span class="string">&quot;c&quot;</span></code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code><div class="var-name">letters</div>["a", "b", "c", "d"]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -1009,26 +1419,20 @@ At std:embedded:2:7</code></pre>
           <span class="tag" title="Global"></span>
         </div>
 
-        <div class="contents"></div>
-      </section>
-
-      <section class="std-def">
-        <div>
-          <h3>
-            <a class="def-name" name="list.sortBy" href="#list.sortBy"
-              >list.sortBy(list, ranker)</a
-            >
-          </h3>
-
-          <span class="tag" title="Global"></span>
-          <span class="tag" title="Overloaded"></span>
-        </div>
-
         <div class="contents">
-          <p class="overload-link">
-            Accessible as global through
-            <a href="#overloads.sortBy">overloads.sortBy</a>.
+          <p>
+            Sort a <code>list</code> of numbers, strings, or booleans in
+            ascending order. All values in <code>list</code> must have the same
+            type.
           </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">sort</span>([<span class="number">3</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>])
+<span class="call">sort</span>([<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;pear&quot;</span>, <span class="string">&quot;peach&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;plum&quot;</span>, <span class="string">&quot;apricot&quot;</span>, <span class="string">&quot;orange&quot;</span>])
+<span class="call">sort</span>([<span class="constant">true</span>, <span class="constant">false</span>, <span class="constant">true</span>, <span class="constant">false</span>])</code></pre>
+            <pre class="result" style=""><code>[1, 1, 2, 3, 4, 4, 5, 5, 6, 9]
+["apple", "apricot", "banana", "orange", "peach", "pear", "plum"]
+[false, false, true, true]</code></pre>
+          </div>
         </div>
       </section>
 
@@ -1042,26 +1446,20 @@ At std:embedded:2:7</code></pre>
           <span class="tag" title="Global"></span>
         </div>
 
-        <div class="contents"></div>
-      </section>
-
-      <section class="std-def">
-        <div>
-          <h3>
-            <a class="def-name" name="list.sortDescBy" href="#list.sortDescBy"
-              >list.sortDescBy(list, ranker)</a
-            >
-          </h3>
-
-          <span class="tag" title="Global"></span>
-          <span class="tag" title="Overloaded"></span>
-        </div>
-
         <div class="contents">
-          <p class="overload-link">
-            Accessible as global through
-            <a href="#overloads.sortDescBy">overloads.sortDescBy</a>.
+          <p>
+            Sort a <code>list</code> of numbers, strings, or booleans in
+            descending order. All values in <code>list</code> must have the same
+            type.
           </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">sortDesc</span>([<span class="number">3</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>])
+<span class="call">sortDesc</span>([<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;pear&quot;</span>, <span class="string">&quot;peach&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;plum&quot;</span>, <span class="string">&quot;apricot&quot;</span>, <span class="string">&quot;orange&quot;</span>])
+<span class="call">sortDesc</span>([<span class="constant">true</span>, <span class="constant">false</span>, <span class="constant">true</span>, <span class="constant">false</span>])</code></pre>
+            <pre class="result" style=""><code>[9, 6, 5, 5, 4, 4, 3, 2, 1, 1]
+["plum", "pear", "peach", "orange", "banana", "apricot", "apple"]
+[true, true, false, false]</code></pre>
+          </div>
         </div>
       </section>
 
@@ -1075,7 +1473,19 @@ At std:embedded:2:7</code></pre>
           <span class="tag" title="Global"></span>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Get a list of integers between <code>from</code> and
+            <code>to</code>, inclusive. <code>from</code> and
+            <code>to</code> must be integers.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">span</span>(<span class="number">1</span>, <span class="number">10</span>)
+<span class="call">span</span>(<span class="number">2</span>, <span class="operator">-</span><span class="number">2</span>)</code></pre>
+            <pre class="result" style=""><code>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+[2, 1, 0, -1, -2]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -1088,7 +1498,13 @@ At std:embedded:2:7</code></pre>
           <span class="tag" title="Global"></span>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>Get the sum of <code>numbers</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">sum</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>])</code></pre>
+            <pre class="result" style=""><code>55</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -1100,7 +1516,16 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Swap the elements at <code>indexA</code> and <code>indexB</code> in
+            <code>list</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">swap</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;d&quot;</span>], <span class="number">1</span>, <span class="number">2</span>)</code></pre>
+            <pre class="result" style=""><code>["a", "b", "c", "d"]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -1116,6 +1541,14 @@ At std:embedded:2:7</code></pre>
         </div>
 
         <div class="contents">
+          <p>
+            Get the first <code>count</code> elements from <code>list</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">take</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>, <span class="string">&quot;e&quot;</span>], <span class="number">3</span>)</code></pre>
+            <pre class="result" style=""><code>["a", "b", "c"]</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.take">overloads.take</a>.
@@ -1136,6 +1569,14 @@ At std:embedded:2:7</code></pre>
         </div>
 
         <div class="contents">
+          <p>
+            Get the last <code>count</code> elements from <code>list</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">takeLast</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>, <span class="string">&quot;e&quot;</span>], <span class="number">3</span>)</code></pre>
+            <pre class="result" style=""><code>["c", "d", "e"]</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.takeLast">overloads.takeLast</a>.
@@ -1152,7 +1593,16 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Return the <code>count</code> highest-ranking values of
+            <code>list</code> in descending order.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">top</span>([<span class="number">3</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>], <span class="number">5</span>)</code></pre>
+            <pre class="result" style=""><code>[9, 6, 5, 5, 4]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -1164,7 +1614,19 @@ At std:embedded:2:7</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Remove duplicate values from <code>list</code>, keeping only the
+            first occurrence of each value.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">unique</span>([<span class="string">&quot;NY&quot;</span>, <span class="string">&quot;CA&quot;</span>, <span class="string">&quot;IL&quot;</span>, <span class="string">&quot;TX&quot;</span>, <span class="string">&quot;AZ&quot;</span>, <span class="string">&quot;PA&quot;</span>, <span class="string">&quot;TX&quot;</span>, <span class="string">&quot;CA&quot;</span>, <span class="string">&quot;TX&quot;</span>, <span class="string">&quot;FL&quot;</span>])</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>["NY", "CA", "IL", "TX", "AZ", "PA", "FL"]</code></pre>
+          </div>
+        </div>
       </section>
 
       <h2>
@@ -2179,25 +2641,6 @@ true</code></pre>
       <section class="std-def">
         <div>
           <h3>
-            <a class="def-name" name="overloads.pop" href="#overloads.pop"
-              >overloads.pop(values)</a
-            >
-          </h3>
-          <span class="tag" title="Global"></span>
-        </div>
-
-        <div class="contents">
-          <p>Overload of:</p>
-          <ul class="overloads">
-            <li><a href="#list.pop">list.pop(list)</a></li>
-            <li><a href="#table.pop">table.pop(table)</a></li>
-          </ul>
-        </div>
-      </section>
-
-      <section class="std-def">
-        <div>
-          <h3>
             <a class="def-name" name="overloads.push" href="#overloads.push"
               >overloads.push(values, item)</a
             >
@@ -2273,51 +2716,6 @@ true</code></pre>
           <ul class="overloads">
             <li><a href="#obj.select">obj.select(object, keys)</a></li>
             <li><a href="#table.select">table.select(table, keys)</a></li>
-          </ul>
-        </div>
-      </section>
-
-      <section class="std-def">
-        <div>
-          <h3>
-            <a class="def-name" name="overloads.sortBy" href="#overloads.sortBy"
-              >overloads.sortBy(values, ranker)</a
-            >
-          </h3>
-          <span class="tag" title="Global"></span>
-        </div>
-
-        <div class="contents">
-          <p>Overload of:</p>
-          <ul class="overloads">
-            <li><a href="#list.sortBy">list.sortBy(list, ranker)</a></li>
-            <li><a href="#table.sortBy">table.sortBy(table, keys)</a></li>
-          </ul>
-        </div>
-      </section>
-
-      <section class="std-def">
-        <div>
-          <h3>
-            <a
-              class="def-name"
-              name="overloads.sortDescBy"
-              href="#overloads.sortDescBy"
-              >overloads.sortDescBy(values, ranker)</a
-            >
-          </h3>
-          <span class="tag" title="Global"></span>
-        </div>
-
-        <div class="contents">
-          <p>Overload of:</p>
-          <ul class="overloads">
-            <li>
-              <a href="#list.sortDescBy">list.sortDescBy(list, ranker)</a>
-            </li>
-            <li>
-              <a href="#table.sortDescBy">table.sortDescBy(table, keys)</a>
-            </li>
           </ul>
         </div>
       </section>
@@ -2707,7 +3105,7 @@ true</code></pre>
         <div>
           <h3>
             <a class="def-name" name="set.merge" href="#set.merge"
-              >set.merge(set, values)</a
+              >set.merge(sets)</a
             >
           </h3>
         </div>
@@ -2762,6 +3160,18 @@ true</code></pre>
           <h3>
             <a class="def-name" name="set.removeAll" href="#set.removeAll"
               >set.removeAll(set, values)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="set.union" href="#set.union"
+              >set.union(set, values)</a
             >
           </h3>
         </div>
@@ -3190,7 +3600,7 @@ false</code></pre>
           <p>
             Join the values in <code>list</code> into a single string, inserting
             <code>separator</code> between them. Each value is converted to a
-            string using <code>of</code>.
+            string using <code>str.of</code>.
           </p>
           <div class="snippet">
             <pre><code class="ptls"><span class="call">join</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], <span class="string">&quot; -&gt; &quot;</span>)
@@ -3310,7 +3720,7 @@ false</code></pre>
 
         <div class="contents">
           <p>
-            Convert <code>value</code> to a string and pad it on the left with
+            Convert <code>value</code> to a string and pad it on the right with
             spaces so that the total length is at least
             <code>n</code> characters.
           </p>
@@ -3340,6 +3750,16 @@ false</code></pre>
           </p>
           <div class="snippet">
             <pre><code class="ptls"><span class="std">str</span>.<span class="call">repeat</span>(<span class="string">&quot;la&quot;</span>, <span class="number">5</span>)</code></pre>
+            <pre class="result" style=""><code>"lalalalala"</code></pre>
+          </div>
+          <p>
+            <em
+              >Note that this can also be accomplished using the
+              <code>*</code> operator</em
+            >:
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="string">&quot;la&quot;</span> <span class="operator">*</span> <span class="number">5</span></code></pre>
             <pre class="result" style=""><code>"lalalalala"</code></pre>
           </div>
         </div>
@@ -3892,17 +4312,9 @@ false</code></pre>
               >table.pop(table)</a
             >
           </h3>
-
-          <span class="tag" title="Global"></span>
-          <span class="tag" title="Overloaded"></span>
         </div>
 
-        <div class="contents">
-          <p class="overload-link">
-            Accessible as global through
-            <a href="#overloads.pop">overloads.pop</a>.
-          </p>
-        </div>
+        <div class="contents"></div>
       </section>
 
       <section class="std-def">
@@ -4052,17 +4464,10 @@ false</code></pre>
               >table.sortBy(table, keys)</a
             >
           </h3>
-
           <span class="tag" title="Global"></span>
-          <span class="tag" title="Overloaded"></span>
         </div>
 
-        <div class="contents">
-          <p class="overload-link">
-            Accessible as global through
-            <a href="#overloads.sortBy">overloads.sortBy</a>.
-          </p>
-        </div>
+        <div class="contents"></div>
       </section>
 
       <section class="std-def">
@@ -4072,17 +4477,10 @@ false</code></pre>
               >table.sortDescBy(table, keys)</a
             >
           </h3>
-
           <span class="tag" title="Global"></span>
-          <span class="tag" title="Overloaded"></span>
         </div>
 
-        <div class="contents">
-          <p class="overload-link">
-            Accessible as global through
-            <a href="#overloads.sortDescBy">overloads.sortDescBy</a>.
-          </p>
-        </div>
+        <div class="contents"></div>
       </section>
 
       <section class="std-def">
@@ -4163,4 +4561,3 @@ false</code></pre>
     </main>
   </body>
 </html>
-

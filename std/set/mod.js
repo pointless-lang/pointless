@@ -48,7 +48,12 @@ export function removeAll(set, values) {
   return set.difference(of(values));
 }
 
-export function merge(set, values) {
+export function merge(sets) {
+  checkType(sets, "list");
+  return OrderedSet().concat(...sets.map(of));
+}
+
+export function union(set, values) {
   checkType(set, "set");
   return set.union(of(values));
 }
