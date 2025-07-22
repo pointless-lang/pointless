@@ -1,6 +1,5 @@
 import { checkType } from "../../src/values.js";
 import { Panic } from "../../src/panic.js";
-import { repr } from "../../src/repr.js";
 
 class Err extends Panic {
   constructor(value) {

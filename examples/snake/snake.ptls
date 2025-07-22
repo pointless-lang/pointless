@@ -73,6 +73,7 @@ end
 fn checkCollision(game)
   if has(game.body, game.head) then
     game.playing = false
+    -- Temporary workaround for lack of JS promise cancellation
     console.pauseStdin()
     render(game)
   end

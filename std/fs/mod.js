@@ -2,6 +2,9 @@ import { show } from "../../src/repr.js";
 import { checkType } from "../../src/values.js";
 import { Panic } from "../../src/panic.js";
 import { readFile, writeFile } from "node:fs/promises";
+import { resolve } from "node:path";
+import { readdir } from "node:fs/promises";
+import { List } from "immutable";
 
 export async function read(path) {
   // Read the text file at `path`.
@@ -34,5 +37,31 @@ export async function write(path, value) {
     return null;
   } catch (err) {
     throw new Panic("file write error", { path, err: String(err) });
+  }
+}
+
+export async function ls(path) {
+  // List the contents of the directory at `path`.
+  //
+  // ```ptls --no-eval
+  // ls("./pointless")
+  // ```
+  // Example output:
+  //
+  // ```
+  // ["docs/", "examples/", "package.json", "src/", "std/", "test.ptls"]
+  // ```
+
+  const fullPath = resolve(path);
+
+  try {
+    const entries = await readdir(fullPath, { withFileTypes: true });
+    return List(
+      entries.map((entry) =>
+        entry.isDirectory() ? `${entry.name}/` : entry.name,
+      ),
+    );
+  } catch (err) {
+    throw new Panic("cannot access", { path: fullPath });
   }
 }
