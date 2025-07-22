@@ -1,1 +1,5 @@
-print(fs.write("tmp", "asdf"))
+t = table.of([
+  { foo: "bar" },
+])
+
+print(list.of(t))
