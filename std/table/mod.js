@@ -18,13 +18,13 @@ export function of(contents) {
   }
 
   checkType(contents.first(), "object");
-  const keys = contents.first().keySeq().toList();
-  return Table.fromRows(contents, keys);
+  const columns = contents.first().keySeq().toList();
+  return Table.fromRows(contents, columns);
 }
 
-export function $new(keys) {
-  checkType(keys, "list");
-  return Table.fromRows(List(), keys);
+export function $new(columns) {
+  checkType(columns, "list");
+  return Table.fromRows(List(), columns);
 }
 
 export function len(table) {
@@ -36,15 +36,15 @@ export function isEmpty(table) {
   return len(table) == 0;
 }
 
-export function defaultCols(table, keys) {
+export function defaultCols(table, columns) {
   checkType(table, "table");
-  checkType(keys, "list");
+  checkType(columns, "list");
 
   if (!table.width) {
-    return $new(keys);
+    return $new(columns);
   }
 
-  table.checkKeys(...keys);
+  table.checkColumns(...columns);
   return table;
 }
 
@@ -82,15 +82,15 @@ export function has(table, selector) {
   checkType(selector, "object", "string");
 
   if (getType(selector) === "string") {
-    return table.columns.has(selector);
+    return table.data.has(selector);
   }
 
   return table.has(selector);
 }
 
-export function keys(table) {
+export function columns(table) {
   checkType(table, "table");
-  return table.keys();
+  return table.columns();
 }
 
 export function indexOf(table, matcher) {
@@ -118,8 +118,8 @@ export function remove(table, selector) {
   }
 
   selector = varargs(selector);
-  table.checkKeys(...selector);
-  return new Table(obj.removeAll(table.columns, selector));
+  table.checkColumns(...selector);
+  return new Table(obj.removeAll(table.data, selector));
 }
 
 export function push(table, row) {
@@ -151,57 +151,57 @@ export function last(table) {
 export function take(table, count) {
   checkType(table, "table");
 
-  const columns = new Map();
+  const data = new Map();
 
-  for (const [key, values] of table.columns) {
-    columns.set(key, list.take(values, count));
+  for (const [column, values] of table.data) {
+    data.set(column, list.take(values, count));
   }
 
-  return new Table(OrderedMap(columns));
+  return new Table(OrderedMap(data));
 }
 
 export function takeLast(table, count) {
   checkType(table, "table");
 
-  const columns = new Map();
+  const data = new Map();
 
-  for (const [key, values] of table.columns) {
-    columns.set(key, list.takeLast(values, count));
+  for (const [column, values] of table.data) {
+    data.set(column, list.takeLast(values, count));
   }
 
-  return new Table(OrderedMap(columns));
+  return new Table(OrderedMap(data));
 }
 
 export function drop(table, count) {
   checkType(table, "table");
 
-  const columns = new Map();
+  const data = new Map();
 
-  for (const [key, values] of table.columns) {
-    columns.set(key, list.drop(values, count));
+  for (const [column, values] of table.data) {
+    data.set(column, list.drop(values, count));
   }
 
-  return new Table(OrderedMap(columns));
+  return new Table(OrderedMap(data));
 }
 
 export function dropLast(table, count) {
   checkType(table, "table");
 
-  const columns = new Map();
+  const data = new Map();
 
-  for (const [key, values] of table.columns) {
-    columns.set(key, list.dropLast(values, count));
+  for (const [column, values] of table.data) {
+    data.set(column, list.dropLast(values, count));
   }
 
-  return new Table(OrderedMap(columns));
+  return new Table(OrderedMap(data));
 }
 
-export function top(table, keys, count) {
-  return take(sortDescBy(table, keys), count);
+export function top(table, columns, count) {
+  return take(sortDescBy(table, columns), count);
 }
 
-export function bottom(table, keys, count) {
-  return take(sortBy(table, keys), count);
+export function bottom(table, columns, count) {
+  return take(sortBy(table, columns), count);
 }
 
 export async function map(table, func) {
@@ -214,65 +214,65 @@ export async function filter(table, condition) {
   return await table.filter(condition);
 }
 
-export function select(table, keys) {
+export function select(table, columns) {
   checkType(table, "table");
-  keys = varargs(keys);
-  return new Table(obj.select(table.columns, keys));
+  columns = varargs(columns);
+  return new Table(obj.select(table.data, columns));
 }
 
-export function focus(table, keys) {
+export function focus(table, columns) {
   checkType(table, "table");
-  keys = varargs(keys);
-  return new Table(obj.focus(table.columns, keys));
+  columns = varargs(columns);
+  return new Table(obj.focus(table.data, columns));
 }
 
-export function removeKeys(table, keys) {
+export function removecolumns(table, columns) {
   checkType(table, "table");
-  keys = varargs(keys);
-  return new Table(obj.removeAll(table.columns, keys));
+  columns = varargs(columns);
+  return new Table(obj.removeAll(table.data, columns));
 }
 
 export function rename(table, old, $new) {
   checkType(table, "table");
-  return new Table(obj.rename(table.columns, old, $new));
+  return new Table(obj.rename(table.data, old, $new));
 }
 
-function selectValues(object, keys) {
-  return keys.map((key) => obj.get(object, key));
+function selectValues(object, columns) {
+  return columns.map((column) => obj.get(object, column));
 }
 
-function doSortBy(table, keys, desc) {
+function doSortBy(table, columns, desc) {
   const rows = [...table]
-    .map((row) => ({ rank: selectValues(row, keys), row }))
+    .map((row) => ({ rank: selectValues(row, columns), row }))
     .sort((a, b) => compareAll(a.rank, b.rank, desc))
     .map(({ row }) => row);
 
   return of(List(rows));
 }
 
-export function sortBy(table, keys) {
+export function sortBy(table, columns) {
   checkType(table, "table");
-  keys = varargs(keys);
-  table.checkKeys(...keys);
-  return doSortBy(table, keys, false);
+  columns = varargs(columns);
+  table.checkColumns(...columns);
+  return doSortBy(table, columns, false);
 }
 
-export function sortDescBy(table, keys) {
+export function sortDescBy(table, columns) {
   checkType(table, "table");
-  keys = varargs(keys);
-  table.checkKeys(...keys);
-  return doSortBy(table, keys, true);
+  columns = varargs(columns);
+  table.checkColumns(...columns);
+  return doSortBy(table, columns, true);
 }
 
-export function groupBy(table, keys) {
+export function groupBy(table, columns) {
   checkType(table, "table");
-  keys = varargs(keys);
-  table.checkKeys(...keys);
+  columns = varargs(columns);
+  table.checkColumns(...columns);
 
   let groups = OrderedMap();
 
   for (const row of table) {
-    const group = selectValues(row, keys);
+    const group = selectValues(row, columns);
 
     if (!groups.has(group)) {
       groups = groups.set(group, []);
@@ -287,9 +287,9 @@ export function groupBy(table, keys) {
     .toList();
 }
 
-export async function summarize(table, keys, reducer) {
-  const groups = groupBy(table, keys);
-  keys = varargs(keys);
+export async function summarize(table, columns, reducer) {
+  const groups = groupBy(table, columns);
+  columns = varargs(columns);
   checkType(reducer, "function");
 
   const rows = [];
@@ -297,9 +297,9 @@ export async function summarize(table, keys, reducer) {
   for (const group of groups) {
     const row = new Map();
 
-    for (const key of keys) {
-      const values = group.columns.get(key);
-      row.set(key, values.first());
+    for (const column of columns) {
+      const values = group.data.get(column);
+      row.set(column, values.first());
     }
 
     const summary = await reducer.call(group);
@@ -313,23 +313,23 @@ export async function summarize(table, keys, reducer) {
 export function counts(table) {
   checkType(table, "table");
 
-  if (table.columns.has("count")) {
+  if (table.data.has("count")) {
     throw new Panic("table already contains column 'count'");
   }
 
-  if (table.columns.has("share")) {
+  if (table.data.has("share")) {
     throw new Panic("table already contains column 'share'");
   }
 
   const counts = new Map();
 
   for (const row of table) {
-    const key = repr(row);
+    const column = repr(row);
 
-    if (counts.has(key)) {
-      counts.get(key).count += 1;
+    if (counts.has(column)) {
+      counts.get(column).count += 1;
     } else {
-      counts.set(key, { row, count: 1 });
+      counts.set(column, { row, count: 1 });
     }
   }
 

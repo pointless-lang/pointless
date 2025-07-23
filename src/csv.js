@@ -1,7 +1,7 @@
 import { parse as csvParse } from "csv-parse/sync";
 import { OrderedMap, List } from "immutable";
 
-export function parseColumns(source) {
+export function parseData(source) {
   // sketchy, doesn't parse quoted strings
   // lots of improvements to make
 

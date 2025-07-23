@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -2952,7 +2952,7 @@ phrases[<span class="string">&quot;Good night&quot;</span>] <span class="operato
           <p>Overload of:</p>
           <ul class="overloads">
             <li><a href="#obj.select">obj.select(object, keys)</a></li>
-            <li><a href="#table.select">table.select(table, keys)</a></li>
+            <li><a href="#table.select">table.select(table, columns)</a></li>
           </ul>
         </div>
       </section>
@@ -4506,7 +4506,7 @@ false</code></pre>
         <div>
           <h3>
             <a class="def-name" name="table.new" href="#table.new"
-              >table.new(keys)</a
+              >table.new(columns)</a
             >
           </h3>
         </div>
@@ -4518,7 +4518,19 @@ false</code></pre>
         <div>
           <h3>
             <a class="def-name" name="table.bottom" href="#table.bottom"
-              >table.bottom(table, keys, count)</a
+              >table.bottom(table, columns, count)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents"></div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.columns" href="#table.columns"
+              >table.columns(table)</a
             >
           </h3>
         </div>
@@ -4545,7 +4557,7 @@ false</code></pre>
               class="def-name"
               name="table.defaultCols"
               href="#table.defaultCols"
-              >table.defaultCols(table, keys)</a
+              >table.defaultCols(table, columns)</a
             >
           </h3>
         </div>
@@ -4633,7 +4645,7 @@ false</code></pre>
         <div>
           <h3>
             <a class="def-name" name="table.focus" href="#table.focus"
-              >table.focus(table, keys)</a
+              >table.focus(table, columns)</a
             >
           </h3>
         </div>
@@ -4657,7 +4669,7 @@ false</code></pre>
         <div>
           <h3>
             <a class="def-name" name="table.groupBy" href="#table.groupBy"
-              >table.groupBy(table, keys)</a
+              >table.groupBy(table, columns)</a
             >
           </h3>
         </div>
@@ -4715,18 +4727,6 @@ false</code></pre>
             <a href="#overloads.isEmpty">overloads.isEmpty</a>.
           </p>
         </div>
-      </section>
-
-      <section class="std-def">
-        <div>
-          <h3>
-            <a class="def-name" name="table.keys" href="#table.keys"
-              >table.keys(table)</a
-            >
-          </h3>
-        </div>
-
-        <div class="contents"></div>
       </section>
 
       <section class="std-def">
@@ -4876,8 +4876,11 @@ false</code></pre>
       <section class="std-def">
         <div>
           <h3>
-            <a class="def-name" name="table.removeKeys" href="#table.removeKeys"
-              >table.removeKeys(table, keys)</a
+            <a
+              class="def-name"
+              name="table.removecolumns"
+              href="#table.removecolumns"
+              >table.removecolumns(table, columns)</a
             >
           </h3>
         </div>
@@ -4933,7 +4936,7 @@ false</code></pre>
         <div>
           <h3>
             <a class="def-name" name="table.select" href="#table.select"
-              >table.select(table, keys)</a
+              >table.select(table, columns)</a
             >
           </h3>
 
@@ -4965,7 +4968,7 @@ false</code></pre>
         <div>
           <h3>
             <a class="def-name" name="table.sortBy" href="#table.sortBy"
-              >table.sortBy(table, keys)</a
+              >table.sortBy(table, columns)</a
             >
           </h3>
           <span class="tag" title="Global"></span>
@@ -4978,7 +4981,7 @@ false</code></pre>
         <div>
           <h3>
             <a class="def-name" name="table.sortDescBy" href="#table.sortDescBy"
-              >table.sortDescBy(table, keys)</a
+              >table.sortDescBy(table, columns)</a
             >
           </h3>
           <span class="tag" title="Global"></span>
@@ -4991,7 +4994,7 @@ false</code></pre>
         <div>
           <h3>
             <a class="def-name" name="table.summarize" href="#table.summarize"
-              >table.summarize(table, keys, reducer)</a
+              >table.summarize(table, columns, reducer)</a
             >
           </h3>
         </div>
@@ -5043,7 +5046,7 @@ false</code></pre>
         <div>
           <h3>
             <a class="def-name" name="table.top" href="#table.top"
-              >table.top(table, keys, count)</a
+              >table.top(table, columns, count)</a
             >
           </h3>
         </div>
@@ -5065,3 +5068,4 @@ false</code></pre>
     </main>
   </body>
 </html>
+

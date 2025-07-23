@@ -3,20 +3,20 @@ import { checkWhole } from "./num.js";
 import { isMatch } from "./obj.js";
 import { invisible } from "./repr.js";
 import { Panic } from "./panic.js";
-import { parseColumns } from "./csv.js";
+import { parseData } from "./csv.js";
 import { repr } from "./repr.js";
 import { is, OrderedMap, List, Repeat } from "immutable";
 
 export class Table {
-  constructor(columns = OrderedMap()) {
-    checkType(columns, "object");
+  constructor(data = OrderedMap()) {
+    checkType(data, "object");
 
-    columns = new Map(columns);
+    data = new Map(data);
     this.width = 0;
     this.size = undefined;
 
-    for (let [key, values] of columns) {
-      checkType(key, "string");
+    for (let [column, values] of data) {
+      checkType(column, "string");
       this.width++;
 
       if (getType(values) === "list") {
@@ -27,30 +27,30 @@ export class Table {
 
     this.size ??= this.width ? 1 : 0;
 
-    // can't expand columns until we know final size
-    for (const [key, values] of columns) {
+    // can't expand data until we know final size
+    for (const [column, values] of data) {
       if (getType(values) !== "list") {
-        columns.set(key, Repeat(values, this.size).toList());
+        data.set(column, Repeat(values, this.size).toList());
       }
     }
 
-    this.columns = OrderedMap(columns);
+    this.data = OrderedMap(data);
   }
 
   static fromCsv(source) {
-    return new Table(parseColumns(source));
+    return new Table(parseData(source));
   }
 
-  static fromRows(rows, keys) {
+  static fromRows(rows, columns) {
     checkType(rows, "list");
-    checkType(keys, "list");
+    checkType(columns, "list");
 
-    const width = keys.size;
-    const columns = new Map();
+    const width = columns.size;
+    const data = new Map();
 
-    for (const key of keys) {
-      checkType(key, "string");
-      columns.set(key, []);
+    for (const column of columns) {
+      checkType(column, "string");
+      data.set(column, []);
     }
 
     for (const row of rows) {
@@ -62,25 +62,25 @@ export class Table {
         throw new Panic("mismatched columns");
       }
 
-      for (const key of keys) {
-        if (!row.has(key)) {
+      for (const column of columns) {
+        if (!row.has(column)) {
           throw new Panic("mismatched columns");
         }
 
         // Table constructor will check that values are primitives
-        columns.get(key).push(row.get(key));
+        data.get(column).push(row.get(column));
       }
     }
 
-    for (const key of keys) {
-      columns.set(key, List(columns.get(key)));
+    for (const column of columns) {
+      data.set(column, List(data.get(column)));
     }
 
-    return new Table(OrderedMap(columns));
+    return new Table(OrderedMap(data));
   }
 
   equals(other) {
-    return is(this.columns, other.columns);
+    return is(this.data, other.data);
   }
 
   checkColumnLength(values) {
@@ -91,24 +91,24 @@ export class Table {
     return values;
   }
 
-  checkKeys(...keys) {
-    for (const key of keys) {
-      checkType(key, "string");
+  checkColumns(...columns) {
+    for (const column of columns) {
+      checkType(column, "string");
 
-      if (!this.columns.has(key)) {
-        throw new Panic("key not found", { key });
+      if (!this.data.has(column)) {
+        throw new Panic("column not found", { column });
       }
     }
   }
 
-  checkKeysMatch(matcher, exact = true) {
+  checkColumnsMatch(matcher, exact = true) {
     if (exact && matcher.size !== this.width) {
       throw new Panic("mismatched keys");
     }
 
-    for (const key of matcher.keys()) {
-      if (!this.columns.has(key)) {
-        throw new Panic("mismatched keys");
+    for (const column of matcher.keys()) {
+      if (!this.data.has(column)) {
+        throw new Panic("mismatched columns");
       }
     }
   }
@@ -169,8 +169,8 @@ export class Table {
     }
   }
 
-  keys() {
-    return this.columns.keySeq().toList();
+  columns() {
+    return this.data.keySeq().toList();
   }
 
   async map(func) {
@@ -181,7 +181,7 @@ export class Table {
       rows.push(await func.call(row));
     }
 
-    return Table.fromRows(List(rows), this.keys());
+    return Table.fromRows(List(rows), this.columns());
   }
 
   async filter(func) {
@@ -194,15 +194,15 @@ export class Table {
       }
     }
 
-    return Table.fromRows(List(rows), this.keys());
+    return Table.fromRows(List(rows), this.columns());
   }
 
   getRow(index) {
     this.checkIndex(index);
     const map = new Map();
 
-    for (const [key, values] of this.columns) {
-      map.set(key, values.get(index));
+    for (const [column, values] of this.data) {
+      map.set(column, values.get(index));
     }
 
     return OrderedMap(map);
@@ -210,55 +210,55 @@ export class Table {
 
   addRow(row) {
     checkType(row, "object");
-    this.checkKeysMatch(row);
-    const columns = new Map();
+    this.checkColumnsMatch(row);
+    const data = new Map();
 
-    for (const [key, values] of this.columns) {
-      columns.set(key, values.push(row.get(key)));
+    for (const [column, values] of this.data) {
+      data.set(column, values.push(row.get(column)));
     }
 
-    return new Table(OrderedMap(columns));
+    return new Table(OrderedMap(data));
   }
 
   setRow(index, row) {
     this.checkIndex(index);
     checkType(row, "object");
-    this.checkKeysMatch(row);
-    const columns = new Map();
+    this.checkColumnsMatch(row);
+    const data = new Map();
 
-    for (const [key, values] of this.columns) {
-      columns.set(key, values.set(index, row.get(key)));
+    for (const [column, values] of this.data) {
+      data.set(column, values.set(index, row.get(column)));
     }
 
-    return new Table(OrderedMap(columns));
+    return new Table(OrderedMap(data));
   }
 
-  getColumn(key) {
-    this.checkKeys(key);
-    return this.columns.get(key);
+  getColumn(column) {
+    this.checkColumns(column);
+    return this.data.get(column);
   }
 
-  setColumn(key, values) {
-    checkType(key, "string");
+  setColumn(column, values) {
+    checkType(column, "string");
 
     if (getType(values) !== "list") {
       values = Repeat(values, this.size).toList();
     }
 
     this.checkColumnLength(values);
-    return new Table(this.columns.set(key, values));
+    return new Table(this.data.set(column, values));
   }
 
-  select(keys) {
-    checkType(keys, "list");
-    const columns = new Map();
+  select(columns) {
+    checkType(columns, "list");
+    const data = new Map();
 
-    for (const key of keys) {
-      this.checkKeys(key);
-      columns.set(key, this.columns.get(key));
+    for (const column of columns) {
+      this.checkColumns(column);
+      data.set(column, this.data.get(column));
     }
 
-    return new Table(OrderedMap(columns));
+    return new Table(OrderedMap(data));
   }
 
   *[Symbol.iterator]() {
@@ -279,7 +279,7 @@ export class Table {
 
   match(matcher) {
     checkType(matcher, "object");
-    this.checkKeysMatch(matcher, false);
+    this.checkColumnsMatch(matcher, false);
 
     const rows = [];
 
@@ -289,12 +289,12 @@ export class Table {
       }
     }
 
-    return Table.fromRows(List(rows), this.keys());
+    return Table.fromRows(List(rows), this.columns());
   }
 
   remove(matcher) {
     checkType(matcher, "object");
-    this.checkKeysMatch(matcher, false);
+    this.checkColumnsMatch(matcher, false);
 
     const rows = [];
 
@@ -304,12 +304,12 @@ export class Table {
       }
     }
 
-    return Table.fromRows(List(rows), this.keys());
+    return Table.fromRows(List(rows), this.columns());
   }
 
   findMatch(matcher) {
     checkType(matcher, "object");
-    this.checkKeysMatch(matcher, false);
+    this.checkColumnsMatch(matcher, false);
     let index = 0;
 
     for (const row of this) {
@@ -325,16 +325,16 @@ export class Table {
 
   concat(other) {
     checkType(other, "table");
-    this.checkKeysMatch(other.columns);
+    this.checkColumnsMatch(other.data);
 
-    const columns = new Map(this.columns);
+    const data = new Map(this.data);
 
-    for (const [key, values] of columns) {
-      const otherValues = other.columns.get(key);
-      columns.set(key, values.concat(otherValues));
+    for (const [column, values] of data) {
+      const otherValues = other.data.get(column);
+      data.set(column, values.concat(otherValues));
     }
 
-    return new Table(OrderedMap(columns));
+    return new Table(OrderedMap(data));
   }
 
   static merge(tables) {
@@ -344,55 +344,57 @@ export class Table {
       return new Table();
     }
 
-    let columns = new Map();
+    let data = new Map();
     const first = tables.first();
 
     checkType(first, "table");
-    for (const key of first.columns.keys()) {
-      columns.set(key, []);
+    for (const column of first.data.columns()) {
+      data.set(column, []);
     }
 
-    columns = OrderedMap(columns);
+    data = OrderedMap(data);
 
     for (const table of tables) {
       checkType(table, "table");
-      table.checkKeysMatch(columns);
+      table.checkColumnsMatch(data);
 
-      for (const [key, values] of table.columns) {
-        columns.get(key).push(...values);
+      for (const [column, values] of table.data) {
+        data.get(column).push(...values);
       }
     }
 
-    return new Table(columns.map(List));
+    return new Table(data.map(List));
   }
 
   toString() {
     const fmts = new Map();
 
-    for (const [key, values] of this.columns) {
-      fmts.set(key, getFmt(key, values));
+    for (const [column, values] of this.data) {
+      fmts.set(column, getFmt(column, values));
     }
 
     const lines = [];
 
     function addLine(start, end, sep, pad, handler) {
       const inner = [...fmts]
-        .map(([key, fmt]) => handler(key, fmt))
+        .map(([column, fmt]) => handler(column, fmt))
         .join(pad + sep + pad);
 
       lines.push([start, inner, end].join(pad));
     }
 
     addLine("┌", "┐", "┬", "─", (_, { length }) => "─".repeat(length));
-    addLine("│", `│ x ${this.size}`, "│", " ", (key, fmt) => format(key, fmt));
+    addLine("│", `│ x ${this.size}`, "│", " ", (column, fmt) =>
+      format(column, fmt),
+    );
 
     if (this.size > 0) {
       addLine("├", "┤", "┼", "─", (_, { length }) => "─".repeat(length));
     }
 
     for (let i = 0; i < this.size; i++) {
-      addLine("│", "│", "│", " ", (key, fmt) =>
-        format(this.columns.get(key).get(i), fmt),
+      addLine("│", "│", "│", " ", (column, fmt) =>
+        format(this.data.get(column).get(i), fmt),
       );
     }
 
@@ -453,7 +455,7 @@ function decLength(numStr) {
   return numStr.includes(".") ? numStr.length - numStr.indexOf(".") : 0;
 }
 
-function getFmt(key, values) {
+function getFmt(column, values) {
   let decimals = 0;
 
   for (const value of values) {
@@ -462,7 +464,7 @@ function getFmt(key, values) {
     }
   }
 
-  let length = format(key).length;
+  let length = format(column).length;
 
   for (const value of values) {
     switch (getType(value)) {
