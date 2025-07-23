@@ -45,7 +45,7 @@ while
   maxScore == 0
 do end
 
-guessed = set.empty
+guessed = set.of([])
 score = 0
 
 while score < maxScore do

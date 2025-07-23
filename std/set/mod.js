@@ -12,8 +12,6 @@ export function of(values) {
   }
 }
 
-export const empty = OrderedSet();
-
 export function len(set) {
   checkType(set, "set");
   return set.size;
