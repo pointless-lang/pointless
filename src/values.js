@@ -22,7 +22,7 @@ export function getType(value) {
     case Func:
       return "function";
     case Ref:
-      return "ref";
+      return "reference";
   }
 
   if (OrderedMap.isOrderedMap(value)) {

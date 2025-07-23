@@ -3259,11 +3259,20 @@ false</code></pre>
       <section class="std-def">
         <div>
           <h3>
-            <a class="def-name" name="ref.get" href="#ref.get">ref.get(ref)</a>
+            <a class="def-name" name="ref.get" href="#ref.get"
+              >ref.get(reference)</a
+            >
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>Get the value stored in <code>reference</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls">score <span class="operator">=</span> <span class="std">ref</span>.<span class="call">of</span>(<span class="number">0</span>)
+<span class="std">ref</span>.<span class="call">get</span>(score)</code></pre>
+            <pre class="result" style=""><code>0</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -3273,31 +3282,63 @@ false</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>Create a mutable reference cell containing <code>value</code>.</p>
+          <p>
+            Note that references they must not contain themselves (aka circular
+            references) as this could cause memory leaks and infinite recursion.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">ref</span>.<span class="call">of</span>(<span class="number">0</span>)</code></pre>
+            <pre class="result" style=""><code>ref.of(0)</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
         <div>
           <h3>
             <a class="def-name" name="ref.put" href="#ref.put"
-              >ref.put(value, ref)</a
+              >ref.put(value, reference)</a
             >
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Update <code>reference</code> to store <code>value</code>. Return
+            <code>value</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">score <span class="operator">=</span> <span class="std">ref</span>.<span class="call">of</span>(<span class="number">0</span>)
+<span class="std">ref</span>.<span class="call">put</span>(<span class="number">1</span>, score)</code></pre>
+            <pre class="result" style=""><code>1</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
         <div>
           <h3>
             <a class="def-name" name="ref.set" href="#ref.set"
-              >ref.set(ref, value)</a
+              >ref.set(reference, value)</a
             >
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Update <code>reference</code> to store <code>value</code>. Return
+            <code>reference</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">score <span class="operator">=</span> <span class="std">ref</span>.<span class="call">of</span>(<span class="number">0</span>)
+<span class="std">ref</span>.<span class="call">set</span>(score, <span class="number">1</span>)
+score</code></pre>
+            <pre class="result" style=""><code>ref.of(1)
+ref.of(1)</code></pre>
+          </div>
+        </div>
       </section>
 
       <h2>
