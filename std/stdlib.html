@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -1411,8 +1411,8 @@ t <span class="operator">=</span> <span class="std">table</span>.<span class="ca
           </div>
           <p>
             <em
-              >Note that this can also be accomplished using variable
-              assignment</em
+              >Note that if you want to update an existing variable, you could
+              also use variable assignment</em
             >:
           </p>
           <div class="snippet">
@@ -2305,7 +2305,19 @@ true</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Reorder the object so that the given <code>keys</code> appear first,
+            in the given order.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">obj</span>.<span class="call">focus</span>({ name: <span class="string">&quot;Lamar&quot;</span>, yards: <span class="number">4172</span>, tds: <span class="number">41</span>, ints: <span class="number">4</span> }, [<span class="string">&quot;name&quot;</span>, <span class="string">&quot;tds&quot;</span>])</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>{ name: "Lamar", tds: 41, yards: 4172, ints: 4 }</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -2317,7 +2329,26 @@ true</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Get the value corresponding to <code>key</code> in
+            <code>object</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">obj</span>.<span class="call">get</span>({ q: <span class="number">9</span>, r: <span class="number">5</span>, b: <span class="number">3</span>, n: <span class="number">3</span>, p: <span class="number">1</span> }, <span class="string">&quot;q&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>9</code></pre>
+          </div>
+          <p>
+            <em
+              >Note that this can also be accomplished using the index
+              <code>[]</code> operator</em
+            >:
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">{ q: <span class="number">9</span>, r: <span class="number">5</span>, b: <span class="number">3</span>, n: <span class="number">3</span>, p: <span class="number">1</span> }[<span class="string">&quot;q&quot;</span>]</code></pre>
+            <pre class="result" style=""><code>9</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -2329,7 +2360,20 @@ true</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Get the value corresponding to <code>key</code> in
+            <code>object</code>, or <code>default</code> if
+            <code>object</code> does not have <code>key</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">capitals <span class="operator">=</span> { Maine: <span class="string">&quot;Augusta&quot;</span>, Maryland: <span class="string">&quot;Annapolis&quot;</span>, Massachusetts: <span class="string">&quot;Boston&quot;</span> }
+<span class="std">obj</span>.<span class="call">getDefault</span>(capitals, <span class="string">&quot;Massachusetts&quot;</span>, <span class="string">&quot;idk&quot;</span>)
+<span class="std">obj</span>.<span class="call">getDefault</span>(capitals, <span class="string">&quot;Massocheichei&quot;</span>, <span class="string">&quot;idk&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>"Boston"
+"idk"</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -2345,6 +2389,14 @@ true</code></pre>
         </div>
 
         <div class="contents">
+          <p>Check whether <code>object</code> contains <code>key</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">has</span>({ q: <span class="number">9</span>, r: <span class="number">5</span>, b: <span class="number">3</span>, n: <span class="number">3</span>, p: <span class="number">1</span> }, <span class="string">&quot;q&quot;</span>)
+<span class="call">has</span>({ q: <span class="number">9</span>, r: <span class="number">5</span>, b: <span class="number">3</span>, n: <span class="number">3</span>, p: <span class="number">1</span> }, <span class="string">&quot;k&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>true
+false</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.has">overloads.has</a>.
@@ -2365,6 +2417,14 @@ true</code></pre>
         </div>
 
         <div class="contents">
+          <p>Check whether <code>object</code> is empty.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">len</span>({ q: <span class="number">9</span>, r: <span class="number">5</span>, b: <span class="number">3</span>, n: <span class="number">3</span>, p: <span class="number">1</span> })
+<span class="call">len</span>({})</code></pre>
+            <pre class="result" style=""><code>5
+0</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.isEmpty">overloads.isEmpty</a>.
@@ -2381,7 +2441,16 @@ true</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>Get a list of the keys in <code>object</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">obj</span>.<span class="call">keys</span>({ q: <span class="number">9</span>, r: <span class="number">5</span>, b: <span class="number">3</span>, n: <span class="number">3</span>, p: <span class="number">1</span> })</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>["q", "r", "b", "n", "p"]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -2397,6 +2466,12 @@ true</code></pre>
         </div>
 
         <div class="contents">
+          <p>Return the number of entries in <code>object</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">len</span>({ q: <span class="number">9</span>, r: <span class="number">5</span>, b: <span class="number">3</span>, n: <span class="number">3</span>, p: <span class="number">1</span> })</code></pre>
+            <pre class="result" style=""><code>5</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.len">overloads.len</a>.
@@ -2413,7 +2488,19 @@ true</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Check whether <code>object</code> contains the entries in
+            <code>matcher</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">ducky <span class="operator">=</span> { name: <span class="string">&quot;Ducky&quot;</span>, type: <span class="string">&quot;dog&quot;</span>, age: <span class="number">9</span> }
+<span class="std">obj</span>.<span class="call">matches</span>(ducky, { name: <span class="string">&quot;Ducky&quot;</span>, age: <span class="number">9</span> })
+<span class="std">obj</span>.<span class="call">matches</span>(ducky, { name: <span class="string">&quot;Ducky&quot;</span>, type: <span class="string">&quot;cat&quot;</span> })</code></pre>
+            <pre class="result" style=""><code>true
+false</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -2425,7 +2512,22 @@ true</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Merge (flatten) a list of <code>objects</code> into a single object.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">obj</span>.<span class="call">merge</span>([
+  { <span class="string">&quot;Hello&quot;</span>: <span class="string">&quot;Ola&quot;</span>, <span class="string">&quot;Good afternoon&quot;</span>: <span class="string">&quot;Boa tarde&quot;</span> },
+  { <span class="string">&quot;Hello&quot;</span>: <span class="string">&quot;?????&quot;</span>, <span class="string">&quot;Good night&quot;</span>: <span class="string">&quot;Boa noite&quot;</span> },
+])</code></pre>
+            <pre class="result" style=""><code>{
+  "Hello": "?????",
+  "Good afternoon": "Boa tarde",
+  "Good night": "Boa noite",
+}</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -2437,7 +2539,20 @@ true</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Assign <code>key</code> to <code>value</code> in
+            <code>object</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">phrases <span class="operator">=</span> { <span class="string">&quot;Hello&quot;</span>: <span class="string">&quot;Ola&quot;</span>, <span class="string">&quot;Good afternoon&quot;</span>: <span class="string">&quot;Boa tarde&quot;</span> }
+<span class="std">obj</span>.<span class="call">put</span>(<span class="string">&quot;Good night&quot;</span>, phrases, <span class="string">&quot;Boa noite&quot;</span>)</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>{ "Hello": "Ola", "Good afternoon": "Boa tarde", "Boa noite": "Good night" }</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -2453,6 +2568,20 @@ true</code></pre>
         </div>
 
         <div class="contents">
+          <p>
+            Remove the entry with <code>key</code> from <code>object</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">remove</span>(
+  { name: <span class="string">&quot;Lamar&quot;</span>, yards: <span class="number">4172</span>, tds: <span class="number">41</span>, ints: <span class="number">4</span>, fumbles: <span class="number">10</span> },
+  <span class="string">&quot;fumbles&quot;</span>
+)</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>{ name: "Lamar", yards: 4172, tds: 41, ints: 4 }</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.remove">overloads.remove</a>.
@@ -2469,7 +2598,22 @@ true</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Remove the entries with the given <code>keys</code> from
+            <code>object</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">obj</span>.<span class="call">removeAll</span>(
+  { name: <span class="string">&quot;Lamar&quot;</span>, yards: <span class="number">4172</span>, tds: <span class="number">41</span>, ints: <span class="number">4</span>, fumbles: <span class="number">10</span> },
+  [<span class="string">&quot;ints&quot;</span>, <span class="string">&quot;fumbles&quot;</span>]
+)</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>{ name: "Lamar", yards: 4172, tds: 41 }</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -2481,7 +2625,23 @@ true</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Remove the entries with the given <code>keys</code> from
+            <code>object</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">obj</span>.<span class="call">rename</span>(
+  { name: <span class="string">&quot;Lamar&quot;</span>, yards: <span class="number">4172</span>, tds: <span class="number">41</span>, ints: <span class="number">4</span> },
+  <span class="string">&quot;tds&quot;</span>,
+  <span class="string">&quot;touchdowns&quot;</span>
+)</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>{ name: "Lamar", yards: 4172, touchdowns: 41, ints: 4 }</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -2497,6 +2657,19 @@ true</code></pre>
         </div>
 
         <div class="contents">
+          <p>
+            Get a subset of the entries in <code>object</code> with the given
+            <code>keys</code>. Entries will appear in the order given in
+            <code>keys</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">select</span>({ name: <span class="string">&quot;Lamar&quot;</span>, yards: <span class="number">4172</span>, tds: <span class="number">41</span>, ints: <span class="number">4</span> }, [<span class="string">&quot;name&quot;</span>, <span class="string">&quot;tds&quot;</span>])</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>{ name: "Lamar", tds: 41 }</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.select">overloads.select</a>.
@@ -2513,7 +2686,34 @@ true</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Assign <code>key</code> to <code>value</code> in
+            <code>object</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">phrases <span class="operator">=</span> { <span class="string">&quot;Hello&quot;</span>: <span class="string">&quot;Ola&quot;</span>, <span class="string">&quot;Good afternoon&quot;</span>: <span class="string">&quot;Boa tarde&quot;</span> }
+<span class="std">obj</span>.<span class="call">set</span>(phrases, <span class="string">&quot;Good night&quot;</span>, <span class="string">&quot;Boa noite&quot;</span>)</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>{ "Hello": "Ola", "Good afternoon": "Boa tarde", "Good night": "Boa noite" }</code></pre>
+          </div>
+          <p>
+            <em
+              >Note that if you want to update an existing variable, you could
+              also use variable assignment</em
+            >:
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">phrases <span class="operator">=</span> { <span class="string">&quot;Hello&quot;</span>: <span class="string">&quot;Ola&quot;</span>, <span class="string">&quot;Good afternoon&quot;</span>: <span class="string">&quot;Boa tarde&quot;</span> }
+phrases[<span class="string">&quot;Good night&quot;</span>] <span class="operator">=</span> <span class="string">&quot;Boa noite&quot;</span></code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code><div class="var-name">phrases</div>{ "Hello": "Ola", "Good afternoon": "Boa tarde", "Good night": "Boa noite" }</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -2525,7 +2725,22 @@ true</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Assign <code>key</code> to <code>value</code> in
+            <code>object</code> only if <code>key</code> is not already present.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">phrases <span class="operator">=</span> { <span class="string">&quot;Hello&quot;</span>: <span class="string">&quot;Ola&quot;</span>, <span class="string">&quot;Good afternoon&quot;</span>: <span class="string">&quot;Boa tarde&quot;</span> }
+<span class="std">obj</span>.<span class="call">setDefault</span>(phrases, <span class="string">&quot;Hello&quot;</span>, <span class="string">&quot;????&quot;</span>)
+<span class="std">obj</span>.<span class="call">setDefault</span>(phrases, <span class="string">&quot;Good night&quot;</span>, <span class="string">&quot;Boa noite&quot;</span>)</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>{ "Hello": "Ola", "Good afternoon": "Boa tarde" }
+{ "Hello": "Ola", "Good afternoon": "Boa tarde", "Good night": "Boa noite" }</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -2537,7 +2752,13 @@ true</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>Get a list of the values in <code>object</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">obj</span>.<span class="call">values</span>({ q: <span class="number">9</span>, r: <span class="number">5</span>, b: <span class="number">3</span>, n: <span class="number">3</span>, p: <span class="number">1</span> })</code></pre>
+            <pre class="result" style=""><code>[9, 5, 3, 3, 1]</code></pre>
+          </div>
+        </div>
       </section>
 
       <h2>
@@ -3019,21 +3240,6 @@ true</code></pre>
         </div>
 
         <div class="contents"></div>
-      </section>
-
-      <section class="std-def">
-        <div>
-          <h3>
-            <a class="def-name" name="set.empty" href="#set.empty">set.empty</a>
-          </h3>
-          <span class="tag" title="Constant"></span>
-        </div>
-
-        <div class="contents">
-          <div class="snippet">
-            <pre class="result" style=""><code>set.of([])</code></pre>
-          </div>
-        </div>
       </section>
 
       <section class="std-def">
@@ -4564,3 +4770,4 @@ false</code></pre>
     </main>
   </body>
 </html>
+

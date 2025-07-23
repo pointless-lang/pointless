@@ -112,7 +112,8 @@ export function set(list, index, value) {
   // list.set(["a", "b", "d", "d"], 2, "c")
   // ```
   //
-  // *Note that this can also be accomplished using variable assignment*:
+  // *Note that if you want to update an existing variable, you could also
+  // use variable assignment*:
   //
   // ```ptls
   // letters = ["a", "b", "d", "d"]
