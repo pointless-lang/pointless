@@ -107,7 +107,8 @@ table,
 }
 
 p,
-pre {
+pre,
+ul {
   margin: 18px 0px;
 }
 

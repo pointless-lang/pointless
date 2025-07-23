@@ -1,1 +1,1 @@
-print(fs.ls("."))
+print(re.match("vanessa@example.com, megan@xkcd.com", r"(?<name>\w+)@(?<domain>\w+\.\w+)"))

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -2519,10 +2519,10 @@ false</code></pre>
           <div class="snippet">
             <pre><code class="ptls"><span class="std">obj</span>.<span class="call">merge</span>([
   { <span class="string">&quot;Hello&quot;</span>: <span class="string">&quot;Ola&quot;</span>, <span class="string">&quot;Good afternoon&quot;</span>: <span class="string">&quot;Boa tarde&quot;</span> },
-  { <span class="string">&quot;Hello&quot;</span>: <span class="string">&quot;?????&quot;</span>, <span class="string">&quot;Good night&quot;</span>: <span class="string">&quot;Boa noite&quot;</span> },
+  { <span class="string">&quot;Hello&quot;</span>: <span class="string">&quot;e aí?&quot;</span>, <span class="string">&quot;Good night&quot;</span>: <span class="string">&quot;Boa noite&quot;</span> },
 ])</code></pre>
             <pre class="result" style=""><code>{
-  "Hello": "?????",
+  "Hello": "e aí?",
   "Good afternoon": "Boa tarde",
   "Good night": "Boa noite",
 }</code></pre>
@@ -2732,7 +2732,7 @@ phrases[<span class="string">&quot;Good night&quot;</span>] <span class="operato
           </p>
           <div class="snippet">
             <pre><code class="ptls">phrases <span class="operator">=</span> { <span class="string">&quot;Hello&quot;</span>: <span class="string">&quot;Ola&quot;</span>, <span class="string">&quot;Good afternoon&quot;</span>: <span class="string">&quot;Boa tarde&quot;</span> }
-<span class="std">obj</span>.<span class="call">setDefault</span>(phrases, <span class="string">&quot;Hello&quot;</span>, <span class="string">&quot;????&quot;</span>)
+<span class="std">obj</span>.<span class="call">setDefault</span>(phrases, <span class="string">&quot;Hello&quot;</span>, <span class="string">&quot;e aí&quot;</span>)
 <span class="std">obj</span>.<span class="call">setDefault</span>(phrases, <span class="string">&quot;Good night&quot;</span>, <span class="string">&quot;Boa noite&quot;</span>)</code></pre>
             <pre
               class="result"
@@ -3115,7 +3115,19 @@ phrases[<span class="string">&quot;Good night&quot;</span>] <span class="operato
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Escape special characters in <code>chars</code> so it can be used as
+            a literal in a regular expression.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">re</span>.<span class="call">escape</span>(<span class="string">&quot;Hello? Can you *hear* me??&quot;</span>)</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>"Hello\\? Can you \\*hear\\* me\\?\\?"</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -3127,7 +3139,33 @@ phrases[<span class="string">&quot;Good night&quot;</span>] <span class="operato
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Find the matches for <code>pattern</code> in <code>string</code>.
+          </p>
+          <p>Returns a table with the following columns:</p>
+          <ul>
+            <li><code>value</code>: The matched substring.</li>
+            <li>
+              <code>index</code>: Index of <code>value</code> in
+              <code>string</code>.
+            </li>
+            <li><code>groups</code>: List of captures.</li>
+            <li><code>named</code>: Object of named captures.</li>
+          </ul>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">re</span>.<span class="call">match</span>(<span class="string">&quot;nessa@example.com, megan@xkcd.com&quot;</span>, <span class="string">r&quot;(?&lt;name&gt;\w+)@(\w+\.\w+)&quot;</span>)</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>┌───────────────────┬───────┬──────────────────────────┬───────────────────┐
+│ value             │ index │ groups                   │ named             │ x 2
+├───────────────────┼───────┼──────────────────────────┼───────────────────┤
+│ nessa@example.com │     0 │ ["nessa", "example.com"] │ { name: "nessa" } │
+│ megan@xkcd.com    │    19 │ ["megan", "xkcd.com"]    │ { name: "megan" } │
+└───────────────────┴───────┴──────────────────────────┴───────────────────┘</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -3139,7 +3177,16 @@ phrases[<span class="string">&quot;Good night&quot;</span>] <span class="operato
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Replace all matches of <code>pattern</code> in
+            <code>string</code> with <code>replacement</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">re</span>.<span class="call">replace</span>(<span class="string">&quot;2025  07 22&quot;</span>, <span class="string">&quot; +&quot;</span>, <span class="string">&quot;.&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>"2025.07.22"</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -3151,7 +3198,16 @@ phrases[<span class="string">&quot;Good night&quot;</span>] <span class="operato
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Replace all matches of <code>pattern</code> in
+            <code>string</code> with <code>replacement</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">re</span>.<span class="call">replaceBy</span>(<span class="string">&quot;a catalog of cats&quot;</span>, <span class="string">r&quot;cat\w*&quot;</span>, <span class="std">str</span>.toUpper)</code></pre>
+            <pre class="result" style=""><code>"a CATALOG of CATS"</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -3163,7 +3219,17 @@ phrases[<span class="string">&quot;Good night&quot;</span>] <span class="operato
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Split <code>string</code> using the regular expression
+            <code>pattern</code>. The matching separators are not included in
+            the resulting substrings.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">re</span>.<span class="call">split</span>(<span class="string">&quot;NYC NY  USA&quot;</span>, <span class="string">&quot; +&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>["NYC", "NY", "USA"]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -3175,7 +3241,18 @@ phrases[<span class="string">&quot;Good night&quot;</span>] <span class="operato
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Check whether <code>string</code> matches the regular expression
+            <code>pattern</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">re</span>.<span class="call">test</span>(<span class="string">&quot;vanessa@example.com&quot;</span>, <span class="string">r&quot;.+@.+\..+&quot;</span>)
+<span class="std">re</span>.<span class="call">test</span>(<span class="string">&quot;vanessa at example dot com&quot;</span>, <span class="string">r&quot;.+@.+\..+&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>true
+false</code></pre>
+          </div>
+        </div>
       </section>
 
       <h2>
@@ -4770,4 +4847,3 @@ false</code></pre>
     </main>
   </body>
 </html>
-

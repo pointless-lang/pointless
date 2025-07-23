@@ -94,7 +94,7 @@ export function setDefault(object, key, value) {
   //
   // ```ptls
   // phrases = { "Hello": "Ola", "Good afternoon": "Boa tarde" }
-  // obj.setDefault(phrases, "Hello", "????")
+  // obj.setDefault(phrases, "Hello", "e aí")
   // obj.setDefault(phrases, "Good night", "Boa noite")
   // ```
 
@@ -108,7 +108,7 @@ export function merge(objects) {
   // ```ptls
   // obj.merge([
   //   { "Hello": "Ola", "Good afternoon": "Boa tarde" },
-  //   { "Hello": "?????", "Good night": "Boa noite" },
+  //   { "Hello": "e aí?", "Good night": "Boa noite" },
   // ])
   // ```
 
