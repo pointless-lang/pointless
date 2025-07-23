@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -366,29 +366,27 @@
         <div class="contents">
           <p>
             Call the zero-argument function <code>func</code>. If
-            <code>func</code> throws an error, return
-            <code>handler(value)</code> where <code>value</code> is the error
-            value. If no error is thrown then return the value returned from
-            <code>func</code>.
+            <code>func</code> returns a value without throwing an error, return
+            it; otherwise, call <code>handler</code> with the error payload and
+            return <code>handler(payload)</code>.
           </p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">getFirst</span>(<span class="argument">values</span>)
-  <span class="keyword">if</span> <span class="call">isEmpty</span>(values) <span class="keyword">then</span>
-    <span class="std">err</span>.<span class="call">throw</span>(<span class="string">&quot;values may not be empty&quot;</span>)
+            <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">inverse</span>(<span class="argument">n</span>)
+  <span class="keyword">if</span> n <span class="operator">==</span> <span class="number">0</span> <span class="keyword">then</span>
+    <span class="std">err</span>.<span class="call">throw</span>(<span class="string">&quot;n must not be zero&quot;</span>)
   <span class="keyword">end</span>
 
-  values[<span class="number">0</span>]
+  <span class="number">1</span> <span class="operator">/</span> n
 <span class="keyword">end</span>
 
 <span class="keyword">fn</span> <span class="function">showErr</span>(<span class="argument">msg</span>)
   <span class="string">&quot;an error occured: </span><span class="interpolated">$msg</span><span class="string">&quot;</span>
 <span class="keyword">end</span>
 
-<span class="std">err</span>.<span class="call">catch</span>(<span class="keyword">fn</span>() <span class="call">getFirst</span>([<span class="number">0</span>, <span class="number">1</span>]) <span class="keyword">end</span>, showErr)
-
-<span class="std">err</span>.<span class="call">catch</span>(<span class="keyword">fn</span>() <span class="call">getFirst</span>([]) <span class="keyword">end</span>, showErr)</code></pre>
-            <pre class="result" style=""><code>0
-"an error occured: values may not be empty"</code></pre>
+<span class="std">err</span>.<span class="call">catch</span>(<span class="keyword">fn</span>() <span class="call">inverse</span>(<span class="number">5</span>) <span class="keyword">end</span>, showErr)
+<span class="std">err</span>.<span class="call">catch</span>(<span class="keyword">fn</span>() <span class="call">inverse</span>(<span class="number">0</span>) <span class="keyword">end</span>, showErr)</code></pre>
+            <pre class="result" style=""><code>0.2
+"an error occured: n must not be zero"</code></pre>
           </div>
         </div>
       </section>
@@ -397,33 +395,33 @@
         <div>
           <h3>
             <a class="def-name" name="err.throw" href="#err.throw"
-              >err.throw(value)</a
+              >err.throw(payload)</a
             >
           </h3>
         </div>
 
         <div class="contents">
-          <p>Throw an error with payload <code>value</code>.</p>
+          <p>Throw an error with <code>payload</code>.</p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">getFirst</span>(<span class="argument">values</span>)
-  <span class="keyword">if</span> <span class="call">isEmpty</span>(values) <span class="keyword">then</span>
-    <span class="std">err</span>.<span class="call">throw</span>(<span class="string">&quot;values may not be empty&quot;</span>)
+            <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">inverse</span>(<span class="argument">n</span>)
+  <span class="keyword">if</span> n <span class="operator">==</span> <span class="number">0</span> <span class="keyword">then</span>
+    <span class="std">err</span>.<span class="call">throw</span>(<span class="string">&quot;n must not be zero&quot;</span>)
   <span class="keyword">end</span>
 
-  values[<span class="number">0</span>]
+  <span class="number">1</span> <span class="operator">/</span> n
 <span class="keyword">end</span>
 
-<span class="call">getFirst</span>([])</code></pre>
+<span class="call">inverse</span>(<span class="number">0</span>)</code></pre>
             <pre class="result panic" style=""><code>panic: unhandled error
-value: "values may not be empty"
+payload: "n must not be zero"
 
-    err.throw("values may not be empty")
+    err.throw("n must not be zero")
              ^
-At std:embedded:3:14 in getFirst(values)
+At std:embedded:3:14 in inverse(n)
 
-getFirst([])
-        ^
-At std:embedded:9:9</code></pre>
+inverse(0)
+       ^
+At std:embedded:9:8</code></pre>
           </div>
         </div>
       </section>
@@ -464,22 +462,21 @@ At std:embedded:2:7</code></pre>
         <div class="contents">
           <p>
             Call the zero-argument function <code>func</code>. If
-            <code>func</code> throws an error, return <code>default</code>,
-            otherwise return the value returned from <code>func</code>.
+            <code>func</code> returns a value without throwing an error, return
+            it; otherwise return <code>default</code>.
           </p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">getFirst</span>(<span class="argument">values</span>)
-  <span class="keyword">if</span> <span class="call">isEmpty</span>(values) <span class="keyword">then</span>
-    <span class="std">err</span>.<span class="call">throw</span>(<span class="string">&quot;values may not be empty&quot;</span>)
+            <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">inverse</span>(<span class="argument">n</span>)
+  <span class="keyword">if</span> n <span class="operator">==</span> <span class="number">0</span> <span class="keyword">then</span>
+    <span class="std">err</span>.<span class="call">throw</span>(<span class="string">&quot;n must not be zero&quot;</span>)
   <span class="keyword">end</span>
 
-  values[<span class="number">0</span>]
+  <span class="number">1</span> <span class="operator">/</span> n
 <span class="keyword">end</span>
 
-<span class="std">err</span>.<span class="call">orElse</span>(<span class="keyword">fn</span>() <span class="call">getFirst</span>([<span class="number">0</span>, <span class="number">1</span>]) <span class="keyword">end</span>, <span class="constant">none</span>)
-
-<span class="std">err</span>.<span class="call">orElse</span>(<span class="keyword">fn</span>() <span class="call">getFirst</span>([]) <span class="keyword">end</span>, <span class="constant">none</span>)</code></pre>
-            <pre class="result" style=""><code>0
+<span class="std">err</span>.<span class="call">orElse</span>(<span class="keyword">fn</span>() <span class="call">inverse</span>(<span class="number">5</span>) <span class="keyword">end</span>, <span class="constant">none</span>)
+<span class="std">err</span>.<span class="call">orElse</span>(<span class="keyword">fn</span>() <span class="call">inverse</span>(<span class="number">0</span>) <span class="keyword">end</span>, <span class="constant">none</span>)</code></pre>
+            <pre class="result" style=""><code>0.2
 none</code></pre>
           </div>
         </div>
@@ -4847,3 +4844,4 @@ false</code></pre>
     </main>
   </body>
 </html>
+
