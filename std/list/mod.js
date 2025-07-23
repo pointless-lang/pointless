@@ -23,7 +23,7 @@ export function of(values) {
 }
 
 export function len(list) {
-  // Return the length of a list.
+  // Return the number of elements in `list`.
   //
   // ```ptls
   // len(["a", "b", "c", "d"])
@@ -76,7 +76,7 @@ export function has(list, value) {
 
 export function hasAll(list, values) {
   // Return whether `list` contains every value in `values`,
-  // where `values` is a list or set.
+  // where `values` is a list, set, or table.
   //
   // ```ptls
   // list.hasAll(["a", "b", "c"], ["b", "c"])
@@ -330,7 +330,7 @@ export async function remove(list, value) {
 
 export async function removeAll(list, values) {
   // Remove all occurences of each value in `values` from `list`,
-  // where `values` is a list or set.
+  // where `values` is a list, set, or table.
   //
   // ```ptls
   // list.removeAll([1, 2, none, 3, 4, 0, none], [none, 0])

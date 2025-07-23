@@ -4,12 +4,12 @@ import { checkType } from "../../src/values.js";
 export function of(value) {
   // Create a mutable reference cell containing `value`.
   //
-  // Note that references they must not contain themselves (aka circular
-  // references) as this could cause memory leaks and infinite recursion.
-  //
   // ```ptls
   // ref.of(0)
   // ```
+  //
+  // *Note that references must not reference themselves (aka circular
+  // references) as this could cause memory leaks and infinite recursion.*
 
   return new Ref(value);
 }
