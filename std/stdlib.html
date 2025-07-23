@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -916,7 +916,8 @@ false</code></pre>
         <div class="contents">
           <p>
             Return whether <code>list</code> contains every value in
-            <code>values</code>, where <code>values</code> is a list or set.
+            <code>values</code>, where <code>values</code> is a list, set, or
+            table.
           </p>
           <div class="snippet">
             <pre><code class="ptls"><span class="std">list</span>.<span class="call">hasAll</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>], [<span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>])
@@ -992,7 +993,7 @@ false</code></pre>
         </div>
 
         <div class="contents">
-          <p>Return the length of a list.</p>
+          <p>Return the number of elements in <code>list</code>.</p>
           <div class="snippet">
             <pre><code class="ptls"><span class="call">len</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>])</code></pre>
             <pre class="result" style=""><code>4</code></pre>
@@ -1316,7 +1317,8 @@ t <span class="operator">=</span> <span class="std">table</span>.<span class="ca
         <div class="contents">
           <p>
             Remove all occurences of each value in <code>values</code> from
-            <code>list</code>, where <code>values</code> is a list or set.
+            <code>list</code>, where <code>values</code> is a list, set, or
+            table.
           </p>
           <div class="snippet">
             <pre><code class="ptls"><span class="std">list</span>.<span class="call">removeAll</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="constant">none</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="constant">none</span>], [<span class="constant">none</span>, <span class="number">0</span>])</code></pre>
@@ -3284,14 +3286,17 @@ false</code></pre>
 
         <div class="contents">
           <p>Create a mutable reference cell containing <code>value</code>.</p>
-          <p>
-            Note that references they must not contain themselves (aka circular
-            references) as this could cause memory leaks and infinite recursion.
-          </p>
           <div class="snippet">
             <pre><code class="ptls"><span class="std">ref</span>.<span class="call">of</span>(<span class="number">0</span>)</code></pre>
             <pre class="result" style=""><code>ref.of(0)</code></pre>
           </div>
+          <p>
+            <em
+              >Note that references must not reference themselves (aka circular
+              references) as this could cause memory leaks and infinite
+              recursion.</em
+            >
+          </p>
         </div>
       </section>
 
@@ -3354,7 +3359,41 @@ ref.of(1)</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>Add <code>value</code> to <code>set</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls">s <span class="operator">=</span> <span class="std">set</span>.<span class="call">of</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>])
+<span class="std">set</span>.<span class="call">add</span>(s, <span class="string">&quot;b&quot;</span>)
+<span class="std">set</span>.<span class="call">add</span>(s, <span class="string">&quot;d&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>set.of(["a", "b", "c"])
+set.of(["a", "b", "c", "d"])</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="set.addAll" href="#set.addAll"
+              >set.addAll(set, values)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Add each of <code>values</code> to <code>set</code>, where
+            <code>values</code> is a set, list, or table. In other words, get
+            the union of <code>set</code> and <code>values</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">s <span class="operator">=</span> <span class="std">set</span>.<span class="call">of</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>])
+<span class="std">set</span>.<span class="call">addAll</span>(s, [<span class="string">&quot;b&quot;</span>, <span class="string">&quot;e&quot;</span>])
+<span class="std">set</span>.<span class="call">addAll</span>(s, [<span class="string">&quot;d&quot;</span>, <span class="string">&quot;e&quot;</span>])</code></pre>
+            <pre class="result" style=""><code>set.of(["a", "b", "c", "e"])
+set.of(["a", "b", "c", "d", "e"])</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -3370,6 +3409,15 @@ ref.of(1)</code></pre>
         </div>
 
         <div class="contents">
+          <p>Return whether <code>set</code> contains <code>value</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls">s <span class="operator">=</span> <span class="std">set</span>.<span class="call">of</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>])
+<span class="call">has</span>(s, <span class="string">&quot;b&quot;</span>)
+<span class="call">has</span>(s, <span class="string">&quot;d&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>true
+false</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.has">overloads.has</a>.
@@ -3386,7 +3434,22 @@ ref.of(1)</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Return whether <code>set</code> contains every value in
+            <code>values</code>, where <code>values</code> is a set, list, or
+            table. In other words, check whether <code>set</code> is a superset
+            of <code>values</code>, and <code>values</code> is a subset of
+            <code>set</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">s <span class="operator">=</span> <span class="std">set</span>.<span class="call">of</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>])
+<span class="std">set</span>.<span class="call">hasAll</span>(s, [<span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>])
+<span class="std">set</span>.<span class="call">hasAll</span>(s, [<span class="string">&quot;d&quot;</span>, <span class="string">&quot;c&quot;</span>])</code></pre>
+            <pre class="result" style=""><code>true
+false</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -3398,7 +3461,20 @@ ref.of(1)</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Get the set of elements that appear in both <code>set</code> and
+            <code>values</code>, where <code>values</code> is a set, list, or
+            table. In other words, get the intersection of <code>set</code> and
+            <code>values</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">s1 <span class="operator">=</span> <span class="std">set</span>.<span class="call">of</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>])
+s2 <span class="operator">=</span> <span class="std">set</span>.<span class="call">of</span>([<span class="string">&quot;c&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;e&quot;</span>])
+<span class="std">set</span>.<span class="call">intersection</span>(s1, s2)</code></pre>
+            <pre class="result" style=""><code>set.of(["b", "c"])</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -3414,6 +3490,15 @@ ref.of(1)</code></pre>
         </div>
 
         <div class="contents">
+          <p>Check whether <code>set</code> is empty.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">isEmpty</span>(<span class="std">set</span>.<span class="call">of</span>([]))
+s <span class="operator">=</span> <span class="std">set</span>.<span class="call">of</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>])
+<span class="call">isEmpty</span>(s)</code></pre>
+            <pre class="result" style=""><code>true
+false</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.isEmpty">overloads.isEmpty</a>.
@@ -3432,6 +3517,13 @@ ref.of(1)</code></pre>
         </div>
 
         <div class="contents">
+          <p>Return the number of elements in <code>set</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls">s <span class="operator">=</span> <span class="std">set</span>.<span class="call">of</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>])
+<span class="call">len</span>(s)</code></pre>
+            <pre class="result" style=""><code>4</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.len">overloads.len</a>.
@@ -3448,7 +3540,18 @@ ref.of(1)</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>Merge (flatten) a list of <code>sets</code> into a single set.</p>
+          <div class="snippet">
+            <pre><code class="ptls">s1 <span class="operator">=</span> <span class="std">set</span>.<span class="call">of</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>])
+s2 <span class="operator">=</span> <span class="std">set</span>.<span class="call">of</span>([<span class="string">&quot;d&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;e&quot;</span>])
+<span class="std">set</span>.<span class="call">merge</span>([s1, s2])</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>set.of(["a", "b", "c", "d", "e"])</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -3458,7 +3561,25 @@ ref.of(1)</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Get a set containing each value in <code>values</code>.
+            <code>values</code> may be a list, table, or set. If
+            <code>values</code> is a table then
+            <code>set.of(values)</code> returns a set of the table&#39;s rows.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">l <span class="operator">=</span> [<span class="string">&quot;NY&quot;</span>, <span class="string">&quot;CA&quot;</span>, <span class="string">&quot;IL&quot;</span>, <span class="string">&quot;TX&quot;</span>, <span class="string">&quot;AZ&quot;</span>, <span class="string">&quot;PA&quot;</span>, <span class="string">&quot;TX&quot;</span>, <span class="string">&quot;CA&quot;</span>, <span class="string">&quot;TX&quot;</span>, <span class="string">&quot;FL&quot;</span>]
+<span class="std">set</span>.<span class="call">of</span>(l)
+t <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>({ name: [<span class="string">&quot;Ducky&quot;</span>, <span class="string">&quot;Clementine&quot;</span>], type: [<span class="string">&quot;dog&quot;</span>, <span class="string">&quot;bird&quot;</span>] })
+<span class="std">set</span>.<span class="call">of</span>(t)</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>set.of(["NY", "CA", "IL", "TX", "AZ", "PA", "FL"])
+set.of([{ name: "Ducky", type: "dog" }, { name: "Clementine", type: "bird" }])</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -3470,7 +3591,25 @@ ref.of(1)</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Get a list of all of the subsets of <code>set</code> (the powerset
+            of <code>set</code>).
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">set</span>.<span class="call">powerset</span>(<span class="std">set</span>.<span class="call">of</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>]))</code></pre>
+            <pre class="result" style=""><code>[
+  set.of(["a", "b", "c"]),
+  set.of(["a", "b"]),
+  set.of(["a", "c"]),
+  set.of(["a"]),
+  set.of(["b", "c"]),
+  set.of(["b"]),
+  set.of(["c"]),
+  set.of([]),
+]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -3486,6 +3625,15 @@ ref.of(1)</code></pre>
         </div>
 
         <div class="contents">
+          <p>Remove <code>value</code> from <code>set</code>, if present.</p>
+          <div class="snippet">
+            <pre><code class="ptls">s <span class="operator">=</span> <span class="std">set</span>.<span class="call">of</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>])
+<span class="std">set</span>.<span class="call">remove</span>(s, <span class="string">&quot;b&quot;</span>)
+<span class="std">set</span>.<span class="call">remove</span>(s, <span class="string">&quot;d&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>set.of(["a", "c"])
+set.of(["a", "b", "c"])</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.remove">overloads.remove</a>.
@@ -3502,19 +3650,20 @@ ref.of(1)</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
-      </section>
-
-      <section class="std-def">
-        <div>
-          <h3>
-            <a class="def-name" name="set.union" href="#set.union"
-              >set.union(set, values)</a
-            >
-          </h3>
+        <div class="contents">
+          <p>
+            Remove each of <code>values</code> to <code>set</code>, if present,
+            where <code>values</code> is a set, list, or table. In other words,
+            get the difference of <code>set</code> and <code>values</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">s <span class="operator">=</span> <span class="std">set</span>.<span class="call">of</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>])
+<span class="std">set</span>.<span class="call">removeAll</span>(s, [<span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>])
+<span class="std">set</span>.<span class="call">removeAll</span>(s, [<span class="string">&quot;d&quot;</span>, <span class="string">&quot;c&quot;</span>])</code></pre>
+            <pre class="result" style=""><code>set.of(["a"])
+set.of(["a", "b"])</code></pre>
+          </div>
         </div>
-
-        <div class="contents"></div>
       </section>
 
       <h2>
@@ -3536,11 +3685,12 @@ ref.of(1)</code></pre>
             Split <code>string</code> into a list of single-character strings.
           </p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="call">len</span>(<span class="string">&quot;&quot;</span>)
-<span class="call">chars</span>(<span class="string">&quot;Hello World!&quot;</span>)
+            <pre><code class="ptls"><span class="call">chars</span>(<span class="string">&quot;Hello World!&quot;</span>)
 <span class="call">chars</span>(<span class="string">&quot;🧑🏽&quot;</span>)</code></pre>
-            <pre class="result" style=""><code>0
-["H", "e", "l", "l", "o", " ", "W", "o", "r", "l", "d", "!"]
+            <pre
+              class="result"
+              style=""
+            ><code>["H", "e", "l", "l", "o", " ", "W", "o", "r", "l", "d", "!"]
 ["🧑", "🏽"]</code></pre>
           </div>
         </div>
@@ -3668,10 +3818,8 @@ false</code></pre>
             <code>string</code>.
           </p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="std">str</span>.<span class="call">get</span>(<span class="string">&quot;Hello World!&quot;</span>, <span class="number">1</span>)
-<span class="std">str</span>.<span class="call">get</span>(<span class="string">&quot;Hello World!&quot;</span>, <span class="operator">-</span><span class="number">2</span>)</code></pre>
-            <pre class="result" style=""><code>"e"
-"d"</code></pre>
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">get</span>(<span class="string">&quot;Hello World!&quot;</span>, <span class="number">1</span>)</code></pre>
+            <pre class="result" style=""><code>"e"</code></pre>
           </div>
         </div>
       </section>
@@ -3856,10 +4004,8 @@ false</code></pre>
           <p>Check if <code>string</code> is empty (if its length is zero).</p>
           <div class="snippet">
             <pre><code class="ptls"><span class="call">isEmpty</span>(<span class="string">&quot;&quot;</span>)
-<span class="call">isEmpty</span>(<span class="string">&quot; &quot;</span>)
 <span class="call">isEmpty</span>(<span class="string">&quot;asdf&quot;</span>)</code></pre>
             <pre class="result" style=""><code>true
-false
 false</code></pre>
           </div>
 
@@ -3950,11 +4096,9 @@ false</code></pre>
         <div class="contents">
           <p>Get the length of <code>string</code> in characters.</p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="call">len</span>(<span class="string">&quot;&quot;</span>)
-<span class="call">len</span>(<span class="string">&quot;Hello World!&quot;</span>)
+            <pre><code class="ptls"><span class="call">len</span>(<span class="string">&quot;Hello World!&quot;</span>)
 <span class="call">len</span>(<span class="string">&quot;🧑🏽&quot;</span>)</code></pre>
-            <pre class="result" style=""><code>0
-12
+            <pre class="result" style=""><code>12
 2</code></pre>
           </div>
 
@@ -4000,11 +4144,11 @@ false</code></pre>
         <div class="contents">
           <p>Get the string representation of <code>value</code>.</p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="std">str</span>.<span class="call">of</span>([<span class="number">100</span>, <span class="constant">false</span>, <span class="string">&quot;foo&quot;</span>])</code></pre>
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">of</span>([<span class="number">100</span>, <span class="constant">false</span>, <span class="string">&quot;foo&quot;</span>, print])</code></pre>
             <pre
               class="result"
               style=""
-            ><code>"[100, false, \"foo\"]"</code></pre>
+            ><code>"[100, false, \"foo\", console.print(value)]"</code></pre>
           </div>
         </div>
       </section>
@@ -4314,6 +4458,42 @@ false</code></pre>
           <div class="snippet">
             <pre><code class="ptls"><span class="std">str</span>.<span class="call">trim</span>(<span class="string">&quot;  hello</span><span class="escape">\n</span><span class="string">&quot;</span>)</code></pre>
             <pre class="result" style=""><code>"hello"</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.trimLeft" href="#str.trimLeft"
+              >str.trimLeft(string)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Remove the leading whitespace from <code>string</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">trimLeft</span>(<span class="string">&quot;  hello</span><span class="escape">\n</span><span class="string">&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>"hello\n"</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="str.trimRight" href="#str.trimRight"
+              >str.trimRight(string)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Remove the trailing whitespace from <code>string</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">str</span>.<span class="call">trimRight</span>(<span class="string">&quot;  hello</span><span class="escape">\n</span><span class="string">&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>"  hello"</code></pre>
           </div>
         </div>
       </section>
@@ -4885,4 +5065,3 @@ false</code></pre>
     </main>
   </body>
 </html>
-
