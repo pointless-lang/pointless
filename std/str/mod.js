@@ -8,7 +8,7 @@ export function of(value) {
   // Get the string representation of `value`.
   //
   // ```ptls
-  // str.of([100, false, "foo"])
+  // str.of([100, false, "foo", print])
   // ```
 
   return show(value);
@@ -18,7 +18,6 @@ export function len(string) {
   // Get the length of `string` in characters.
   //
   // ```ptls
-  // len("")
   // len("Hello World!")
   // len("🧑🏽")
   // ```
@@ -32,7 +31,6 @@ export function isEmpty(string) {
   //
   // ```ptls
   // isEmpty("")
-  // isEmpty(" ")
   // isEmpty("asdf")
   // ```
 
@@ -43,7 +41,6 @@ export function chars(string) {
   // Split `string` into a list of single-character strings.
   //
   // ```ptls
-  // len("")
   // chars("Hello World!")
   // chars("🧑🏽")
   // ```
@@ -73,7 +70,6 @@ export function get(string, index) {
   //
   // ```ptls
   // str.get("Hello World!", 1)
-  // str.get("Hello World!", -2)
   // ```
 
   checkType(string, "string");
@@ -326,6 +322,28 @@ export function trim(string) {
 
   checkType(string, "string");
   return string.trim();
+}
+
+export function trimLeft(string) {
+  // Remove the leading whitespace from `string`.
+  //
+  // ```ptls
+  // str.trimLeft("  hello\n")
+  // ```
+
+  checkType(string, "string");
+  return string.trimStart();
+}
+
+export function trimRight(string) {
+  // Remove the trailing whitespace from `string`.
+  //
+  // ```ptls
+  // str.trimRight("  hello\n")
+  // ```
+
+  checkType(string, "string");
+  return string.trimEnd();
 }
 
 export function toUpper(string) {
