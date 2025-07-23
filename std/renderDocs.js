@@ -96,7 +96,10 @@ export async function makeDocs() {
       </h2>
     `;
 
-    for (const [name, value] of modules[modName]) {
+    // Need to sort to account for removed `$` prefixes
+    for (const name of modules[modName].keySeq().sort()) {
+      const value = modules[modName].get(name);
+
       if (modName === "overloads") {
         html += showOverloads(name, value);
       } else {
