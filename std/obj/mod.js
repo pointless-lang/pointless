@@ -94,7 +94,7 @@ export function setDefault(object, key, value) {
   //
   // ```ptls
   // phrases = { "Hello": "Ola", "Good afternoon": "Boa tarde" }
-  // obj.setDefault(phrases, "Hello", "e aí")
+  // obj.setDefault(phrases, "Hello", "E aí")
   // obj.setDefault(phrases, "Good night", "Boa noite")
   // ```
 
@@ -108,7 +108,7 @@ export function merge(objects) {
   // ```ptls
   // obj.merge([
   //   { "Hello": "Ola", "Good afternoon": "Boa tarde" },
-  //   { "Hello": "e aí?", "Good night": "Boa noite" },
+  //   { "Hello": "E aí?", "Good night": "Boa noite" },
   // ])
   // ```
 
@@ -183,8 +183,8 @@ export function select(object, keys) {
 }
 
 export function focus(object, keys) {
-  // Reorder the object so that the given `keys` appear first, in the
-  // given order.
+  // Reorder the entries in `object` so that the given `keys` appear first,
+  // in the given order.
   //
   // ```ptls
   // obj.focus({ name: "Lamar", yards: 4172, tds: 41, ints: 4 }, ["name", "tds"])
@@ -238,7 +238,7 @@ export function removeAll(object, keys) {
 }
 
 export function rename(object, old, $new) {
-  // Remove the entries with the given `keys` from `object`.
+  // Update the entry in `object` with key `old` to have key `new`.
   //
   // ```ptls
   // obj.rename(

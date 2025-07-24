@@ -210,7 +210,7 @@ export function takeLast(list, count) {
 }
 
 export function drop(list, count) {
-  // Get the first `count` elements from `list`.
+  // Remove the first `count` elements from `list`.
   //
   // ```ptls
   // drop(["a", "b", "c", "d", "e"], 3)
@@ -222,7 +222,7 @@ export function drop(list, count) {
 }
 
 export function dropLast(list, count) {
-  // Get the first `count` elements from `list`.
+  // Remove the last `count` elements from `list`.
   //
   // ```ptls
   // dropLast(["a", "b", "c", "d", "e"], 3)
@@ -493,7 +493,7 @@ export function sortDesc(list) {
 // }
 
 export function top(list, count) {
-  // Return the `count` highest-ranking values of `list` in descending order.
+  // Sort `list` in descending order and get the first `count` values.
   //
   // ```ptls
   // list.top([3, 1, 4, 1, 5, 9, 2, 6, 5, 4], 5)
@@ -503,7 +503,7 @@ export function top(list, count) {
 }
 
 export function bottom(list, count) {
-  // Return the `count` lowest-ranking values of `list` in ascending order.
+  // Sort `list` in ascending order and get the first `count` values.
   //
   // ```ptls
   // list.bottom([3, 1, 4, 1, 5, 9, 2, 6, 5, 4], 5)
