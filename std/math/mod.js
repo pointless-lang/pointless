@@ -2,12 +2,17 @@ import { checkType, getType } from "../../src/values.js";
 import { checkPositive, checkNumResult, checkWhole } from "../../src/num.js";
 import { Panic } from "../../src/panic.js";
 
+export const _constDocs = {
+  e: "Euler's number.",
+  inf: "Floating-point infinity.",
+  nan: "\"Not a number\". Cursed floating-point nonsense.",
+  pi: "The constant π (pi).",
+  tau: "`2 * math.pi`. See [The Tau Manifesto](https://www.tauday.com/tau-manifesto).",
+};
+
 export const pi = Math.PI;
-// https://www.tauday.com/tau-manifesto
 export const tau = pi * 2;
 export const e = Math.E;
-
-// cursed
 export const inf = Infinity;
 export const nan = NaN;
 
