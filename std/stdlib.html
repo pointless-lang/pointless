@@ -357,6 +357,30 @@
       <section class="std-def">
         <div>
           <h3>
+            <a class="def-name" name="err.assert" href="#err.assert"
+              >err.assert(predicate)</a
+            >
+          </h3>
+          <span class="tag" title="Global"></span>
+        </div>
+
+        <div class="contents">
+          <p>Panic if <code>predicate</code> is <code>false</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls">age <span class="operator">=</span> <span class="operator">-</span><span class="number">17</span>
+<span class="call">assert</span>(age <span class="operator">&gt;=</span> <span class="number">0</span>)</code></pre>
+            <pre class="result panic" style=""><code>panic: assertion error
+
+assert(age >= 0)
+      ^
+At std:embedded:2:7</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
             <a class="def-name" name="err.catch" href="#err.catch"
               >err.catch(func, handler)</a
             >
@@ -394,6 +418,38 @@
       <section class="std-def">
         <div>
           <h3>
+            <a class="def-name" name="err.orElse" href="#err.orElse"
+              >err.orElse(func, default)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Call the zero-argument function <code>func</code>. If
+            <code>func</code> returns a value without throwing an error, return
+            it; otherwise return <code>default</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">inverse</span>(<span class="argument">n</span>)
+  <span class="keyword">if</span> n <span class="operator">==</span> <span class="number">0</span> <span class="keyword">then</span>
+    <span class="std">err</span>.<span class="call">throw</span>(<span class="string">&quot;n must not be zero&quot;</span>)
+  <span class="keyword">end</span>
+
+  <span class="number">1</span> <span class="operator">/</span> n
+<span class="keyword">end</span>
+
+<span class="std">err</span>.<span class="call">orElse</span>(<span class="keyword">fn</span>() <span class="call">inverse</span>(<span class="number">5</span>) <span class="keyword">end</span>, <span class="constant">none</span>)
+<span class="std">err</span>.<span class="call">orElse</span>(<span class="keyword">fn</span>() <span class="call">inverse</span>(<span class="number">0</span>) <span class="keyword">end</span>, <span class="constant">none</span>)</code></pre>
+            <pre class="result" style=""><code>0.2
+none</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
             <a class="def-name" name="err.throw" href="#err.throw"
               >err.throw(payload)</a
             >
@@ -422,62 +478,6 @@ At std:embedded:3:14 in inverse(n)
 inverse(0)
        ^
 At std:embedded:9:8</code></pre>
-          </div>
-        </div>
-      </section>
-
-      <section class="std-def">
-        <div>
-          <h3>
-            <a class="def-name" name="err.assert" href="#err.assert"
-              >err.assert(predicate)</a
-            >
-          </h3>
-          <span class="tag" title="Global"></span>
-        </div>
-
-        <div class="contents">
-          <p>Panic if <code>predicate</code> is <code>false</code>.</p>
-          <div class="snippet">
-            <pre><code class="ptls">age <span class="operator">=</span> <span class="operator">-</span><span class="number">17</span>
-<span class="call">assert</span>(age <span class="operator">&gt;=</span> <span class="number">0</span>)</code></pre>
-            <pre class="result panic" style=""><code>panic: assertion error
-
-assert(age >= 0)
-      ^
-At std:embedded:2:7</code></pre>
-          </div>
-        </div>
-      </section>
-
-      <section class="std-def">
-        <div>
-          <h3>
-            <a class="def-name" name="err.orElse" href="#err.orElse"
-              >err.orElse(func, default)</a
-            >
-          </h3>
-        </div>
-
-        <div class="contents">
-          <p>
-            Call the zero-argument function <code>func</code>. If
-            <code>func</code> returns a value without throwing an error, return
-            it; otherwise return <code>default</code>.
-          </p>
-          <div class="snippet">
-            <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">inverse</span>(<span class="argument">n</span>)
-  <span class="keyword">if</span> n <span class="operator">==</span> <span class="number">0</span> <span class="keyword">then</span>
-    <span class="std">err</span>.<span class="call">throw</span>(<span class="string">&quot;n must not be zero&quot;</span>)
-  <span class="keyword">end</span>
-
-  <span class="number">1</span> <span class="operator">/</span> n
-<span class="keyword">end</span>
-
-<span class="std">err</span>.<span class="call">orElse</span>(<span class="keyword">fn</span>() <span class="call">inverse</span>(<span class="number">5</span>) <span class="keyword">end</span>, <span class="constant">none</span>)
-<span class="std">err</span>.<span class="call">orElse</span>(<span class="keyword">fn</span>() <span class="call">inverse</span>(<span class="number">0</span>) <span class="keyword">end</span>, <span class="constant">none</span>)</code></pre>
-            <pre class="result" style=""><code>0.2
-none</code></pre>
           </div>
         </div>
       </section>
@@ -622,8 +622,8 @@ true</code></pre>
 
         <div class="contents">
           <p>
-            Return the <code>count</code> lowest-ranking values of
-            <code>list</code> in ascending order.
+            Sort <code>list</code> in ascending order and get the first
+            <code>count</code> values.
           </p>
           <div class="snippet">
             <pre><code class="ptls"><span class="std">list</span>.<span class="call">bottom</span>([<span class="number">3</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>], <span class="number">5</span>)</code></pre>
@@ -723,7 +723,7 @@ true</code></pre>
 
         <div class="contents">
           <p>
-            Get the first <code>count</code> elements from <code>list</code>.
+            Remove the first <code>count</code> elements from <code>list</code>.
           </p>
           <div class="snippet">
             <pre><code class="ptls"><span class="call">drop</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>, <span class="string">&quot;e&quot;</span>], <span class="number">3</span>)</code></pre>
@@ -751,7 +751,7 @@ true</code></pre>
 
         <div class="contents">
           <p>
-            Get the first <code>count</code> elements from <code>list</code>.
+            Remove the last <code>count</code> elements from <code>list</code>.
           </p>
           <div class="snippet">
             <pre><code class="ptls"><span class="call">dropLast</span>([<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;d&quot;</span>, <span class="string">&quot;e&quot;</span>], <span class="number">3</span>)</code></pre>
@@ -1611,8 +1611,8 @@ letters[<span class="number">2</span>] <span class="operator">=</span> <span cla
 
         <div class="contents">
           <p>
-            Return the <code>count</code> highest-ranking values of
-            <code>list</code> in descending order.
+            Sort <code>list</code> in descending order and get the first
+            <code>count</code> values.
           </p>
           <div class="snippet">
             <pre><code class="ptls"><span class="std">list</span>.<span class="call">top</span>([<span class="number">3</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">9</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>], <span class="number">5</span>)</code></pre>
@@ -1821,6 +1821,7 @@ letters[<span class="number">2</span>] <span class="operator">=</span> <span cla
         </div>
 
         <div class="contents">
+          <p>Euler&#39;s number.</p>
           <div class="snippet">
             <pre class="result" style=""><code>2.718281828459045</code></pre>
           </div>
@@ -1854,6 +1855,7 @@ letters[<span class="number">2</span>] <span class="operator">=</span> <span cla
         </div>
 
         <div class="contents">
+          <p>Floating-point infinity.</p>
           <div class="snippet">
             <pre class="result" style=""><code>math.inf</code></pre>
           </div>
@@ -2037,6 +2039,7 @@ true</code></pre>
         </div>
 
         <div class="contents">
+          <p>&quot;Not a number&quot;. Cursed floating-point nonsense.</p>
           <div class="snippet">
             <pre class="result" style=""><code>math.nan</code></pre>
           </div>
@@ -2052,6 +2055,7 @@ true</code></pre>
         </div>
 
         <div class="contents">
+          <p>The constant π (pi).</p>
           <div class="snippet">
             <pre class="result" style=""><code>3.141592653589793</code></pre>
           </div>
@@ -2197,6 +2201,11 @@ true</code></pre>
         </div>
 
         <div class="contents">
+          <p>
+            <code>2 * math.pi</code>. See
+            <a href="https://www.tauday.com/tau-manifesto">The Tau Manifesto</a
+            >.
+          </p>
           <div class="snippet">
             <pre class="result" style=""><code>6.283185307179586</code></pre>
           </div>
@@ -2306,8 +2315,8 @@ true</code></pre>
 
         <div class="contents">
           <p>
-            Reorder the object so that the given <code>keys</code> appear first,
-            in the given order.
+            Reorder the entries in <code>object</code> so that the given
+            <code>keys</code> appear first, in the given order.
           </p>
           <div class="snippet">
             <pre><code class="ptls"><span class="std">obj</span>.<span class="call">focus</span>({ name: <span class="string">&quot;Lamar&quot;</span>, yards: <span class="number">4172</span>, tds: <span class="number">41</span>, ints: <span class="number">4</span> }, [<span class="string">&quot;name&quot;</span>, <span class="string">&quot;tds&quot;</span>])</code></pre>
@@ -2518,10 +2527,10 @@ false</code></pre>
           <div class="snippet">
             <pre><code class="ptls"><span class="std">obj</span>.<span class="call">merge</span>([
   { <span class="string">&quot;Hello&quot;</span>: <span class="string">&quot;Ola&quot;</span>, <span class="string">&quot;Good afternoon&quot;</span>: <span class="string">&quot;Boa tarde&quot;</span> },
-  { <span class="string">&quot;Hello&quot;</span>: <span class="string">&quot;e aí?&quot;</span>, <span class="string">&quot;Good night&quot;</span>: <span class="string">&quot;Boa noite&quot;</span> },
+  { <span class="string">&quot;Hello&quot;</span>: <span class="string">&quot;E aí?&quot;</span>, <span class="string">&quot;Good night&quot;</span>: <span class="string">&quot;Boa noite&quot;</span> },
 ])</code></pre>
             <pre class="result" style=""><code>{
-  "Hello": "e aí?",
+  "Hello": "E aí?",
   "Good afternoon": "Boa tarde",
   "Good night": "Boa noite",
 }</code></pre>
@@ -2626,8 +2635,8 @@ false</code></pre>
 
         <div class="contents">
           <p>
-            Remove the entries with the given <code>keys</code> from
-            <code>object</code>.
+            Update the entry in <code>object</code> with key <code>old</code> to
+            have key <code>new</code>.
           </p>
           <div class="snippet">
             <pre><code class="ptls"><span class="std">obj</span>.<span class="call">rename</span>(
@@ -2731,7 +2740,7 @@ phrases[<span class="string">&quot;Good night&quot;</span>] <span class="operato
           </p>
           <div class="snippet">
             <pre><code class="ptls">phrases <span class="operator">=</span> { <span class="string">&quot;Hello&quot;</span>: <span class="string">&quot;Ola&quot;</span>, <span class="string">&quot;Good afternoon&quot;</span>: <span class="string">&quot;Boa tarde&quot;</span> }
-<span class="std">obj</span>.<span class="call">setDefault</span>(phrases, <span class="string">&quot;Hello&quot;</span>, <span class="string">&quot;e aí&quot;</span>)
+<span class="std">obj</span>.<span class="call">setDefault</span>(phrases, <span class="string">&quot;Hello&quot;</span>, <span class="string">&quot;E aí&quot;</span>)
 <span class="std">obj</span>.<span class="call">setDefault</span>(phrases, <span class="string">&quot;Good night&quot;</span>, <span class="string">&quot;Boa noite&quot;</span>)</code></pre>
             <pre
               class="result"
@@ -4505,25 +4514,43 @@ false</code></pre>
       <section class="std-def">
         <div>
           <h3>
-            <a class="def-name" name="table.new" href="#table.new"
-              >table.new(columns)</a
-            >
-          </h3>
-        </div>
-
-        <div class="contents"></div>
-      </section>
-
-      <section class="std-def">
-        <div>
-          <h3>
             <a class="def-name" name="table.bottom" href="#table.bottom"
               >table.bottom(table, columns, count)</a
             >
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Sort <code>table</code> in ascending order by
+            <code>columns</code> and take the first <code>count</code> rows of
+            the sorted table. Equivalent to
+            <code>take(sortBy(table, columns), count)</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;New York&quot;</span>, state: <span class="string">&quot;NY&quot;</span>, population: <span class="number">8478072</span> },
+  { city: <span class="string">&quot;Los Angeles&quot;</span>, state: <span class="string">&quot;CA&quot;</span>, population: <span class="number">3878704</span> },
+  { city: <span class="string">&quot;Chicago&quot;</span>, state: <span class="string">&quot;IL&quot;</span>, population: <span class="number">2721308</span> },
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span>, population: <span class="number">2390125</span> },
+  { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span>, population: <span class="number">1673164</span> },
+  { city: <span class="string">&quot;Philadelphia&quot;</span>, state: <span class="string">&quot;PA&quot;</span>, population: <span class="number">1573916</span> },
+])
+
+<span class="std">table</span>.<span class="call">bottom</span>(cities, <span class="string">&quot;population&quot;</span>, <span class="number">4</span>)</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>┌──────────────┬───────┬────────────┐
+│ city         │ state │ population │ x 4
+├──────────────┼───────┼────────────┤
+│ Philadelphia │ PA    │    1573916 │
+│ Phoenix      │ AZ    │    1673164 │
+│ Houston      │ TX    │    2390125 │
+│ Chicago      │ IL    │    2721308 │
+└──────────────┴───────┴────────────┘</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -4535,7 +4562,24 @@ false</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Get the columns of <code>table</code> as a object where they keys
+            are the table&#39;s column names and the values are the list of
+            column values.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;New York&quot;</span>, state: <span class="string">&quot;NY&quot;</span> },
+  { city: <span class="string">&quot;Los Angeles&quot;</span>, state: <span class="string">&quot;CA&quot;</span> },
+  { city: <span class="string">&quot;Chicago&quot;</span>, state: <span class="string">&quot;IL&quot;</span> },
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+])
+
+<span class="std">table</span>.<span class="call">columns</span>(cities)</code></pre>
+            <pre class="result" style=""><code>["city", "state"]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -4562,7 +4606,34 @@ false</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            If <code>table</code> has zero columns (and therefore by definition
+            zero rows), return an empty table with the given
+            <code>columns</code>: <code>table.new(columns)</code>. If
+            <code>table</code> has columns then return <code>table</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">t1 <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([{ name: <span class="string">&quot;Lamar&quot;</span>, yards: <span class="number">4172</span> }])
+<span class="std">table</span>.<span class="call">defaultCols</span>(t1, [<span class="string">&quot;name&quot;</span>, <span class="string">&quot;yards&quot;</span>])
+
+t2 <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([])
+<span class="std">table</span>.<span class="call">defaultCols</span>(t2, [<span class="string">&quot;name&quot;</span>, <span class="string">&quot;yards&quot;</span>])</code></pre>
+            <pre class="result" style=""><code>┌───────┬───────┐
+│ name  │ yards │ x 1
+├───────┼───────┤
+│ Lamar │  4172 │
+└───────┴───────┘
+┌──────┬───────┐
+│ name │ yards │ x 0
+└──────┴───────┘</code></pre>
+          </div>
+          <p>
+            This is useful when you&#39;re making a table from a list of rows
+            that may or may not be empty, and you want to make sure your table
+            ends up with the correct columns.
+          </p>
+        </div>
       </section>
 
       <section class="std-def">
@@ -4578,6 +4649,27 @@ false</code></pre>
         </div>
 
         <div class="contents">
+          <p>
+            Remove the first <code>count</code> rows from <code>table</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;New York&quot;</span>, state: <span class="string">&quot;NY&quot;</span> },
+  { city: <span class="string">&quot;Los Angeles&quot;</span>, state: <span class="string">&quot;CA&quot;</span> },
+  { city: <span class="string">&quot;Chicago&quot;</span>, state: <span class="string">&quot;IL&quot;</span> },
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+  { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span> },
+])
+
+<span class="call">drop</span>(cities, <span class="number">3</span>)</code></pre>
+            <pre class="result" style=""><code>┌─────────┬───────┐
+│ city    │ state │ x 2
+├─────────┼───────┤
+│ Houston │ TX    │
+│ Phoenix │ AZ    │
+└─────────┴───────┘</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.drop">overloads.drop</a>.
@@ -4598,6 +4690,27 @@ false</code></pre>
         </div>
 
         <div class="contents">
+          <p>
+            Remove the last <code>count</code> rows from <code>table</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;New York&quot;</span>, state: <span class="string">&quot;NY&quot;</span> },
+  { city: <span class="string">&quot;Los Angeles&quot;</span>, state: <span class="string">&quot;CA&quot;</span> },
+  { city: <span class="string">&quot;Chicago&quot;</span>, state: <span class="string">&quot;IL&quot;</span> },
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+  { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span> },
+])
+
+<span class="call">dropLast</span>(cities, <span class="number">3</span>)</code></pre>
+            <pre class="result" style=""><code>┌─────────────┬───────┐
+│ city        │ state │ x 2
+├─────────────┼───────┤
+│ New York    │ NY    │
+│ Los Angeles │ CA    │
+└─────────────┴───────┘</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.dropLast">overloads.dropLast</a>.
@@ -4614,31 +4727,47 @@ false</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
-      </section>
+        <div class="contents">
+          <p>
+            Keep the rows in <code>table</code> that satisfy
+            <code>condition</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+  { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span> },
+  { city: <span class="string">&quot;Philadelphia&quot;</span>, state: <span class="string">&quot;PA&quot;</span> },
+  { city: <span class="string">&quot;San Antonio&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+  { city: <span class="string">&quot;San Diego&quot;</span>, state: <span class="string">&quot;CA&quot;</span> },
+  { city: <span class="string">&quot;Dallas&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+])
 
-      <section class="std-def">
-        <div>
-          <h3>
-            <a class="def-name" name="table.find" href="#table.find"
-              >table.find(table, matcher)</a
-            >
-          </h3>
+<span class="std">table</span>.<span class="call">filter</span>(cities, <span class="keyword">fn</span>(<span class="argument">city</span>) city.state <span class="operator">==</span> <span class="string">&quot;TX&quot;</span> <span class="keyword">end</span>)</code></pre>
+            <pre class="result" style=""><code>┌─────────────┬───────┐
+│ city        │ state │ x 3
+├─────────────┼───────┤
+│ Houston     │ TX    │
+│ San Antonio │ TX    │
+│ Dallas      │ TX    │
+└─────────────┴───────┘</code></pre>
+          </div>
+          <p>
+            <em
+              >Note that this can also be accomplished using the
+              <code>?</code></em
+            >:
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">?</span> <span class="keyword">arg</span>.state <span class="operator">==</span> <span class="string">&quot;TX&quot;</span></code></pre>
+            <pre class="result" style=""><code>┌─────────────┬───────┐
+│ city        │ state │ x 3
+├─────────────┼───────┤
+│ Houston     │ TX    │
+│ San Antonio │ TX    │
+│ Dallas      │ TX    │
+└─────────────┴───────┘</code></pre>
+          </div>
         </div>
-
-        <div class="contents"></div>
-      </section>
-
-      <section class="std-def">
-        <div>
-          <h3>
-            <a class="def-name" name="table.first" href="#table.first"
-              >table.first(table)</a
-            >
-          </h3>
-        </div>
-
-        <div class="contents"></div>
       </section>
 
       <section class="std-def">
@@ -4650,7 +4779,35 @@ false</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Reorder the columns in <code>table</code> so that the given
+            <code>columns</code> appear first, in the given order.
+            <code>columns</code> may be a single string (for one column) or a
+            list of strings (for multiple columns).
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">players <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { name: <span class="string">&quot;Lamar&quot;</span>, yards: <span class="number">4172</span>, tds: <span class="number">41</span>, ints: <span class="number">4</span> },
+  { name: <span class="string">&quot;Josh&quot;</span>, yards: <span class="number">3731</span>, tds: <span class="number">28</span>, ints: <span class="number">6</span> }
+])
+
+<span class="std">table</span>.<span class="call">focus</span>(players, [<span class="string">&quot;yards&quot;</span>, <span class="string">&quot;name&quot;</span>])
+<span class="std">table</span>.<span class="call">focus</span>(players, <span class="string">&quot;ints&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>┌───────┬───────┬─────┬──────┐
+│ yards │ name  │ tds │ ints │ x 2
+├───────┼───────┼─────┼──────┤
+│  4172 │ Lamar │  41 │    4 │
+│  3731 │ Josh  │  28 │    6 │
+└───────┴───────┴─────┴──────┘
+┌──────┬───────┬───────┬─────┐
+│ ints │ name  │ yards │ tds │ x 2
+├──────┼───────┼───────┼─────┤
+│    4 │ Lamar │  4172 │  41 │
+│    6 │ Josh  │  3731 │  28 │
+└──────┴───────┴───────┴─────┘</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -4662,7 +4819,69 @@ false</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Get the row or column from <code>table</code> that corresponds to
+            <code>selector</code>, where <code>selector</code> may be a number,
+            string, or object.
+          </p>
+          <ul>
+            <li>
+              <p>
+                If <code>selector</code> is a number, return the row at index
+                <code>selector</code>.
+              </p>
+            </li>
+            <li>
+              <p>
+                If <code>selector</code> is a string, return the values from the
+                matching column as a list.
+              </p>
+            </li>
+            <li>
+              <p>
+                If <code>selector</code> is an object, return the first row that
+                matches (contain all the entries in) <code>selector</code>, with
+                the requirement that at least one row matches.
+              </p>
+            </li>
+          </ul>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;New York&quot;</span>, state: <span class="string">&quot;NY&quot;</span> },
+  { city: <span class="string">&quot;Los Angeles&quot;</span>, state: <span class="string">&quot;CA&quot;</span> },
+  { city: <span class="string">&quot;Chicago&quot;</span>, state: <span class="string">&quot;IL&quot;</span> },
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+])
+
+<span class="std">table</span>.<span class="call">get</span>(cities, <span class="number">1</span>)
+<span class="std">table</span>.<span class="call">get</span>(cities, <span class="string">&quot;city&quot;</span>)
+<span class="std">table</span>.<span class="call">get</span>(cities, { state: <span class="string">&quot;TX&quot;</span> })</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>{ city: "Los Angeles", state: "CA" }
+["New York", "Los Angeles", "Chicago", "Houston"]
+{ city: "Houston", state: "TX" }</code></pre>
+          </div>
+          <p>
+            <em
+              >Note that index and column-name access can also be done using the
+              <code>[]</code> and <code>.</code> operators</em
+            >:
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities[<span class="number">1</span>]
+cities[<span class="string">&quot;city&quot;</span>]
+cities.city</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>{ city: "Los Angeles", state: "CA" }
+["New York", "Los Angeles", "Chicago", "Houston"]
+["New York", "Los Angeles", "Chicago", "Houston"]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -4690,6 +4909,45 @@ false</code></pre>
         </div>
 
         <div class="contents">
+          <p>
+            Check whether <code>table</code> contains a column or row that
+            matches <code>selector</code>, which may be either a string or an
+            object.
+          </p>
+          <ul>
+            <li>
+              <p>
+                If <code>selector</code> is a string, check whether
+                <code>table</code> has a matching column.
+              </p>
+            </li>
+            <li>
+              <p>
+                If <code>selector</code> is an object, check whether
+                <code>table</code> has a row which matches (contain all the
+                entries in) <code>selector</code>.
+              </p>
+            </li>
+          </ul>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;New York&quot;</span>, state: <span class="string">&quot;NY&quot;</span> },
+  { city: <span class="string">&quot;Los Angeles&quot;</span>, state: <span class="string">&quot;CA&quot;</span> },
+  { city: <span class="string">&quot;Chicago&quot;</span>, state: <span class="string">&quot;IL&quot;</span> },
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+])
+
+<span class="call">has</span>(cities, <span class="string">&quot;city&quot;</span>)
+<span class="call">has</span>(cities, <span class="string">&quot;county&quot;</span>)
+
+<span class="call">has</span>(cities, { state: <span class="string">&quot;NY&quot;</span> })
+<span class="call">has</span>(cities, { state: <span class="string">&quot;VT&quot;</span> })</code></pre>
+            <pre class="result" style=""><code>true
+false
+true
+false</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.has">overloads.has</a>.
@@ -4706,7 +4964,26 @@ false</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Get the index of the first row in <code>table</code> that matches
+            (contains all the entries in) the object <code>matcher</code>, or
+            <code>none</code> if no row matches.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+  { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span> },
+  { city: <span class="string">&quot;Philadelphia&quot;</span>, state: <span class="string">&quot;PA&quot;</span> },
+  { city: <span class="string">&quot;San Antonio&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+])
+
+<span class="std">table</span>.<span class="call">indexOf</span>(cities, { state: <span class="string">&quot;TX&quot;</span> })
+<span class="std">table</span>.<span class="call">indexOf</span>(cities, { state: <span class="string">&quot;FL&quot;</span> })</code></pre>
+            <pre class="result" style=""><code>0
+none</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -4722,23 +4999,24 @@ false</code></pre>
         </div>
 
         <div class="contents">
+          <p>
+            Check whether <code>table</code> is empty (has <code>0</code> rows).
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">t1 <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([{ name: <span class="string">&quot;Lamar&quot;</span>, yards: <span class="number">4172</span> }, { name: <span class="string">&quot;Josh&quot;</span>, yards: <span class="number">3731</span> }])
+<span class="call">isEmpty</span>(t1)
+
+t2 <span class="operator">=</span> <span class="std">table</span>.<span class="call">new</span>([<span class="string">&quot;name&quot;</span>, <span class="string">&quot;yards&quot;</span>, <span class="string">&quot;tds&quot;</span>, <span class="string">&quot;ints&quot;</span>, <span class="string">&quot;rings&quot;</span>])
+<span class="call">isEmpty</span>(t2)</code></pre>
+            <pre class="result" style=""><code>false
+true</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.isEmpty">overloads.isEmpty</a>.
           </p>
         </div>
-      </section>
-
-      <section class="std-def">
-        <div>
-          <h3>
-            <a class="def-name" name="table.last" href="#table.last"
-              >table.last(table)</a
-            >
-          </h3>
-        </div>
-
-        <div class="contents"></div>
       </section>
 
       <section class="std-def">
@@ -4754,6 +5032,12 @@ false</code></pre>
         </div>
 
         <div class="contents">
+          <p>Get the number of rows in <code>table</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="call">len</span>(<span class="std">table</span>.<span class="call">of</span>([{ name: <span class="string">&quot;Lamar&quot;</span>, yards: <span class="number">4172</span> }, { name: <span class="string">&quot;Josh&quot;</span>, yards: <span class="number">3731</span> }]))</code></pre>
+            <pre class="result" style=""><code>2</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.len">overloads.len</a>.
@@ -4770,7 +5054,45 @@ false</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Transform each row in <code>table</code> using <code>func</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">players <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { name: <span class="string">&quot;Lamar&quot;</span>, yards: <span class="number">4172</span>, tds: <span class="number">41</span>, ints: <span class="number">4</span> },
+  { name: <span class="string">&quot;Josh&quot;</span>, yards: <span class="number">3731</span>, tds: <span class="number">28</span>, ints: <span class="number">6</span> }
+])
+
+<span class="keyword">fn</span> <span class="function">addTD</span>(<span class="argument">player</span>)
+  player.tds <span class="operator">+=</span> <span class="number">1</span>
+  player
+<span class="keyword">end</span>
+
+<span class="std">table</span>.<span class="call">map</span>(players, addTD)</code></pre>
+            <pre class="result" style=""><code>┌───────┬───────┬─────┬──────┐
+│ name  │ yards │ tds │ ints │ x 2
+├───────┼───────┼─────┼──────┤
+│ Lamar │  4172 │  42 │    4 │
+│ Josh  │  3731 │  29 │    6 │
+└───────┴───────┴─────┴──────┘</code></pre>
+          </div>
+          <p>
+            <em
+              >Note that this can also be accomplished using the
+              <code>$</code> operator along with <code>table.of</code></em
+            >:
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">players <span class="operator">$</span> <span class="call">addTD</span> <span class="operator">|</span> <span class="std">table</span>.<span class="call">of</span></code></pre>
+            <pre class="result" style=""><code>┌───────┬───────┬─────┬──────┐
+│ name  │ yards │ tds │ ints │ x 2
+├───────┼───────┼─────┼──────┤
+│ Lamar │  4172 │  42 │    4 │
+│ Josh  │  3731 │  29 │    6 │
+└───────┴───────┴─────┴──────┘</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -4782,7 +5104,28 @@ false</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Filter <code>table</code> to contain only the rows which match
+            (contain all the entries in) the object <code>matcher</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+  { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span> },
+  { city: <span class="string">&quot;Philadelphia&quot;</span>, state: <span class="string">&quot;PA&quot;</span> },
+  { city: <span class="string">&quot;San Antonio&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+])
+
+<span class="std">table</span>.<span class="call">match</span>(cities, { state: <span class="string">&quot;TX&quot;</span> })</code></pre>
+            <pre class="result" style=""><code>┌─────────────┬───────┐
+│ city        │ state │ x 2
+├─────────────┼───────┤
+│ Houston     │ TX    │
+│ San Antonio │ TX    │
+└─────────────┴───────┘</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -4794,7 +5137,55 @@ false</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Merge (flatten) a list of <code>tables</code> into a single table.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">t1 <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+  { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span> },
+])
+
+t2 <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;Philadelphia&quot;</span>, state: <span class="string">&quot;PA&quot;</span> },
+  { city: <span class="string">&quot;San Antonio&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+])
+
+<span class="std">table</span>.<span class="call">merge</span>([t1, t2])</code></pre>
+            <pre class="result" style=""><code>┌──────────────┬───────┐
+│ city         │ state │ x 4
+├──────────────┼───────┤
+│ Houston      │ TX    │
+│ Phoenix      │ AZ    │
+│ Philadelphia │ PA    │
+│ San Antonio  │ TX    │
+└──────────────┴───────┘</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.new" href="#table.new"
+              >table.new(columns)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>Create an empty table with the given <code>columns</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">table</span>.<span class="call">new</span>([<span class="string">&quot;name&quot;</span>, <span class="string">&quot;yards&quot;</span>, <span class="string">&quot;tds&quot;</span>, <span class="string">&quot;ints&quot;</span>, <span class="string">&quot;rings&quot;</span>])</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>┌──────┬───────┬─────┬──────┬───────┐
+│ name │ yards │ tds │ ints │ rings │ x 0
+└──────┴───────┴─────┴──────┴───────┘</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -4806,7 +5197,73 @@ false</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Create a table from <code>contents</code>, where
+            <code>contents</code> is an object, list of objects, or table.
+          </p>
+          <p>If <code>contents</code> is an object:</p>
+          <ul>
+            <li>The keys become the table&#39;s column names.</li>
+            <li>
+              The values become the data for each column:
+              <ul>
+                <li>
+                  List values are used directly as the table&#39;s column data,
+                  and must all be the same length.
+                </li>
+                <li>Non-list values are repeated across all rows.</li>
+              </ul>
+            </li>
+          </ul>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">table</span>.<span class="call">of</span>({
+  name: [<span class="string">&quot;Lamar&quot;</span>, <span class="string">&quot;Josh&quot;</span>],
+  yards: [<span class="number">4172</span>, <span class="number">3731</span>],
+  tds: [<span class="number">41</span>, <span class="number">28</span>],
+  ints: [<span class="number">4</span>, <span class="number">6</span>],
+  rings: <span class="number">0</span>,
+})</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>┌───────┬───────┬─────┬──────┬───────┐
+│ name  │ yards │ tds │ ints │ rings │ x 2
+├───────┼───────┼─────┼──────┼───────┤
+│ Lamar │  4172 │  41 │    4 │     0 │
+│ Josh  │  3731 │  28 │    6 │     0 │
+└───────┴───────┴─────┴──────┴───────┘</code></pre>
+          </div>
+          <p>If <code>contents</code> is a list:</p>
+          <ul>
+            <li>The list must contain objects, all with the same keys.</li>
+            <li>These keys become the table&#39;s column names.</li>
+            <li>Each object becomes a row.</li>
+          </ul>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">table</span>.<span class="call">of</span>([
+  { name: <span class="string">&quot;Lamar&quot;</span>, yards: <span class="number">4172</span>, tds: <span class="number">41</span>, ints: <span class="number">4</span>, rings: <span class="number">0</span> },
+  { name: <span class="string">&quot;Josh&quot;</span>, yards: <span class="number">3731</span>, tds: <span class="number">28</span>, ints: <span class="number">6</span>, rings: <span class="number">0</span> }
+])</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>┌───────┬───────┬─────┬──────┬───────┐
+│ name  │ yards │ tds │ ints │ rings │ x 2
+├───────┼───────┼─────┼──────┼───────┤
+│ Lamar │  4172 │  41 │    4 │     0 │
+│ Josh  │  3731 │  28 │    6 │     0 │
+└───────┴───────┴─────┴──────┴───────┘</code></pre>
+          </div>
+          <p>Note that a table with no columns will always have zero rows.</p>
+          <div class="snippet">
+            <pre><code class="ptls"><span class="std">table</span>.<span class="call">of</span>([{}, {}])</code></pre>
+            <pre class="result" style=""><code>┌──┐
+│  │ x 0
+└──┘</code></pre>
+          </div>
+          <p>If <code>contents</code> is a table, it is returned as-is.</p>
+        </div>
       </section>
 
       <section class="std-def">
@@ -4818,7 +5275,26 @@ false</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>Remove the last row from <code>table</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+  { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span> },
+  { city: <span class="string">&quot;Philadelphia&quot;</span>, state: <span class="string">&quot;PA&quot;</span> },
+  { city: <span class="string">&quot;San Antonio&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+])
+
+<span class="std">table</span>.<span class="call">pop</span>(cities)</code></pre>
+            <pre class="result" style=""><code>┌──────────────┬───────┐
+│ city         │ state │ x 3
+├──────────────┼───────┤
+│ Houston      │ TX    │
+│ Phoenix      │ AZ    │
+│ Philadelphia │ PA    │
+└──────────────┴───────┘</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -4834,6 +5310,28 @@ false</code></pre>
         </div>
 
         <div class="contents">
+          <p>
+            Add <code>row</code> to the end of <code>table</code>. The keys in
+            <code>row</code> must match the columns in <code>table</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+  { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span> },
+  { city: <span class="string">&quot;Philadelphia&quot;</span>, state: <span class="string">&quot;PA&quot;</span> },
+])
+
+<span class="call">push</span>(cities, { city: <span class="string">&quot;San Antonio&quot;</span>, state: <span class="string">&quot;TX&quot;</span> })</code></pre>
+            <pre class="result" style=""><code>┌──────────────┬───────┐
+│ city         │ state │ x 4
+├──────────────┼───────┤
+│ Houston      │ TX    │
+│ Phoenix      │ AZ    │
+│ Philadelphia │ PA    │
+│ San Antonio  │ TX    │
+└──────────────┴───────┘</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.push">overloads.push</a>.
@@ -4866,26 +5364,78 @@ false</code></pre>
         </div>
 
         <div class="contents">
+          <p>
+            Remove columns or rows matching <code>selector</code> from
+            <code>table</code>, where selector may be a string, list of strings,
+            or object.
+          </p>
+          <ul>
+            <li>
+              <p>
+                If <code>selector</code> is a string, remove the single column
+                with that name.
+              </p>
+            </li>
+            <li>
+              <p>
+                If <code>selector</code> is a list of strings, remove all
+                columns listed in <code>selector</code>.
+              </p>
+            </li>
+            <li>
+              <p>
+                If <code>selector</code> is an object, remove all rows which
+                match (contain all the entries in) <code>selector</code>.
+              </p>
+            </li>
+          </ul>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span>, population: <span class="number">2390125</span> },
+  { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span>, population: <span class="number">1673164</span> },
+  { city: <span class="string">&quot;Philadelphia&quot;</span>, state: <span class="string">&quot;PA&quot;</span>, population: <span class="number">1573916</span> },
+  { city: <span class="string">&quot;San Antonio&quot;</span>, state: <span class="string">&quot;TX&quot;</span>, population: <span class="number">1526656</span> },
+  { city: <span class="string">&quot;San Diego&quot;</span>, state: <span class="string">&quot;CA&quot;</span>, population: <span class="number">1404452</span> },
+  { city: <span class="string">&quot;Dallas&quot;</span>, state: <span class="string">&quot;TX&quot;</span>, population: <span class="number">1326087</span> },
+])
+
+<span class="call">remove</span>(cities, <span class="string">&quot;population&quot;</span>)
+<span class="call">remove</span>(cities, [<span class="string">&quot;city&quot;</span>, <span class="string">&quot;population&quot;</span>])
+<span class="call">remove</span>(cities, { state: <span class="string">&quot;TX&quot;</span> })</code></pre>
+            <pre class="result" style=""><code>┌──────────────┬───────┐
+│ city         │ state │ x 6
+├──────────────┼───────┤
+│ Houston      │ TX    │
+│ Phoenix      │ AZ    │
+│ Philadelphia │ PA    │
+│ San Antonio  │ TX    │
+│ San Diego    │ CA    │
+│ Dallas       │ TX    │
+└──────────────┴───────┘
+┌───────┐
+│ state │ x 6
+├───────┤
+│ TX    │
+│ AZ    │
+│ PA    │
+│ TX    │
+│ CA    │
+│ TX    │
+└───────┘
+┌──────────────┬───────┬────────────┐
+│ city         │ state │ population │ x 3
+├──────────────┼───────┼────────────┤
+│ Phoenix      │ AZ    │    1673164 │
+│ Philadelphia │ PA    │    1573916 │
+│ San Diego    │ CA    │    1404452 │
+└──────────────┴───────┴────────────┘</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.remove">overloads.remove</a>.
           </p>
         </div>
-      </section>
-
-      <section class="std-def">
-        <div>
-          <h3>
-            <a
-              class="def-name"
-              name="table.removecolumns"
-              href="#table.removecolumns"
-              >table.removecolumns(table, columns)</a
-            >
-          </h3>
-        </div>
-
-        <div class="contents"></div>
       </section>
 
       <section class="std-def">
@@ -4897,7 +5447,29 @@ false</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Rename the column with name <code>old</code> to name
+            <code>new</code> in <code>table</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">players <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { name: <span class="string">&quot;Lamar&quot;</span>, yards: <span class="number">4172</span>, tds: <span class="number">41</span>, ints: <span class="number">4</span> },
+  { name: <span class="string">&quot;Josh&quot;</span>, yards: <span class="number">3731</span>, tds: <span class="number">28</span>, ints: <span class="number">6</span> }
+])
+
+<span class="std">table</span>.<span class="call">rename</span>(players, <span class="string">&quot;tds&quot;</span>, <span class="string">&quot;touchdowns&quot;</span>)</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>┌───────┬───────┬────────────┬──────┐
+│ name  │ yards │ touchdowns │ ints │ x 2
+├───────┼───────┼────────────┼──────┤
+│ Lamar │  4172 │         41 │    4 │
+│ Josh  │  3731 │         28 │    6 │
+└───────┴───────┴────────────┴──────┘</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -4913,6 +5485,26 @@ false</code></pre>
         </div>
 
         <div class="contents">
+          <p>Reverse the rows in <code>table</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;New York&quot;</span>, state: <span class="string">&quot;NY&quot;</span> },
+  { city: <span class="string">&quot;Los Angeles&quot;</span>, state: <span class="string">&quot;CA&quot;</span> },
+  { city: <span class="string">&quot;Chicago&quot;</span>, state: <span class="string">&quot;IL&quot;</span> },
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+])
+
+<span class="call">reverse</span>(cities)</code></pre>
+            <pre class="result" style=""><code>┌─────────────┬───────┐
+│ city        │ state │ x 4
+├─────────────┼───────┤
+│ Houston     │ TX    │
+│ Chicago     │ IL    │
+│ Los Angeles │ CA    │
+│ New York    │ NY    │
+└─────────────┴───────┘</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.reverse">overloads.reverse</a>.
@@ -4929,7 +5521,17 @@ false</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>Get a list of the rows in <code>table</code>.</p>
+          <div class="snippet">
+            <pre><code class="ptls">players <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>({ name: [<span class="string">&quot;Lamar&quot;</span>, <span class="string">&quot;Josh&quot;</span>], yards: [<span class="number">4172</span>, <span class="number">3731</span>], tds: [<span class="number">41</span>, <span class="number">28</span>] })
+<span class="std">table</span>.<span class="call">rows</span>(players)</code></pre>
+            <pre class="result" style=""><code>[
+  { name: "Lamar", yards: 4172, tds: 41 },
+  { name: "Josh", yards: 3731, tds: 28 },
+]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -4945,6 +5547,34 @@ false</code></pre>
         </div>
 
         <div class="contents">
+          <p>
+            Get a new table containing only specified <code>columns</code> from
+            <code>table</code>, in the given order. <code>columns</code> may be
+            a single string (for one column) or a list of strings (for multiple
+            columns).
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">players <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { name: <span class="string">&quot;Lamar&quot;</span>, yards: <span class="number">4172</span>, tds: <span class="number">41</span>, ints: <span class="number">4</span> },
+  { name: <span class="string">&quot;Josh&quot;</span>, yards: <span class="number">3731</span>, tds: <span class="number">28</span>, ints: <span class="number">6</span> }
+])
+
+<span class="call">select</span>(players, [<span class="string">&quot;yards&quot;</span>, <span class="string">&quot;name&quot;</span>])
+<span class="call">select</span>(players, <span class="string">&quot;name&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>┌───────┬───────┐
+│ yards │ name  │ x 2
+├───────┼───────┤
+│  4172 │ Lamar │
+│  3731 │ Josh  │
+└───────┴───────┘
+┌───────┐
+│ name  │ x 2
+├───────┤
+│ Lamar │
+│ Josh  │
+└───────┘</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.select">overloads.select</a>.
@@ -4974,7 +5604,58 @@ false</code></pre>
           <span class="tag" title="Global"></span>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Sort the rows of <code>table</code> in ascending order by one or
+            more columns. <code>columns</code> may be a single string (for one
+            column) or a list of strings (for multiple columns).
+          </p>
+          <p>
+            If multiple columns are given, rows are first sorted by the first
+            column; if two rows have the same value in that column, the second
+            column is used to break ties, and so on for any additional columns.
+          </p>
+          <p>
+            Values in the sort columns must be numbers, strings, or booleans,
+            and all values within a column must share the same type.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span>, population: <span class="number">2390125</span> },
+  { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span>, population: <span class="number">1673164</span> },
+  { city: <span class="string">&quot;Philadelphia&quot;</span>, state: <span class="string">&quot;PA&quot;</span>, population: <span class="number">1573916</span> },
+  { city: <span class="string">&quot;San Antonio&quot;</span>, state: <span class="string">&quot;TX&quot;</span>, population: <span class="number">1526656</span> },
+  { city: <span class="string">&quot;San Diego&quot;</span>, state: <span class="string">&quot;CA&quot;</span>, population: <span class="number">1404452</span> },
+  { city: <span class="string">&quot;Dallas&quot;</span>, state: <span class="string">&quot;TX&quot;</span>, population: <span class="number">1326087</span> },
+])
+
+<span class="call">sortBy</span>(cities, <span class="string">&quot;population&quot;</span>)
+<span class="call">sortBy</span>(cities, [<span class="string">&quot;state&quot;</span>, <span class="string">&quot;city&quot;</span>])</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>┌──────────────┬───────┬────────────┐
+│ city         │ state │ population │ x 6
+├──────────────┼───────┼────────────┤
+│ Dallas       │ TX    │    1326087 │
+│ San Diego    │ CA    │    1404452 │
+│ San Antonio  │ TX    │    1526656 │
+│ Philadelphia │ PA    │    1573916 │
+│ Phoenix      │ AZ    │    1673164 │
+│ Houston      │ TX    │    2390125 │
+└──────────────┴───────┴────────────┘
+┌──────────────┬───────┬────────────┐
+│ city         │ state │ population │ x 6
+├──────────────┼───────┼────────────┤
+│ Phoenix      │ AZ    │    1673164 │
+│ San Diego    │ CA    │    1404452 │
+│ Philadelphia │ PA    │    1573916 │
+│ Dallas       │ TX    │    1326087 │
+│ Houston      │ TX    │    2390125 │
+│ San Antonio  │ TX    │    1526656 │
+└──────────────┴───────┴────────────┘</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -4987,7 +5668,50 @@ false</code></pre>
           <span class="tag" title="Global"></span>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Sort the rows of <code>table</code> in descending order by one or
+            more columns. See the documentation for
+            <a href="#table.sortBy">table.sortBy</a> for details on the sorting
+            process.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span>, population: <span class="number">2390125</span> },
+  { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span>, population: <span class="number">1673164</span> },
+  { city: <span class="string">&quot;Philadelphia&quot;</span>, state: <span class="string">&quot;PA&quot;</span>, population: <span class="number">1573916</span> },
+  { city: <span class="string">&quot;San Antonio&quot;</span>, state: <span class="string">&quot;TX&quot;</span>, population: <span class="number">1526656</span> },
+  { city: <span class="string">&quot;San Diego&quot;</span>, state: <span class="string">&quot;CA&quot;</span>, population: <span class="number">1404452</span> },
+  { city: <span class="string">&quot;Dallas&quot;</span>, state: <span class="string">&quot;TX&quot;</span>, population: <span class="number">1326087</span> },
+])
+
+<span class="call">sortDescBy</span>(cities, <span class="string">&quot;population&quot;</span>)
+<span class="call">sortDescBy</span>(cities, [<span class="string">&quot;state&quot;</span>, <span class="string">&quot;city&quot;</span>])</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>┌──────────────┬───────┬────────────┐
+│ city         │ state │ population │ x 6
+├──────────────┼───────┼────────────┤
+│ Houston      │ TX    │    2390125 │
+│ Phoenix      │ AZ    │    1673164 │
+│ Philadelphia │ PA    │    1573916 │
+│ San Antonio  │ TX    │    1526656 │
+│ San Diego    │ CA    │    1404452 │
+│ Dallas       │ TX    │    1326087 │
+└──────────────┴───────┴────────────┘
+┌──────────────┬───────┬────────────┐
+│ city         │ state │ population │ x 6
+├──────────────┼───────┼────────────┤
+│ San Antonio  │ TX    │    1526656 │
+│ Houston      │ TX    │    2390125 │
+│ Dallas       │ TX    │    1326087 │
+│ Philadelphia │ PA    │    1573916 │
+│ San Diego    │ CA    │    1404452 │
+│ Phoenix      │ AZ    │    1673164 │
+└──────────────┴───────┴────────────┘</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -5015,6 +5739,29 @@ false</code></pre>
         </div>
 
         <div class="contents">
+          <p>
+            Get a table containing the first <code>count</code> rows from
+            <code>table</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;New York&quot;</span>, state: <span class="string">&quot;NY&quot;</span> },
+  { city: <span class="string">&quot;Los Angeles&quot;</span>, state: <span class="string">&quot;CA&quot;</span> },
+  { city: <span class="string">&quot;Chicago&quot;</span>, state: <span class="string">&quot;IL&quot;</span> },
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+  { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span> },
+])
+
+<span class="call">take</span>(cities, <span class="number">3</span>)</code></pre>
+            <pre class="result" style=""><code>┌─────────────┬───────┐
+│ city        │ state │ x 3
+├─────────────┼───────┤
+│ New York    │ NY    │
+│ Los Angeles │ CA    │
+│ Chicago     │ IL    │
+└─────────────┴───────┘</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.take">overloads.take</a>.
@@ -5035,6 +5782,29 @@ false</code></pre>
         </div>
 
         <div class="contents">
+          <p>
+            Get a table containing the last <code>count</code> rows from
+            <code>table</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;New York&quot;</span>, state: <span class="string">&quot;NY&quot;</span> },
+  { city: <span class="string">&quot;Los Angeles&quot;</span>, state: <span class="string">&quot;CA&quot;</span> },
+  { city: <span class="string">&quot;Chicago&quot;</span>, state: <span class="string">&quot;IL&quot;</span> },
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+  { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span> },
+])
+
+<span class="call">takeLast</span>(cities, <span class="number">3</span>)</code></pre>
+            <pre class="result" style=""><code>┌─────────┬───────┐
+│ city    │ state │ x 3
+├─────────┼───────┤
+│ Chicago │ IL    │
+│ Houston │ TX    │
+│ Phoenix │ AZ    │
+└─────────┴───────┘</code></pre>
+          </div>
+
           <p class="overload-link">
             Accessible as global through
             <a href="#overloads.takeLast">overloads.takeLast</a>.
@@ -5051,7 +5821,37 @@ false</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Sort <code>table</code> in descending order by
+            <code>columns</code> and take the first <code>count</code> rows of
+            the sorted table. Equivalent to
+            <code>take(sortDescBy(table, columns), count)</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;New York&quot;</span>, state: <span class="string">&quot;NY&quot;</span>, population: <span class="number">8478072</span> },
+  { city: <span class="string">&quot;Los Angeles&quot;</span>, state: <span class="string">&quot;CA&quot;</span>, population: <span class="number">3878704</span> },
+  { city: <span class="string">&quot;Chicago&quot;</span>, state: <span class="string">&quot;IL&quot;</span>, population: <span class="number">2721308</span> },
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span>, population: <span class="number">2390125</span> },
+  { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span>, population: <span class="number">1673164</span> },
+  { city: <span class="string">&quot;Philadelphia&quot;</span>, state: <span class="string">&quot;PA&quot;</span>, population: <span class="number">1573916</span> },
+])
+
+<span class="std">table</span>.<span class="call">top</span>(cities, <span class="string">&quot;population&quot;</span>, <span class="number">4</span>)</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>┌─────────────┬───────┬────────────┐
+│ city        │ state │ population │ x 4
+├─────────────┼───────┼────────────┤
+│ New York    │ NY    │    8478072 │
+│ Los Angeles │ CA    │    3878704 │
+│ Chicago     │ IL    │    2721308 │
+│ Houston     │ TX    │    2390125 │
+└─────────────┴───────┴────────────┘</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -5063,7 +5863,32 @@ false</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Remove duplicate rows from <code>table</code>, keeping only the
+            first occurrence of each row.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;New York&quot;</span>, state: <span class="string">&quot;NY&quot;</span> },
+  { city: <span class="string">&quot;Los Angeles&quot;</span>, state: <span class="string">&quot;CA&quot;</span> },
+  { city: <span class="string">&quot;New York&quot;</span>, state: <span class="string">&quot;NY&quot;</span> },
+  { city: <span class="string">&quot;Chicago&quot;</span>, state: <span class="string">&quot;IL&quot;</span> },
+  { city: <span class="string">&quot;New York&quot;</span>, state: <span class="string">&quot;NY&quot;</span> },
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+])
+
+<span class="std">table</span>.<span class="call">unique</span>(cities)</code></pre>
+            <pre class="result" style=""><code>┌─────────────┬───────┐
+│ city        │ state │ x 4
+├─────────────┼───────┤
+│ New York    │ NY    │
+│ Los Angeles │ CA    │
+│ Chicago     │ IL    │
+│ Houston     │ TX    │
+└─────────────┴───────┘</code></pre>
+          </div>
+        </div>
       </section>
     </main>
   </body>
