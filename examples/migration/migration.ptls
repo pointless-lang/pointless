@@ -6,14 +6,14 @@ cities
   | take(10)
   | print
 
+cities.change = cities $ roundTo(arg.pop2024 / arg.pop2020 * 100 - 100, 2)
+
+cities.density = cities $ roundTo(arg.pop2024 / arg.area, 2)
+
 cities
-  $ roundTo(arg.pop2024 / arg.pop2020 * 100 - 100, 2)
-  | table.put(cities, "change")
   | table.top("change", 10)
   | print
 
 cities
-  $ roundTo(arg.pop2024 / arg.area, 2)
-  | table.put(cities, "density")
   | table.top("density", 10)
   | print
