@@ -348,7 +348,7 @@ export class Table {
     const first = tables.first();
 
     checkType(first, "table");
-    for (const column of first.data.columns()) {
+    for (const column of first.data.keys()) {
       data.set(column, []);
     }
 

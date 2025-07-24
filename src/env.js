@@ -6,6 +6,7 @@ import { checkNumResult, checkWhole } from "./num.js";
 import { show } from "./repr.js";
 import { getImport } from "./import.js";
 import { Panic } from "./panic.js";
+// import { Table } from "./table.js";
 import { dirname } from "node:path";
 import { is, OrderedMap, OrderedSet, List, Repeat } from "immutable";
 
@@ -420,11 +421,6 @@ export class Env {
     // use operator loc for type errors, gets confusing otherwise
     // if it makes it look like error came from expression on previous line
     const iter = await this.evalLoc(lhs, node.loc, "list", "table");
-
-    if (!iter.size) {
-      return iter;
-    }
-
     const args = await this.evalEach(argNodes);
     const func = await this.eval(funcNode, "function");
     const elems = [];
@@ -434,6 +430,23 @@ export class Env {
     }
 
     return List(elems);
+
+    // let toTable = getType(iter) === "table";
+    // let keys;
+
+    // for (const elem of iter) {
+    //   const result = await func.call(elem, ...args);
+    //   elems.push(result);
+
+    //   toTable &&= getType(result) === "object";
+
+    //   if (toTable) {
+    //     keys ??= result.keySeq().toList();
+    //     toTable &&= result.keySeq().equals(keys);
+    //   }
+    // }
+
+    // return toTable ? Table.fromRows(List(elems), keys) : List(elems);
   }
 
   async evalFilter(node) {
