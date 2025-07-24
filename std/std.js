@@ -15,9 +15,12 @@ const root = dirname(fileURLToPath(import.meta.url));
 const entries = await readdir(root, { withFileTypes: true });
 const dirs = entries.filter((entry) => entry.isDirectory());
 
+export const constDocs = {};
+
 for (const { name: modName } of dirs) {
-  const mod = await import(`./${modName}/mod.js`);
+  const { _constDocs = {}, ...mod } = await import(`./${modName}/mod.js`);
   native[modName] = {};
+  constDocs[modName] = _constDocs;
 
   for (let [name, value] of Object.entries(mod)) {
     // module export names and param names can be escaped with '$' prefix
