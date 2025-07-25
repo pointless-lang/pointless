@@ -2541,6 +2541,38 @@ false</code></pre>
       <section class="std-def">
         <div>
           <h3>
+            <a class="def-name" name="obj.of" href="#obj.of">obj.of(value)</a>
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Convert <code>value</code> to an object, where <code>value</code> is
+            either a table or an object. If <code>value</code> is a table,
+            return an object whose keys are column names and values are lists of
+            the column values in <code>table</code>. If <code>value</code> is an
+            object then return it.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;New York&quot;</span>, state: <span class="string">&quot;NY&quot;</span> },
+  { city: <span class="string">&quot;Los Angeles&quot;</span>, state: <span class="string">&quot;CA&quot;</span> },
+  { city: <span class="string">&quot;Chicago&quot;</span>, state: <span class="string">&quot;IL&quot;</span> },
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+])
+
+<span class="std">obj</span>.<span class="call">of</span>(cities)</code></pre>
+            <pre class="result" style=""><code>{
+  city: ["New York", "Los Angeles", "Chicago", "Houston"],
+  state: ["NY", "CA", "IL", "TX"],
+}</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
             <a class="def-name" name="obj.put" href="#obj.put"
               >obj.put(value, object, key)</a
             >
@@ -4563,11 +4595,7 @@ false</code></pre>
         </div>
 
         <div class="contents">
-          <p>
-            Get the columns of <code>table</code> as a object where they keys
-            are the table&#39;s column names and the values are the list of
-            column values.
-          </p>
+          <p>Get the column names of <code>table</code> as a list.</p>
           <div class="snippet">
             <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
   { city: <span class="string">&quot;New York&quot;</span>, state: <span class="string">&quot;NY&quot;</span> },
@@ -5357,17 +5385,17 @@ t2 <span class="operator">=</span> <span class="std">table</span>.<span class="c
         <div>
           <h3>
             <a class="def-name" name="table.of" href="#table.of"
-              >table.of(contents)</a
+              >table.of(value)</a
             >
           </h3>
         </div>
 
         <div class="contents">
           <p>
-            Create a table from <code>contents</code>, where
-            <code>contents</code> is an object, list of objects, or table.
+            Create a table from <code>value</code>, where <code>value</code> is
+            an object, list of objects, or table.
           </p>
-          <p>If <code>contents</code> is an object:</p>
+          <p>If <code>value</code> is an object:</p>
           <ul>
             <li>The keys become the table&#39;s column names.</li>
             <li>
@@ -5399,7 +5427,7 @@ t2 <span class="operator">=</span> <span class="std">table</span>.<span class="c
 │ Josh  │  3731 │  28 │    6 │     0 │
 └───────┴───────┴─────┴──────┴───────┘</code></pre>
           </div>
-          <p>If <code>contents</code> is a list:</p>
+          <p>If <code>value</code> is a list:</p>
           <ul>
             <li>The list must contain objects, all with the same keys.</li>
             <li>These keys become the table&#39;s column names.</li>
@@ -5427,7 +5455,7 @@ t2 <span class="operator">=</span> <span class="std">table</span>.<span class="c
 │  │ x 0
 └──┘</code></pre>
           </div>
-          <p>If <code>contents</code> is a table, it is returned as-is.</p>
+          <p>If <code>value</code> is a table, it is returned as-is.</p>
         </div>
       </section>
 

@@ -18,11 +18,11 @@ function flattenCols(table, columns) {
   return columns;
 }
 
-export function of(contents) {
-  // Create a table from `contents`, where `contents` is an object, list
+export function of(value) {
+  // Create a table from `value`, where `value` is an object, list
   // of objects, or table.
   //
-  // If `contents` is an object:
+  // If `value` is an object:
   //
   // - The keys become the table's column names.
   // - The values become the data for each column:
@@ -40,7 +40,7 @@ export function of(contents) {
   // })
   // ```
   //
-  // If `contents` is a list:
+  // If `value` is a list:
   //
   // - The list must contain objects, all with the same keys.
   // - These keys become the table's column names.
@@ -59,24 +59,24 @@ export function of(contents) {
   // table.of([{}, {}])
   // ```
   //
-  // If `contents` is a table, it is returned as-is.
+  // If `value` is a table, it is returned as-is.
 
-  checkType(contents, "object", "list", "table");
+  checkType(value, "object", "list", "table");
 
-  switch (getType(contents)) {
+  switch (getType(value)) {
     case "table":
-      return contents;
+      return value;
     case "object":
-      return new Table(contents);
+      return new Table(value);
   }
 
-  if (!contents.size) {
+  if (!value.size) {
     return new Table();
   }
 
-  checkType(contents.first(), "object");
-  const columns = contents.first().keySeq().toList();
-  return Table.fromRows(contents, columns);
+  checkType(value.first(), "object");
+  const columns = value.first().keySeq().toList();
+  return Table.fromRows(value, columns);
 }
 
 export function $new(columns) {
@@ -353,8 +353,7 @@ export function has(table, selector) {
 }
 
 export function columns(table) {
-  // Get the columns of `table` as a object where they keys are the table's
-  // column names and the values are the list of column values.
+  // Get the column names of `table` as a list.
   //
   // ```ptls
   // cities = table.of([

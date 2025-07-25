@@ -1,6 +1,27 @@
-import { checkType } from "../../src/values.js";
+import { checkType, getType } from "../../src/values.js";
 import { checkKey, isMatch } from "../../src/obj.js";
 import { is, OrderedMap } from "immutable";
+
+export function of(value) {
+  // Convert `value` to an object, where `value` is either a table or an
+  // object. If `value` is a table, return an object whose keys are column
+  // names and values are lists of the column values in `table`. If `value`
+  // is an object then return it.
+  //
+  // ```ptls
+  // cities = table.of([
+  //   { city: "New York", state: "NY" },
+  //   { city: "Los Angeles", state: "CA" },
+  //   { city: "Chicago", state: "IL" },
+  //   { city: "Houston", state: "TX" },
+  // ])
+  //
+  // obj.of(cities)
+  // ```
+
+  checkType(value, "table", "object");
+  return getType(value) === "table" ? value.data : value;
+}
 
 export function has(object, key) {
   // Check whether `object` contains `key`.
