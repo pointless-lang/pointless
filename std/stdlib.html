@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -5395,11 +5395,12 @@ t2 <span class="operator">=</span> <span class="std">table</span>.<span class="c
             Create a table from <code>value</code>, where <code>value</code> is
             an object, list of objects, or table.
           </p>
-          <p>If <code>value</code> is an object:</p>
           <ul>
-            <li>The keys become the table&#39;s column names.</li>
             <li>
-              The values become the data for each column:
+              <p>
+                If <code>value</code> is an object, the keys become column
+                names, and the values become the data for each column.
+              </p>
               <ul>
                 <li>
                   List values are used directly as the table&#39;s column data,
@@ -5407,6 +5408,16 @@ t2 <span class="operator">=</span> <span class="std">table</span>.<span class="c
                 </li>
                 <li>Non-list values are repeated across all rows.</li>
               </ul>
+            </li>
+            <li>
+              <p>
+                If <code>value</code> is a list of objects, these objects become
+                the rows of the table. The objects must have the same keys,
+                which become the column names.
+              </p>
+            </li>
+            <li>
+              <p>If <code>value</code> is a table, return it.</p>
             </li>
           </ul>
           <div class="snippet">
@@ -5416,7 +5427,12 @@ t2 <span class="operator">=</span> <span class="std">table</span>.<span class="c
   tds: [<span class="number">41</span>, <span class="number">28</span>],
   ints: [<span class="number">4</span>, <span class="number">6</span>],
   rings: <span class="number">0</span>,
-})</code></pre>
+})
+
+<span class="std">table</span>.<span class="call">of</span>([
+  { name: <span class="string">&quot;Lamar&quot;</span>, yards: <span class="number">4172</span>, tds: <span class="number">41</span>, ints: <span class="number">4</span>, rings: <span class="number">0</span> },
+  { name: <span class="string">&quot;Josh&quot;</span>, yards: <span class="number">3731</span>, tds: <span class="number">28</span>, ints: <span class="number">6</span>, rings: <span class="number">0</span> }
+])</code></pre>
             <pre
               class="result"
               style=""
@@ -5425,23 +5441,8 @@ t2 <span class="operator">=</span> <span class="std">table</span>.<span class="c
 ├───────┼───────┼─────┼──────┼───────┤
 │ Lamar │  4172 │  41 │    4 │     0 │
 │ Josh  │  3731 │  28 │    6 │     0 │
-└───────┴───────┴─────┴──────┴───────┘</code></pre>
-          </div>
-          <p>If <code>value</code> is a list:</p>
-          <ul>
-            <li>The list must contain objects, all with the same keys.</li>
-            <li>These keys become the table&#39;s column names.</li>
-            <li>Each object becomes a row.</li>
-          </ul>
-          <div class="snippet">
-            <pre><code class="ptls"><span class="std">table</span>.<span class="call">of</span>([
-  { name: <span class="string">&quot;Lamar&quot;</span>, yards: <span class="number">4172</span>, tds: <span class="number">41</span>, ints: <span class="number">4</span>, rings: <span class="number">0</span> },
-  { name: <span class="string">&quot;Josh&quot;</span>, yards: <span class="number">3731</span>, tds: <span class="number">28</span>, ints: <span class="number">6</span>, rings: <span class="number">0</span> }
-])</code></pre>
-            <pre
-              class="result"
-              style=""
-            ><code>┌───────┬───────┬─────┬──────┬───────┐
+└───────┴───────┴─────┴──────┴───────┘
+┌───────┬───────┬─────┬──────┬───────┐
 │ name  │ yards │ tds │ ints │ rings │ x 2
 ├───────┼───────┼─────┼──────┼───────┤
 │ Lamar │  4172 │  41 │    4 │     0 │
@@ -5455,7 +5456,6 @@ t2 <span class="operator">=</span> <span class="std">table</span>.<span class="c
 │  │ x 0
 └──┘</code></pre>
           </div>
-          <p>If <code>value</code> is a table, it is returned as-is.</p>
         </div>
       </section>
 
@@ -6349,3 +6349,4 @@ citiesCopy[{ state: <span class="string">&quot;TX&quot;</span> }] <span class="o
     </main>
   </body>
 </html>
+

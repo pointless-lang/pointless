@@ -6,6 +6,11 @@ import { repr } from "../../src/repr.js";
 import { Panic } from "../../src/panic.js";
 import { OrderedMap, OrderedSet, List } from "immutable";
 
+export const _modDocs = `
+
+`;
+
+
 function flattenCols(table, columns) {
   checkType(columns, "string", "list");
 
@@ -22,13 +27,18 @@ export function of(value) {
   // Create a table from `value`, where `value` is an object, list
   // of objects, or table.
   //
-  // If `value` is an object:
+  // - If `value` is an object, the keys become column names, and the values
+  //   become the data for each column.
   //
-  // - The keys become the table's column names.
-  // - The values become the data for each column:
   //   - List values are used directly as the table's column data, and must
   //     all be the same length.
   //   - Non-list values are repeated across all rows.
+  //
+  // - If `value` is a list of objects, these objects become the rows of the
+  //   table. The objects must have the same keys, which become the column
+  //   names.
+  //
+  // - If `value` is a table, return it.
   //
   // ```ptls
   // table.of({
@@ -38,15 +48,7 @@ export function of(value) {
   //   ints: [4, 6],
   //   rings: 0,
   // })
-  // ```
   //
-  // If `value` is a list:
-  //
-  // - The list must contain objects, all with the same keys.
-  // - These keys become the table's column names.
-  // - Each object becomes a row.
-  //
-  // ```ptls
   // table.of([
   //   { name: "Lamar", yards: 4172, tds: 41, ints: 4, rings: 0 },
   //   { name: "Josh", yards: 3731, tds: 28, ints: 6, rings: 0 }
@@ -58,8 +60,6 @@ export function of(value) {
   // ```ptls
   // table.of([{}, {}])
   // ```
-  //
-  // If `value` is a table, it is returned as-is.
 
   checkType(value, "object", "list", "table");
 
