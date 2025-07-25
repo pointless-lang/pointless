@@ -386,11 +386,11 @@ export async function count(list, value) {
   return list.count((elem) => is(elem, value));
 }
 
-export async function groupBy(list, func) {
+export async function group(list, func) {
   // Group each `value` in `list` according to `func(value)`.
   //
   // ```ptls
-  // list.groupBy(
+  // list.group(
   //   ["apple", "pear", "peach", "banana", "plum", "apricot", "orange"],
   //   fn(word) chars(word)[0] end
   // )
@@ -512,6 +512,40 @@ export function bottom(list, count) {
   return take(sort(list), count);
 }
 
+function listExtremum(numbers, handler) {
+  checkType(numbers, "list");
+  checkNonEmpty(numbers);
+
+  let result = numbers.first();
+
+  for (const n of numbers) {
+    checkType(n, "number");
+    result = handler(result, n);
+  }
+
+  return result;
+}
+
+export function min(numbers) {
+  // Get the minimum of `numbers`.
+  //
+  // ```ptls
+  // list.min([1, -7, 50])
+  // ```
+
+  return listExtremum(numbers, Math.min);
+}
+
+export function max(numbers) {
+  // Get the maximum of `numbers`.
+  //
+  // ```ptls
+  // list.max([1, -7, 50])
+  // ```
+
+  return listExtremum(numbers, Math.max);
+}
+
 export function sum(numbers) {
   // Get the sum of `numbers`.
   //
@@ -561,40 +595,6 @@ export function median(numbers) {
   const a = sorted[sorted.length / 2 - 1] / 2;
   const b = sorted[sorted.length / 2] / 2;
   return checkNumResult(a + b);
-}
-
-function listExtremum(numbers, handler) {
-  checkType(numbers, "list");
-  checkNonEmpty(numbers);
-
-  let result = numbers.first();
-
-  for (const n of numbers) {
-    checkType(n, "number");
-    result = handler(result, n);
-  }
-
-  return result;
-}
-
-export function min(numbers) {
-  // Get the minimum of `numbers`.
-  //
-  // ```ptls
-  // list.min([1, -7, 50])
-  // ```
-
-  return listExtremum(numbers, Math.min);
-}
-
-export function max(numbers) {
-  // Get the maximum of `numbers`.
-  //
-  // ```ptls
-  // list.max([1, -7, 50])
-  // ```
-
-  return listExtremum(numbers, Math.max);
 }
 
 export function counts(list) {
