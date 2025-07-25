@@ -49,7 +49,7 @@ async function processSource(code, config, filePath, env) {
         }
       } catch (err) {
         if (!config["panics"]) {
-          console.error(String(err));
+          console.error(err);
         }
 
         results.push(String(err));

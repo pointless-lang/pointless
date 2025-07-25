@@ -1,7 +1,13 @@
 import { getType } from "../src/values.js";
 import { render } from "../docs/utils.js";
 import { format } from "prettier";
-import { modules, globals, overloadParents, overloadChildren, constDocs } from "./std.js";
+import {
+  modules,
+  globals,
+  overloadParents,
+  overloadChildren,
+  constDocs,
+} from "./std.js";
 
 function getDocStr(func) {
   const comment = func.handler
@@ -63,7 +69,10 @@ async function showDef(modName, name, value) {
     valStr = String(value);
   } else {
     const constDoc = constDocs[modName][name] ?? "";
-    docs = await render("std", `${constDoc}\n\`\`\`ptls --hide\n${path}\n\`\`\``);
+    docs = await render(
+      "std",
+      `${constDoc}\n\`\`\`ptls --hide\n${path}\n\`\`\``,
+    );
     valStr = path;
     tags += "<span class='tag' title='Constant'></span>";
   }
