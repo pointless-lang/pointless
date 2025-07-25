@@ -5,7 +5,7 @@ import { Panic } from "../../src/panic.js";
 export const _constDocs = {
   e: "Euler's number.",
   inf: "Floating-point infinity.",
-  nan: "\"Not a number\". Cursed floating-point nonsense.",
+  nan: '"Not a number". Cursed floating-point nonsense.',
   pi: "The constant π (pi).",
   tau: "`2 * math.pi`. See [The Tau Manifesto](https://www.tauday.com/tau-manifesto).",
 };

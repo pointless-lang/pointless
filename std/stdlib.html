@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -850,8 +850,8 @@ none</code></pre>
       <section class="std-def">
         <div>
           <h3>
-            <a class="def-name" name="list.groupBy" href="#list.groupBy"
-              >list.groupBy(list, func)</a
+            <a class="def-name" name="list.group" href="#list.group"
+              >list.group(list, func)</a
             >
           </h3>
         </div>
@@ -862,7 +862,7 @@ none</code></pre>
             <code>func(value)</code>.
           </p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="std">list</span>.<span class="call">groupBy</span>(
+            <pre><code class="ptls"><span class="std">list</span>.<span class="call">group</span>(
   [<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;pear&quot;</span>, <span class="string">&quot;peach&quot;</span>, <span class="string">&quot;banana&quot;</span>, <span class="string">&quot;plum&quot;</span>, <span class="string">&quot;apricot&quot;</span>, <span class="string">&quot;orange&quot;</span>],
   <span class="keyword">fn</span>(<span class="argument">word</span>) <span class="call">chars</span>(word)[<span class="number">0</span>] <span class="keyword">end</span>
 )</code></pre>
@@ -4591,7 +4591,41 @@ false</code></pre>
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Return a table containing de-duplicated rows of <code>table</code>.
+            Each row will have two additional entries: <code>count</code> and
+            <code>share</code>, which will contain the number of copies of each
+            row in the original table, and the fraction of the total rows that
+            this count represents. The original table may not contain columns
+            named <code>count</code> or <code>share</code>.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">locations <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;New York&quot;</span>, state: <span class="string">&quot;NY&quot;</span> },
+  { city: <span class="string">&quot;New York&quot;</span>, state: <span class="string">&quot;NY&quot;</span> },
+  { city: <span class="string">&quot;Los Angeles&quot;</span>, state: <span class="string">&quot;CA&quot;</span> },
+  { city: <span class="string">&quot;New York&quot;</span>, state: <span class="string">&quot;NY&quot;</span> },
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+  { city: <span class="string">&quot;Los Angeles&quot;</span>, state: <span class="string">&quot;CA&quot;</span> },
+  { city: <span class="string">&quot;Chicago&quot;</span>, state: <span class="string">&quot;IL&quot;</span> },
+])
+
+<span class="std">table</span>.<span class="call">counts</span>(locations)</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>┌─────────────┬───────┬───────┬───────┐
+│ city        │ state │ count │ share │ x 4
+├─────────────┼───────┼───────┼───────┤
+│ New York    │ NY    │     3 │ 0.375 │
+│ Los Angeles │ CA    │     2 │ 0.250 │
+│ Houston     │ TX    │     2 │ 0.250 │
+│ Chicago     │ IL    │     1 │ 0.125 │
+└─────────────┴───────┴───────┴───────┘</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -4866,20 +4900,20 @@ t2 <span class="operator">=</span> <span class="std">table</span>.<span class="c
           </div>
           <p>
             <em
-              >Note that index and column-name access can also be done using the
+              >Note that these operations can also be performed using the
               <code>[]</code> and <code>.</code> operators</em
             >:
           </p>
           <div class="snippet">
             <pre><code class="ptls">cities[<span class="number">1</span>]
-cities[<span class="string">&quot;city&quot;</span>]
-cities.city</code></pre>
+cities.city <span class="comment">-- or cities[&quot;city&quot;]</span>
+cities[{ state: <span class="string">&quot;TX&quot;</span> }]</code></pre>
             <pre
               class="result"
               style=""
             ><code>{ city: "Los Angeles", state: "CA" }
 ["New York", "Los Angeles", "Chicago", "Houston"]
-["New York", "Los Angeles", "Chicago", "Houston"]</code></pre>
+{ city: "Houston", state: "TX" }</code></pre>
           </div>
         </div>
       </section>
@@ -4887,13 +4921,68 @@ cities.city</code></pre>
       <section class="std-def">
         <div>
           <h3>
-            <a class="def-name" name="table.groupBy" href="#table.groupBy"
-              >table.groupBy(table, columns)</a
+            <a class="def-name" name="table.group" href="#table.group"
+              >table.group(table, columns)</a
             >
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Partition <code>table</code> into groups based on the values in
+            <code>columns</code>, which may be a string (single column) or a
+            list of strings (multiple columns).
+          </p>
+          <p>
+            Rows with the same values in the given columns are grouped together.
+            The result is a list of tables, each containing the rows for one
+            group.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;Los Angeles&quot;</span>, state: <span class="string">&quot;CA&quot;</span> },
+  { city: <span class="string">&quot;Chicago&quot;</span>, state: <span class="string">&quot;IL&quot;</span> },
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+  { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span> },
+  { city: <span class="string">&quot;Philadelphia&quot;</span>, state: <span class="string">&quot;PA&quot;</span> },
+  { city: <span class="string">&quot;San Antonio&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+  { city: <span class="string">&quot;San Diego&quot;</span>, state: <span class="string">&quot;CA&quot;</span> },
+  { city: <span class="string">&quot;Dallas&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+])
+
+<span class="std">table</span>.<span class="call">group</span>(cities, <span class="string">&quot;state&quot;</span>)</code></pre>
+            <pre class="result" style=""><code>[
+  ┌─────────────┬───────┐
+  │ city        │ state │ x 2
+  ├─────────────┼───────┤
+  │ Los Angeles │ CA    │
+  │ San Diego   │ CA    │
+  └─────────────┴───────┘,
+  ┌─────────┬───────┐
+  │ city    │ state │ x 1
+  ├─────────┼───────┤
+  │ Chicago │ IL    │
+  └─────────┴───────┘,
+  ┌─────────────┬───────┐
+  │ city        │ state │ x 3
+  ├─────────────┼───────┤
+  │ Houston     │ TX    │
+  │ San Antonio │ TX    │
+  │ Dallas      │ TX    │
+  └─────────────┴───────┘,
+  ┌─────────┬───────┐
+  │ city    │ state │ x 1
+  ├─────────┼───────┤
+  │ Phoenix │ AZ    │
+  └─────────┴───────┘,
+  ┌──────────────┬───────┐
+  │ city         │ state │ x 1
+  ├──────────────┼───────┤
+  │ Philadelphia │ PA    │
+  └──────────────┴───────┘,
+]</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -5131,6 +5220,44 @@ true</code></pre>
       <section class="std-def">
         <div>
           <h3>
+            <a class="def-name" name="table.max" href="#table.max"
+              >table.max(table, columns)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Get the row that would come first if <code>table</code> were sorted
+            by <code>columns</code> in descending order (that is, the one with
+            the largest values in <code>columns</code>). See the docs for
+            <a href="#table.sortBy">table.sortBy</a> for details on the sorting
+            process.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span>, population: <span class="number">2390125</span> },
+  { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span>, population: <span class="number">1673164</span> },
+  { city: <span class="string">&quot;Philadelphia&quot;</span>, state: <span class="string">&quot;PA&quot;</span>, population: <span class="number">1573916</span> },
+  { city: <span class="string">&quot;San Antonio&quot;</span>, state: <span class="string">&quot;TX&quot;</span>, population: <span class="number">1526656</span> },
+  { city: <span class="string">&quot;San Diego&quot;</span>, state: <span class="string">&quot;CA&quot;</span>, population: <span class="number">1404452</span> },
+  { city: <span class="string">&quot;Dallas&quot;</span>, state: <span class="string">&quot;TX&quot;</span>, population: <span class="number">1326087</span> },
+])
+
+<span class="std">table</span>.<span class="call">max</span>(cities, <span class="string">&quot;population&quot;</span>)
+<span class="std">table</span>.<span class="call">max</span>(cities, [<span class="string">&quot;state&quot;</span>, <span class="string">&quot;city&quot;</span>])</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>{ city: "Houston", state: "TX", population: 2390125 }
+{ city: "San Antonio", state: "TX", population: 1526656 }</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
             <a class="def-name" name="table.merge" href="#table.merge"
               >table.merge(tables)</a
             >
@@ -5161,6 +5288,44 @@ t2 <span class="operator">=</span> <span class="std">table</span>.<span class="c
 │ Philadelphia │ PA    │
 │ San Antonio  │ TX    │
 └──────────────┴───────┘</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="std-def">
+        <div>
+          <h3>
+            <a class="def-name" name="table.min" href="#table.min"
+              >table.min(table, columns)</a
+            >
+          </h3>
+        </div>
+
+        <div class="contents">
+          <p>
+            Get the row that would come first if <code>table</code> were sorted
+            by <code>columns</code> in ascending order (that is, the one with
+            the smallest values in <code>columns</code>). See the docs for
+            <a href="#table.sortBy">table.sortBy</a> for details on the sorting
+            process.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span>, population: <span class="number">2390125</span> },
+  { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span>, population: <span class="number">1673164</span> },
+  { city: <span class="string">&quot;Philadelphia&quot;</span>, state: <span class="string">&quot;PA&quot;</span>, population: <span class="number">1573916</span> },
+  { city: <span class="string">&quot;San Antonio&quot;</span>, state: <span class="string">&quot;TX&quot;</span>, population: <span class="number">1526656</span> },
+  { city: <span class="string">&quot;San Diego&quot;</span>, state: <span class="string">&quot;CA&quot;</span>, population: <span class="number">1404452</span> },
+  { city: <span class="string">&quot;Dallas&quot;</span>, state: <span class="string">&quot;TX&quot;</span>, population: <span class="number">1326087</span> },
+])
+
+<span class="std">table</span>.<span class="call">min</span>(cities, <span class="string">&quot;population&quot;</span>)
+<span class="std">table</span>.<span class="call">min</span>(cities, [<span class="string">&quot;state&quot;</span>, <span class="string">&quot;city&quot;</span>])</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>{ city: "Dallas", state: "TX", population: 1326087 }
+{ city: "Phoenix", state: "AZ", population: 1673164 }</code></pre>
           </div>
         </div>
       </section>
@@ -5348,7 +5513,67 @@ t2 <span class="operator">=</span> <span class="std">table</span>.<span class="c
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Update the row or column in <code>table</code> that corresponds to
+            <code>selector</code> with <code>value</code>.
+            <code>selector</code> may be a number, string, or object. See the
+            docs for <a href="#table.set">table.set</a> for details on the
+            update process.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;New York&quot;</span>, state: <span class="string">&quot;NY&quot;</span> },
+  { city: <span class="string">&quot;Los Angeles&quot;</span>, state: <span class="string">&quot;CA&quot;</span> },
+  { city: <span class="string">&quot;Chicago&quot;</span>, state: <span class="string">&quot;IL&quot;</span> },
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+])
+
+<span class="std">table</span>.<span class="call">put</span>({ city: <span class="string">&quot;Big Apple&quot;</span>, state: <span class="string">&quot;Empire&quot;</span> }, cities, <span class="number">0</span>)
+<span class="std">table</span>.<span class="call">put</span>([<span class="string">&quot;New York&quot;</span>, <span class="string">&quot;Cali&quot;</span>, <span class="string">&quot;Illinois&quot;</span>, <span class="string">&quot;Texas&quot;</span>], cities, <span class="string">&quot;state&quot;</span>)
+<span class="std">table</span>.<span class="call">put</span>(<span class="string">&quot;TX&quot;</span>, cities, <span class="string">&quot;state&quot;</span>)
+<span class="std">table</span>.<span class="call">put</span>({ city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span> }, cities, { state: <span class="string">&quot;TX&quot;</span> })</code></pre>
+            <pre class="result" style=""><code>┌─────────────┬────────┐
+│ city        │ state  │ x 4
+├─────────────┼────────┤
+│ Big Apple   │ Empire │
+│ Los Angeles │ CA     │
+│ Chicago     │ IL     │
+│ Houston     │ TX     │
+└─────────────┴────────┘
+┌─────────────┬──────────┐
+│ city        │ state    │ x 4
+├─────────────┼──────────┤
+│ New York    │ New York │
+│ Los Angeles │ Cali     │
+│ Chicago     │ Illinois │
+│ Houston     │ Texas    │
+└─────────────┴──────────┘
+┌─────────────┬───────┐
+│ city        │ state │ x 4
+├─────────────┼───────┤
+│ New York    │ TX    │
+│ Los Angeles │ TX    │
+│ Chicago     │ TX    │
+│ Houston     │ TX    │
+└─────────────┴───────┘
+┌─────────────┬───────┐
+│ city        │ state │ x 4
+├─────────────┼───────┤
+│ New York    │ NY    │
+│ Los Angeles │ CA    │
+│ Chicago     │ IL    │
+│ Phoenix     │ AZ    │
+└─────────────┴───────┘</code></pre>
+          </div>
+          <p>
+            <em
+              >Note that if you want to update an existing variable, you could
+              also use variable assignment. See the docs for
+              <a href="#table.set">table.set</a> for more details.</em
+            >
+          </p>
+        </div>
       </section>
 
       <section class="std-def">
@@ -5548,7 +5773,7 @@ t2 <span class="operator">=</span> <span class="std">table</span>.<span class="c
 
         <div class="contents">
           <p>
-            Get a new table containing only specified <code>columns</code> from
+            Make a table containing the specified <code>columns</code> from
             <code>table</code>, in the given order. <code>columns</code> may be
             a single string (for one column) or a list of strings (for multiple
             columns).
@@ -5591,7 +5816,158 @@ t2 <span class="operator">=</span> <span class="std">table</span>.<span class="c
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Update the row or column in <code>table</code> that corresponds to
+            <code>selector</code> with <code>value</code>.
+            <code>selector</code> may be a number, string, or object.
+          </p>
+          <ul>
+            <li>
+              <p>
+                If <code>selector</code> is a number, return the row at index
+                <code>selector</code> with <code>value</code>, where
+                <code>value</code> is an object whose keys match the columns of
+                <code>table</code>.
+              </p>
+            </li>
+            <li>
+              <p>
+                If <code>selector</code> is a string, set the column named
+                <code>selector</code> with <code>value</code>.
+              </p>
+              <ul>
+                <li>
+                  If <code>value</code> is a list, it becomes the column data. A
+                  list <code>value</code> must have the same length as
+                  <code>table</code>.
+                </li>
+                <li>
+                  If <code>value</code> is not a list, it is repeated across all
+                  rows.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <p>
+                If <code>selector</code> is an object, return the first row that
+                matches (contain all the entries in) <code>selector</code>, with
+                the requirement that at least one row matches.
+              </p>
+            </li>
+          </ul>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;New York&quot;</span>, state: <span class="string">&quot;NY&quot;</span> },
+  { city: <span class="string">&quot;Los Angeles&quot;</span>, state: <span class="string">&quot;CA&quot;</span> },
+  { city: <span class="string">&quot;Chicago&quot;</span>, state: <span class="string">&quot;IL&quot;</span> },
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span> },
+])
+
+<span class="std">table</span>.<span class="call">set</span>(cities, <span class="number">0</span>, { city: <span class="string">&quot;Big Apple&quot;</span>, state: <span class="string">&quot;Empire&quot;</span> })
+<span class="std">table</span>.<span class="call">set</span>(cities, <span class="string">&quot;state&quot;</span>, [<span class="string">&quot;New York&quot;</span>, <span class="string">&quot;Cali&quot;</span>, <span class="string">&quot;Illinois&quot;</span>, <span class="string">&quot;Texas&quot;</span>])
+<span class="std">table</span>.<span class="call">set</span>(cities, <span class="string">&quot;state&quot;</span>, <span class="string">&quot;TX&quot;</span>)
+<span class="std">table</span>.<span class="call">set</span>(cities, { state: <span class="string">&quot;TX&quot;</span> },  { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span> })</code></pre>
+            <pre class="result" style=""><code>┌─────────────┬────────┐
+│ city        │ state  │ x 4
+├─────────────┼────────┤
+│ Big Apple   │ Empire │
+│ Los Angeles │ CA     │
+│ Chicago     │ IL     │
+│ Houston     │ TX     │
+└─────────────┴────────┘
+┌─────────────┬──────────┐
+│ city        │ state    │ x 4
+├─────────────┼──────────┤
+│ New York    │ New York │
+│ Los Angeles │ Cali     │
+│ Chicago     │ Illinois │
+│ Houston     │ Texas    │
+└─────────────┴──────────┘
+┌─────────────┬───────┐
+│ city        │ state │ x 4
+├─────────────┼───────┤
+│ New York    │ TX    │
+│ Los Angeles │ TX    │
+│ Chicago     │ TX    │
+│ Houston     │ TX    │
+└─────────────┴───────┘
+┌─────────────┬───────┐
+│ city        │ state │ x 4
+├─────────────┼───────┤
+│ New York    │ NY    │
+│ Los Angeles │ CA    │
+│ Chicago     │ IL    │
+│ Phoenix     │ AZ    │
+└─────────────┴───────┘</code></pre>
+          </div>
+          <p>
+            <em
+              >Note that if you want to update an existing variable, you could
+              also use variable assignment</em
+            >:
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">citiesCopy <span class="operator">=</span> cities
+citiesCopy[<span class="number">0</span>] <span class="operator">=</span> { city: <span class="string">&quot;Big Apple&quot;</span>, state: <span class="string">&quot;Empire&quot;</span> }</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code><div class="var-name">citiesCopy</div>┌─────────────┬────────┐
+│ city        │ state  │ x 4
+├─────────────┼────────┤
+│ Big Apple   │ Empire │
+│ Los Angeles │ CA     │
+│ Chicago     │ IL     │
+│ Houston     │ TX     │
+└─────────────┴────────┘</code></pre>
+          </div>
+          <div class="snippet">
+            <pre><code class="ptls">citiesCopy <span class="operator">=</span> cities
+citiesCopy.state <span class="operator">=</span> [<span class="string">&quot;New York&quot;</span>, <span class="string">&quot;Cali&quot;</span>, <span class="string">&quot;Illinois&quot;</span>, <span class="string">&quot;Texas&quot;</span>]</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code><div class="var-name">citiesCopy</div>┌─────────────┬──────────┐
+│ city        │ state    │ x 4
+├─────────────┼──────────┤
+│ New York    │ New York │
+│ Los Angeles │ Cali     │
+│ Chicago     │ Illinois │
+│ Houston     │ Texas    │
+└─────────────┴──────────┘</code></pre>
+          </div>
+          <div class="snippet">
+            <pre><code class="ptls">citiesCopy <span class="operator">=</span> cities
+citiesCopy.state <span class="operator">=</span> <span class="string">&quot;TX&quot;</span></code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code><div class="var-name">citiesCopy</div>┌─────────────┬───────┐
+│ city        │ state │ x 4
+├─────────────┼───────┤
+│ New York    │ TX    │
+│ Los Angeles │ TX    │
+│ Chicago     │ TX    │
+│ Houston     │ TX    │
+└─────────────┴───────┘</code></pre>
+          </div>
+          <div class="snippet">
+            <pre><code class="ptls">citiesCopy <span class="operator">=</span> cities
+citiesCopy[{ state: <span class="string">&quot;TX&quot;</span> }] <span class="operator">=</span> { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span> }</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code><div class="var-name">citiesCopy</div>┌─────────────┬───────┐
+│ city        │ state │ x 4
+├─────────────┼───────┤
+│ New York    │ NY    │
+│ Los Angeles │ CA    │
+│ Chicago     │ IL    │
+│ Phoenix     │ AZ    │
+└─────────────┴───────┘</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -5671,7 +6047,7 @@ t2 <span class="operator">=</span> <span class="std">table</span>.<span class="c
         <div class="contents">
           <p>
             Sort the rows of <code>table</code> in descending order by one or
-            more columns. See the documentation for
+            more columns. See the docs for
             <a href="#table.sortBy">table.sortBy</a> for details on the sorting
             process.
           </p>
@@ -5723,7 +6099,59 @@ t2 <span class="operator">=</span> <span class="std">table</span>.<span class="c
           </h3>
         </div>
 
-        <div class="contents"></div>
+        <div class="contents">
+          <p>
+            Group the rows in <code>table</code> by one or more
+            <code>columns</code> and summarize each group using the function
+            <code>reducer</code>. <code>columns</code> may be a string (single
+            column) or a list of strings (multiple columns).
+          </p>
+          <p>
+            Rows are grouped based on the values in the given
+            <code>columns</code> (see the docs for
+            <a href="#table.group">table.group</a> for details on the grouping
+            process.) <code>reducer</code> is called for each group and returns
+            an object containing summary information. These objects are merged
+            with each group&#39;s column values to form the final summary row
+            for that group.
+          </p>
+          <div class="snippet">
+            <pre><code class="ptls">cities <span class="operator">=</span> <span class="std">table</span>.<span class="call">of</span>([
+  { city: <span class="string">&quot;New York&quot;</span>, state: <span class="string">&quot;NY&quot;</span>, population: <span class="number">8478072</span> },
+  { city: <span class="string">&quot;Los Angeles&quot;</span>, state: <span class="string">&quot;CA&quot;</span>, population: <span class="number">3878704</span> },
+  { city: <span class="string">&quot;Chicago&quot;</span>, state: <span class="string">&quot;IL&quot;</span>, population: <span class="number">2721308</span> },
+  { city: <span class="string">&quot;Houston&quot;</span>, state: <span class="string">&quot;TX&quot;</span>, population: <span class="number">2390125</span> },
+  { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span>, population: <span class="number">1673164</span> },
+  { city: <span class="string">&quot;Philadelphia&quot;</span>, state: <span class="string">&quot;PA&quot;</span>, population: <span class="number">1573916</span> },
+  { city: <span class="string">&quot;San Antonio&quot;</span>, state: <span class="string">&quot;TX&quot;</span>, population: <span class="number">1526656</span> },
+  { city: <span class="string">&quot;San Diego&quot;</span>, state: <span class="string">&quot;CA&quot;</span>, population: <span class="number">1404452</span> },
+  { city: <span class="string">&quot;Dallas&quot;</span>, state: <span class="string">&quot;TX&quot;</span>, population: <span class="number">1326087</span> },
+  { city: <span class="string">&quot;Jacksonville&quot;</span>, state: <span class="string">&quot;FL&quot;</span>, population: <span class="number">1009833</span> },
+])
+
+<span class="keyword">fn</span> <span class="function">calcStateStats</span>(<span class="argument">group</span>)
+  totalPop <span class="operator">=</span> <span class="call">sum</span>(group.population)
+  biggestCity <span class="operator">=</span> <span class="std">table</span>.<span class="call">max</span>(group, <span class="string">&quot;population&quot;</span>).city
+  { totalPop, biggestCity }
+<span class="keyword">end</span>
+
+<span class="std">table</span>.<span class="call">summarize</span>(cities, <span class="string">&quot;state&quot;</span>, calcStateStats)</code></pre>
+            <pre
+              class="result"
+              style=""
+            ><code>┌───────┬──────────┬──────────────┐
+│ state │ totalPop │ biggestCity  │ x 7
+├───────┼──────────┼──────────────┤
+│ NY    │  8478072 │ New York     │
+│ CA    │  5283156 │ Los Angeles  │
+│ IL    │  2721308 │ Chicago      │
+│ TX    │  5242868 │ Houston      │
+│ AZ    │  1673164 │ Phoenix      │
+│ PA    │  1573916 │ Philadelphia │
+│ FL    │  1009833 │ Jacksonville │
+└───────┴──────────┴──────────────┘</code></pre>
+          </div>
+        </div>
       </section>
 
       <section class="std-def">
@@ -5893,4 +6321,3 @@ t2 <span class="operator">=</span> <span class="std">table</span>.<span class="c
     </main>
   </body>
 </html>
-

@@ -1,10 +1,22 @@
-import { checkType, compareAll, getType, varargs } from "../../src/values.js";
+import { checkType, compareAll, getType } from "../../src/values.js";
 import * as obj from "../obj/mod.js";
 import * as list from "../list/mod.js";
 import { Table } from "../../src/table.js";
 import { repr } from "../../src/repr.js";
 import { Panic } from "../../src/panic.js";
 import { OrderedMap, OrderedSet, List } from "immutable";
+
+function flattenCols(table, columns) {
+  checkType(columns, "string", "list");
+
+  if (getType(columns) === "string") {
+    table.checkColumns(columns);
+    return List([columns]);
+  }
+
+  table.checkColumns(...columns);
+  return columns;
+}
 
 export function of(contents) {
   // Create a table from `contents`, where `contents` is an object, list
@@ -52,8 +64,10 @@ export function of(contents) {
   checkType(contents, "object", "list", "table");
 
   switch (getType(contents)) {
-    case "table": return contents;
-    case "object": return new Table(contents);
+    case "table":
+      return contents;
+    case "object":
+      return new Table(contents);
   }
 
   if (!contents.size) {
@@ -184,7 +198,7 @@ export function get(table, selector) {
   // `selector` may be a number, string, or object.
   //
   // - If `selector` is a number, return the row at index `selector`.
-  // 
+  //
   // - If `selector` is a string, return the values from the matching column
   //   as a list.
   //
@@ -205,13 +219,13 @@ export function get(table, selector) {
   // table.get(cities, { state: "TX" })
   // ```
   //
-  // *Note that index and column-name access can also be done using the `[]`
-  // and `.` operators*:
+  // *Note that these operations can also be performed using the `[]` and
+  // `.` operators*:
   //
   // ```ptls
   // cities[1]
-  // cities["city"]
-  // cities.city
+  // cities.city -- or cities["city"]
+  // cities[{ state: "TX" }]
   // ```
 
   checkType(table, "table");
@@ -219,11 +233,87 @@ export function get(table, selector) {
 }
 
 export function set(table, selector, value) {
+  // Update the row or column in `table` that corresponds to `selector` with
+  // `value`. `selector` may be a number, string, or object.
+  //
+  // - If `selector` is a number, return the row at index `selector` with
+  //   `value`, where `value` is an object whose keys match the columns
+  //    of `table`.
+  //
+  // - If `selector` is a string, set the column named `selector` with `value`.
+  //
+  //   - If `value` is a list, it becomes the column data. A list `value`
+  //     must have the same length as `table`.
+  //   - If `value` is not a list, it is repeated across all rows.
+  //
+  // - If `selector` is an object, return the first row that matches (contain
+  //   all the entries in) `selector`, with the requirement that at least one
+  //   row matches.
+  //
+  // ```ptls
+  // cities = table.of([
+  //   { city: "New York", state: "NY" },
+  //   { city: "Los Angeles", state: "CA" },
+  //   { city: "Chicago", state: "IL" },
+  //   { city: "Houston", state: "TX" },
+  // ])
+  //
+  // table.set(cities, 0, { city: "Big Apple", state: "Empire" })
+  // table.set(cities, "state", ["New York", "Cali", "Illinois", "Texas"])
+  // table.set(cities, "state", "TX")
+  // table.set(cities, { state: "TX" },  { city: "Phoenix", state: "AZ" })
+  // ```
+  //
+  // *Note that if you want to update an existing variable, you could also
+  // use variable assignment*:
+  //
+  // ```ptls
+  // citiesCopy = cities
+  // citiesCopy[0] = { city: "Big Apple", state: "Empire" }
+  // ```
+  //
+  // ```ptls
+  // citiesCopy = cities
+  // citiesCopy.state = ["New York", "Cali", "Illinois", "Texas"]
+  // ```
+  //
+  // ```ptls
+  // citiesCopy = cities
+  // citiesCopy.state = "TX"
+  // ```
+  //
+  // ```ptls
+  // citiesCopy = cities
+  // citiesCopy[{ state: "TX" }] = { city: "Phoenix", state: "AZ" }
+  // ```
+
   checkType(table, "table");
   return table.set(selector, value);
 }
 
 export function put(value, table, selector) {
+  // Update the row or column in `table` that corresponds to `selector` with
+  // `value`. `selector` may be a number, string, or object. See the docs for
+  // [table.set](#table.set) for details on the update process.
+  //
+  // ```ptls
+  // cities = table.of([
+  //   { city: "New York", state: "NY" },
+  //   { city: "Los Angeles", state: "CA" },
+  //   { city: "Chicago", state: "IL" },
+  //   { city: "Houston", state: "TX" },
+  // ])
+  //
+  // table.put({ city: "Big Apple", state: "Empire" }, cities, 0)
+  // table.put(["New York", "Cali", "Illinois", "Texas"], cities, "state")
+  // table.put("TX", cities, "state")
+  // table.put({ city: "Phoenix", state: "AZ" }, cities, { state: "TX" })
+  // ```
+  //
+  // *Note that if you want to update an existing variable, you could also
+  // use variable assignment. See the docs for [table.set](#table.set) for
+  // more details.*
+
   checkType(table, "table");
   return table.set(selector, value);
 }
@@ -354,8 +444,7 @@ export function remove(table, selector) {
     return table.remove(selector);
   }
 
-  selector = varargs(selector);
-  table.checkColumns(...selector);
+  selector = flattenCols(table, selector);
   return new Table(obj.removeAll(table.data, selector));
 }
 
@@ -407,7 +496,7 @@ export function merge(tables) {
   //   { city: "Houston", state: "TX" },
   //   { city: "Phoenix", state: "AZ" },
   // ])
-  // 
+  //
   // t2 = table.of([
   //   { city: "Philadelphia", state: "PA" },
   //   { city: "San Antonio", state: "TX" },
@@ -523,48 +612,6 @@ export function dropLast(table, count) {
   return new Table(OrderedMap(data));
 }
 
-export function top(table, columns, count) {
-  // Sort `table` in descending order by `columns` and take the first
-  // `count` rows of the sorted table. Equivalent to
-  // `take(sortDescBy(table, columns), count)`.
-  //
-  // ```ptls
-  // cities = table.of([
-  //   { city: "New York", state: "NY", population: 8478072 },
-  //   { city: "Los Angeles", state: "CA", population: 3878704 },
-  //   { city: "Chicago", state: "IL", population: 2721308 },
-  //   { city: "Houston", state: "TX", population: 2390125 },
-  //   { city: "Phoenix", state: "AZ", population: 1673164 },
-  //   { city: "Philadelphia", state: "PA", population: 1573916 },
-  // ])
-  //
-  // table.top(cities, "population", 4)
-  // ```
-
-  return take(sortDescBy(table, columns), count);
-}
-
-export function bottom(table, columns, count) {
-  // Sort `table` in ascending order by `columns` and take the first
-  // `count` rows of the sorted table. Equivalent to
-  // `take(sortBy(table, columns), count)`.
-  //
-  // ```ptls
-  // cities = table.of([
-  //   { city: "New York", state: "NY", population: 8478072 },
-  //   { city: "Los Angeles", state: "CA", population: 3878704 },
-  //   { city: "Chicago", state: "IL", population: 2721308 },
-  //   { city: "Houston", state: "TX", population: 2390125 },
-  //   { city: "Phoenix", state: "AZ", population: 1673164 },
-  //   { city: "Philadelphia", state: "PA", population: 1573916 },
-  // ])
-  //
-  // table.bottom(cities, "population", 4)
-  // ```
-
-  return take(sortBy(table, columns), count);
-}
-
 export async function map(table, func) {
   // Transform each row in `table` using `func`.
   //
@@ -620,7 +667,7 @@ export async function filter(table, condition) {
 }
 
 export function select(table, columns) {
-  // Get a new table containing only specified `columns` from `table`, in the
+  // Make a table containing the specified `columns` from `table`, in the
   // given order. `columns` may be a single string (for one column) or a list
   // of strings (for multiple columns).
   //
@@ -635,7 +682,7 @@ export function select(table, columns) {
   // ```
 
   checkType(table, "table");
-  columns = varargs(columns);
+  columns = flattenCols(table, columns);
   return new Table(obj.select(table.data, columns));
 }
 
@@ -655,13 +702,13 @@ export function focus(table, columns) {
   // ```
 
   checkType(table, "table");
-  columns = varargs(columns);
+  columns = flattenCols(table, columns);
   return new Table(obj.focus(table.data, columns));
 }
 
 // export function removeColumns(table, columns) {
 //   checkType(table, "table");
-//   columns = varargs(columns);
+//   columns = flattenCols(table, columns);
 //   return new Table(obj.removeAll(table.data, columns));
 // }
 
@@ -686,19 +733,20 @@ function selectValues(object, columns) {
 }
 
 function doSortBy(table, columns, desc) {
-  const rows = [...table]
-    .map((row) => ({ rank: selectValues(row, columns), row }))
-    .sort((a, b) => compareAll(a.rank, b.rank, desc))
-    .map(({ row }) => row);
+  // List drops the ball if we pass table directly
+  const rows = List([...table]).sortBy(
+    (row) => selectValues(row, columns),
+    (a, b) => compareAll(a, b, desc),
+  );
 
-  return of(List(rows));
+  return of(rows);
 }
 
 export function sortBy(table, columns) {
   // Sort the rows of `table` in ascending order by one or more columns.
   // `columns` may be a single string (for one column) or a list of strings
   // (for multiple columns).
-  // 
+  //
   // If multiple columns are given, rows are first sorted by the first column;
   // if two rows have the same value in that column, the second column is used
   // to break ties, and so on for any additional columns.
@@ -721,15 +769,14 @@ export function sortBy(table, columns) {
   // ```
 
   checkType(table, "table");
-  columns = varargs(columns);
-  table.checkColumns(...columns);
+  columns = flattenCols(table, columns);
   return doSortBy(table, columns, false);
 }
 
 export function sortDescBy(table, columns) {
   // Sort the rows of `table` in descending order by one or more columns.
-  // See the documentation for [table.sortBy](#table.sortBy) for details
-  // on the sorting process.
+  // See the docs for [table.sortBy](#table.sortBy) for details on the
+  // sorting process.
   //
   // ```ptls
   // cities = table.of([
@@ -746,15 +793,132 @@ export function sortDescBy(table, columns) {
   // ```
 
   checkType(table, "table");
-  columns = varargs(columns);
-  table.checkColumns(...columns);
+  columns = flattenCols(table, columns);
   return doSortBy(table, columns, true);
 }
 
-export function groupBy(table, columns) {
+export function top(table, columns, count) {
+  // Sort `table` in descending order by `columns` and take the first
+  // `count` rows of the sorted table.
+  // Equivalent to `take(sortDescBy(table, columns), count)`.
+  //
+  // ```ptls
+  // cities = table.of([
+  //   { city: "New York", state: "NY", population: 8478072 },
+  //   { city: "Los Angeles", state: "CA", population: 3878704 },
+  //   { city: "Chicago", state: "IL", population: 2721308 },
+  //   { city: "Houston", state: "TX", population: 2390125 },
+  //   { city: "Phoenix", state: "AZ", population: 1673164 },
+  //   { city: "Philadelphia", state: "PA", population: 1573916 },
+  // ])
+  //
+  // table.top(cities, "population", 4)
+  // ```
+
+  return take(sortDescBy(table, columns), count);
+}
+
+export function bottom(table, columns, count) {
+  // Sort `table` in ascending order by `columns` and take the first
+  // `count` rows of the sorted table.
+  // Equivalent to `take(sortBy(table, columns), count)`.
+  //
+  // ```ptls
+  // cities = table.of([
+  //   { city: "New York", state: "NY", population: 8478072 },
+  //   { city: "Los Angeles", state: "CA", population: 3878704 },
+  //   { city: "Chicago", state: "IL", population: 2721308 },
+  //   { city: "Houston", state: "TX", population: 2390125 },
+  //   { city: "Phoenix", state: "AZ", population: 1673164 },
+  //   { city: "Philadelphia", state: "PA", population: 1573916 },
+  // ])
+  //
+  // table.bottom(cities, "population", 4)
+  // ```
+
+  return take(sortBy(table, columns), count);
+}
+
+function listExtremum(table, columns, desc) {
   checkType(table, "table");
-  columns = varargs(columns);
-  table.checkColumns(...columns);
+  table.checkNonEmpty();
+  columns = flattenCols(table, columns);
+
+  return List([...table]).maxBy(
+    (row) => selectValues(row, columns),
+    (a, b) => compareAll(a, b, desc),
+  );
+}
+
+export function max(table, columns) {
+  // Get the row that would come first if `table` were sorted by `columns` in
+  // descending order (that is, the one with the largest values in `columns`).
+  // See the docs for [table.sortBy](#table.sortBy) for details on the
+  // sorting process.
+  //
+  // ```ptls
+  // cities = table.of([
+  //   { city: "Houston", state: "TX", population: 2390125 },
+  //   { city: "Phoenix", state: "AZ", population: 1673164 },
+  //   { city: "Philadelphia", state: "PA", population: 1573916 },
+  //   { city: "San Antonio", state: "TX", population: 1526656 },
+  //   { city: "San Diego", state: "CA", population: 1404452 },
+  //   { city: "Dallas", state: "TX", population: 1326087 },
+  // ])
+  //
+  // table.max(cities, "population")
+  // table.max(cities, ["state", "city"])
+
+  return listExtremum(table, columns, false);
+}
+
+export function min(table, columns) {
+  // Get the row that would come first if `table` were sorted by `columns` in
+  // ascending order (that is, the one with the smallest values in `columns`).
+  // See the docs for [table.sortBy](#table.sortBy) for details on the
+  // sorting process.
+  //
+  // ```ptls
+  // cities = table.of([
+  //   { city: "Houston", state: "TX", population: 2390125 },
+  //   { city: "Phoenix", state: "AZ", population: 1673164 },
+  //   { city: "Philadelphia", state: "PA", population: 1573916 },
+  //   { city: "San Antonio", state: "TX", population: 1526656 },
+  //   { city: "San Diego", state: "CA", population: 1404452 },
+  //   { city: "Dallas", state: "TX", population: 1326087 },
+  // ])
+  //
+  // table.min(cities, "population")
+  // table.min(cities, ["state", "city"])
+  // ```
+
+  return listExtremum(table, columns, true);
+}
+
+export function group(table, columns) {
+  // Partition `table` into groups based on the values in `columns`, which
+  // may be a string (single column) or a list of strings (multiple columns).
+  //
+  // Rows with the same values in the given columns are grouped together. The
+  // result is a list of tables, each containing the rows for one group.
+  //
+  // ```ptls
+  // cities = table.of([
+  //   { city: "Los Angeles", state: "CA" },
+  //   { city: "Chicago", state: "IL" },
+  //   { city: "Houston", state: "TX" },
+  //   { city: "Phoenix", state: "AZ" },
+  //   { city: "Philadelphia", state: "PA" },
+  //   { city: "San Antonio", state: "TX" },
+  //   { city: "San Diego", state: "CA" },
+  //   { city: "Dallas", state: "TX" },
+  // ])
+  //
+  // table.group(cities, "state")
+  // ```
+
+  checkType(table, "table");
+  columns = flattenCols(table, columns);
 
   let groups = OrderedMap();
 
@@ -775,8 +939,41 @@ export function groupBy(table, columns) {
 }
 
 export async function summarize(table, columns, reducer) {
-  const groups = groupBy(table, columns);
-  columns = varargs(columns);
+  // Group the rows in `table` by one or more `columns` and summarize each
+  // group using the function `reducer`. `columns` may be a string (single
+  // column) or a list of strings (multiple columns).
+  //
+  // Rows are grouped based on the values in the given `columns` (see the
+  // docs for [table.group](#table.group) for details on the grouping
+  // process.) `reducer` is called for each group and returns an object
+  // containing summary information. These objects are merged with each
+  // group's column values to form the final summary row for that group.
+  //
+  // ```ptls
+  // cities = table.of([
+  //   { city: "New York", state: "NY", population: 8478072 },
+  //   { city: "Los Angeles", state: "CA", population: 3878704 },
+  //   { city: "Chicago", state: "IL", population: 2721308 },
+  //   { city: "Houston", state: "TX", population: 2390125 },
+  //   { city: "Phoenix", state: "AZ", population: 1673164 },
+  //   { city: "Philadelphia", state: "PA", population: 1573916 },
+  //   { city: "San Antonio", state: "TX", population: 1526656 },
+  //   { city: "San Diego", state: "CA", population: 1404452 },
+  //   { city: "Dallas", state: "TX", population: 1326087 },
+  //   { city: "Jacksonville", state: "FL", population: 1009833 },
+  // ])
+  //
+  // fn calcStateStats(group)
+  //   totalPop = sum(group.population)
+  //   biggestCity = table.max(group, "population").city
+  //   { totalPop, biggestCity }
+  // end
+  //
+  // table.summarize(cities, "state", calcStateStats)
+  // ```
+
+  const groups = group(table, columns);
+  columns = flattenCols(table, columns);
   checkType(reducer, "function");
 
   const rows = [];
@@ -798,6 +995,27 @@ export async function summarize(table, columns, reducer) {
 }
 
 export function counts(table) {
+  // Return a table containing de-duplicated rows of `table`. Each row will
+  // have two additional entries: `count` and `share`, which will contain the
+  // number of copies of each row in the original table, and the fraction
+  // of the total rows that this count represents. The original table may
+  // not contain columns named `count` or `share`.
+  //
+  // ```ptls
+  // locations = table.of([
+  //   { city: "New York", state: "NY" },
+  //   { city: "New York", state: "NY" },
+  //   { city: "Los Angeles", state: "CA" },
+  //   { city: "New York", state: "NY" },
+  //   { city: "Houston", state: "TX" },
+  //   { city: "Houston", state: "TX" },
+  //   { city: "Los Angeles", state: "CA" },
+  //   { city: "Chicago", state: "IL" },
+  // ])
+  //
+  // table.counts(locations)
+  // ```
+
   checkType(table, "table");
 
   if (table.data.has("count")) {

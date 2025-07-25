@@ -54,9 +54,9 @@ export function checkType(value, ...types) {
   return value;
 }
 
-export function compareAll(a, b, down) {
+export function compareAll(a, b, desc) {
   for (let index = 0; index < a.size; index++) {
-    const result = compare(a.get(index), b.get(index), down);
+    const result = compare(a.get(index), b.get(index), desc);
 
     if (result != 0) {
       return result;
@@ -66,7 +66,7 @@ export function compareAll(a, b, down) {
   return 0;
 }
 
-export function compare(a, b, down) {
+export function compare(a, b, desc) {
   checkType(a, "number", "string", "boolean");
   checkType(b, "number", "string", "boolean");
 
@@ -81,23 +81,12 @@ export function compare(a, b, down) {
   }
 
   if (a < b) {
-    return down ? 1 : -1;
+    return desc ? 1 : -1;
   }
 
   if (a > b) {
-    return down ? -1 : 1;
+    return desc ? -1 : 1;
   }
 
   return 0;
-}
-
-export function varargs(value) {
-  switch (getType(value)) {
-    case "list":
-      return value;
-    case "set":
-      return List(value);
-    default:
-      return List([value]);
-  }
 }
