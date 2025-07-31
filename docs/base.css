@@ -1,0 +1,217 @@
+@import url("fonts.css");
+@import url("highlight.css");
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --font-mono: "DejaVu Sans Mono", monospace;
+}
+
+html {
+  font-size: 16px;
+  height: 100%;
+}
+
+body {
+  margin: 0px;
+  color: #333;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 16px;
+  height: 100%;
+}
+
+main {
+  min-height: 100%;
+}
+
+.docs {
+  overflow: auto;
+
+  & > div {
+    padding: 0px 20px;
+    max-width: 800px;
+  }
+}
+
+p {
+  line-height: 25px;
+}
+
+p,
+pre,
+ul {
+  margin: 18px 0px;
+}
+
+li {
+  margin: 10px 0;
+}
+
+code,
+pre,
+kbd {
+  font-family: var(--font-mono);
+}
+
+a {
+  text-decoration: none;
+  color: #2868ff;
+}
+
+h1,
+h2,
+h3 {
+  break-after: avoid;
+  color: #444;
+
+  a {
+    color: inherit;
+  }
+}
+
+h1 {
+  font-size: 30px;
+}
+
+h2 {
+  font-size: 22px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+/*https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/kbd*/
+
+kbd {
+  background-color: #eee;
+  border-radius: 3px;
+  border: 1px solid #b4b4b4;
+  display: inline-block;
+  font-size: 0.85em;
+  font-weight: 700;
+  line-height: 1;
+  padding: 2px 4px;
+  white-space: nowrap;
+}
+
+hr {
+  border: none;
+  margin: 40px 0px 30px 0px;
+  background-color: #eee;
+  height: 4px;
+}
+
+table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin: 0px auto;
+  background-color: white;
+  color: #333;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #eee;
+}
+
+th,
+td {
+  border: 2px solid #ddd;
+  padding: 5px 10px;
+}
+
+/* Has to come before pre so that pre code rule
+has higher precendence than blockquote code */
+
+blockquote {
+  display: flow-root; /* prevent child margin collapse */
+  padding: 4px 24px;
+  /*background-color: #ffe8cf;*/
+  /*border: 2px solid #f9d7b1;*/
+  border: 8px solid #eee;
+  margin: 40px 0px;
+  color: #222;
+
+  code {
+    /*background-color: #fffaf4;*/
+  }
+
+  h2 {
+    margin: 20px 0px;
+  }
+}
+
+pre {
+  padding: 10px 12px;
+  overflow: auto;
+  background-color: #eee;
+  border: 2px solid #d9d9d9;
+  color: #505050;
+
+  &:has(code.ptls) {
+    background-color: #fff4e5;
+    border-color: #f0dbc0;
+  }
+
+  code {
+    background-color: transparent;
+    padding: 0px;
+    white-space: pre;
+  }
+
+  & + .result {
+    margin-top: -6px;
+  }
+}
+
+.snippet {
+  margin: 22px 0px;
+}
+
+.var-name {
+  font-size: 12px;
+  font-family: monospace;
+  color: #777;
+  font-weight: bold;
+  margin: -10px -10px -2px -10px;
+  padding: 10px;
+}
+
+.panic {
+  background-color: #ffe0e0;
+  border-color: #eab2b2;
+}
+
+pre,
+blockquote,
+table,
+.snippet {
+  break-inside: avoid;
+}
+
+pre,
+code,
+blockquote {
+  border-radius: 3px;
+}
+
+code {
+  background-color: #ffead0;
+  padding: 1px 4px;
+  white-space: nowrap;
+}
+
+pre,
+code {
+  font-size: 14px;
+}
+
+@media print {
+  pre {
+    code {
+      white-space: pre-wrap;
+    }
+  }
+}

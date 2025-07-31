@@ -1,0 +1,156 @@
+@import url("base.css");
+
+.std-docs {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+
+@media (max-width: 800px) {
+  .std-docs {
+    display: block;
+  }
+}
+
+@media print {
+  .std-docs {
+    display: block;
+  }
+}
+
+.mod-name {
+  font-family: var(--font-mono);
+  font-size: 24px;
+}
+
+.std-def {
+  margin: 20px 0px;
+
+  h3 {
+    font-family: var(--font-mono);
+    display: inline-block;
+    margin-bottom: 0px;
+  }
+
+  .contents {
+    margin-left: 25px;
+  }
+}
+
+.tag {
+  font-size: 14px;
+  font-weight: bold;
+  padding: 1px 6px 2px 6px;
+  margin: 0px 1px;
+  border-radius: 3px;
+  cursor: help;
+
+  &[title="Global"] {
+    background-color: #ffdab3;
+
+    color: #c2803b;
+    &::before {
+      content: "G";
+    }
+  }
+
+  &[title="Overloaded"] {
+    background-color: #ead9ff;
+    color: #b77ecd;
+
+    &::before {
+      content: "O";
+    }
+  }
+
+  &[title="Constant"] {
+    background-color: #c6e5ff;
+    color: #4f99e8;
+
+    &::before {
+      content: "C";
+    }
+  }
+}
+
+.overloads {
+  a {
+    font-family: var(--font-mono);
+  }
+}
+
+nav {
+  background-color: #f5f5f5;
+  padding: 8px;
+  overflow: scroll;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-gap: 2px 5px;
+  grid-auto-rows: min-content;
+
+  h2,
+  ul {
+    font-family: var(--font-mono);
+  }
+
+  h1,
+  h2 {
+    grid-column: span 2;
+    color: #555;
+  }
+
+  h1 {
+    font-size: 18px;
+    margin: -8px auto -4px auto;
+    padding: 12px;
+  }
+
+  h2 {
+    padding: 0px 4px;
+    margin: 4px 0px;
+    background-color: #e8e8e8;
+    border-radius: 3px;
+  }
+
+  a {
+    font-size: 18px;
+    color: inherit;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0px 4px;
+    display: contents;
+
+    li {
+      display: contents;
+
+      a {
+        font-size: 16px;
+        padding-left: 4px;
+      }
+    }
+  }
+
+  .tag {
+    font-size: 12px;
+    line-height: 18px;
+    padding: 0px 4px;
+    margin: 0px;
+  }
+}
+
+section {
+  display: flow-root; /* Prevent margin collapse */
+}
+
+@media (max-width: 800px) {
+  nav {
+    display: none;
+  }
+}
+
+@media print {
+  nav {
+    display: none;
+  }
+}
