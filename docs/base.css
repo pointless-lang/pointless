@@ -26,6 +26,10 @@ main {
   height: 100%;
 }
 
+section {
+  margin: 0px;
+}
+
 .docs {
   overflow: auto;
 

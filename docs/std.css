@@ -23,7 +23,7 @@
 }
 
 .std-def {
-  margin: 20px 0px;
+  margin: 16px 0px;
 
   h3 {
     font-family: var(--font-mono);
@@ -86,24 +86,22 @@ nav {
   grid-template-columns: 1fr auto;
   grid-gap: 2px 5px;
   grid-auto-rows: min-content;
-
-  h2,
-  ul {
-    font-family: var(--font-mono);
-  }
-
-  h2 {
-    grid-column: span 2;
-    color: #555;
-    padding: 0px 4px;
-    margin: 4px 0px;
-    background-color: #e8e8e8;
-    border-radius: 3px;
-  }
+  font-family: var(--font-mono);
 
   a {
     font-size: 18px;
     color: inherit;
+  }
+
+  & > a {
+    font-weight: bold;
+    grid-column: span 2;
+    display: block;
+    color: #555;
+    padding: 2px 4px;
+    margin: 4px 0px;
+    background-color: #e8e8e8;
+    border-radius: 3px;
   }
 
   ul {

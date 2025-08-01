@@ -104,9 +104,7 @@ export async function makeDocs() {
     `;
 
     nav += `
-      <h2>
-        <a href="#${modName}">${modName}</a>
-      </h2>
+      <a href="#${modName}">${modName}</a>
       <ul>
     `;
 
@@ -146,11 +144,6 @@ export async function makePage(title, style, body) {
         <main class="std-docs">
           ${body}
         </main>
-
-        <div id="jumps">
-          <a href="#top">Top</a>
-          <a href="#toc">Contents</a>
-        </div>
       </body>
     </html>
   `;
@@ -166,7 +159,6 @@ async function build() {
     "../docs/std",
     `
     <nav>
-      <h1 id="toc"><a href="#toc">Contents</a></h1>
       ${nav}
     </nav>
     <div class="docs">
