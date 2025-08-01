@@ -6,8 +6,12 @@ import { Panic } from "../../src/panic.js";
 import { getLine } from "../../src/prompt.js";
 import { OrderedMap } from "immutable";
 
+export const _modDocs = `
+Printing, prompting, and low-level console interaction.
+`;
+
 export function print(value) {
-  // Print `value`, and return `value`.
+  // Print `value` to stdout and return `value`.
   //
   // ```ptls --no-eval
   // print("Hello") -- Prints Hello
@@ -18,8 +22,8 @@ export function print(value) {
 }
 
 export function debug(value) {
-  // Print `value`, including quotes if `value` is a string, and return
-  // `value`. Useful for debugging and logging.
+  // Print `value` to stdout, including quotes if `value` is a string, and
+  // return `value`. Useful for debugging and logging.
   //
   // ```ptls --no-eval
   // debug("Hello") -- Prints "Hello"
@@ -30,7 +34,7 @@ export function debug(value) {
 }
 
 export function write(string) {
-  // Print `string` without adding a trailing newline.
+  // Print `string` to stdout without adding a trailing newline.
   //
   // ```ptls --no-eval
   // write("Hello") -- Prints Hello without a trailing newline
@@ -42,7 +46,7 @@ export function write(string) {
 }
 
 export function error(value) {
-  // Print `value` to stderr, and return `value`.
+  // Print `value` to stderr and return `value`.
   //
   // ```ptls --no-eval
   // error("Hello") -- Prints Hello to stderr
@@ -64,8 +68,8 @@ export function clear() {
 }
 
 export async function prompt(message) {
-  // Prompt the user for input, displaying `message` beforehand. User
-  // input is returned as a string.
+  // Prompt the user for input, displaying `message` beforehand. User input is
+  // returned as a string.
   //
   // ```ptls --no-eval
   // prompt("Enter your name: ") -- Prompts user for their name
@@ -77,7 +81,7 @@ export async function prompt(message) {
 
 export async function rawKey() {
   // Read a single keypress from the terminal in raw mode.
-  // Returns an object with the following keypress event details:
+  // Return an object with the following keypress event details:
   //
   // - `str`: the character, if printable, or `none`.
   // - `name`: name of the key.

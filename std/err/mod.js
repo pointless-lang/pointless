@@ -1,6 +1,13 @@
 import { checkType } from "../../src/values.js";
 import { Panic } from "../../src/panic.js";
 
+export const _modDocs = `
+Throw and catch errors.
+
+In Pointless, errors are normal values which are raised and handled using a
+special control flow.
+`;
+
 class Err extends Panic {
   constructor(payload) {
     super("unhandled error", { payload });
@@ -8,25 +15,8 @@ class Err extends Panic {
   }
 }
 
-export function assert(predicate) {
-  // Panic if `predicate` is `false`.
-  //
-  // ```ptls --panics
-  // age = -17
-  // assert(age >= 0)
-  // ```
-
-  checkType(predicate, "boolean");
-
-  if (!predicate) {
-    throw new Panic("assertion error");
-  }
-
-  return null;
-}
-
 export function $throw(payload) {
-  // Throw an error with `payload`.
+  // Throw an error with a `payload`, which may be any type of value.
   //
   // ```ptls --panics
   // fn inverse(n)
@@ -43,7 +33,7 @@ export function $throw(payload) {
   throw new Err(payload);
 }
 
-export async function $catch(func, handler) {
+export async function $try(func, handler) {
   // Call the zero-argument function `func`. If `func` returns a value
   // without throwing an error, return it; otherwise, call `handler` with
   // the error payload and return `handler(payload)`.
@@ -61,8 +51,8 @@ export async function $catch(func, handler) {
   //   "an error occured: $msg"
   // end
   //
-  // err.catch(fn() inverse(5) end, showErr)
-  // err.catch(fn() inverse(0) end, showErr)
+  // err.try(fn() inverse(5) end, showErr)
+  // err.try(fn() inverse(0) end, showErr)
   // ```
 
   checkType(func, "function");

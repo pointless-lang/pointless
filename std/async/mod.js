@@ -1,25 +1,22 @@
 import { checkType } from "../../src/values.js";
 import { List } from "immutable";
 
-export async function sleep(ms) {
-  // Pause the current execution branch for `ms` milliseconds
-  //
-  // ```ptls
-  // sleep(1000) -- Pause for 1 second
-  // ```
+export const _modDocs = `
+Manage concurrent operations.
 
-  await new Promise((next) => setTimeout(next, ms));
-  return null;
-}
+In Pointless, all function calls are implicitly awaited; there are no raw
+promises that can be created and awaited later. Instead, the \`async\` module
+provides a small set of structured tools for running batches of functions
+concurrently.
+`;
 
 export async function getFirst(funcs) {
-  // Given a list of zero-argument functions `funcs`, run each function
-  // concurrently until one of the functions finishes. Return the value
-  // from this function.
+  // Run each zero-argument function in the list `funcs` concurrently and
+  // return the result of the first one that finishes.
   //
-  // *Note: the functions that are still running when the first function
+  // *Note*: the functions that are still running when the first function
   // finishes should be stopped; however, limitations of JS currently
-  // prevent this.*
+  // prevent this.
   //
   // ```ptls --no-eval
   // fn getA()
@@ -48,9 +45,8 @@ export async function getFirst(funcs) {
 }
 
 export async function getAll(funcs) {
-  // Given a list of zero-argument functions `funcs`, run each function
-  // concurrently until all of the functions finish. Return the returned
-  // values from these functions as a list.
+  // Run each zero-argument function in the list `funcs` concurrently. Wait
+  // until all functions finish running and return a list of their results.
   //
   // ```ptls --no-eval
   // fn getA()
@@ -63,7 +59,7 @@ export async function getAll(funcs) {
   //   "b"
   // end
   //
-  // async.getAll([getA, getB]) -- Returns ["a", b"] after 200 ms
+  // async.getAll([getA, getB]) -- Returns ["a", "b"] after 200 ms
   // ```
 
   checkType(funcs, "list");
@@ -76,9 +72,17 @@ export async function getAll(funcs) {
   return List(await Promise.all(promises));
 }
 
-// export async function $yield() {
-//   return sleep(0);
-// }
+export async function $yield() {
+  // Pause a loop temporarily to allow other concurrently scheduled functions
+  // to run.
+  //
+  // ```ptls --no-eval
+  // async.yield() -- Pause to allow other functions to run
+  // ```
+
+  await new Promise((next) => setTimeout(next, 0));
+  return null;
+}
 
 // async function tryCall(func) {
 //   try {

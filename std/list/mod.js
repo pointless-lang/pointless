@@ -14,6 +14,7 @@ export function of(values) {
   // ```ptls
   // s = set.of(["a", "b", "c", "d"])
   // list.of(s)
+  //
   // t = table.of({ name: ["Ducky", "Clementine"], type: ["dog", "bird"] })
   // list.of(t)
   // ```
@@ -392,7 +393,7 @@ export async function group(list, func) {
   // ```ptls
   // list.group(
   //   ["apple", "pear", "peach", "banana", "plum", "apricot", "orange"],
-  //   fn(word) chars(word)[0] end
+  //   fn(word) take(word, 1) end
   // )
   // ```
 

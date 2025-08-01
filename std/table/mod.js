@@ -10,7 +10,6 @@ export const _modDocs = `
 
 `;
 
-
 function flattenCols(table, columns) {
   checkType(columns, "string", "list");
 
@@ -244,6 +243,7 @@ export function set(table, selector, value) {
   //
   //   - If `value` is a list, it becomes the column data. A list `value`
   //     must have the same length as `table`.
+  //
   //   - If `value` is not a list, it is repeated across all rows.
   //
   // - If `selector` is an object, return the first row that matches (contain
@@ -655,7 +655,7 @@ export async function filter(table, condition) {
   // table.filter(cities, fn(city) city.state == "TX" end)
   // ```
   //
-  // *Note that this can also be accomplished using the `?`*:
+  // *Note that this can also be accomplished using the `?` operator*:
   //
   // ```ptls
   // cities ? arg.state == "TX"
