@@ -166,10 +166,10 @@ pre {
     padding: 0px;
     white-space: pre;
   }
+}
 
-  & + .result {
-    margin-top: -6px;
-  }
+pre + .result {
+  margin-top: -6px;
 }
 
 .snippet {
