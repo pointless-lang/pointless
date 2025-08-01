@@ -5,12 +5,6 @@
   grid-template-columns: auto 1fr;
 }
 
-@media (max-width: 800px) {
-  .std-docs {
-    display: block;
-  }
-}
-
 @media print {
   .std-docs {
     display: block;
@@ -129,12 +123,6 @@ nav {
 
 section {
   display: flow-root; /* Prevent margin collapse */
-}
-
-@media (max-width: 800px) {
-  nav {
-    display: none;
-  }
 }
 
 @media print {
