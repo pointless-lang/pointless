@@ -1,4 +1,4 @@
-import { render } from "./utils.js";
+import { render } from "./render.js";
 import { parse } from "node:path";
 import { argv } from "node:process";
 import { readFile } from "node:fs/promises";
@@ -11,12 +11,18 @@ export async function makePage(title, inner) {
       <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" type="text/css" href="../../docs/style.css">
+        <link rel="stylesheet" type="text/css" href="../../docs/notebook.css">
         <title>${title}</title>
       </head>
 
       <body>
-        <main>${inner}</main>
+        <main>
+          <div class="docs">
+            <div>
+              ${inner}
+            </div>
+          </div>
+        </main>
       </body>
     </html>
   `;
