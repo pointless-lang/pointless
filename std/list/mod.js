@@ -446,52 +446,52 @@ export function sortDesc(list) {
   return doSort(list, true);
 }
 
-// async function doSortBy(list, ranker, desc) {
-//   checkType(list, "list");
-//   checkType(ranker, "function");
+async function doSortBy(list, ranker, desc) {
+  checkType(list, "list");
+  checkType(ranker, "function");
 
-//   const ranks = [];
+  const ranks = [];
 
-//   for (const value of list) {
-//     ranks.push({ rank: await ranker.call(value), value });
-//   }
+  for (const value of list) {
+    ranks.push({ rank: await ranker.call(value), value });
+  }
 
-//   return List(
-//     ranks
-//       .sort((a, b) => compare(a.rank, b.rank, desc))
-//       .map(({ value }) => value),
-//   );
-// }
+  return List(
+    ranks
+      .sort((a, b) => compare(a.rank, b.rank, desc))
+      .map(({ value }) => value),
+  );
+}
 
-// export async function sortBy(list, ranker) {
-//   // Sort `list` in ascending order using `ranker(value)` as the sort key.
-//   // The `ranker` function must return a number, string, or boolean, and
-//   // all values returned must be of the same type.
-//   //
-//   // ```ptls
-//   // sortBy(
-//   //   ["apple", "pear", "peach", "banana", "plum", "apricot", "orange"],
-//   //   len
-//   // )
-//   // ```
+export async function sortBy(list, ranker) {
+  // Sort `list` in ascending order using `ranker(value)` as the sort key.
+  // The `ranker` function must return a number, string, or boolean, and
+  // all values returned must be of the same type.
+  //
+  // ```ptls
+  // sortBy(
+  //   ["apple", "pear", "peach", "banana", "plum", "apricot", "orange"],
+  //   len
+  // )
+  // ```
 
-//   return await doSortBy(list, ranker, false);
-// }
+  return await doSortBy(list, ranker, false);
+}
 
-// export async function sortDescBy(list, ranker) {
-//   // Sort `list` in descending order using `ranker(value)` as the sort key.
-//   // The `ranker` function must return a number, string, or boolean, and
-//   // all values returned must be of the same type.
-//   //
-//   // ```ptls
-//   // sortDescBy(
-//   //   ["apple", "pear", "peach", "banana", "plum", "apricot", "orange"],
-//   //   len
-//   // )
-//   // ```
+export async function sortDescBy(list, ranker) {
+  // Sort `list` in descending order using `ranker(value)` as the sort key.
+  // The `ranker` function must return a number, string, or boolean, and
+  // all values returned must be of the same type.
+  //
+  // ```ptls
+  // sortDescBy(
+  //   ["apple", "pear", "peach", "banana", "plum", "apricot", "orange"],
+  //   len
+  // )
+  // ```
 
-//   return await doSortBy(list, ranker, true);
-// }
+  return await doSortBy(list, ranker, true);
+}
 
 export function top(list, count) {
   // Sort `list` in descending order and get the first `count` values.
