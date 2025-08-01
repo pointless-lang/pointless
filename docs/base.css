@@ -45,7 +45,6 @@ section {
       padding: 20px;
     }
   }
-
 }
 
 p {
@@ -141,15 +140,9 @@ has higher precendence than blockquote code */
 blockquote {
   display: flow-root; /* prevent child margin collapse */
   padding: 4px 24px;
-  /*background-color: #ffe8cf;*/
-  /*border: 2px solid #f9d7b1;*/
-  border: 8px solid #eee;
+  border: 4px solid #eee;
   margin: 40px 0px;
   color: #222;
-
-  code {
-    /*background-color: #fffaf4;*/
-  }
 
   h2 {
     margin: 20px 0px;

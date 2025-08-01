@@ -1,13 +1,36 @@
 @import url("base.css");
 
-.std-docs {
+main {
   display: grid;
   grid-template-columns: auto 1fr;
 }
 
-@media print {
-  .std-docs {
+@media (max-width: 800px) {
+  main {
     display: block;
+  }
+}
+
+@media print {
+  main {
+    display: block;
+  }
+}
+
+#toc {
+  display: none;
+  font-size: 20px;
+  color: #222;
+}
+
+@media (max-width: 800px) {
+  #toc {
+    display: block;
+    text-align: center;
+    background: #ddd;
+    padding: 16px;
+    margin: 30px 0px;
+    color: #555;
   }
 }
 
@@ -121,12 +144,22 @@ nav {
   }
 }
 
-section {
-  display: flow-root; /* Prevent margin collapse */
+@media (max-width: 800px) {
+  nav {
+    display: none;
+  }
 }
 
 @media print {
   nav {
     display: none;
   }
+}
+
+section {
+  display: flow-root; /* Prevent margin collapse */
+}
+
+section + hr {
+  margin-top: 20px;
 }

@@ -88,14 +88,14 @@ async function showDef(modName, name, value, constDocs) {
 
 export async function makeDocs() {
   let nav = "";
-  let main = "";
+  let docs = "";
 
   for (const [modName, mod] of Object.entries(modules)) {
     const { _modDocs, _constDocs = {} } = await import(
       `../std/${modName}/mod.js`
     );
 
-    main += `
+    docs += `
       <hr/>
       <section id="${modName}">
         <h2 id="${modName}">
@@ -104,73 +104,80 @@ export async function makeDocs() {
     `;
 
     nav += `
-      <a href="#${modName}">${modName}</a>
+      <a href="stdlib.html#${modName}">${modName}</a>
       <ul>
     `;
 
     if (_modDocs) {
-      main += await render("std", _modDocs);
+      docs += await render("std", _modDocs);
     }
 
     for (const [name, value] of Object.entries(mod)) {
       nav += `
         <li>
-          <a href="#${modName}.${name}">${name}</a>
+          <a href="stdlib.html#${modName}.${name}">${name}</a>
           ${showTags(modName, name, value)}
         </li>
       `;
-      main += await showDef(modName, name, value, _constDocs);
+      docs += await showDef(modName, name, value, _constDocs);
     }
 
     nav += "</ul>";
-    main += "</section>";
+    docs += "</section>";
   }
 
-  return { nav, main };
+  await writePage(
+    "std/stdlib.html",
+    "Standard Library",
+    "../docs/std.css",
+    `
+      <nav>
+        ${nav}
+      </nav>
+
+      <div class="docs">
+        <div>
+          <h1>The Pointless Standard Library</h1>
+          <a id="toc" href="toc.html">Table of Contents ☰</a>
+          ${docs}
+        </div>
+      </div>
+    `,
+  );
+
+  await writePage(
+    "std/toc.html",
+    "Standard Library Table of Contents",
+    "../docs/toc.css",
+    `
+      <h1>StdLib Table of Contents</h1>
+      <nav>
+        ${nav}
+      </nav>
+    `,
+  );
 }
 
-export async function makePage(title, style, body) {
+export async function writePage(path, title, style, main) {
   const html = `
     <!DOCTYPE html>
     <html>
       <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" type="text/css" href="${style}.css">
+        <link rel="stylesheet" type="text/css" href="${style}">
         <title>${title}</title>
       </head>
 
       <body>
-        <main class="std-docs">
-          ${body}
+        <main>
+          ${main}
         </main>
       </body>
     </html>
   `;
 
-  return format(html, { parser: "html" });
+  await writeFile(path, await format(html, { parser: "html" }));
 }
 
-async function build() {
-  const { nav, main } = await makeDocs();
-
-  const stdlib = await makePage(
-    "Standard Library",
-    "../docs/std",
-    `
-    <nav>
-      ${nav}
-    </nav>
-    <div class="docs">
-      <div>
-        <h1>The Pointless Standard Library</h1>
-        ${main}
-      </div>
-    </div>
-  `,
-  );
-
-  await writeFile("std/stdlib.html", stdlib);
-}
-
-await build();
+await makeDocs();
