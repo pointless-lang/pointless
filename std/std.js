@@ -6,23 +6,25 @@ import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { OrderedMap } from "immutable";
 
+export const modules = {};
+
 // wrapped functions shouldn't destructure arguments
 // or use spread syntax or default param values
 const paramChars = /\(([$\w\s,]*)\)/;
 
-const native = {};
 const root = dirname(fileURLToPath(import.meta.url));
 const entries = await readdir(root, { withFileTypes: true });
 const dirs = entries.filter((entry) => entry.isDirectory());
 
-export const constDocs = {};
-
 for (const { name: modName } of dirs) {
-  const { _constDocs = {}, ...mod } = await import(`./${modName}/mod.js`);
-  native[modName] = {};
-  constDocs[modName] = _constDocs;
+  const native = await import(`./${modName}/mod.js`);
+  const mod = {};
 
-  for (let [name, value] of Object.entries(mod)) {
+  for (let [name, value] of Object.entries(native)) {
+    if (name.startsWith("_")) {
+      continue;
+    }
+
     // module export names and param names can be escaped with '$' prefix
     // for js keywords, for example a param '$default' in js would get
     // converted to 'default' in ptls
@@ -41,97 +43,101 @@ for (const { name: modName } of dirs) {
       value = new Func(value, fullName, params);
     }
 
-    native[modName][name] = value;
+    mod[name] = value;
+  }
+
+  modules[modName] = {};
+
+  // Need to sort to account for removed `$` prefixes
+  for (const name of Object.keys(mod).toSorted()) {
+    modules[modName][name] = mod[name];
   }
 }
-
-export const modules = {};
-
-for (let [name, mod] of Object.entries(native)) {
-  // convert modules to ptls objects
-  modules[name] = OrderedMap(mod);
-}
-
-export const overloadParents = new Map();
-export const overloadChildren = new Map();
-modules.overloads = OrderedMap();
 
 export const globals = {
-  assert: native.err.assert,
-  chars: native.str.chars,
-  clear: native.console.clear,
-  join: native.str.join,
-  max: native.list.max,
-  min: native.list.min,
-  print: native.console.print,
-  prompt: native.console.prompt,
-  range: native.list.range,
-  round: native.math.round,
-  roundTo: native.math.roundTo,
-  sleep: native.async.sleep,
-  sort: native.list.sort,
-  sortBy: native.table.sortBy,
-  sortDesc: native.list.sortDesc,
-  sortDescBy: native.table.sortDescBy,
-  span: native.list.span,
-  split: native.str.split,
-  sum: native.list.sum,
+  assert: modules.util.assert,
+  chars: modules.str.chars,
+  clear: modules.console.clear,
+  join: modules.str.join,
+  max: modules.list.max,
+  min: modules.list.min,
+  print: modules.console.print,
+  prompt: modules.console.prompt,
+  range: modules.list.range,
+  round: modules.math.round,
+  roundTo: modules.math.roundTo,
+  sleep: modules.util.sleep,
+  sort: modules.list.sort,
+  sortDesc: modules.list.sortDesc,
+  span: modules.list.span,
+  split: modules.str.split,
+  sum: modules.list.sum,
 };
 
-function addOverload(name, params, ...types) {
-  const typesMap = {
-    boolean: "bool",
-    function: "func",
-    list: "list",
-    none: "nada",
-    number: "num",
-    object: "obj",
-    set: "set",
-    string: "str",
-    table: "table",
-  };
+const overloads = {
+  drop: ["values", "count"],
+  dropLast: ["values", "count"],
+  has: ["value", "elem"],
+  isEmpty: ["values"],
+  len: ["values"],
+  push: ["values", "item"],
+  remove: ["values", "elem"],
+  reverse: ["values"],
+  select: ["collection", "keys"],
+  sortBy: ["values", "ranker"],
+  sortDescBy: ["values", "ranker"],
+  take: ["values", "count"],
+  takeLast: ["values", "count"],
+};
 
-  function handler(...args) {
+const typesMap = {
+  list: "list",
+  none: "nada",
+  number: "math",
+  object: "obj",
+  set: "set",
+  string: "str",
+  table: "table",
+};
+
+export const variants = {};
+modules.overloads = {};
+
+for (const [name, params] of Object.entries(overloads)) {
+  const types = [];
+  variants[name] = [];
+
+  for (const [type, modName] of Object.entries(typesMap)) {
+    // Types may not all have modules
+    const value = modules[modName]?.[name];
+
+    if (value) {
+      variants[name].push(value);
+      types.push(type);
+    }
+  }
+
+  const handler = (...args) => {
     checkType(args[0], ...types);
     const modName = typesMap[getType(args[0])];
-    return native[modName][name].call(...args);
-  }
+    return modules[modName][name].call(...args);
+  };
 
   const fullName = `overloads.${name}`;
   const overload = new Func(handler, fullName, params);
-
   globals[name] = overload;
-
-  for (const type of types) {
-    const modName = typesMap[type];
-    const original = native[modName][name];
-    overloadParents.set(original, overload);
-
-    if (!overloadChildren.has(overload)) {
-      overloadChildren.set(overload, []);
-    }
-
-    overloadChildren.get(overload).push(original);
-  }
-
-  modules.overloads = modules.overloads.set(name, overload);
+  modules.overloads[name] = overload;
 }
 
-addOverload("drop", ["values", "count"], "list", "table", "string");
-addOverload("dropLast", ["values", "count"], "list", "table", "string");
-addOverload("has", ["value", "elem"], "set", "list", "object", "table");
-addOverload("isEmpty", ["values"], "list", "object", "set", "table", "string");
-addOverload("len", ["values"], "list", "object", "set", "table", "string");
-addOverload("push", ["values", "item"], "list", "table");
-addOverload("remove", ["values", "elem"], "set", "list", "object", "table");
-addOverload("reverse", ["values"], "list", "table", "string");
-addOverload("select", ["collection", "keys"], "object", "table");
-// addOverload("sortBy", ["values", "ranker"], "list", "table");
-// addOverload("sortDescBy", ["values", "ranker"], "list", "table");
-addOverload("take", ["values", "count"], "list", "table", "string");
-addOverload("takeLast", ["values", "count"], "list", "table", "string");
+const defs = {};
 
-const defs = { ...modules, ...globals };
+// Need to sort cause overloads was added later
+for (let name of Object.keys(modules).toSorted()) {
+  // Convert modules to ptls objects
+  defs[name] = OrderedMap(modules[name]);
+}
+
+Object.assign(defs, globals);
 defs.std = OrderedMap(defs);
 
 export const std = new Env(null, new Map(Object.entries(defs)));
