@@ -6,10 +6,6 @@ import { std } from "../../std/std.js";
 import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
 import commandLineArgs from "command-line-args";
-import { h } from "preact";
-import htm from "htm";
-
-const html = htm.bind(h);
 
 function escapeHtml(string) {
   return string
@@ -150,5 +146,5 @@ export async function renderMarkdown(filePath, source) {
 
   // must use highlighter before renderer
   marked.use(highlighter).use({ renderer });
-  return html([await marked.parse(source)]);
+  return await marked.parse(source);
 }

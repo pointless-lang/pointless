@@ -1,0 +1,19 @@
+@import url("std.css");
+
+main {
+  display: block;
+}
+
+nav {
+  display: grid;
+  width: 100%;
+}
+
+h1 {
+  padding: 20px 20px 10px 20px;
+  text-align: center;
+}
+
+nav {
+  font-size: 20px;
+}

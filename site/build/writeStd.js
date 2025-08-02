@@ -2,10 +2,7 @@ import { writePage } from "./writePage.js";
 import { getType } from "../../src/values.js";
 import { renderMarkdown } from "./renderMarkdown.js";
 import { modules, globals, variants } from "../../std/std.js";
-import { h } from "preact";
-import htm from "htm";
-
-const html = htm.bind(h);
+import { html } from "./html.js";
 
 function getDocStr(func) {
   const comment = func.handler
@@ -41,14 +38,13 @@ async function showDocs(modName, name, value, constDocs) {
 
   if (modName === "overloads") {
     const items = variants[name].map(
-      (child) =>
-        html`<li><a href="#${child.name}">${child.toString()}</a></li>`,
+      (child) => html`<li><a href="#${child.name}">${child}</a></li>`,
     );
 
     return html`
       <p>Overload of:</p>
       <ul class="overloads">
-        ${items}
+        $$${items}
       </ul>
     `;
   }
@@ -57,31 +53,24 @@ async function showDocs(modName, name, value, constDocs) {
     const overloader = variants[name]
       ? html`
           <p class="overloads">
-            (Accessible as a global through${" "}
+            (Accessible as a global through
             <a href="#overloads.${name}">overloads.${name}</a>)
           </p>
         `
       : "";
 
-    return html`
-      ${await renderMarkdown("std", getDocStr(value))} ${overloader}
-    `;
+    return (await renderMarkdown("std", getDocStr(value))) + overloader;
   }
 
   return await renderMarkdown(
     "std",
-    `
-      ${constDocs[name] ?? ""}
-      \`\`\`ptls --hide
-      ${path}
-      \`\`\`
-    `,
+    `${constDocs[name] ?? ""}\n\`\`\`ptls --hide\n${path}\n\`\`\``,
   );
 }
 
 async function showDef(modName, name, value, constDocs) {
   const path = `${modName}.${name}`;
-  const label = getType(value) === "function" ? String(value) : path;
+  const label = getType(value) === "function" ? value : path;
   const docs = await showDocs(modName, name, value, constDocs);
 
   return html`
@@ -90,10 +79,10 @@ async function showDef(modName, name, value, constDocs) {
         <h3>
           <a class="def-name" href="#${path}">${label}</a>
         </h3>
-        ${showTags(modName, name, value)}
+        $$${showTags(modName, name, value)}
       </div>
 
-      <div class="contents">${docs}</div>
+      <div class="contents">$$${docs}</div>
     </section>
   `;
 }
@@ -102,16 +91,16 @@ function modNav(modName, mod) {
   const links = Object.entries(mod).map(
     ([name, value]) => html`
       <li>
-        <a href="stdlib.html#${modName}.${name}">${name}</a>
-        ${showTags(modName, name, value)}
+        <a href="/stdlib#${modName}.${name}">${name}</a>
+        $$${showTags(modName, name, value)}
       </li>
     `,
   );
 
   return html`
-    <a href="stdlib.html#${modName}">${modName}</a>
+    <a href="/stdlib#${modName}">${modName}</a>
     <ul>
-      ${links}
+      $$${links}
     </ul>
   `;
 }
@@ -136,7 +125,7 @@ async function modDocs(modName, mod) {
         <a class="mod-name" href="#${modName}">${modName}</a>
       </h2>
 
-      ${modDocs} ${defs}
+      $$${modDocs} $$${defs}
     </section>
   `;
 }
@@ -155,13 +144,13 @@ export async function writeStd() {
     "Standard Library",
     "std.css",
     html`
-      <nav>${nav}</nav>
+      <nav>$$${nav}</nav>
 
       <div class="docs">
         <div>
           <h1>The Pointless Standard Library</h1>
-          <a id="toc" href="toc.html">Table of Contents ☰</a>
-          ${mods}
+          <a id="toc" href="stdlib/toc.html">Table of Contents ☰</a>
+          $$${mods}
         </div>
       </div>
     `,
@@ -170,10 +159,10 @@ export async function writeStd() {
   await writePage(
     "site/public/stdlib/toc.html",
     "Standard Library Table of Contents",
-    "../docs/toc.css",
+    "toc.css",
     html`
       <h1>StdLib Table of Contents</h1>
-      <nav>${nav}</nav>
+      <nav>$$${nav}</nav>
     `,
   );
 }

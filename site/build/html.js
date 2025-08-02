@@ -1,5 +1,5 @@
-function escape(str) {
-  return String(str)
+function escapeHtml(string) {
+  return string
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
@@ -12,11 +12,12 @@ export function html(strings, ...values) {
 
   for (let i = 0; i < values.length; i++) {
     const str = strings[i];
-    
+    const val = [values[i]].flat(Infinity).map(String).join("");
+
     if (str.endsWith("$$")) {
-      result += str.slice(0, -2) + values[i];
+      result += str.slice(0, -2) + val;
     } else {
-      result += str + escape(values[i]);
+      result += str + escapeHtml(val);
     }
   }
 

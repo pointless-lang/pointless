@@ -2,18 +2,19 @@ import { html } from "./html.js";
 
 export function base(title, style, main) {
   return html`
+    <!DOCTYPE html>
     <html>
       <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link
           rel="icon"
-          href="../icon.svg"
+          href="/icons/icon.png"
           media="(prefers-color-scheme: light)"
         />
         <link
           rel="icon"
-          href="../icon-light.svg"
+          href="/icons/icon-light.png"
           media="(prefers-color-scheme: dark)"
         />
         <link rel="stylesheet" type="text/css" href="/css/${style}" />
