@@ -149,7 +149,7 @@ export async function writeStd() {
       <div class="docs">
         <div>
           <h1>The Pointless Standard Library</h1>
-          <a id="toc" href="stdlib/toc.html">Table of Contents ☰</a>
+          <a id="toc" href="/stdlib/toc.html">Table of Contents ☰</a>
           $$${mods}
         </div>
       </div>

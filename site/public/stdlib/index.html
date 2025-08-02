@@ -1225,7 +1225,7 @@
       <div class="docs">
         <div>
           <h1>The Pointless Standard Library</h1>
-          <a id="toc" href="stdlib/toc.html">Table of Contents ☰</a>
+          <a id="toc" href="/stdlib/toc.html">Table of Contents ☰</a>
 
           <hr />
 
@@ -7775,6 +7775,7 @@ t2 <span class="operator">=</span> <span class="std">table</span>.<span class="c
 <span class="std">table</span>.<span class="call">set</span>(cities, <span class="number">0</span>, { city: <span class="string">&quot;Big Apple&quot;</span>, state: <span class="string">&quot;Empire&quot;</span> })
 <span class="std">table</span>.<span class="call">set</span>(cities, <span class="string">&quot;state&quot;</span>, [<span class="string">&quot;New York&quot;</span>, <span class="string">&quot;Cali&quot;</span>, <span class="string">&quot;Illinois&quot;</span>, <span class="string">&quot;Texas&quot;</span>])
 <span class="std">table</span>.<span class="call">set</span>(cities, <span class="string">&quot;state&quot;</span>, <span class="string">&quot;TX&quot;</span>)
+<span class="std">table</span>.<span class="call">set</span>(cities, { state: <span class="string">&quot;TX&quot;</span> },  { city: <span class="string">&quot;Austin&quot;</span> })
 <span class="std">table</span>.<span class="call">set</span>(cities, { state: <span class="string">&quot;TX&quot;</span> },  { city: <span class="string">&quot;Phoenix&quot;</span>, state: <span class="string">&quot;AZ&quot;</span> })</code></pre>
                   <pre
                     class="result"
@@ -7802,6 +7803,14 @@ t2 <span class="operator">=</span> <span class="std">table</span>.<span class="c
 │ Los Angeles │ TX    │
 │ Chicago     │ TX    │
 │ Houston     │ TX    │
+└─────────────┴───────┘
+┌─────────────┬───────┐
+│ city        │ state │ x 4
+├─────────────┼───────┤
+│ New York    │ NY    │
+│ Los Angeles │ CA    │
+│ Chicago     │ IL    │
+│ Austin      │ TX    │
 └─────────────┴───────┘
 ┌─────────────┬───────┐
 │ city        │ state │ x 4
@@ -7865,6 +7874,22 @@ citiesCopy.state <span class="operator">=</span> <span class="string">&quot;TX&q
 │ Los Angeles │ TX    │
 │ Chicago     │ TX    │
 │ Houston     │ TX    │
+└─────────────┴───────┘</code></pre>
+                </div>
+                <div class="snippet">
+                  <pre><code class="ptls">citiesCopy <span class="operator">=</span> cities
+citiesCopy[{ state: <span class="string">&quot;TX&quot;</span> }].city <span class="operator">=</span> <span class="string">&quot;Austin&quot;</span></code></pre>
+
+                  <pre
+                    class="result"
+                    style="undefined"
+                  ><code><div class="var-name">citiesCopy</div>┌─────────────┬───────┐
+│ city        │ state │ x 4
+├─────────────┼───────┤
+│ New York    │ NY    │
+│ Los Angeles │ CA    │
+│ Chicago     │ IL    │
+│ Austin      │ TX    │
 └─────────────┴───────┘</code></pre>
                 </div>
                 <div class="snippet">
