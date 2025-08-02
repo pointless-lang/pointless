@@ -1,11 +1,15 @@
 import { highlight } from "./highlight.js";
-import { tokenize } from "../src/tokenizer.js";
-import { parse } from "../src/parser.js";
-import { repr, show } from "../src/repr.js";
-import { std } from "../std/std.js";
+import { tokenize } from "../../src/tokenizer.js";
+import { parse } from "../../src/parser.js";
+import { repr, show } from "../../src/repr.js";
+import { std } from "../../std/std.js";
 import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
 import commandLineArgs from "command-line-args";
+import { h } from "preact";
+import htm from "htm";
+
+const html = htm.bind(h);
 
 function escapeHtml(string) {
   return string
@@ -16,7 +20,7 @@ function escapeHtml(string) {
     .replaceAll("'", "&#39;");
 }
 
-async function processSource(code, config, filePath, env) {
+async function renderCode(code, config, filePath, env) {
   const tokens = tokenize(`${filePath}:embedded`, code);
 
   let html = `<div class="snippet">`;
@@ -117,7 +121,7 @@ const renderer = {
   },
 };
 
-export async function render(filePath, source) {
+export async function renderMarkdown(filePath, source) {
   let queue = Promise.resolve();
 
   function serialize(func) {
@@ -137,9 +141,7 @@ export async function render(filePath, source) {
       });
 
       if (lang === "ptls") {
-        return await serialize(() =>
-          processSource(code, config, filePath, env),
-        );
+        return await serialize(() => renderCode(code, config, filePath, env));
       }
 
       return code;
@@ -148,5 +150,5 @@ export async function render(filePath, source) {
 
   // must use highlighter before renderer
   marked.use(highlighter).use({ renderer });
-  return await marked.parse(source);
+  return html([await marked.parse(source)]);
 }
