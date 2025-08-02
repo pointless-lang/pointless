@@ -98,7 +98,8 @@ const renderer = {
   },
 
   code({ text }) {
-    // Don't parse html that's already been rendered
+    // Don't re-wrap code block that's already been rendered
+    // It's messy but it works
     if (!text.trim().startsWith('<div class="snippet">')) {
       return h`<pre><code>${text}</code></pre>`;
     }

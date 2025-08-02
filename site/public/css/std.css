@@ -116,7 +116,7 @@ nav {
     grid-column: span 2;
     display: block;
     color: #555;
-    padding: 2px 4px;
+    padding: 2px 5px;
     margin: 4px 0px;
     background-color: #e8e8e8;
     border-radius: 3px;
@@ -139,7 +139,7 @@ nav {
   .tag {
     font-size: 0.9em;
     line-height: 1.3em;
-    padding: 0px 4px;
+    padding: 0px 5px;
   }
 }
 
