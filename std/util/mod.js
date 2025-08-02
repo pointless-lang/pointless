@@ -8,9 +8,13 @@ Miscellaneous useful functions.
 export function assert(predicate) {
   // Panic if the boolean `predicate` is `false`.
   //
+  // ```ptls
+  // inches = 15
+  // assert(inches >= 0)
+  // ```
+  //
   // ```ptls --panics
-  // age = -17
-  // assert(age >= 0)
+  // assert(inches < 12)
   // ```
 
   checkType(predicate, "boolean");
