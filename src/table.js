@@ -161,6 +161,7 @@ export class Table {
         return this.setRow(selector, value);
       case "object": {
         const index = this.findMatch(selector);
+        value = selector.concat(value);
 
         return index === undefined
           ? this.addRow(value)

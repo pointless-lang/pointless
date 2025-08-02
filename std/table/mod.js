@@ -261,6 +261,7 @@ export function set(table, selector, value) {
   // table.set(cities, 0, { city: "Big Apple", state: "Empire" })
   // table.set(cities, "state", ["New York", "Cali", "Illinois", "Texas"])
   // table.set(cities, "state", "TX")
+  // table.set(cities, { state: "TX" },  { city: "Austin" })
   // table.set(cities, { state: "TX" },  { city: "Phoenix", state: "AZ" })
   // ```
   //
@@ -280,6 +281,11 @@ export function set(table, selector, value) {
   // ```ptls
   // citiesCopy = cities
   // citiesCopy.state = "TX"
+  // ```
+  //
+  // ```ptls
+  // citiesCopy = cities
+  // citiesCopy[{ state: "TX" }].city = "Austin"
   // ```
   //
   // ```ptls
