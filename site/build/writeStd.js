@@ -2,7 +2,7 @@ import { writePage } from "./writePage.js";
 import { getType } from "../../src/values.js";
 import { renderMarkdown } from "./renderMarkdown.js";
 import { modules, globals, variants } from "../../std/std.js";
-import { html } from "./html.js";
+import { h } from "./escape.js";
 
 function getDocStr(func) {
   const comment = func.handler
@@ -19,18 +19,18 @@ function getDocStr(func) {
 
 function showTags(modName, name, value) {
   if (modName !== "overloads" && variants[name]) {
-    return html`<span class="tag" title="Overloaded"></span>`;
+    return h`<span class="tag" title="Overloaded"></span>`;
   }
 
   if (globals[name] === value) {
-    return html`<span class="tag" title="Global"></span>`;
+    return h`<span class="tag" title="Global"></span>`;
   }
 
   if (getType(value) !== "function") {
-    return html`<span class="tag" title="Constant"></span>`;
+    return h`<span class="tag" title="Constant"></span>`;
   }
 
-  return html`<span></span>`;
+  return h`<span></span>`;
 }
 
 async function showDocs(modName, name, value, constDocs) {
@@ -38,10 +38,10 @@ async function showDocs(modName, name, value, constDocs) {
 
   if (modName === "overloads") {
     const items = variants[name].map(
-      (child) => html`<li><a href="#${child.name}">${child}</a></li>`,
+      (child) => h`<li><a href="#${child.name}">${child}</a></li>`,
     );
 
-    return html`
+    return h`
       <p>Overload of:</p>
       <ul class="overloads">
         $$${items}
@@ -50,16 +50,16 @@ async function showDocs(modName, name, value, constDocs) {
   }
 
   if (getType(value) === "function") {
-    const overloader = variants[name]
-      ? html`
-          <p class="overloads">
-            (Accessible as a global through
-            <a href="#overloads.${name}">overloads.${name}</a>)
-          </p>
-        `
-      : "";
+    const overloader =
+      variants[name] &&
+      h`
+        <p class="overloads">
+          (Accessible as a global through
+          <a href="#overloads.${name}">overloads.${name}</a>)
+        </p>
+      `;
 
-    return (await renderMarkdown("std", getDocStr(value))) + overloader;
+    return h`$$${await renderMarkdown("std", getDocStr(value))} $$${overloader}`;
   }
 
   return await renderMarkdown(
@@ -73,7 +73,7 @@ async function showDef(modName, name, value, constDocs) {
   const label = getType(value) === "function" ? value : path;
   const docs = await showDocs(modName, name, value, constDocs);
 
-  return html`
+  return h`
     <section class="std-def" id="${path}">
       <div>
         <h3>
@@ -89,7 +89,7 @@ async function showDef(modName, name, value, constDocs) {
 
 function modNav(modName, mod) {
   const links = Object.entries(mod).map(
-    ([name, value]) => html`
+    ([name, value]) => h`
       <li>
         <a href="/stdlib#${modName}.${name}">${name}</a>
         $$${showTags(modName, name, value)}
@@ -97,7 +97,7 @@ function modNav(modName, mod) {
     `,
   );
 
-  return html`
+  return h`
     <a href="/stdlib#${modName}">${modName}</a>
     <ul>
       $$${links}
@@ -110,14 +110,14 @@ async function modDocs(modName, mod) {
     `../../std/${modName}/mod.js`
   );
 
-  const modDocs = _modDocs ? await renderMarkdown("std", _modDocs) : "";
+  const modDocs = _modDocs && (await renderMarkdown("std", _modDocs));
   const defs = [];
 
   for (const [name, value] of Object.entries(mod)) {
     defs.push(await showDef(modName, name, value, _constDocs));
   }
 
-  return html`
+  return h`
     <hr />
 
     <section id="${modName}">
@@ -143,7 +143,7 @@ export async function writeStd() {
     "site/public/stdlib/index.html",
     "Standard Library",
     "std.css",
-    html`
+    h`
       <nav>$$${nav}</nav>
 
       <div class="docs">
@@ -160,7 +160,7 @@ export async function writeStd() {
     "site/public/stdlib/toc.html",
     "Standard Library Table of Contents",
     "toc.css",
-    html`
+    h`
       <h1>StdLib Table of Contents</h1>
       <nav>$$${nav}</nav>
     `,

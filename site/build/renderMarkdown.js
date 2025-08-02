@@ -3,57 +3,47 @@ import { tokenize } from "../../src/tokenizer.js";
 import { parse } from "../../src/parser.js";
 import { repr, show } from "../../src/repr.js";
 import { std } from "../../std/std.js";
+import { h } from "./escape.js";
 import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
 import commandLineArgs from "command-line-args";
 
-function escapeHtml(string) {
-  return string
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
-}
-
 async function renderCode(code, config, filePath, env) {
   const tokens = tokenize(`${filePath}:embedded`, code);
 
-  let html = `<div class="snippet">`;
+  const source =
+    !config["hide"] &&
+    h`<pre><code class="ptls">$$${highlight(tokens)}</code></pre>`;
 
-  if (!config["hide"]) {
-    html += `<pre><code class="ptls">${highlight(tokens)}</code></pre>`;
-  }
+  let resultLines = "";
+  let finalDef = "";
+  let panic = "";
 
   if (!config["no-eval"]) {
     const display = config["raw"]
-      ? (value) => escapeHtml(show(value))
-      : (value) => escapeHtml(repr(value, config["compact"]));
+      ? (value) => show(value)
+      : (value) => repr(value, config["compact"]);
 
     const echo = !config["no-echo"];
 
-    const maxHeight = config["max-height"]
-      ? `max-height: ${config["max-height"]}px;`
-      : "";
+    const maxHeight =
+      config["max-height"] && `max-height: ${config["max-height"]}px;`;
 
     const results = [];
-    let lastDef;
-    let panic = "";
 
     for (const statement of parse(tokens)) {
       try {
         const result = await env.eval(statement);
-        lastDef = undefined;
+        finalDef = "";
 
         if (statement.type !== "def") {
           results.push(display(result));
         } else if (echo && statement.value.rhs.type !== "fn") {
           const name = statement.value.name;
           const value = env.lookup(name);
-          const result = display(value);
 
-          lastDef = `
-            <pre class="result" style="${maxHeight}"><code><div class="var-name">${name}</div>${result}</code></pre>
+          finalDef = h`
+            <pre class="result" style="${maxHeight}"><code><div class="var-name">${name}</div>${display(value)}</code></pre>
           `;
         }
       } catch (err) {
@@ -61,26 +51,25 @@ async function renderCode(code, config, filePath, env) {
           console.error(err);
         }
 
-        results.push(escapeHtml(String(err)));
-        panic = " panic";
+        panic = h`<pre class="result panic"><code>${err}</code></pre>`;
+        finalDef = "";
         break;
       }
     }
 
-    if (echo) {
-      if (results.length) {
-        html += `<pre class="result${panic}" style="${maxHeight}"><code>${results.join("\n")}</code></pre>`;
-      }
-
-      if (lastDef && !panic) {
-        html += lastDef;
-      }
-    }
+    resultLines =
+      echo &&
+      results.length &&
+      h`<pre class="result" style="${maxHeight}"><code>${results.join("\n")}</code></pre>`;
   }
 
-  html += "</div>";
-
-  return html;
+  return h`
+    <div class="snippet">
+      $$${source}
+      $$${resultLines}
+      $$${finalDef}
+      $$${panic}
+    </div>`;
 }
 
 const options = [
@@ -101,7 +90,7 @@ const renderer = {
       .trim()
       .replace(/\s+/g, "-");
 
-    return `
+    return h`
       <h${depth} id="${anchor}">
         <a href="#${anchor}">${text}</a>
       </h${depth}>
@@ -109,8 +98,9 @@ const renderer = {
   },
 
   code({ text }) {
-    if (!text.startsWith('<div class="snippet">')) {
-      return `<pre><code>${text}</code></pre>`;
+    // Don't parse html that's already been rendered
+    if (!text.trim().startsWith('<div class="snippet">')) {
+      return h`<pre><code>${text}</code></pre>`;
     }
 
     return text;

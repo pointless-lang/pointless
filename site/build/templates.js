@@ -1,7 +1,7 @@
-import { html } from "./html.js";
+import { h } from "./escape.js";
 
 export function base(title, style, main) {
-  return html`
+  return h`
     <!DOCTYPE html>
     <html>
       <head>
