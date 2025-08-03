@@ -234,14 +234,14 @@ blockquote h2 {
 pre {
   padding: 10px 12px;
   overflow: auto;
-  background-color: #eee;
-  border: 2px solid #d9d9d9;
+  background-color: #f1f1f1;
+  border: 2px solid #e1e1e1;
   color: #505050;
 }
 
 pre:has(code.ptls) {
   background-color: #fef5ea;
-  border-color: #f0dbc0;
+  border-color: #f7e3ca;
 }
 
 pre code {
@@ -287,8 +287,8 @@ code {
 }
 
 .panic {
-  background-color: #ffe0e0;
-  border-color: #eab2b2;
+  background-color: #fee4e4;
+  border-color: #f1c1c1;
 }
 
 pre,
