@@ -1,6 +1,6 @@
 import { renderMarkdown } from "./render-markdown.js";
 import { writePage } from "./write-page.js";
-import { resolve, parse } from "node:path";
+import { resolve } from "node:path";
 import { readdir, readFile, mkdir, cp } from "node:fs/promises";
 import matter from "gray-matter";
 
@@ -26,9 +26,8 @@ export async function buildTutorials() {
     await mkdir(`site/dist/tutorials/${dir}`, { recursive: true });
     await buildTutorial(dir);
 
-    const assets = (await readdir(baseDir + dir)).filter(
-      (file) => file !== "tutorial.md",
-    );
+    const assets = new Set(await readdir(baseDir + dir));
+    assets.delete("tutorial.md");
 
     for (const file of assets) {
       const filePath = baseDir + dir + "/" + file;
