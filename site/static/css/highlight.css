@@ -23,10 +23,10 @@
 
 .ptls .argument,
 .ptls .number {
-  color: #a95e00;
+  color: #a95f00;
 }
 
 .ptls .operator,
 .ptls .constant {
-  color: #c1431c;
+  color: #c14a1c;
 }

@@ -15,35 +15,111 @@ html {
 }
 
 body {
+  height: 100%;
   margin: 0px;
   color: #333;
   font-family: "Ubuntu", sans-serif;
-  font-size: 16px;
-  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
 }
 
-main {
-  height: 100%;
+#container {
+  margin: 0px auto;
 }
 
-section {
-  margin: 0px;
+header {
+  height: 60px;
 }
 
-.docs {
-  overflow: auto;
+#container {
+  display: grid;
+  grid-template-columns: auto 800px;
+  margin: 0px auto;
+}
 
-  & > div {
-    padding: 10px 30px;
-    max-width: 800px;
+#sidebar {
+  font-family: var(--font-mono);
+  padding: 6px 8px;
+  background-color: #f5f5f5;
+  overflow: scroll;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-gap: 3px 6px;
+  grid-auto-rows: min-content;
+}
+
+#sidebar a {
+  color: inherit;
+}
+
+#sidebar > a {
+  font-size: 1.1em;
+  font-weight: bold;
+  grid-column: span 2;
+  display: block;
+  color: #555;
+  padding: 3px 7px;
+  margin: 4px 0px;
+  background-color: #e8e8e8;
+  border-radius: 3px;
+}
+
+#sidebar ul {
+  list-style: none;
+  padding: 0px 4px;
+  display: contents;
+
+  li {
+    display: contents;
+
+    a {
+      padding-left: 7px;
+    }
   }
 }
 
+.tag {
+  font-size: 0.9em;
+  line-height: 1.3em;
+  padding: 0px 5px;
+}
+
 @media (max-width: 800px) {
-  .docs {
-    & > div {
-      padding: 20px;
-    }
+  #sidebar {
+    display: none;
+  }
+}
+
+@media print {
+  #sidebar {
+    display: none;
+  }
+}
+
+main {
+  padding: 0px 30px;
+}
+
+@media (max-width: 800px) {
+  main {
+    display: block;
+  }
+}
+
+@media print {
+  main {
+    display: block;
+  }
+}
+
+section {
+  display: flow-root; /* Prevent margin collapse */
+  margin: 0px;
+}
+
+@media (max-width: 800px) {
+  main {
+    padding: 20px;
   }
 }
 
@@ -77,14 +153,17 @@ h2,
 h3 {
   break-after: avoid;
   color: #444;
+}
 
-  a {
-    color: inherit;
-  }
+h1 a,
+h2 a,
+h3 a {
+  color: inherit;
 }
 
 h1 {
   font-size: 30px;
+  margin: 0px 0px 30px 0px;
 }
 
 h2 {
@@ -99,11 +178,10 @@ h3 {
 
 kbd {
   background-color: #eee;
-  border-radius: 3px;
   border: 1px solid #b4b4b4;
   display: inline-block;
   font-size: 0.85em;
-  font-weight: 700;
+  font-weight: bold;
   line-height: 1;
   padding: 2px 4px;
   white-space: nowrap;
@@ -111,9 +189,13 @@ kbd {
 
 hr {
   border: none;
-  margin: 40px 0px 30px 0px;
+  margin: 40px 0px;
   background-color: #eee;
   height: 4px;
+}
+
+section + hr {
+  margin-top: 20px;
 }
 
 table {
@@ -143,10 +225,10 @@ blockquote {
   border: 4px solid #eee;
   margin: 40px 0px;
   color: #222;
+}
 
-  h2 {
-    margin: 20px 0px;
-  }
+blockquote h2 {
+  margin: 20px 0px;
 }
 
 pre {
@@ -155,28 +237,47 @@ pre {
   background-color: #eee;
   border: 2px solid #d9d9d9;
   color: #505050;
+}
 
-  &:has(code.ptls) {
-    background-color: #fff4e5;
-    border-color: #f0dbc0;
-  }
+pre:has(code.ptls) {
+  background-color: #fef5ea;
+  border-color: #f0dbc0;
+}
 
-  code {
-    background-color: transparent;
-    padding: 0px;
-    white-space: pre;
-  }
+pre code {
+  background-color: transparent;
+  padding: 0px;
+  white-space: pre;
 }
 
 pre + .result {
   margin-top: -6px;
 }
 
+code {
+  background-color: #ffead0;
+  padding: 1px 4px;
+  white-space: nowrap;
+}
+
+pre,
+code {
+  font-size: 14px;
+}
+
+@media print {
+  pre {
+    code {
+      white-space: pre-wrap;
+    }
+  }
+}
+
 .snippet {
   margin: 22px 0px;
 }
 
-.var-name {
+.result .var-name {
   font-size: 12px;
   font-family: monospace;
   color: #777;
@@ -199,25 +300,8 @@ table,
 
 pre,
 code,
-blockquote {
+blockquote,
+kbd,
+#sidebar {
   border-radius: 3px;
-}
-
-code {
-  background-color: #ffead0;
-  padding: 1px 4px;
-  white-space: nowrap;
-}
-
-pre,
-code {
-  font-size: 14px;
-}
-
-@media print {
-  pre {
-    code {
-      white-space: pre-wrap;
-    }
-  }
 }
