@@ -1,7 +1,7 @@
-import { writePage } from "./writePage.js";
 import { getType } from "../../src/values.js";
-import { renderMarkdown } from "./renderMarkdown.js";
 import { modules, globals, variants } from "../../std/std.js";
+import { writePage } from "./write-page.js";
+import { renderMarkdown } from "./render-markdown.js";
 import { h } from "./escape.js";
 
 function getDocStr(func) {
@@ -130,7 +130,7 @@ async function modDocs(modName, mod) {
   `;
 }
 
-export async function writeStd() {
+export async function buildStd() {
   const nav = [];
   const mods = [];
 
@@ -140,26 +140,24 @@ export async function writeStd() {
   }
 
   await writePage(
-    "site/public/stdlib/index.html",
+    "stdlib/index.html",
     "Standard Library",
     "std.css",
+    nav,
     h`
-      <nav>$$${nav}</nav>
-
       <div class="docs">
-        <div>
-          <h1>The Pointless Standard Library</h1>
-          <a id="toc" href="/stdlib/toc.html">Table of Contents ☰</a>
-          $$${mods}
-        </div>
+        <h1>The Pointless Standard Library</h1>
+        <a id="toc" href="/stdlib/toc.html">Table of Contents ☰</a>
+        $$${mods}
       </div>
     `,
   );
 
   await writePage(
-    "site/public/stdlib/toc.html",
+    "stdlib/toc.html",
     "Standard Library Table of Contents",
     "toc.css",
+    "",
     h`
       <h1>StdLib Table of Contents</h1>
       <nav>$$${nav}</nav>
