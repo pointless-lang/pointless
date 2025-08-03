@@ -1,16 +1,17 @@
 import { renderMarkdown } from "./render-markdown.js";
 import { writePage } from "./write-page.js";
 import { resolve, parse } from "node:path";
-import { readdir, readFile, mkdir, copyFile } from "node:fs/promises";
+import { readdir, readFile, mkdir, cp } from "node:fs/promises";
 import matter from "gray-matter";
 
-async function buildTutorial(dir, name) {
-  const filePath = resolve(`site/tutorials/${dir}/${name}.md`);
+async function buildTutorial(dir) {
+  const filePath = resolve(`site/tutorials/${dir}/tutorial.md`);
   const source = await readFile(filePath, "utf8");
   const { data, content } = matter(source);
   const main = await renderMarkdown(filePath, content);
+
   await writePage(
-    `tutorials/${dir}/${name}.html`,
+    `tutorials/${dir}/index.html`,
     data.title,
     "base.css",
     "",
@@ -23,17 +24,16 @@ export async function buildTutorials() {
 
   for (const dir of await readdir(baseDir)) {
     await mkdir(`site/dist/tutorials/${dir}`, { recursive: true });
+    await buildTutorial(dir);
 
-    const tutorialDir = baseDir + dir;
-    for (const file of await readdir(tutorialDir)) {
-      const filePath = tutorialDir + "/" + file;
+    const assets = (await readdir(baseDir + dir)).filter(
+      (file) => file !== "tutorial.md",
+    );
 
-      if (file.endsWith(".md")) {
-        await buildTutorial(dir, parse(file).name);
-      } else {
-        const targetPath = `site/dist/tutorials/${dir}/${file}`;
-        await copyFile(filePath, targetPath);
-      }
+    for (const file of assets) {
+      const filePath = baseDir + dir + "/" + file;
+      const distPath = `site/dist/tutorials/${dir}/${file}`;
+      await cp(filePath, distPath);
     }
   }
 }
