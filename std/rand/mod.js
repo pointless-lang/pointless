@@ -7,7 +7,7 @@ import { List } from "immutable";
 export function random() {
   // Get a random fractional number between `0` and `1`.
   //
-  // ```ptls --no-echo
+  // ```ptls
   // rand.random()
   // ```
 
@@ -18,7 +18,7 @@ export function sample(values) {
   // Return a random element from `values`, where `values` is
   // a list, table, or set.
   //
-  // ```ptls --no-echo
+  // ```ptls
   // rand.sample(["hearts", "diamonds", "clubs", "spades"])
   // ```
 
@@ -41,7 +41,7 @@ export function sample(values) {
 export function span(from, to) {
   // Return a random integer between `from` and `to`, inclusive.
   //
-  // ```ptls --no-echo
+  // ```ptls
   // rand.span(1, 10)
   // ```
 
@@ -57,7 +57,7 @@ export function span(from, to) {
 export function range(limit) {
   // Return a random integer between `0` and `limit - 1`, inclusive.
   //
-  // ```ptls --no-echo
+  // ```ptls
   // rand.range(10)
   // ```
 
@@ -69,7 +69,7 @@ export function range(limit) {
 export function shuffle(values) {
   // Shuffles `values`, where values is a list or table.
   //
-  // ```ptls --no-echo
+  // ```ptls
   // rand.shuffle([1, 2, 3, 4])
   // ```
 
