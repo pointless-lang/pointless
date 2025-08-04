@@ -4,6 +4,10 @@ title: First-Digit Law
 
 # First-Digit Law
 
+---
+
+## Intro
+
 > "Benford's law, also known as the Newcomb-Benford law, the law of anomalous
 > numbers, or the first-digit law, is an observation that in many real-life sets
 > of numerical data, the leading digit is likely to be small. In sets that obey
@@ -149,7 +153,7 @@ digitStats.share $= roundTo(arg * 100, 1)
 
 <aside>
 
-## Syntax Note
+### Syntax Note
 
 Note that the following two syntax forms are equivalent.
 

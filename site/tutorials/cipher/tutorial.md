@@ -2,7 +2,11 @@
 title: Caesar Cipher
 ---
 
-# Pointless: Learning by Example
+# Caesar Cipher
+
+---
+
+## Intro
 
 Let's see an example to get a feel for the language. I'll show you how I wrote
 the following program, which can encode and decode a message using a simple
