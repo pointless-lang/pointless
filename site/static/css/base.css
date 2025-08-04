@@ -65,6 +65,10 @@ header nav {
   padding-left: 24px;
 }
 
+header nav a {
+  white-space: nowrap;
+}
+
 #container {
   display: grid;
   grid-template-columns: 200px 1fr;
@@ -311,6 +315,20 @@ kbd,
 @media (max-width: 800px) {
   body {
     display: block;
+    padding: 5px;
+  }
+
+  header {
+    height: auto;
+    grid-template-columns: auto;
+    row-gap: 20px;
+  }
+
+  header nav {
+    justify-content: center;
+    align-items: normal;
+    padding: 0;
+    flex-wrap: wrap;
   }
 
   #container {
@@ -339,6 +357,10 @@ kbd,
 }
 
 @media print {
+  header {
+    display: none;
+  }
+
   #sidebar {
     display: none;
   }
@@ -348,9 +370,7 @@ kbd,
     padding: 0;
   }
 
-  pre {
-    code {
-      white-space: pre-wrap;
-    }
+  pre code {
+    white-space: pre-wrap;
   }
 }

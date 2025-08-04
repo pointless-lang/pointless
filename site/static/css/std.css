@@ -13,7 +13,7 @@ h3 {
   font-size: 0.9rem;
   display: grid;
   grid-template-columns: 1fr 8px;
-  grid-gap: 8px;
+  gap: 8px;
   align-items: center;
 }
 

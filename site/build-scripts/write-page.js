@@ -24,7 +24,6 @@ export function base(title, style, sidebar, main) {
           </a>
 
           <nav>
-            <a href="/">Intro</a>
             <a href="/">Install</a>
             <a href="/tutorials">Tutorials</a>
             <a href="/">Language Docs</a>
