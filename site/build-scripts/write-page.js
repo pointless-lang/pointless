@@ -34,12 +34,9 @@ export function base(title, style, sidebar, main) {
         </header>
         <div id="container">
           <nav id="sidebar">
-            <details open>
-              <summary>Contents ☰</summary>
-              <ul>
-                $$${sidebar}
-              </ul>
-            </details>
+            <ul>
+              $$${sidebar}
+            </ul>
           </nav>
           <main>
             <article>$$${main}</article>
