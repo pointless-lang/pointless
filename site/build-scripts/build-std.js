@@ -54,8 +54,7 @@ async function showDocs(modName, name, value, constDocs) {
       variants[name] &&
       h`
         <p class="overloads">
-          (Accessible as a global through
-          <a href="#overloads.${name}">overloads.${name}</a>)
+          (Accessible as a global through <a href="#overloads.${name}"><code>overloads.${name}</code></a>)
         </p>
       `;
 
@@ -91,16 +90,16 @@ function modNav(modName, mod) {
   const links = Object.entries(mod).map(
     ([name, value]) => h`
       <li>
-        <a href="/stdlib#${modName}.${name}">${name}</a>$$${showTags(modName, name, value)}
+        <a href="#${modName}.${name}">${name}</a>$$${showTags(modName, name, value)}
       </li>
     `,
   );
 
   return h`
     <li class="nav-section">
-      <div class="nav-header">
-        <a href="/stdlib#${modName}">${modName}</a>
-      </div>
+      <strong>
+        <a href="#${modName}">${modName}</a>
+      </strong>
 
       <ul>
         $$${links}
@@ -151,24 +150,8 @@ export async function buildStd() {
     h`
       <div class="docs">
         <h1>The Pointless Standard Library</h1>
-        <a id="toc" href="/stdlib/toc.html">Table of Contents ☰</a>
         $$${mods}
       </div>
-    `,
-  );
-
-  await writePage(
-    "stdlib/toc.html",
-    "Standard Library Table of Contents",
-    "toc.css",
-    "",
-    h`
-      <h1>StdLib Table of Contents</h1>
-      <nav>
-        <ul>
-          $$${nav}
-        </ul>
-      </nav>
     `,
   );
 }

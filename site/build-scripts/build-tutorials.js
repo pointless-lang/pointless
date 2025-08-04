@@ -1,20 +1,62 @@
-import { renderMarkdown } from "./render-markdown.js";
+import { headerId, renderMarkdown } from "./render-markdown.js";
 import { writePage } from "./write-page.js";
+import { h } from "./escape.js";
 import { resolve } from "node:path";
 import { readdir, readFile, mkdir, cp } from "node:fs/promises";
 import matter from "gray-matter";
+
+function makeNav(content) {
+  const groups = [];
+
+  for (const header of content.matchAll(/^(#{2,})(.*)/gm)) {
+    const level = header[1].length;
+    const title = header[2];
+
+    if (level === 2) {
+      groups.push([]);
+    }
+
+    groups.at(-1).push(title);
+  }
+
+  const nav = [];
+
+  for (const group of groups) {
+    const links = group
+      .slice(1)
+      .map(
+        (title) =>
+          h`<li><a href="#${headerId(title)}">${title}</a></li>`,
+      );
+
+    const inner = links.length ? h`<ul>$$${links}</ul>` : "";
+
+    nav.push(h`
+      <li class="nav-section">
+        <strong>
+          <a href="#${headerId(group[0])}">${group[0]}</a>
+        </strong>
+
+        $$${inner}
+      </li>
+    `);
+  }
+
+  return nav;
+}
 
 async function buildTutorial(dir) {
   const filePath = resolve(`site/tutorials/${dir}/tutorial.md`);
   const source = await readFile(filePath, "utf8");
   const { data, content } = matter(source);
   const main = await renderMarkdown(filePath, content);
+  const nav = makeNav(content);
 
   await writePage(
     `tutorials/${dir}/index.html`,
     data.title,
-    "base.css",
-    "",
+    "tutorial.css",
+    nav,
     main,
   );
 }

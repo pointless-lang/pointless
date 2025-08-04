@@ -82,13 +82,17 @@ const options = [
   { name: "max-height", type: Number },
 ];
 
+export function headerId(title) {
+  return title
+    .toLowerCase()
+    .replace(/[^\w\s]+/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+}
+
 const renderer = {
   heading({ text, depth, raw }) {
-    const anchor = raw
-      .toLowerCase()
-      .replace(/[^\w\s]+/g, "")
-      .trim()
-      .replace(/\s+/g, "-");
+    const anchor = headerId(raw);
 
     return h`
       <h${depth} id="${anchor}">
