@@ -67,11 +67,15 @@ containing the `26` letters of the English alphabet. We do this using the
 alphabet = chars("abcdefghijklmnopqrstuvwxyz")
 ```
 
-> ### Displaying Results
->
-> In this tutorial, the values produced by each piece of code are displayed
-> automatically. In a normal Pointless program you would use the `print`
-> function to display these results, for example `print(alphabet)`.
+<aside>
+
+### Displaying Results
+
+In this tutorial, the values produced by each piece of code are displayed
+automatically. In a normal Pointless program you would use the `print` function
+to display these results, for example `print(alphabet)`.
+
+</aside>
 
 We can use the `list.indexOf` function to get the index of a character within
 `alphabet`. For example, the letter `"i"` (the 9th letter in the alphabet) will
@@ -81,23 +85,27 @@ have index `8` (Pointless lists are _0-indexed_).
 list.indexOf(alphabet, "i")
 ```
 
-> ### Standard Library Functions
->
-> The Pointless standard library is divided into modules like `list`, `str`,
-> `console`, `math`, and others. These modules contain many useful built-in
-> functions. For example, we can call the `toLower` function from the `str`
-> module to convert a string to lower case.
->
-> ```ptls
-> str.toLower("Pointless")
-> ```
->
-> Some functions like `str.chars` are available as globals, which means we can
-> call them without their module prefix.
->
-> ```ptls
-> chars("Pointless")
-> ```
+<aside>
+
+### Standard Library Functions
+
+The Pointless standard library is divided into modules like `list`, `str`,
+`console`, `math`, and others. These modules contain many useful built-in
+functions. For example, we can call the `toLower` function from the `str` module
+to convert a string to lower case.
+
+```ptls
+str.toLower("Pointless")
+```
+
+Some functions like `str.chars` are available as globals, which means we can
+call them without their module prefix.
+
+```ptls
+chars("Pointless")
+```
+
+</aside>
 
 In addition to finding the index of a letter, we can also do the reverse: get a
 letter from the alphabet based on its index.
@@ -139,12 +147,16 @@ fn shift(letter)
 end
 ```
 
-> ### Implicit Return
->
-> Pointless has a `return` keyword that can be used to return values from
-> functions; however, as in other languages like Rust and Ruby, functions in
-> Pointless return the value of their final expression by default (in this case
-> the variable `shifted`), so the `return` is usually omitted.
+<aside>
+
+### Implicit Return
+
+Pointless has a `return` keyword that can be used to return values from
+functions; however, as in other languages like Rust and Ruby, functions in
+Pointless return the value of their final expression by default (in this case
+the variable `shifted`), so the `return` is usually omitted.
+
+</aside>
 
 We can call `shift` to make sure it's working properly.
 
@@ -218,37 +230,41 @@ join(shifted, "")
 shifted | join("")
 ```
 
-> ### Why Use Pipeline Syntax?
->
-> We didn't have to use pipeline operators to write `cipher`. We could have
-> written it like this instead.
->
-> ```ptls --no-eval
-> fn cipher(message)
->   join(list.map(chars(message), shift), "")
-> end
-> ```
->
-> However, I often prefer using the pipeline syntax over nested function calls;
-> it lets us structure our code as a sequence of transformations, which can make
-> it easier to understand and modify.
->
-> Additionally, when writing an expression with more than one pipeline
-> transformation, I like to break the code up into multiple lines. So, instead
-> of writing this.
->
-> ```ptls --no-eval
-> "cat" | chars $ shift | join("")
-> ```
->
-> I write this.
->
-> ```ptls --no-eval
-> "cat"
->   | chars
->   $ shift
->   | join("")
-> ```
+<aside>
+
+### Why Use Pipeline Syntax?
+
+We didn't have to use pipeline operators to write `cipher`. We could have
+written it like this instead.
+
+```ptls --no-eval
+fn cipher(message)
+  join(list.map(chars(message), shift), "")
+end
+```
+
+However, I often prefer using the pipeline syntax over nested function calls; it
+lets us structure our code as a sequence of transformations, which can make it
+easier to understand and modify.
+
+Additionally, when writing an expression with more than one pipeline
+transformation, I like to break the code up into multiple lines. So, instead of
+writing this.
+
+```ptls --no-eval
+"cat" | chars $ shift | join("")
+```
+
+I write this.
+
+```ptls --no-eval
+"cat"
+  | chars
+  $ shift
+  | join("")
+```
+
+</aside>
 
 ## Encoding and Decoding
 
@@ -352,17 +368,21 @@ cipher("Cat")
 cipher(cipher("Cat"))
 ```
 
-> ### Conditionals Are Expressions
->
-> In Pointless, as in many other functional languages, **conditionals are
-> expressions**, which means we can use them within larger pieces of code such
-> as variable assignments and return expressions.
->
-> ```ptls
-> a = 7
-> b = 8
-> maximum = if a > b then a else b end
-> ```
+<aside>
+
+### Conditionals Are Expressions
+
+In Pointless, as in many other functional languages, **conditionals are
+expressions**, which means we can use them within larger pieces of code such as
+variable assignments and return expressions.
+
+```ptls
+a = 7
+b = 8
+maximum = if a > b then a else b end
+```
+
+</aside>
 
 ## Non-Alphabetic Characters
 
@@ -391,11 +411,15 @@ fn shift(letter)
 end
 ```
 
-> ### Conditionals with Multiple Statements
->
-> As this new code demonstrates, the `then` and `else` branches of a conditional
-> can contain multiple statements. As with functions, a conditional expression
-> takes on the value of the _final expression_ of its matching branch.
+<aside>
+
+### Conditionals with Multiple Statements
+
+As this new code demonstrates, the `then` and `else` branches of a conditional
+can contain multiple statements. As with functions, a conditional expression
+takes on the value of the _final expression_ of its matching branch.
+
+</aside>
 
 Now `shift` and `cipher` will translate alphabetic characters and pass
 non-alphabetic characters through unmodified.

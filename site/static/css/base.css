@@ -183,18 +183,24 @@ td {
   padding: 5px 10px;
 }
 
-/* Has to come before pre so that pre code rule
-has higher precendence than blockquote code */
-
+aside,
 blockquote {
   display: flow-root; /* prevent child margin collapse */
   padding: 4px 24px;
-  border: 4px solid #eee;
+  border: 2px solid #eee;
   margin: 40px 0px;
-  color: #222;
 }
 
-blockquote h2 {
+blockquote {
+  background-color: #f7f7f7;
+}
+
+aside {
+  border: 2px solid #eee;
+}
+
+blockquote h2,
+aside h2 {
   margin: 20px 0px;
 }
 
