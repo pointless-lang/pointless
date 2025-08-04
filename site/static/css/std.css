@@ -12,6 +12,42 @@
   align-items: center;
 }
 
+.tag {
+  font-weight: bold;
+  padding: 2px 6px;
+  margin: 0px 1px;
+  border-radius: 3px;
+  cursor: help;
+  display: inline-block;
+
+  &[title="Global"] {
+    background-color: #ffdab3;
+    color: #c2803b;
+
+    &::before {
+      content: "G";
+    }
+  }
+
+  &[title="Overloaded"] {
+    background-color: #ead9ff;
+    color: #b77ecd;
+
+    &::before {
+      content: "O";
+    }
+  }
+
+  &[title="Constant"] {
+    background-color: #c6e5ff;
+    color: #4f99e8;
+
+    &::before {
+      content: "C";
+    }
+  }
+}
+
 .nav-section .tag {
   margin: 0;
   padding: 0;
@@ -52,41 +88,5 @@
 
   .contents {
     margin-left: 25px;
-  }
-}
-
-.tag {
-  font-weight: bold;
-  padding: 2px 6px;
-  margin: 0px 1px;
-  border-radius: 3px;
-  cursor: help;
-  display: inline-block;
-
-  &[title="Global"] {
-    background-color: #ffdab3;
-    color: #c2803b;
-
-    &::before {
-      content: "G";
-    }
-  }
-
-  &[title="Overloaded"] {
-    background-color: #ead9ff;
-    color: #b77ecd;
-
-    &::before {
-      content: "O";
-    }
-  }
-
-  &[title="Constant"] {
-    background-color: #c6e5ff;
-    color: #4f99e8;
-
-    &::before {
-      content: "C";
-    }
   }
 }

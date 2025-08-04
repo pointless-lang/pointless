@@ -24,12 +24,6 @@ body {
   grid-template-rows: auto 1fr;
 }
 
-@media (max-width: 800px) {
-  body {
-    display: block;
-  }
-}
-
 header {
   height: 60px;
   position: sticky;
@@ -43,24 +37,12 @@ header {
   padding-inline: 20px;
 }
 
-@media (max-width: 800px) {
-  #container {
-    display: block;
-  }
-}
-
 #sidebar {
   position: sticky;
   top: 60px;
   height: calc(100vh - 60px);
   overflow-y: auto;
   padding-bottom: 20px;
-}
-
-@media (max-width: 800px) {
-  #sidebar {
-    padding-bottom: 0px;
-  }
 }
 
 #sidebar summary {
@@ -71,12 +53,6 @@ header {
   color: #555;
   padding: 10px;
   cursor: pointer;
-}
-
-@media (max-width: 800px) {
-  #sidebar summary {
-    display: block;
-  }
 }
 
 #sidebar ul {
@@ -111,46 +87,14 @@ header {
   margin-top: 1px;
 }
 
-@media (max-width: 800px) {
-  #sidebar {
-    position: static;
-    height: auto;
-  }
-}
-
-@media print {
-  #sidebar {
-    display: none;
-  }
-}
-
 main {
   padding: 0px 30px;
   min-width: 0; /* Don't let wide code blocks overflow */
 }
 
-@media (max-width: 800px) {
-  main {
-    display: block;
-  }
-}
-
-@media print {
-  main {
-    display: block;
-    padding: 0;
-  }
-}
-
 section {
   /* display: flow-root; /* Prevent margin collapse */
   margin: 0px;
-}
-
-@media (max-width: 800px) {
-  main {
-    padding: 20px;
-  }
 }
 
 p {
@@ -294,27 +238,14 @@ code {
   padding: 1px 4px;
 }
 
-kbd, code {
+kbd,
+code {
   white-space: nowrap;
-}
-
-@media (max-width: 800px) {
-  kbd, code {
-    white-space: normal;
-  }
 }
 
 pre,
 code {
   font-size: 14px;
-}
-
-@media print {
-  pre {
-    code {
-      white-space: pre-wrap;
-    }
-  }
 }
 
 .snippet {
@@ -348,4 +279,51 @@ blockquote,
 kbd,
 #sidebar {
   border-radius: 3px;
+}
+
+@media (max-width: 800px) {
+  body {
+    display: block;
+  }
+
+  #container {
+    display: block;
+  }
+
+  #sidebar {
+    padding-bottom: 0px;
+    position: static;
+    height: auto;
+  }
+
+  #sidebar summary {
+    display: block;
+  }
+  
+  main {
+    display: block;
+    padding: 20px;
+  }
+  
+  kbd,
+  code {
+    white-space: normal;
+  }
+}
+
+@media print {
+  #sidebar {
+    display: none;
+  }
+
+  main {
+    display: block;
+    padding: 0;
+  }
+
+  pre {
+    code {
+      white-space: pre-wrap;
+    }
+  }
 }
