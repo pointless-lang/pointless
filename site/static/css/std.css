@@ -4,6 +4,11 @@
   font-family: var(--font-mono);
 }
 
+h2,
+h3 {
+  font-family: var(--font-mono);
+}
+
 .nav-section li {
   font-size: 0.9rem;
   display: grid;
@@ -72,16 +77,10 @@
   }
 }
 
-.mod-name {
-  font-family: var(--font-mono);
-  font-size: 24px;
-}
-
 .std-def {
-  margin: 16px 0px;
+  margin: 24px 0px;
 
   h3 {
-    font-family: var(--font-mono);
     display: inline-block;
     margin-bottom: 0px;
   }

@@ -54,7 +54,7 @@ async function showDocs(modName, name, value, constDocs) {
       variants[name] &&
       h`
         <p class="overloads">
-          (Accessible as a global through <a href="#overloads.${name}"><code>overloads.${name}</code></a>)
+          (Accessible as a global through <a href="#overloads.${name}">overloads.${name}</a>)
         </p>
       `;
 
@@ -124,10 +124,7 @@ async function modDocs(modName, mod) {
     <hr />
 
     <section id="${modName}">
-      <h2 id="${modName}">
-        <a class="mod-name" href="#${modName}">${modName}</a>
-      </h2>
-
+      <h2 id="${modName}"><a href="#${modName}">${modName}</a></h2>
       $$${modDocs} $$${defs}
     </section>
   `;

@@ -24,10 +24,7 @@ function makeNav(content) {
   for (const group of groups) {
     const links = group
       .slice(1)
-      .map(
-        (title) =>
-          h`<li><a href="#${headerId(title)}">${title}</a></li>`,
-      );
+      .map((title) => h`<li><a href="#${headerId(title)}">${title}</a></li>`);
 
     const inner = links.length ? h`<ul>$$${links}</ul>` : "";
 

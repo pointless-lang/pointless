@@ -7,6 +7,7 @@
 
 :root {
   --font-mono: "DejaVu Sans Mono", monospace;
+  --header-height: 60px;
 }
 
 html {
@@ -22,27 +23,59 @@ body {
   margin-inline: auto;
   display: grid;
   grid-template-rows: auto 1fr;
+  padding-inline: 20px;
 }
 
 header {
-  height: 60px;
+  height: var(--header-height);
   position: sticky;
   top: 0;
+  padding: 10px 0px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  background-color: white;
+}
+
+header a {
+  color: inherit;
+}
+
+#logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  opacity: 0.8;
+}
+
+#logo img {
+  height: 24px;
+}
+
+#logo strong {
+  font-size: 1.4rem;
+  color: #111;
+}
+
+header nav {
+  font-size: 0.9em;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-left: 24px;
 }
 
 #container {
   display: grid;
   grid-template-columns: 200px 1fr;
   min-height: 0;
-  padding-inline: 20px;
 }
 
 #sidebar {
   position: sticky;
-  top: 60px;
-  height: calc(100vh - 60px);
+  top: var(--header-height);
+  height: calc(100vh - var(--header-height) - 10px);
   overflow-y: auto;
-  padding-bottom: 20px;
 }
 
 #sidebar summary {
@@ -88,13 +121,12 @@ header {
 }
 
 main {
-  padding: 0px 30px;
+  padding: 10px 24px;
   min-width: 0; /* Don't let wide code blocks overflow */
 }
 
 section {
-  /* display: flow-root; /* Prevent margin collapse */
-  margin: 0px;
+  margin: 40px 0px;
 }
 
 p {
@@ -126,7 +158,7 @@ h1,
 h2,
 h3 {
   break-after: avoid;
-  color: #444;
+  color: #555;
 }
 
 h1 a,
@@ -136,16 +168,16 @@ h3 a {
 }
 
 h1 {
-  font-size: 30px;
+  font-size: 1.6rem;
   margin: 0px 0px 30px 0px;
 }
 
 h2 {
-  font-size: 22px;
+  font-size: 1.3rem;
 }
 
 h3 {
-  font-size: 18px;
+  font-size: 1.1rem;
 }
 
 /*https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/kbd*/
@@ -162,13 +194,8 @@ kbd {
 
 hr {
   border: none;
-  margin: 40px 0px;
   background-color: #eee;
   height: 4px;
-}
-
-section + hr {
-  margin-top: 20px;
 }
 
 table {
@@ -299,12 +326,12 @@ kbd,
   #sidebar summary {
     display: block;
   }
-  
+
   main {
     display: block;
     padding: 20px;
   }
-  
+
   kbd,
   code {
     white-space: normal;
