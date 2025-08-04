@@ -30,7 +30,7 @@ function showTags(modName, name, value) {
     return h`<span class="tag" title="Constant"></span>`;
   }
 
-  return h`<span></span>`;
+  return "";
 }
 
 async function showDocs(modName, name, value, constDocs) {
@@ -91,17 +91,21 @@ function modNav(modName, mod) {
   const links = Object.entries(mod).map(
     ([name, value]) => h`
       <li>
-        <a href="/stdlib#${modName}.${name}">${name}</a>
-        $$${showTags(modName, name, value)}
+        <a href="/stdlib#${modName}.${name}">${name}</a>$$${showTags(modName, name, value)}
       </li>
     `,
   );
 
   return h`
-    <a href="/stdlib#${modName}">${modName}</a>
-    <ul>
-      $$${links}
-    </ul>
+    <li class="nav-section">
+      <div class="nav-header">
+        <a href="/stdlib#${modName}">${modName}</a>
+      </div>
+
+      <ul>
+        $$${links}
+      </ul>
+    </li>
   `;
 }
 
@@ -160,7 +164,11 @@ export async function buildStd() {
     "",
     h`
       <h1>StdLib Table of Contents</h1>
-      <nav>$$${nav}</nav>
+      <nav>
+        <ul>
+          $$${nav}
+        </ul>
+      </nav>
     `,
   );
 }

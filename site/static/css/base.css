@@ -38,50 +38,17 @@ header {
 }
 
 #sidebar {
-  font-family: var(--font-mono);
-  padding: 6px 8px;
-  background-color: #f5f5f5;
   overflow: scroll;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  grid-gap: 3px 6px;
-  grid-auto-rows: min-content;
-}
-
-#sidebar a {
-  color: inherit;
-}
-
-#sidebar > a {
-  font-size: 1.1em;
-  font-weight: bold;
-  grid-column: span 2;
-  display: block;
-  color: #555;
-  padding: 3px 7px;
-  margin: 4px 0px;
-  background-color: #e8e8e8;
-  border-radius: 3px;
 }
 
 #sidebar ul {
   list-style: none;
-  padding: 0px 4px;
-  display: contents;
-
-  li {
-    display: contents;
-
-    a {
-      padding-left: 7px;
-    }
-  }
+  padding: 0px;
+  margin: 0px;
 }
 
-.tag {
-  font-size: 0.9em;
-  line-height: 1.3em;
-  padding: 0px 5px;
+#sidebar a {
+  color: inherit;
 }
 
 @media (max-width: 800px) {
