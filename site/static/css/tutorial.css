@@ -1,0 +1,9 @@
+@import url("base.css");
+
+#sidebar {
+  font-size: 0.9rem;
+}
+
+.nav-section li {
+  margin-top: 10px;
+}
