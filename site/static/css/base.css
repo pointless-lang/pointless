@@ -7,7 +7,7 @@
 
 :root {
   --font-mono: "DejaVu Sans Mono", monospace;
-  --header-height: 60px;
+  --header-height: 50px;
 }
 
 html {
@@ -30,10 +30,10 @@ header {
   height: var(--header-height);
   position: sticky;
   top: 0;
-  padding: 10px 0px;
   display: grid;
   grid-template-columns: 200px 1fr;
   background-color: white;
+  margin-block: 18px;
 }
 
 header a {
@@ -115,12 +115,16 @@ header nav a {
 }
 
 main {
-  padding: 10px 24px;
+  padding: 4px 24px;
   min-width: 0; /* Don't let wide code blocks overflow */
 }
 
 section {
   margin: 40px 0px;
+}
+
+section:last-child {
+  margin-bottom: 0px;
 }
 
 p {
@@ -339,7 +343,7 @@ kbd,
 
   main {
     display: block;
-    padding: 20px 0px;
+    padding: 20px 0px 0px 0px;
   }
 
   kbd,
