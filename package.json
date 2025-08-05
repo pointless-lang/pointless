@@ -4,7 +4,9 @@
   "type": "module",
   "scripts": {
     "fmt": "prettier --write --prose-wrap=always src std site examples",
-    "lint": "eslint src std site"
+    "lint": "eslint src std site",
+    "build": "node site/build-scripts/build.js",
+    "dev": "node --watch-path=. site/dev-server.js"
   },
   "devDependencies": {
     "eslint": "8.57.0",
@@ -29,6 +31,7 @@
     "lodash": "^4.17.21",
     "marked": ">=15",
     "marked-highlight": "^2.2.1",
+    "serve-handler": "^6.1.6",
     "sharp": "^0.34.3",
     "typescript": "^5.4.5"
   }

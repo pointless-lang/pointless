@@ -8,6 +8,6 @@ export async function buildIcons() {
 
     await sharp(await readFile(`site/dist/icons/${name}.svg`))
       .png()
-      .toFile(`site/dist/${name}.png`);
+      .toFile(`site/dist/icons/${name}.png`);
   }
 }
