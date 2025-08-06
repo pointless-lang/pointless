@@ -46,8 +46,20 @@ async function buildTutorial(dir) {
   const filePath = resolve(`site/tutorials/${dir}/tutorial.md`);
   const source = await readFile(filePath, "utf8");
   const { data, content } = matter(source);
-  const main = await renderMarkdown(filePath, content);
-  const nav = makeNav(content);
+
+  const main = h`
+    <h1><a href="">${data.title}</a></h1>
+    $$${await renderMarkdown(filePath, content)}
+  `;
+
+  const nav = h`
+    <li class="nav-section">
+      <strong>
+        <a href="">${data.title}</a>
+      </strong>
+    </li>
+    $$${makeNav(content)}
+  `;
 
   await writePage(
     `tutorials/${dir}/index.html`,

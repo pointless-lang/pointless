@@ -2,12 +2,6 @@
 title: Caesar Cipher
 ---
 
-# Caesar Cipher
-
----
-
-## Intro
-
 Let's see an example to get a feel for the language. I'll show you how I wrote
 the following program, which can encode and decode a message using a simple
 cipher.
@@ -60,6 +54,8 @@ after encoding:  n o p q r s t u v w x y z a b c d e f g h i j k l m
 ```
 
 For example, the ROT13 encoding of the word `"cat"` is `"png"`.
+
+---
 
 ## Shifting Letters
 
@@ -170,6 +166,8 @@ shift("a")
 shift("t")
 ```
 
+---
+
 ## Shifting Whole Strings
 
 Ultimately we want to be able to encode an entire string at once, instead of
@@ -270,6 +268,8 @@ I write this.
 
 </aside>
 
+---
+
 ## Encoding and Decoding
 
 Now let's call `cipher` to make sure it's working properly.
@@ -294,6 +294,8 @@ that we get the original message back.
 ```ptls
 cipher(cipher("cat"))
 ```
+
+---
 
 ## Uppercase Letters
 
@@ -388,6 +390,8 @@ maximum = if a > b then a else b end
 
 </aside>
 
+---
+
 ## Non-Alphabetic Characters
 
 The final piece to consider is non-alphabetic characters. Currently, if we call
@@ -434,6 +438,8 @@ cipher(cipher("Cat!"))
 ```
 
 Our code is now complete!
+
+---
 
 ## Wrapping Up
 
