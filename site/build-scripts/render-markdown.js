@@ -43,7 +43,7 @@ async function renderCode(code, config, filePath, env) {
           const value = env.lookup(name);
 
           finalDef = h`
-            <pre class="result" style="${maxHeight}"><code><div class="var-name">${name}</div>${display(value)}</code></pre>
+            <pre class="result" style="$$${maxHeight}"><code><div class="var-name">${name}</div>${display(value)}</code></pre>
           `;
         }
       } catch (err) {

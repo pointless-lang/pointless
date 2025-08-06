@@ -30,7 +30,7 @@ function showTags(modName, name, value) {
     return h`<span class="tag" title="Constant"></span>`;
   }
 
-  return "";
+  return "<span></span>";
 }
 
 async function showDocs(modName, name, value, constDocs) {
@@ -73,16 +73,12 @@ async function showDef(modName, name, value, constDocs) {
   const docs = await showDocs(modName, name, value, constDocs);
 
   return h`
-    <section class="std-def" id="${path}">
-      <div>
-        <h3>
-          <a class="def-name" href="#${path}">${label}</a>
-        </h3>
-        $$${showTags(modName, name, value)}
-      </div>
+    <h3 class="def-name" id="${path}">
+      <a href="#${path}">${label}</a>
+    </h3>
+    $$${showTags(modName, name, value)}
 
-      <div class="contents">$$${docs}</div>
-    </section>
+    <div class="contents">$$${docs}</div>
   `;
 }
 
@@ -90,7 +86,7 @@ function modNav(modName, mod) {
   const links = Object.entries(mod).map(
     ([name, value]) => h`
       <li>
-        <a href="#${modName}.${name}">${name}</a>$$${showTags(modName, name, value)}
+        $$${showTags(modName, name, value)}<a href="#${modName}.${name}">${name}</a>
       </li>
     `,
   );
@@ -121,8 +117,6 @@ async function modDocs(modName, mod) {
   }
 
   return h`
-    <hr />
-
     <section id="${modName}">
       <h2 id="${modName}"><a href="#${modName}">${modName}</a></h2>
       $$${modDocs} $$${defs}
@@ -135,8 +129,9 @@ export async function buildStd() {
   const mods = [];
 
   for (const [modName, mod] of Object.entries(modules)) {
-    mods.push(await modDocs(modName, mod));
     nav.push(modNav(modName, mod));
+    mods.push("<hr />");
+    mods.push(await modDocs(modName, mod));
   }
 
   await writePage(

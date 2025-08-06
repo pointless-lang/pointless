@@ -38,10 +38,17 @@ export function base(title, style, sidebar, main) {
               $$${sidebar}
             </ul>
           </nav>
-          <main>
-            <article>$$${main}</article>
-          </main>
-        </div>
+        </header>
+
+        <nav id="sidebar">
+          <ul>
+            $$${sidebar}
+          </ul>
+        </nav>
+
+        <main>
+          <article>$$${main}</article>
+        </main>
       </body>
     </html>
   `;
