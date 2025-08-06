@@ -4,13 +4,22 @@
   "type": "module",
   "scripts": {
     "fmt": "prettier --write --prose-wrap=always src std site examples",
-    "lint": "eslint src std site",
-    "build": "node site/build-scripts/build.js",
-    "dev": "node --watch-path=. site/dev-server.js"
+    "lint": "eslint src std site; stylelint site/static/css/*",
+    "build": "node --watch-path=. site/build-scripts/build.js",
+    "serve": "serve site/dist"
   },
   "devDependencies": {
+    "command-line-args": "^6.0.1",
+    "csv-parse": "^5.6.0",
     "eslint": "8.57.0",
-    "prettier": "^3.4.2"
+    "gray-matter": "^4.0.3",
+    "marked": ">=15",
+    "marked-highlight": "^2.2.1",
+    "prettier": "^3.4.2",
+    "serve": "^14.2.4",
+    "stylelint": "^16.23.0",
+    "stylelint-config-standard": "^39.0.0",
+    "typescript": "^5.4.5"
   },
   "eslintConfig": {
     "env": {
@@ -23,16 +32,14 @@
     },
     "rules": {}
   },
+  "stylelint": {
+    "extends": "stylelint-config-standard",
+    "rules": {
+      "font-family-name-quotes": null,
+      "no-descending-specificity": null
+    }
+  },
   "dependencies": {
-    "command-line-args": "^6.0.1",
-    "csv-parse": "^5.6.0",
-    "gray-matter": "^4.0.3",
-    "immutable": "^4.3.7",
-    "lodash": "^4.17.21",
-    "marked": ">=15",
-    "marked-highlight": "^2.2.1",
-    "serve-handler": "^6.1.6",
-    "sharp": "^0.34.3",
-    "typescript": "^5.4.5"
+    "immutable": "^4.3.7"
   }
 }
