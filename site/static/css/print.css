@@ -1,0 +1,18 @@
+@media print {
+  header {
+    display: none;
+  }
+
+  #sidebar {
+    display: none;
+  }
+
+  main {
+    display: block;
+    padding: 0;
+  }
+
+  pre code {
+    white-space: pre-wrap;
+  }
+}

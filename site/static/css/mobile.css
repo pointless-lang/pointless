@@ -1,0 +1,60 @@
+
+@media (width <= 800px) {
+  body {
+    display: block;
+    padding: 0px 10px 10px;
+  }
+
+  header {
+    display: block;
+    height: auto;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto;
+    position: sticky;
+    top: 0;
+  }
+
+  #logo {
+    padding-block: 10px;
+  }
+
+  #menu {
+    display: grid;
+    font-size: 1.2rem;
+    gap: 10px;
+    padding-block: 10px;
+    border-block: 2px solid var(--gray);
+    margin-bottom: 10px;
+  }
+
+  #burger {
+    all: unset;
+    cursor: pointer;
+    user-select: none;
+    display: block;
+    position: fixed;
+    font-size:  30px;
+    top: 7px;
+    right: 10px;
+  }
+
+  #container {
+    display: block;
+  }
+
+  #sidebar {
+    padding-bottom: 0;
+    position: static;
+    height: auto;
+  }
+
+  main {
+    display: block;
+    padding: 20px 0 0;
+  }
+
+  kbd,
+  code {
+    white-space: normal;
+  }
+}
