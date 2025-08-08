@@ -3,13 +3,12 @@
     display: none;
   }
 
-  #sidebar {
-    display: none;
+  body {
+    display: block;
   }
 
-  main {
-    display: block;
-    padding: 0;
+  article > * {
+    margin-bottom: 30px !important;
   }
 
   pre code {
