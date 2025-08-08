@@ -26,7 +26,7 @@ export function debug(value) {
   // return `value`. Useful for debugging and logging.
   //
   // ```ptls --no-eval
-  // debug("Hello") -- Prints "Hello"
+  // console.debug("Hello") -- Prints "Hello"
   // ```
 
   console.log(repr(value));
@@ -37,7 +37,7 @@ export function write(string) {
   // Print `string` to stdout without adding a trailing newline.
   //
   // ```ptls --no-eval
-  // write("Hello") -- Prints Hello without a trailing newline
+  // console.write("Hello") -- Prints Hello without a trailing newline
   // ```
 
   checkType(string, "string");
@@ -49,7 +49,7 @@ export function error(value) {
   // Print `value` to stderr and return `value`.
   //
   // ```ptls --no-eval
-  // error("Hello") -- Prints Hello to stderr
+  // console.error("Hello") -- Prints Hello to stderr
   // ```
 
   console.error(show(value));
@@ -98,44 +98,44 @@ export async function rawKey() {
   //
   // Sample outputs:
   //
-  // For <kbd>Ctrl</kbd> + <kbd>A</kbd>:
+  // - For <kbd>Ctrl</kbd> + <kbd>A</kbd>:
   //
-  // ```
-  // {
-  //   str: "\u0001",
-  //   name: "a",
-  //   ctrl: true,
-  //   meta: false,
-  //   shift: false,
-  //   sequence: "\u0001",
-  // }
-  // ```
+  //   ```
+  //   {
+  //     str: "\u0001",
+  //     name: "a",
+  //     ctrl: true,
+  //     meta: false,
+  //     shift: false,
+  //     sequence: "\u0001",
+  //   }
+  //   ```
   //
-  // For <kbd>Space</kbd>:
+  // - For <kbd>Space</kbd>:
   //
-  // ```
-  // {
-  //   str: " ",
-  //   name: "space",
-  //   ctrl: false,
-  //   meta: false,
-  //   shift: false,
-  //   sequence: " ",
-  // }
-  // ```
+  //   ```
+  //   {
+  //     str: " ",
+  //     name: "space",
+  //     ctrl: false,
+  //     meta: false,
+  //     shift: false,
+  //     sequence: " ",
+  //   }
+  //   ```
   //
-  // For <kbd>Left Arrow</kbd>:
+  // - For <kbd>Left Arrow</kbd>:
   //
-  // ```
-  // {
-  //   str: none,
-  //   name: "left",
-  //   ctrl: false,
-  //   meta: false,
-  //   shift: false,
-  //   sequence: "\u001b[D",
-  // }
-  // ```
+  //   ```
+  //   {
+  //     str: none,
+  //     name: "left",
+  //     ctrl: false,
+  //     meta: false,
+  //     shift: false,
+  //     sequence: "\u001b[D",
+  //   }
+  //   ```
 
   return new Promise((resolve, reject) => {
     emitKeypressEvents(stdin);
