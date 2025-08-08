@@ -152,20 +152,6 @@ column.
 digitStats.share $= roundTo(arg * 100, 1)
 ```
 
-<aside>
-
-### Syntax Note
-
-Note that the following two syntax forms are equivalent.
-
-```ptls --no-eval
-digitStats.share = digitStats.share $ roundTo(arg * 100, 1)
-
-digitStats.share $= roundTo(arg * 100, 1)
-```
-
-</aside>
-
 Our calculated frequencies match the expected values quite well!
 
 | Leading Digit | Calculated | Expected |

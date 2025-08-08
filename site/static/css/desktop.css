@@ -216,7 +216,6 @@ td {
   padding: 5px 12px;
 }
 
-aside,
 blockquote {
   padding: 20px;
   border: 2px solid var(--gray);
@@ -227,13 +226,11 @@ blockquote {
   background-color: #f7f7f7;
 }
 
-blockquote > :first-child,
-aside > :first-child {
+blockquote > :first-child {
   margin-top: 0;
 }
 
-blockquote > :last-child,
-aside > :last-child {
+blockquote > :last-child {
   margin-bottom: 0;
 }
 
@@ -297,7 +294,6 @@ code {
 }
 
 pre,
-aside,
 blockquote,
 table,
 .snippet {
