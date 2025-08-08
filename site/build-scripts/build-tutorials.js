@@ -5,7 +5,7 @@ import { resolve } from "node:path";
 import { readdir, readFile, mkdir, cp } from "node:fs/promises";
 import matter from "gray-matter";
 
-function makeNav(content) {
+function sideBar(content) {
   const groups = [];
 
   for (const header of content.matchAll(/^(#{2,})(.*)/gm)) {
@@ -19,17 +19,17 @@ function makeNav(content) {
     groups.at(-1).push(title);
   }
 
-  const nav = [];
+  const sidebar = [];
 
   for (const group of groups) {
     const links = group
       .slice(1)
       .map((title) => h`<li><a href="#${headerId(title)}">${title}</a></li>`);
 
-    const inner = links.length ? h`<ul>$$${links}</ul>` : "";
+    const inner = links.length ? h`<ol>$$${links}</ol>` : "";
 
-    nav.push(h`
-      <li class="nav-section">
+    sidebar.push(h`
+      <li>
         <strong>
           <a href="#${headerId(group[0])}">${group[0]}</a>
         </strong>
@@ -39,7 +39,7 @@ function makeNav(content) {
     `);
   }
 
-  return nav;
+  return sidebar;
 }
 
 async function buildTutorial(dir) {
@@ -47,26 +47,12 @@ async function buildTutorial(dir) {
   const source = await readFile(filePath, "utf8");
   const { data, content } = matter(source);
 
-  const main = h`
-    <h1><a href="">${data.title}</a></h1>
-    $$${await renderMarkdown(filePath, content)}
-  `;
-
-  const nav = h`
-    <li class="nav-section">
-      <strong>
-        <a href="">${data.title}</a>
-      </strong>
-    </li>
-    $$${makeNav(content)}
-  `;
-
   await writePage(
     `tutorials/${dir}/index.html`,
-    data.title,
-    "tutorial.css",
-    nav,
-    main,
+    `${data.title} Tutorial`,
+    "base.css",
+    sideBar(content),
+    await renderMarkdown(filePath, content),
   );
 }
 
