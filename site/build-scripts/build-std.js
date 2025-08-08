@@ -34,8 +34,6 @@ function showTags(modName, name, value) {
 }
 
 async function showDocs(modName, name, value, constDocs) {
-  const path = `${modName}.${name}`;
-
   if (modName === "overloads") {
     const items = variants[name].map(
       (child) => h`<li><a href="#${child.name}">${child}</a></li>`,
@@ -63,20 +61,19 @@ async function showDocs(modName, name, value, constDocs) {
 
   return await renderMarkdown(
     "std",
-    `${constDocs[name] ?? ""}\n\`\`\`ptls --hide\n${path}\n\`\`\``,
+    `${constDocs[name] ?? ""}\n\`\`\`ptls --hide\n${modName}.${name}\n\`\`\``,
   );
 }
 
 async function showDef(modName, name, value, constDocs) {
-  const path = `${modName}.${name}`;
-  const label = getType(value) === "function" ? value : path;
+  const label = getType(value) === "function" ? value : `${modName}.${name}`;
   const docs = await showDocs(modName, name, value, constDocs);
 
   return h`
     <hr />
 
-    <h3 class="def-name" id="${path}">
-      <code><a href="#${path}">${label}</a></code>
+    <h3 class="def-name" id="${name}">
+      <code><a href="#${name}">${label}</a></code>
       $$${showTags(modName, name, value)}
     </h3>
 
