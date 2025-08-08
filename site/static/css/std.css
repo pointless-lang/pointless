@@ -4,8 +4,12 @@
   margin-left: 24px;
 }
 
-#sidebar li li {
-  margin-top: 4px;
+#sidebar ul {
+  gap: 6px;
+}
+
+#sidebar li::before {
+  display: none;
 }
 
 .tag {
@@ -46,7 +50,7 @@
 }
 
 #sidebar .tag {
-  margin: 0 0 0 4px;
+  margin: 0 0 0 6px;
   padding: 0;
   width: 8px;
   height: 8px;

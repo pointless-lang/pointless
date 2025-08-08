@@ -85,24 +85,20 @@ async function showDef(modName, name, value, constDocs) {
 }
 
 function makeSidebar(modName, mod) {
-  const links = Object.entries(mod).map(
-    ([name, value]) => h`
+  const links = [];
+
+  for (const [name, value] of Object.entries(mod)) {
+    links.push(h`
       <li>
-        <code><a href="#${modName}.${name}">${name}</a></code>$$${showTags(modName, name, value)}
+        <code><a href="#${name}">${name}</a></code>$$${showTags(modName, name, value)}
       </li>
-    `,
-  );
+    `);
+  }
 
   return h`
-    <li>
-      <strong>
-        <code><a href="#std.${modName}">std.${modName}</a></code>
-      </strong>
-
-      <ol>
-        $$${links}
-      </ol>
-    </li>
+    <ul>
+      $$${links}
+    </ul>
   `;
 }
 

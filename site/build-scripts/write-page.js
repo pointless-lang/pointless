@@ -38,9 +38,9 @@ export function base(title, style, sidebar, main) {
         <article>
           <h1>${title}</h1>
 
-          <ol id="sidebar">
+          <div id="sidebar">
             $$${sidebar}
-          </ol>
+          </div>
 
           <main>
             $$${main}

@@ -6,40 +6,20 @@ import { readdir, readFile, mkdir, cp } from "node:fs/promises";
 import matter from "gray-matter";
 
 function makeSidebar(content) {
-  const groups = [];
-
-  for (const header of content.matchAll(/^(#{2,})(.*)/gm)) {
-    const level = header[1].length;
-    const title = header[2];
-
-    if (level === 2) {
-      groups.push([]);
-    }
-
-    groups.at(-1).push(title);
-  }
-
-  const sidebar = [];
-
-  for (const group of groups) {
-    const links = group
-      .slice(1)
-      .map((title) => h`<li><a href="#${headerId(title)}">${title}</a></li>`);
-
-    const inner = links.length ? h`<ol>$$${links}</ol>` : "";
-
-    sidebar.push(h`
+  const matches = [...content.matchAll(/^##(.*)/gm)];
+  const links = matches.map(
+    ([, title]) => h`
       <li>
-        <strong>
-          <a href="#${headerId(group[0])}">${group[0]}</a>
-        </strong>
-
-        $$${inner}
+        <a href="#${headerId(title)}">${title}</a>
       </li>
-    `);
-  }
+    `,
+  );
 
-  return sidebar;
+  return h`
+    <ol>
+      $$${links}
+    </ol>
+  `;
 }
 
 async function buildTutorial(dir) {
