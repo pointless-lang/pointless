@@ -24,31 +24,28 @@ export function base(title, style, sidebar, main) {
           </a>
 
           <nav>
-            <a href="/">Install</a>
-            <a href="/tutorials">Tutorials</a>
-            <a href="/">Language Docs</a>
-            <a href="/">Standard Library</a>
-            <a href="/">Blog</a>
-            <a href="/">Source</a>
-          </nav>
-        </header>
-        <div id="container">
-          <nav id="sidebar">
             <ul>
-              $$${sidebar}
+              <li><a href="/">Learn</a></li>
+              <li><a href="/">Philosophy</a></li>
+              <li><a href="/">Blog</a></li>
+              <li><a href="/">Docs</a></li>
+              <li><a href="/">Install</a></li>
+              <li><a href="/">Source</a></li>
             </ul>
           </nav>
         </header>
 
-        <nav id="sidebar">
-          <ul>
-            $$${sidebar}
-          </ul>
-        </nav>
+        <article>
+          <h1>${title}</h1>
 
-        <main>
-          <article>$$${main}</article>
-        </main>
+          <ol id="sidebar">
+            $$${sidebar}
+          </ol>
+
+          <main>
+            $$${main}
+          </main>
+        </article>
       </body>
     </html>
   `;
