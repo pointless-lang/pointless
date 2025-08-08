@@ -2,6 +2,12 @@
 title: First-Digit Law
 ---
 
+## Introduction
+
+The Wikipedia article for the
+[first-digit law](https://en.wikipedia.org/wiki/Benford's_law) gives the
+following defition:
+
 > "Benford's law, also known as the Newcomb-Benford law, the law of anomalous
 > numbers, or the first-digit law, is an observation that in many real-life sets
 > of numerical data, the leading digit is likely to be small. In sets that obey
@@ -9,8 +15,6 @@ title: First-Digit Law
 > of the time, while `9` appears as the leading significant digit less than `5%`
 > of the time. Uniformly distributed digits would each occur about `11.1%` of
 > the time."
->
-> _-- https://en.wikipedia.org/wiki/Benford's_law_
 
 In particular, Wikipedia gives the following frequencies for each leading digit.
 
@@ -26,11 +30,14 @@ In particular, Wikipedia gives the following frequencies for each leading digit.
 |       8       |      5.1% |
 |       9       |      4.6% |
 
+Let's see if we can observe the pattern in a real-world dataset.
+
 ## The Data
 
-Let's see if we can observe the pattern in
-[real-world dataset](https://en.wikipedia.org/wiki/List_of_municipalities_in_Pennsylvania):
-the populations of the cities, boroughs, and townships in Pennsylvania.
+We'll be using the data from [this
+page]((https://en.wikipedia.org/wiki/List_of_municipalities_in_Pennsylvania),
+which lists the populations of the cities, boroughs, and townships in
+Pennsylvania.
 
 Wikipedia doesn't give us a way to export table data, but I found a good
 [third-party tool](https://wikitable2csv.ggor.de/) that will generate
@@ -153,9 +160,7 @@ Note that the following two syntax forms are equivalent.
 
 ```ptls --no-eval
 digitStats.share = digitStats.share $ roundTo(arg * 100, 1)
-```
 
-```ptls --no-eval
 digitStats.share $= roundTo(arg * 100, 1)
 ```
 
