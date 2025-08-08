@@ -8,7 +8,7 @@ body {
   margin: 0;
   color: #222;
   font-family: "Ubuntu", sans-serif;
-  max-width: 1000px;
+  max-width: 1100px;
   margin-inline: auto;
   padding: 20px;
   display: grid;
@@ -16,7 +16,7 @@ body {
     "header header header" auto
     "title title sidebar" auto
     "main main sidebar" 1fr
-    / auto 1fr 200px;
+    / auto 1fr 250px;
   gap: 30px;
 }
 

@@ -1,3 +1,9 @@
+@media (width <= 1100px) {
+  body {
+    grid-template-columns: auto 5fr 2fr;
+  }
+}
+
 @media (width <= 900px) {
   body {
     grid-template:
