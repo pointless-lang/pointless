@@ -60,53 +60,45 @@ nav {
   gap: 10px 20px;
 }
 
-nav ul {
-  display: contents;
-}
-
+nav ul,
 nav li {
   display: contents;
 }
 
 #sidebar {
-  all: unset;
-  font-size: 0.9rem;
   grid-area: sidebar;
-  height: min-content;
-  color: #444;
+  font-size: 0.9rem;
   border-left: 2px solid #eee;
-  padding: 4px 0 4px 20px;
+  margin: 0;
+  padding: 4px 20px;
+  color: #444;
+  height: min-content;
   display: grid;
   gap: 24px;
 }
 
 #sidebar ol,
 #sidebar li {
-  all: unset;
-  display: block;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-#sidebar strong {
-  display: block;
-}
-
-#sidebar > li {
-}
-
-#sidebar > li:last-child {
-  margin-bottom: 0;
-}
-
-#sidebar ol {
+#sidebar li ol {
   padding-left: 4px;
 }
 
-#sidebar ol li {
+#sidebar li li {
   margin-top: 10px;
 }
 
 #sidebar a {
   color: inherit;
+}
+
+#sidebar code {
+  padding: 0;
+  background-color: transparent;
 }
 
 article {
@@ -179,6 +171,12 @@ h2 {
 h3 {
   font-size: 1.2rem;
   margin-block: var(--margin);
+}
+
+h2 code, h3 code {
+  padding: 0;
+  background-color: transparent;
+  font-size: 0.9em;
 }
 
 /* https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/kbd */

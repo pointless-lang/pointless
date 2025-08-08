@@ -30,7 +30,7 @@ function showTags(modName, name, value) {
     return h`<span class="tag" title="Constant"></span>`;
   }
 
-  return "<span></span>";
+  return "";
 }
 
 async function showDocs(modName, name, value, constDocs) {
@@ -54,7 +54,7 @@ async function showDocs(modName, name, value, constDocs) {
       variants[name] &&
       h`
         <p class="overloads">
-          (Accessible as a global through <a href="#overloads.${name}">overloads.${name}</a>)
+          (Accessible as a global through <a href="./overloads#${name}">overloads.${name}</a>)
         </p>
       `;
 
@@ -73,38 +73,40 @@ async function showDef(modName, name, value, constDocs) {
   const docs = await showDocs(modName, name, value, constDocs);
 
   return h`
+    <hr />
+
     <h3 class="def-name" id="${path}">
-      <a href="#${path}">${label}</a>
+      <code><a href="#${path}">${label}</a></code>
+      $$${showTags(modName, name, value)}
     </h3>
-    $$${showTags(modName, name, value)}
 
     <div class="contents">$$${docs}</div>
   `;
 }
 
-function modNav(modName, mod) {
+function makeSidebar(modName, mod) {
   const links = Object.entries(mod).map(
     ([name, value]) => h`
       <li>
-        $$${showTags(modName, name, value)}<a href="#${modName}.${name}">${name}</a>
+        <code><a href="#${modName}.${name}">${name}</a></code>$$${showTags(modName, name, value)}
       </li>
     `,
   );
 
   return h`
-    <li class="nav-section">
+    <li>
       <strong>
-        <a href="#${modName}">${modName}</a>
+        <code><a href="#std.${modName}">std.${modName}</a></code>
       </strong>
 
-      <ul>
+      <ol>
         $$${links}
-      </ul>
+      </ol>
     </li>
   `;
 }
 
-async function modDocs(modName, mod) {
+async function showMod(modName, mod) {
   const { _modDocs, _constDocs = {} } = await import(
     `../../std/${modName}/mod.js`
   );
@@ -117,33 +119,25 @@ async function modDocs(modName, mod) {
   }
 
   return h`
-    <section id="${modName}">
-      <h2 id="${modName}"><a href="#${modName}">${modName}</a></h2>
-      $$${modDocs} $$${defs}
-    </section>
+    $$${modDocs}
+    $$${defs}
   `;
 }
 
 export async function buildStd() {
-  const nav = [];
-  const mods = [];
-
   for (const [modName, mod] of Object.entries(modules)) {
-    nav.push(modNav(modName, mod));
-    mods.push("<hr />");
-    mods.push(await modDocs(modName, mod));
-  }
+    await writePage(
+      `stdlib/${modName}.html`,
+      `Standard Library`,
+      "std.css",
+      makeSidebar(modName, mod),
+      h`
+        <h2 id="std.${modName}">
+          <code><a href="#std.${modName}">std.${modName}</a></code>
+        </h2>
 
-  await writePage(
-    "stdlib/index.html",
-    "Standard Library",
-    "std.css",
-    nav,
-    h`
-      <div class="docs">
-        <h1>The Pointless Standard Library</h1>
-        $$${mods}
-      </div>
-    `,
-  );
+        $$${await showMod(modName, mod)}
+      `,
+    );
+  }
 }

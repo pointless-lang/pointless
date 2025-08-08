@@ -1,31 +1,17 @@
 @import url("base.css");
 
-#sidebar {
-  font-family: var(--font-mono);
-  font-size: 1rem;
+.contents {
+  margin-left: 24px;
 }
 
-.def-name {
-  display: inline-block;
-}
-
-.nav-section li {
-  font-size: 0.9rem;
-  margin: 0;
-  display: grid;
-  grid-template-columns: 8px 1fr;
-  gap: 6px;
-  align-items: center;
-}
-
-h2,
-h3 {
-  font-family: var(--font-mono);
+#sidebar li li {
+  margin-top: 4px;
 }
 
 .tag {
   font-weight: bold;
-  padding: 2px 6px;
+  font-size: 0.8em;
+  padding: 1px 6px 2px;
   margin-inline: 1px;
   border-radius: 3px;
   cursor: help;
@@ -59,8 +45,8 @@ h3 {
   }
 }
 
-.nav-section .tag {
-  margin: 0;
+#sidebar .tag {
+  margin: 0 0 0 4px;
   padding: 0;
   width: 8px;
   height: 8px;
@@ -81,8 +67,4 @@ h3 {
   &[title="Constant"] {
     background-color: #a1d2fb;
   }
-}
-
-.contents {
-  margin-left: 24px;
 }

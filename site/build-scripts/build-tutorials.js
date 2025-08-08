@@ -5,7 +5,7 @@ import { resolve } from "node:path";
 import { readdir, readFile, mkdir, cp } from "node:fs/promises";
 import matter from "gray-matter";
 
-function sideBar(content) {
+function makeSidebar(content) {
   const groups = [];
 
   for (const header of content.matchAll(/^(#{2,})(.*)/gm)) {
@@ -51,7 +51,7 @@ async function buildTutorial(dir) {
     `tutorials/${dir}/index.html`,
     `${data.title} Tutorial`,
     "base.css",
-    sideBar(content),
+    makeSidebar(content),
     await renderMarkdown(filePath, content),
   );
 }
