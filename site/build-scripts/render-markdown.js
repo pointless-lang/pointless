@@ -93,8 +93,11 @@ export function headerId(title) {
 const renderer = {
   heading({ text, depth, raw }) {
     const anchor = headerId(raw);
+    const hr = depth === 2 ? "<hr />" : "";
 
     return h`
+      $$${hr}
+      
       <h${depth} id="${anchor}">
         <a href="#${anchor}">${text}</a>
       </h${depth}>
