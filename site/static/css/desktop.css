@@ -1,31 +1,33 @@
 html {
   font-size: 16px;
   height: 100%;
-  scroll-padding-top: calc(var(--header-height) + 10px);
+  scroll-padding-top: 60px;
 }
 
 body {
   margin: 0;
   color: #222;
   font-family: "Ubuntu", sans-serif;
-  max-width: 1100px;
+  max-width: 1000px;
   margin-inline: auto;
-  padding-inline: 20px;
+  padding: 20px;
   display: grid;
   grid-template:
-    "header ." auto
-    "main sidebar" 1fr / 1fr 200px;
-  gap: 10px 30px;
+    "header header header" auto
+    "title title sidebar" auto
+    "main main sidebar" 1fr
+    / auto 1fr 200px;
+  gap: 30px;
 }
 
 header {
-  height: var(--header-height);
   position: sticky;
   top: 0;
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
   background-color: white;
-  column-gap: 30px;
+  padding-block: 10px;
   grid-area: header;
 }
 
@@ -36,7 +38,6 @@ header a {
 #logo {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 5px;
   opacity: 0.8;
 }
@@ -50,77 +51,101 @@ header a {
   color: #000;
 }
 
-#menu {
+nav {
   all: unset;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: right;
   gap: 10px 20px;
-  white-space: nowrap;
 }
 
-#burger {
-  display: none;
-}
-
-header ul {
+nav ul {
   display: contents;
 }
 
-header li {
+nav li {
   display: contents;
 }
 
 #sidebar {
+  all: unset;
   font-size: 0.9rem;
-  position: sticky;
-  top: calc(var(--header-height) + 10px);
-  height: calc(100vh - var(--header-height) - 30px);
-  overflow-y: auto;
   grid-area: sidebar;
-  padding-right: 10px;
+  height: min-content;
+  color: #444;
+  border-left: 2px solid #eee;
+  padding-block: 4px;
+  display: grid;
+  gap: 24px;
 }
 
-#sidebar ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+#sidebar ol,
+#sidebar li {
+  all: unset;
+  display: block;
+}
+
+#sidebar strong {
+  display: block;
+}
+
+#sidebar > li {
+  padding: 0 20px;
+}
+
+#sidebar > li:last-child {
+  margin-bottom: 0;
+}
+
+#sidebar ol {
+  padding-left: 4px;
+}
+
+#sidebar ol li {
+  margin-top: 10px;
 }
 
 #sidebar a {
   color: inherit;
 }
 
-.nav-section {
-  color: #333;
+article {
+  display: contents;
+}
+
+h1 {
+  font-size: 1.6rem;
   margin: 0;
-}
-
-.nav-section + .nav-section {
-  margin-top: 18px;
-}
-
-#sidebar ul ul {
-  margin-top: 4px;
-  padding-left: 8px;
+  grid-area: title;
 }
 
 main {
   min-width: 0; /* Don't let wide code blocks overflow */
   grid-area: main;
-  padding-bottom: 20px;
+}
+
+main > hr:first-child {
+  display: none;
+}
+
+main > hr:first-child + *,
+main > :first-child {
+  margin-top: 0;
 }
 
 p {
-  line-height: 1.6;
-  margin-block: 20px 0;
+  line-height: 1.5;
+  margin-block: var(--margin);
 }
 
-ul {
-  margin-block: 20px 0;
+ul,
+ol {
+  margin-block: var(--margin);
 }
 
 li {
-  margin-block: 10px 0;
+  margin-block: calc(var(--margin) / 3) 0;
 }
 
 code,
@@ -138,7 +163,7 @@ h1,
 h2,
 h3 {
   break-after: avoid;
-  color: #333;
+  color: #444;
 }
 
 h1 a,
@@ -147,19 +172,14 @@ h3 a {
   color: inherit;
 }
 
-h1 {
-  font-size: 1.3rem;
-  margin-block: 0;
-}
-
 h2 {
-  font-size: 1.2rem;
-  margin-block: 40px 0;
+  font-size: 1.4rem;
+  margin-block: var(--margin);
 }
 
 h3 {
-  font-size: 1.1rem;
-  margin-block: 40px 0;
+  font-size: 1.2rem;
+  margin-block: var(--margin);
 }
 
 /* https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/kbd */
@@ -178,7 +198,7 @@ hr {
   border: none;
   background-color: var(--gray);
   height: 2px;
-  margin-block: 50px;
+  margin-block: calc(var(--margin) * 1.5);
 }
 
 table {
@@ -196,15 +216,14 @@ tbody tr:nth-child(odd) {
 th,
 td {
   border: 2px solid #ddd;
-  padding: 5px 10px;
+  padding: 5px 12px;
 }
 
 aside,
 blockquote {
-  display: flow-root; /* prevent child margin collapse */
   padding: 20px;
   border: 2px solid var(--gray);
-  margin: 30px 0;
+  margin: var(--margin) 0;
 }
 
 blockquote {
@@ -216,13 +235,18 @@ aside > :first-child {
   margin-top: 0;
 }
 
+blockquote > :last-child,
+aside > :last-child {
+  margin-bottom: 0;
+}
+
 pre {
-  padding: 10px 12px;
+  padding: 14px;
   overflow: auto;
   background-color: #f1f1f1;
   border: 2px solid #e1e1e1;
-  color: #333;
   margin-block: var(--margin);
+  font-size: 0.9rem;
 }
 
 pre:has(code.ptls) {
@@ -230,19 +254,30 @@ pre:has(code.ptls) {
   border-color: #f7e3ca;
 }
 
-pre code {
-  background-color: transparent;
-  padding: 0;
-  white-space: pre;
-}
-
-pre + .result {
-  margin-top: 10px;
-}
-
 code {
   background-color: #ffeed9;
   padding: 1px 4px;
+  font-size: 0.9rem;
+}
+
+pre code {
+  font-size: inherit;
+  background-color: transparent;
+  padding: 0;
+  white-space: pre;
+  color: #444;
+}
+
+.snippet {
+  margin-block: var(--margin);
+}
+
+.snippet pre {
+  margin-block: 0;
+}
+
+.snippet .result {
+  margin-top: 8px;
 }
 
 kbd,
@@ -250,18 +285,13 @@ code {
   white-space: nowrap;
 }
 
-pre,
-code {
-  font-size: 0.9rem;
-}
-
 .result .var-name {
   font-size: 0.8rem;
   font-family: monospace;
   color: #777;
   font-weight: bold;
-  margin: -10px -10px -2px;
-  padding: 10px;
+  margin: -10px;
+  padding: 10px 10px 14px;
 }
 
 .panic {
@@ -270,6 +300,7 @@ code {
 }
 
 pre,
+aside,
 blockquote,
 table,
 .snippet {
@@ -279,7 +310,6 @@ table,
 pre,
 code,
 blockquote,
-kbd,
-#sidebar {
+kbd {
   border-radius: 3px;
 }

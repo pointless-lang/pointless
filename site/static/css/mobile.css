@@ -1,56 +1,58 @@
-
-@media (width <= 800px) {
+@media (width <= 900px) {
   body {
-    display: block;
-    padding: 0px 10px 10px;
+    grid-template:
+      "header header" auto
+      "title title" auto
+      "sidebar sidebar" 1fr
+      "main main" auto
+      / auto 1fr;
   }
 
   header {
-    display: block;
-    height: auto;
-    grid-template-columns: auto;
-    grid-template-rows: auto auto;
-    position: sticky;
-    top: 0;
+    margin-bottom: -10px;
   }
 
-  #logo {
-    padding-block: 10px;
-  }
-
-  #menu {
-    display: grid;
-    font-size: 1.2rem;
-    gap: 10px;
-    padding-block: 10px;
-    border-block: 2px solid var(--gray);
-    margin-bottom: 10px;
-  }
-
-  #burger {
-    all: unset;
-    cursor: pointer;
-    user-select: none;
-    display: block;
-    position: fixed;
-    font-size:  30px;
-    top: 7px;
-    right: 10px;
-  }
-
-  #container {
-    display: block;
+  nav {
+    justify-content: left;
   }
 
   #sidebar {
-    padding-bottom: 0;
-    position: static;
-    height: auto;
+    margin-left: 12px;
+  }
+}
+
+@media (width <= 600px) {
+  html {
+    scroll-padding-top: 20px;
   }
 
-  main {
-    display: block;
-    padding: 20px 0 0;
+  body {
+    grid-template:
+      "header" auto
+      "header" auto
+      "title" auto
+      "sidebar" auto
+      "main" 1fr
+      / 1fr;
+  }
+
+  header {
+    margin: 0;
+    position: static;
+    padding: 0;
+    gap: 20px;
+  }
+
+  #logo {
+    margin-inline: auto;
+  }
+
+  nav {
+    justify-content: center;
+  }
+
+  #sidebar {
+    margin-left: 0;
   }
 
   kbd,

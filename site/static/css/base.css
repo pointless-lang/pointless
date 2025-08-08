@@ -1,8 +1,8 @@
 @import url("fonts.css");
 @import url("desktop.css");
-@import url("print.css");
 @import url("mobile.css");
 @import url("highlight.css");
+@import url("print.css");
 
 * {
   box-sizing: border-box;
@@ -10,7 +10,6 @@
 
 :root {
   --font-mono: "DejaVu Sans Mono", monospace;
-  --header-height: 70px;
-  --margin: 30px 0;
+  --margin: 30px;
   --gray: #eee;
 }
