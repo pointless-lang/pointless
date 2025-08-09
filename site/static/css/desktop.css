@@ -67,29 +67,31 @@ nav li {
 
 #sidebar {
   grid-area: sidebar;
-  font-size: 0.9rem;
   border-left: 2px solid #eee;
-  margin: 0;
   padding: 4px 20px;
-  color: #444;
   height: min-content;
-  display: grid;
-  gap: 24px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #555;
 }
 
 #sidebar ol,
+#sidebar ul {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
 #sidebar li {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-#sidebar li ol {
-  padding-left: 4px;
-}
-
-#sidebar li li {
-  margin-top: 10px;
+#sidebar li::before {
+  content: "#";
+  margin-right: 2px;
 }
 
 #sidebar a {
@@ -173,7 +175,8 @@ h3 {
   margin-block: var(--margin);
 }
 
-h2 code, h3 code {
+h2 code,
+h3 code {
   padding: 0;
   background-color: transparent;
   font-size: 0.9em;
@@ -220,9 +223,6 @@ blockquote {
   padding: 20px;
   border: 2px solid var(--gray);
   margin: var(--margin) 0;
-}
-
-blockquote {
   background-color: #f7f7f7;
 }
 
