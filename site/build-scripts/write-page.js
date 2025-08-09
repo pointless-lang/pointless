@@ -1,7 +1,6 @@
 import { h } from "./escape.js";
 import { format } from "prettier";
-import { dirname } from "node:path";
-import { mkdir, writeFile } from "node:fs/promises";
+import { writeFile } from "node:fs/promises";
 
 export function base(title, style, sidebar, main) {
   return h`
@@ -25,12 +24,12 @@ export function base(title, style, sidebar, main) {
 
           <nav>
             <ul>
-              <li><a href="/">Learn</a></li>
-              <li><a href="/">Philosophy</a></li>
-              <li><a href="/">Blog</a></li>
-              <li><a href="/">Docs</a></li>
-              <li><a href="/">Install</a></li>
-              <li><a href="/">Source</a></li>
+              <li><a href="/learn">Learn</a></li>
+              <li><a href="/philosophy">Philosophy</a></li>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/docs">Docs</a></li>
+              <li><a href="/install">Install</a></li>
+              <li><a href="https://github.com/pointless-lang/">Source</a></li>
             </ul>
           </nav>
         </header>
@@ -55,6 +54,5 @@ export async function writePage(path, title, style, sidebar, main) {
   path = `site/dist/${path}`;
   const html = base(title, style, sidebar, main);
   const result = await format(html, { parser: "html" });
-  await mkdir(dirname(path), { recursive: true });
   await writeFile(path, result);
 }

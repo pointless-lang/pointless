@@ -3,6 +3,7 @@ import { modules, globals, variants } from "../../std/std.js";
 import { writePage } from "./write-page.js";
 import { renderMarkdown } from "./render-markdown.js";
 import { h } from "./escape.js";
+import { mkdir } from "node:fs/promises";
 
 function getDocStr(func) {
   const comment = func.handler
@@ -118,6 +119,8 @@ async function showMod(modName, mod) {
 }
 
 export async function buildStd() {
+  await mkdir(`site/dist/stdlib`, { recursive: true });
+
   for (const [modName, mod] of Object.entries(modules)) {
     await writePage(
       `stdlib/${modName}.html`,

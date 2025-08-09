@@ -22,34 +22,38 @@ function makeSidebar(content) {
   `;
 }
 
-async function buildTutorial(dir) {
-  const filePath = resolve(`site/tutorials/${dir}/tutorial.md`);
+async function buildPage(path) {
+  const filePath = resolve(`site/pages/${path}/index.md`);
   const source = await readFile(filePath, "utf8");
   const { data, content } = matter(source);
 
   await writePage(
-    `tutorials/${dir}/index.html`,
-    `${data.title} Tutorial`,
+    `${path}/index.html`,
+    data.title,
     "base.css",
     makeSidebar(content),
     await renderMarkdown(filePath, content),
   );
 }
 
-export async function buildTutorials() {
-  const baseDir = "site/tutorials/";
+async function buildDir(path) {
+  const files = await readdir(`site/pages/${path}`, { withFileTypes: true });
+  await mkdir(`site/dist/${path}`, { recursive: true });
 
-  for (const dir of await readdir(baseDir)) {
-    await mkdir(`site/dist/tutorials/${dir}`, { recursive: true });
-    await buildTutorial(dir);
-
-    const assets = new Set(await readdir(baseDir + dir));
-    assets.delete("tutorial.md");
-
-    for (const file of assets) {
-      const filePath = baseDir + dir + "/" + file;
-      const distPath = `site/dist/tutorials/${dir}/${file}`;
-      await cp(filePath, distPath);
+  for (const file of files) {
+    if (file.isDirectory()) {
+      await buildDir(`${path}/${file.name}`);
+    } else if (file.name === "index.md") {
+      await buildPage(path);
+    } else {
+      await cp(
+        `site/pages/${path}/${file.name}`,
+        `site/dist/${path}/${file.name}`,
+      );
     }
   }
+}
+
+export async function buildPages() {
+  await buildDir("");
 }
