@@ -9,9 +9,10 @@ function handleUnavailable() {
   throw new Panic("not available in notebook mode");
 }
 
-const unavailable = ["console", "fs"].map((s) => s + ".");
+const unavailable = ["console", "fs"].map(s => s + ".");
+const shims = {}
 
-function convert(value, shims) {
+function convert(value) {
   if (getType(value) === "object") {
     return value.map(convert);
   }
@@ -31,22 +32,10 @@ function convert(value, shims) {
   return value;
 }
 
-export function makeStd() {
-  const printed = [];
+const defs = {};
 
-  const shims = {
-    "console.print": (value) => {
-      printed.push(value);
-      return value;
-    },
-  };
-
-  const defs = {};
-
-  for (const [name, value] of std.defs) {
-    defs[name] = convert(value, shims);
-  }
-
-  const env = new Env(null, new Map(Object.entries(defs))).spawn();
-  return { env, printed };
+for (const [name, value] of std.defs) {
+  defs[name] = convert(value);
 }
+
+export const nbStd = new Env(null, new Map(Object.entries(defs)));
