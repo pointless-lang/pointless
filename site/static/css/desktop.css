@@ -262,6 +262,10 @@ pre code {
   color: #444;
 }
 
+pre.wrap code {
+  white-space: pre-wrap;
+}
+
 .snippet {
   margin-block: var(--margin);
 }
@@ -272,11 +276,6 @@ pre code {
 
 .snippet .result {
   margin-top: 8px;
-}
-
-kbd,
-code {
-  white-space: nowrap;
 }
 
 .result .var-name {
@@ -291,6 +290,11 @@ code {
 .panic {
   background-color: #fee4e4;
   border-color: #f1c1c1;
+}
+
+kbd,
+code {
+  white-space: nowrap;
 }
 
 pre,

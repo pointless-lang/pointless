@@ -29,6 +29,10 @@ async function renderCode(code, config, filePath, env) {
     const maxHeight =
       config["max-height"] && `max-height: ${config["max-height"]}px;`;
 
+    const style = h`style="${maxHeight}"`;
+
+    const wrap = config["wrap"] && "wrap";
+
     const results = [];
 
     for (const statement of parse(tokens)) {
@@ -43,7 +47,7 @@ async function renderCode(code, config, filePath, env) {
           const value = env.lookup(name);
 
           finalDef = h`
-            <pre class="result" style="$$${maxHeight}"><code><div class="var-name">${name}</div>${display(value)}</code></pre>
+            <pre class="result ${wrap}" $$${style}><code><div class="var-name">${name}</div>${display(value)}</code></pre>
           `;
         }
       } catch (err) {
@@ -60,7 +64,7 @@ async function renderCode(code, config, filePath, env) {
     resultLines =
       echo &&
       results.length &&
-      h`<pre class="result" style="${maxHeight}"><code>${results.join("\n")}</code></pre>`;
+      h`<pre class="result ${wrap}" $$${style}><code>${results.join("\n")}</code></pre>`;
   }
 
   return h`
@@ -76,6 +80,7 @@ const options = [
   { name: "no-echo", type: Boolean },
   { name: "no-eval", type: Boolean },
   { name: "compact", type: Boolean },
+  { name: "wrap", type: Boolean },
   { name: "raw", type: Boolean },
   { name: "hide", type: Boolean },
   { name: "panics", type: Boolean },
