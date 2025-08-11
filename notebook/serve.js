@@ -3,6 +3,7 @@ import { watch } from "node:fs";
 import { readFile } from "node:fs/promises";
 import http from "node:http";
 import { WebSocketServer } from "ws";
+import open from 'open';
 
 async function makePage(filePath) {
   const source = "----\n" + (await readFile(filePath, "utf-8"));
@@ -72,9 +73,10 @@ async function forwardChange(wss, eventType, filePath) {
   }
 }
 
-export function serve(filePath) {
+export async function serve(filePath) {
   const server = http.createServer((req, res) => respond(req, res, filePath));
   const wss = new WebSocketServer({ server });
   watch(filePath, (eventType) => forwardChange(wss, eventType, filePath));
   server.listen(4000);
+  await open("http://localhost:4000");
 }
