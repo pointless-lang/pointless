@@ -1,9 +1,9 @@
 import { repr, show } from "../../src/repr.js";
 import { checkType } from "../../src/values.js";
+import { Panic } from "../../src/panic.js";
+import { getLine } from "../../repl/prompt.js";
 import { emitKeypressEvents } from "node:readline";
 import { stdin, stdout } from "node:process";
-import { Panic } from "../../src/panic.js";
-import { getLine } from "../../src/prompt.js";
 import { OrderedMap } from "immutable";
 
 export const _modDocs = `

@@ -1,9 +1,9 @@
-import { parse } from "./parser.js";
-import { tokenize } from "./tokenizer.js";
-import { std } from "../std/std.js";
-import { show } from "./repr.js";
 import { getLine } from "./prompt.js";
-import { Panic } from "./panic.js";
+import { parse } from "../src/parser.js";
+import { tokenize } from "../src/tokenizer.js";
+import { show } from "../src/repr.js";
+import { Panic } from "../src/panic.js";
+import { std } from "../std/std.js";
 
 // This repl doesn't support multi line statements or expressions.
 // It should but it's limited by the behavior of node's readline functionality.
