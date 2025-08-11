@@ -1,15 +1,23 @@
 import { highlight } from "./highlight.js";
 import { h } from "./escape.js";
+import { makeStd } from "./notebook-std.js";
 import { tokenize } from "../src/tokenizer.js";
 import { parse } from "../src/parser.js";
 import { repr, show } from "../src/repr.js";
-import { std } from "../std/std.js";
 import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
 import commandLineArgs from "command-line-args";
 
-async function renderCode(code, config, filePath, env) {
-  const tokens = tokenize(`${filePath}:embedded`, code);
+async function renderCode(code, config, filePath, env, printed) {
+  let tokens;
+
+  try {
+    tokens = tokenize(`${filePath}:embedded`, code);
+  } catch (err) {
+    console.error(String(err));
+    tokens = [];
+    panic = h`<pre class="result panic"><code>${err}</code></pre>`;
+  }
 
   const source =
     !config["hide"] &&
@@ -30,12 +38,20 @@ async function renderCode(code, config, filePath, env) {
       config["max-height"] && `max-height: ${config["max-height"]}px;`;
 
     const style = h`style="${maxHeight}"`;
-
     const wrap = config["wrap"] && "wrap";
-
     const results = [];
 
-    for (const statement of parse(tokens)) {
+    let statements;
+
+    try {
+      statements = parse(tokens);
+    } catch (err) {
+      console.error(err);
+      statements = [];
+      panic = h`<pre class="result panic"><code>${err}</code></pre>`;
+    }
+
+    for (const statement of statements) {
       try {
         const result = await env.eval(statement);
         finalDef = "";
@@ -52,7 +68,7 @@ async function renderCode(code, config, filePath, env) {
         }
       } catch (err) {
         if (!config["panics"]) {
-          console.error(err);
+          console.error(String(err));
         }
 
         panic = h`<pre class="result panic"><code>${err}</code></pre>`;
@@ -128,7 +144,7 @@ export async function renderMarkdown(filePath, source) {
     return queue;
   }
 
-  const env = std.spawn();
+  const { env, printed } = makeStd();
   const marked = new Marked();
 
   const highlighter = markedHighlight({
@@ -140,7 +156,7 @@ export async function renderMarkdown(filePath, source) {
       });
 
       if (lang === "ptls") {
-        return await serialize(() => renderCode(code, config, filePath, env));
+        return await serialize(() => renderCode(code, config, filePath, env, printed));
       }
 
       return code;
