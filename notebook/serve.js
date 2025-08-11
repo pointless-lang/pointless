@@ -1,5 +1,4 @@
 import { renderMarkdown } from "./render-markdown.js";
-import { h } from "./escape.js";
 import { watch } from "node:fs";
 import { readFile } from "node:fs/promises";
 import http from "node:http";

@@ -2,8 +2,6 @@ import { Panic } from "../src/panic.js";
 import { createInterface } from "node:readline";
 import { stdin, stdout } from "node:process";
 import { readFile, writeFile } from "node:fs/promises";
-import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
 
 const historyPath = import.meta.dirname + "/repl-history";
 

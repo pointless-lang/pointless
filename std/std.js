@@ -2,8 +2,6 @@ import { checkType, getType } from "../src/values.js";
 import { Func } from "../src/func.js";
 import { Env } from "../src/env.js";
 import { readdir } from "node:fs/promises";
-import { dirname } from "node:path";
-import { fileURLToPath } from "node:url";
 import { OrderedMap } from "immutable";
 
 export const modules = {};
