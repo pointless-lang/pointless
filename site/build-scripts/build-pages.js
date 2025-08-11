@@ -1,6 +1,6 @@
-import { headerId, renderMarkdown } from "./render-markdown.js";
 import { writePage } from "./write-page.js";
-import { h } from "./escape.js";
+import { headerId, renderMarkdown } from "../../notebook/render-markdown.js";
+import { h } from "../../notebook/escape.js";
 import { resolve } from "node:path";
 import { readdir, readFile, mkdir, cp } from "node:fs/promises";
 import matter from "gray-matter";

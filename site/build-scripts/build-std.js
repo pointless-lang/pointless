@@ -1,8 +1,8 @@
 import { getType } from "../../src/values.js";
 import { modules, globals, variants } from "../../std/std.js";
 import { writePage } from "./write-page.js";
-import { renderMarkdown } from "./render-markdown.js";
-import { h } from "./escape.js";
+import { renderMarkdown } from "../../notebook/render-markdown.js";
+import { h } from "../../notebook/escape.js";
 import { mkdir } from "node:fs/promises";
 
 function getDocStr(func) {
@@ -20,15 +20,15 @@ function getDocStr(func) {
 
 function showTags(modName, name, value) {
   if (modName !== "overloads" && variants[name]) {
-    return h`<span class="tag" title="Overloaded"></span>`;
+    return `<span class="tag" title="Overloaded"></span>`;
   }
 
   if (globals[name] === value) {
-    return h`<span class="tag" title="Global"></span>`;
+    return `<span class="tag" title="Global"></span>`;
   }
 
   if (getType(value) !== "function") {
-    return h`<span class="tag" title="Constant"></span>`;
+    return `<span class="tag" title="Constant"></span>`;
   }
 
   return "";

@@ -1,0 +1,81 @@
+article {
+  margin-inline: auto;
+  max-width: 800px;
+  font-size: 14px;
+}
+
+pre {
+  padding: 14px;
+  overflow: auto;
+  background-color: #f1f1f1;
+  border: 2px solid #e1e1e1;
+  margin-block: 30px;
+  color: #444;
+}
+
+pre:has(code.ptls) {
+  background-color: #fef5ea;
+  border-color: #f7e3ca;
+}
+
+pre.wrap code {
+  white-space: pre-wrap;
+}
+
+.snippet {
+  margin-block: 30px;
+}
+
+.snippet pre {
+  margin-block: 0;
+}
+
+.snippet .result {
+  margin-top: 8px;
+}
+
+.result .var-name {
+  font-size: 0.9rem;
+  color: #777;
+  font-weight: bold;
+  margin: -10px;
+  padding: 10px 10px 14px;
+}
+
+.panic {
+  background-color: #fee4e4;
+  border-color: #f1c1c1;
+}
+
+.ptls .call,
+.ptls .std {
+  color: #256bd7;
+}
+
+.ptls .string {
+  color: #387a13;
+}
+
+.ptls .comment {
+  color: #707070;
+}
+
+.ptls .keyword,
+.ptls .interpolated,
+.ptls .escape {
+  color: #a34baf;
+}
+
+.ptls .function {
+  color: #027e7e;
+}
+
+.ptls .argument,
+.ptls .number {
+  color: #a95f00;
+}
+
+.ptls .operator,
+.ptls .constant {
+  color: #c14a1c;
+}

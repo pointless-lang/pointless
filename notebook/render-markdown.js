@@ -1,9 +1,9 @@
 import { highlight } from "./highlight.js";
-import { tokenize } from "../../src/tokenizer.js";
-import { parse } from "../../src/parser.js";
-import { repr, show } from "../../src/repr.js";
-import { std } from "../../std/std.js";
 import { h } from "./escape.js";
+import { tokenize } from "../src/tokenizer.js";
+import { parse } from "../src/parser.js";
+import { repr, show } from "../src/repr.js";
+import { std } from "../std/std.js";
 import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
 import commandLineArgs from "command-line-args";
