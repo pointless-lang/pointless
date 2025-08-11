@@ -5,8 +5,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
-const root = dirname(fileURLToPath(import.meta.url));
-const historyPath = join(root, "../repl-history");
+const historyPath = import.meta.dirname + "/repl-history";
 
 async function loadHistory() {
   try {

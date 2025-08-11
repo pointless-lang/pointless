@@ -12,8 +12,7 @@ export const modules = {};
 // or use spread syntax or default param values
 const paramChars = /\(([$\w\s,]*)\)/;
 
-const root = dirname(fileURLToPath(import.meta.url));
-const entries = await readdir(root, { withFileTypes: true });
+const entries = await readdir(import.meta.dirname, { withFileTypes: true });
 const dirs = entries.filter((entry) => entry.isDirectory());
 
 for (const { name: modName } of dirs) {
