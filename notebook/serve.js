@@ -49,34 +49,33 @@ async function makePage(filePath) {
   `;
 }
 
-async function respondasync (req, res) {
-    if (req.url === "/style.css") {
-      const css = await readFile(import.meta.dirname + "/style.css");
-      res.writeHead(200, { "Content-Type": "text/css; charset=utf-8" });
-      res.end(css);
-      return;
-    }
-
-    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
-    res.end(await makePage(filePath));
+async function respond(req, res, filePath) {
+  if (req.url === "/style.css") {
+    const css = await readFile(import.meta.dirname + "/style.css");
+    res.writeHead(200, { "Content-Type": "text/css; charset=utf-8" });
+    res.end(css);
+    return;
   }
 
-  async function  forwardChange(wss, eventType) {
-      if (eventType === "change") {
-        const page = await makePage(filePath);
+  res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+  res.end(await makePage(filePath));
+}
 
-        for (const client of wss.clients) {
-          if (client.readyState === client.OPEN) {
-            client.send(page);
-          }
-        }
+async function forwardChange(wss, eventType, filePath) {
+  if (eventType === "change") {
+    const page = await makePage(filePath);
+
+    for (const client of wss.clients) {
+      if (client.readyState === client.OPEN) {
+        client.send(page);
       }
     }
+  }
+}
 
 export function serve(filePath) {
-  const server = http.createServer(respond);
+  const server = http.createServer((req, res) => respond(req, res, filePath));
   const wss = new WebSocketServer({ server });
-  watch(filePath, eventType => forwardChange(wss, eventType));
+  watch(filePath, (eventType) => forwardChange(wss, eventType, filePath));
   server.listen(4000);
-
 }
