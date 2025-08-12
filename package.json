@@ -3,8 +3,8 @@
   "version": "0.2.0",
   "type": "module",
   "scripts": {
-    "fmt": "prettier --write --prose-wrap=always src std site examples notebook repl",
-    "lint": "eslint src std site notebook repl; stylelint site/static/css/* notebook/*.css",
+    "fmt": "prettier --write --prose-wrap=always .",
+    "lint": "eslint .; stylelint site/static/css/* notebook/*.css",
     "build": "node --watch-path=. site/build-scripts/build.js",
     "serve": "serve site/dist"
   },
