@@ -1,9 +1,9 @@
-import { renderMarkdown } from "./render-markdown.js";
+import { renderMarkdown } from "../site/build-scripts/render-markdown.js";
 import { watch } from "node:fs";
 import { readFile } from "node:fs/promises";
 import http from "node:http";
 import { WebSocketServer } from "ws";
-import open from 'open';
+import open from "open";
 
 async function makePage(filePath) {
   const source = "----\n" + (await readFile(filePath, "utf-8"));

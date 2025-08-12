@@ -1,16 +1,16 @@
-import { getType } from "../src/values.js";
-import { Func } from "../src/func.js";
-import { std } from "../std/std.js";
-import { Panic } from "../src/panic.js";
-import { Env } from "../src/env.js";
-import { OrderedMap } from "immutable";
+import { getType } from "../../src/values.js";
+import { Func } from "../../src/func.js";
+import { std } from "../../std/std.js";
+import { Panic } from "../../src/panic.js";
+import { Env } from "../../src/env.js";
 
 function handleUnavailable() {
   throw new Panic("not available in notebook mode");
 }
 
-const unavailable = ["console", "fs"].map(s => s + ".");
-const shims = {}
+const unavailable = ["console", "fs"].map((s) => s + ".");
+
+const shims = {};
 
 function convert(value) {
   if (getType(value) === "object") {
@@ -38,4 +38,4 @@ for (const [name, value] of std.defs) {
   defs[name] = convert(value);
 }
 
-export const nbStd = new Env(null, new Map(Object.entries(defs)));
+export const webStd = new Env(null, new Map(Object.entries(defs)));

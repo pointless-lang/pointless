@@ -1,9 +1,9 @@
 import { highlight } from "./highlight.js";
 import { h } from "./escape.js";
-import { nbStd } from "./notebook-std.js";
-import { tokenize } from "../src/tokenizer.js";
-import { parse } from "../src/parser.js";
-import { repr, show } from "../src/repr.js";
+import { webStd } from "./web-std.js";
+import { tokenize } from "../../src/tokenizer.js";
+import { parse } from "../../src/parser.js";
+import { repr, show } from "../../src/repr.js";
 import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
 import commandLineArgs from "command-line-args";
@@ -13,7 +13,7 @@ async function renderCode(code, config, filePath, env) {
 
   try {
     tokens = tokenize(`${filePath}:embedded`, code);
-  } catch(err) {
+  } catch (err) {
     console.error(String(err));
     tokens = [];
     panic = h`<pre class="result panic"><code>${err}</code></pre>`;
@@ -45,8 +45,8 @@ async function renderCode(code, config, filePath, env) {
 
     try {
       statements = parse(tokens);
-    } catch(err) {
-      console.error((err));
+    } catch (err) {
+      console.error(err);
       statements = [];
       panic = h`<pre class="result panic"><code>${err}</code></pre>`;
     }
@@ -144,7 +144,7 @@ export async function renderMarkdown(filePath, source) {
     return queue;
   }
 
-  const env = nbStd.spawn();
+  const env = webStd.spawn();
   const marked = new Marked();
 
   const highlighter = markedHighlight({

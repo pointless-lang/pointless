@@ -1,4 +1,4 @@
-import { h } from "../../notebook/escape.js";
+import { h } from "./escape.js";
 import { format } from "prettier";
 import { writeFile } from "node:fs/promises";
 

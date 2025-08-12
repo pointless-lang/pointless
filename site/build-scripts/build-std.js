@@ -1,8 +1,8 @@
 import { getType } from "../../src/values.js";
 import { modules, globals, variants } from "../../std/std.js";
 import { writePage } from "./write-page.js";
-import { renderMarkdown } from "../../notebook/render-markdown.js";
-import { h } from "../../notebook/escape.js";
+import { renderMarkdown } from "./render-markdown.js";
+import { h } from "./escape.js";
 import { mkdir } from "node:fs/promises";
 
 function getDocStr(func) {
