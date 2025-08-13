@@ -1,10 +1,12 @@
 import { show } from "../../src/repr.js";
 import { checkType } from "../../src/values.js";
 import { Panic } from "../../src/panic.js";
+import { Env } from "../../src/env.js";
 import { readFile, writeFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import { resolve, basename, dirname } from "node:path";
 import { readdir } from "node:fs/promises";
 import { List } from "immutable";
+import { OrderedMap } from "immutable";
 
 export const _docs = `
 Read and manipulate files and directories.
@@ -81,4 +83,11 @@ export async function ls(path) {
   } catch (err) {
     throw new Panic("cannot access", { path: fullPath });
   }
+}
+
+export async function srcPath() {
+  return OrderedMap({
+    name: basename(Env.currentPath),
+    path: dirname(Env.currentPath),
+  });
 }

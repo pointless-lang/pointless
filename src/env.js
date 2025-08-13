@@ -6,7 +6,6 @@ import { checkNumResult, checkWhole } from "./num.js";
 import { show } from "./repr.js";
 import { getImport } from "./import.js";
 import { Panic } from "./panic.js";
-// import { Table } from "./table.js";
 import { dirname } from "node:path";
 import { is, OrderedMap, OrderedSet, List, Repeat } from "immutable";
 
@@ -69,6 +68,8 @@ export class Env {
     let result = null;
 
     for (const [index, node] of nodes.entries()) {
+      Env.currentPath = node.loc.path;
+
       try {
         this.blameLocs.push(null);
         result = await this.dispatch(node);
