@@ -6,6 +6,8 @@ import * as table from "../table/mod.js";
 import { is, OrderedMap, List, Repeat } from "immutable";
 import { Panic } from "../../src/panic.js";
 
+export const _docs = "Functions for working with lists.";
+
 export function of(values) {
   // Get a list containing each value in `values`. `values` may be
   // a set, table, or list. If `values` is a table then `list.of(values)`
@@ -132,6 +134,9 @@ export function put(value, list, index) {
   // ```ptls
   // list.put("c", ["a", "b", "d", "d"], 2)
   // ```
+  //
+  // *Note that if you want to update an existing variable, you could also
+  // use variable assignment*:
 
   checkType(list, "list");
   checkIndex(list, index);
@@ -274,7 +279,7 @@ export async function map(list, func) {
   // list.map([1, 2, 3, 4], fn(n) n * 2 end)
   // ```
   //
-  // *Note that this can also be accomplished using the `$` operator*:
+  // *Note that this can also be accomplished using the map `$` operator*:
   //
   // ```ptls
   // [1, 2, 3, 4] $ arg * 2
@@ -299,7 +304,7 @@ export async function filter(list, condition) {
   // list.filter([1, 2, 3, 4], math.isEven)
   // ```
   //
-  // *Note that this can also be accomplished using the `?` operator*:
+  // *Note that this can also be accomplished using the filter `?` operator*:
   //
   // ```ptls
   // [1, 2, 3, 4] ? math.isEven
@@ -531,7 +536,7 @@ export function min(numbers) {
   // Get the minimum of `numbers`.
   //
   // ```ptls
-  // list.min([1, -7, 50])
+  // list.min([-7, 1, 50])
   // ```
 
   return listExtremum(numbers, Math.min);
@@ -541,7 +546,7 @@ export function max(numbers) {
   // Get the maximum of `numbers`.
   //
   // ```ptls
-  // list.max([1, -7, 50])
+  // list.max([-7, 1, 50])
   // ```
 
   return listExtremum(numbers, Math.max);

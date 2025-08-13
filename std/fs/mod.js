@@ -6,8 +6,8 @@ import { resolve } from "node:path";
 import { readdir } from "node:fs/promises";
 import { List } from "immutable";
 
-export const _modDocs = `
-Interact with the file system. Read and edit files and directories.
+export const _docs = `
+Read and manipulate files and directories.
 
 Paths are resolved relative to the current working directory.
 `;
@@ -19,9 +19,9 @@ export async function read(path) {
   // fs.read("lyrics.txt")
   // ```
   //
-  // *Tip:* To read files relative to your source file, consider using the
-  // `import` syntax, which lets you load and process file contents from a
-  // relative path:
+  // *Tip:* To read files from a fixed path, consider using `import`, which
+  // which allows you to load and process file contents from a path relative
+  // to a script's source file.
   //
   // ```ptls --no-eval
   // someVar = import "text:some-file.txt"  -- Import text as a string

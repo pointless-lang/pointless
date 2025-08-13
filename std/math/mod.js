@@ -2,7 +2,9 @@ import { checkType, getType } from "../../src/values.js";
 import { checkPositive, checkNumResult, checkWhole } from "../../src/num.js";
 import { Panic } from "../../src/panic.js";
 
-export const _constDocs = {
+export const _docs = "Mathematical functions and constants.";
+
+export const _consts = {
   e: "Euler's number.",
   inf: "Floating-point infinity.",
   nan: '"Not a number". [Cursed floating-point nonsense](https://stackoverflow.com/questions/1565164/what-is-the-rationale-for-all-comparisons-returning-false-for-ieee754-nan-values).',
@@ -17,7 +19,7 @@ export const inf = Infinity;
 export const nan = NaN;
 
 export function isInt(n) {
-  // Check whether `n` is a whole number.
+  // Check whether `n` is an integer (whole number).
   //
   // ```ptls
   // math.isInt(42)
@@ -117,14 +119,14 @@ export function roundTo(n, decimals) {
   checkType(n, "number");
   checkWhole(decimals);
   const factor = 10 ** decimals;
-  return Math.round(n * factor) / factor;
+  return round(n * factor) / factor;
 }
 
 export function min(a, b) {
   // Return the minimum of `a` and `b`.
   //
   // ```ptls
-  // math.min(7, -17)
+  // math.min(-17, 7)
   // ```
 
   checkType(a, "number");
@@ -136,7 +138,7 @@ export function max(a, b) {
   // Return the maximum of `a` and `b`.
   //
   // ```ptls
-  // math.max(7, -17)
+  // math.max(-17, 7)
   // ```
 
   checkType(a, "number");
@@ -214,8 +216,8 @@ export function acos(n) {
   // Return the arccosine (inverse cosine) of `n`, in radians.
   //
   // ```ptls
-  // math.acos(1)
   // math.acos(0)
+  // math.acos(1)
   // ```
 
   checkType(n, "number");
@@ -226,8 +228,8 @@ export function asin(n) {
   // Return the arcsine (inverse sine) of `n`, in radians.
   //
   // ```ptls
-  // math.asin(1)
   // math.asin(0)
+  // math.asin(1)
   // ```
 
   checkType(n, "number");
@@ -238,8 +240,8 @@ export function atan(n) {
   // Return the arctangent (inverse tangent) of `n`, in radians.
   //
   // ```ptls
-  // math.atan(1)
   // math.atan(0)
+  // math.atan(1)
   // ```
 
   checkType(n, "number");

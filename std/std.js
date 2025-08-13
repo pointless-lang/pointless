@@ -52,7 +52,7 @@ for (const { name: modName } of dirs) {
 }
 
 export const globals = {
-  assert: modules.util.assert,
+  assert: modules.test.assert,
   chars: modules.str.chars,
   clear: modules.console.clear,
   join: modules.str.join,
@@ -63,7 +63,7 @@ export const globals = {
   range: modules.list.range,
   round: modules.math.round,
   roundTo: modules.math.roundTo,
-  sleep: modules.util.sleep,
+  sleep: modules.async.sleep,
   sort: modules.list.sort,
   sortDesc: modules.list.sortDesc,
   span: modules.list.span,

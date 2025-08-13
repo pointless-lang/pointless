@@ -3,13 +3,11 @@ import { checkPositive, checkWhole } from "../../src/num.js";
 import * as list from "../list/mod.js";
 import { Panic } from "../../src/panic.js";
 
-export const _modDocs = `
-Manipulate individual Unicode characters.
+export const _docs = "Manipulate individual Unicode characters.";
 
-Pointless does not have a dedicated character type; single-character strings
-are used instead. The \`char\` module provides functions for working with
-these single-character strings in terms of their Unicode code points.
-`;
+// Pointless does not have a dedicated character type; single-character strings
+// are used instead. The \`char\` module provides functions for working with
+// these single-character strings in terms of their Unicode code points.
 
 export function of(code) {
   // Get a string containing the character with Unicode code point `code`.

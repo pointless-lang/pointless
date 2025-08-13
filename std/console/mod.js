@@ -6,9 +6,7 @@ import { emitKeypressEvents } from "node:readline";
 import { stdin, stdout } from "node:process";
 import { OrderedMap } from "immutable";
 
-export const _modDocs = `
-Printing, prompting, and low-level console interaction.
-`;
+export const _docs = "Printing, prompting, and low-level console interaction.";
 
 export function print(value) {
   // Print `value` to stdout and return `value`.
@@ -72,7 +70,8 @@ export async function prompt(message) {
   // returned as a string.
   //
   // ```ptls --no-eval
-  // prompt("Enter your name: ") -- Prompts user for their name
+  // -- Prompts the user for their name, storing the result in a variable
+  // name = prompt("Enter your name: ")
   // ```
 
   checkType(message, "string");
@@ -93,6 +92,7 @@ export async function rawKey() {
   // Panics on <kbd>Ctrl</kbd> + <kbd>C</kbd> or <kbd>Ctrl</kbd> + <kbd>D</kbd>.
   //
   // ```ptls --no-eval
+  // -- Reads the next keypress, storing the result in a variable
   // key = console.rawKey()
   // ```
   //

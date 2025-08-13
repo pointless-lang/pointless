@@ -2,6 +2,8 @@ import { checkType, getType } from "../../src/values.js";
 import { checkKey, isMatch } from "../../src/obj.js";
 import { is, OrderedMap } from "immutable";
 
+export const _docs = "Functions for working with objects.";
+
 export function of(value) {
   // Convert `value` to an object, where `value` is either a table or an
   // object. If `value` is a table, return an object whose keys are column
@@ -139,7 +141,7 @@ export function merge(objects) {
 }
 
 export function keys(object) {
-  // Get a list of the keys in `object`.
+  // Get the keys in `object` as a list.
   //
   // ```ptls
   // obj.keys({ q: 9, r: 5, b: 3, n: 3, p: 1 })
@@ -150,7 +152,7 @@ export function keys(object) {
 }
 
 export function values(object) {
-  // Get a list of the values in `object`.
+  // Get the values in `object` as a list.
   //
   // ```ptls
   // obj.values({ q: 9, r: 5, b: 3, n: 3, p: 1 })

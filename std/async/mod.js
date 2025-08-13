@@ -1,22 +1,20 @@
 import { checkType } from "../../src/values.js";
 import { List } from "immutable";
 
-export const _modDocs = `
-Manage concurrent operations.
+export const _docs = "Manage concurrent operations.";
 
-In Pointless, all function calls are implicitly awaited; there are no raw
-promises that can be created and awaited later. Instead, the \`async\` module
-provides a small set of structured tools for running batches of functions
-concurrently.
-`;
+// In Pointless, all function calls are implicitly awaited; there are no raw
+// promises that can be created and awaited later. Instead, the \`async\` module
+// provides a small set of structured tools for running batches of functions
+// concurrently.
 
 export async function getFirst(funcs) {
-  // Run each zero-argument function in the list `funcs` concurrently and
+  // Run the zero-argument functions in the list `funcs` concurrently and
   // return the result of the first one that finishes.
   //
-  // *Note*: the functions that are still running when the first function
+  // *Note: the functions that are still running when the first function
   // finishes should be stopped; however, limitations of JS currently
-  // prevent this.
+  // prevent this.*
   //
   // ```ptls --no-eval
   // fn getA()
@@ -72,9 +70,20 @@ export async function getAll(funcs) {
   return List(await Promise.all(promises));
 }
 
+export async function sleep(ms) {
+  // Pause the current execution branch for `ms` milliseconds.
+  //
+  // ```ptls --no-eval
+  // sleep(1000) -- Pause for 1 second
+  // ```
+
+  await new Promise((next) => setTimeout(next, ms));
+  return null;
+}
+
 export async function $yield() {
-  // Pause a loop temporarily to allow other concurrently scheduled functions
-  // to run.
+  // Pause a loop temporarily to allow other concurrently running functions
+  // to progress.
   //
   // ```ptls --no-eval
   // async.yield() -- Pause to allow other functions to run

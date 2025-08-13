@@ -34,7 +34,7 @@ function showTags(modName, name, value) {
   return "";
 }
 
-async function showDocs(modName, name, value, constDocs) {
+async function showDocs(modName, name, value, consts) {
   if (modName === "overloads") {
     const items = variants[name].map(
       (child) => h`<li><a href="#${child.name}">${child}</a></li>`,
@@ -62,13 +62,13 @@ async function showDocs(modName, name, value, constDocs) {
 
   return await renderMarkdown(
     "std",
-    `${constDocs[name] ?? ""}\n\`\`\`ptls --hide\n${modName}.${name}\n\`\`\``,
+    `${consts[name] ?? ""}\n\`\`\`ptls --hide\n${modName}.${name}\n\`\`\``,
   );
 }
 
-async function showDef(modName, name, value, constDocs) {
+async function showDef(modName, name, value, consts) {
   const label = getType(value) === "function" ? value : `${modName}.${name}`;
-  const docs = await showDocs(modName, name, value, constDocs);
+  const docs = await showDocs(modName, name, value, consts);
 
   return h`
     <hr />
@@ -101,19 +101,22 @@ function makeSidebar(modName, mod) {
 }
 
 async function showMod(modName, mod) {
-  const { _modDocs, _constDocs = {} } = await import(
+  const { _docs = "", _consts = {} } = await import(
     `../../std/${modName}/mod.js`
   );
 
-  const modDocs = _modDocs && (await renderMarkdown("std", _modDocs));
+  const docs = await renderMarkdown("std", _docs);
   const defs = [];
 
   for (const [name, value] of Object.entries(mod)) {
-    defs.push(await showDef(modName, name, value, _constDocs));
+    defs.push(await showDef(modName, name, value, _consts));
   }
 
   return h`
-    $$${modDocs}
+    $$${docs}
+
+    <a href="."><strong>&lt;- Back to Standard Library Contents</strong></a>
+
     $$${defs}
   `;
 }
@@ -124,7 +127,7 @@ export async function buildStd() {
   for (const [modName, mod] of Object.entries(modules)) {
     await writePage(
       `stdlib/${modName}.html`,
-      `Standard Library`,
+      `Standard Library: ${modName}`,
       "std.css",
       makeSidebar(modName, mod),
       h`

@@ -6,9 +6,7 @@ import { repr } from "../../src/repr.js";
 import { Panic } from "../../src/panic.js";
 import { OrderedMap, OrderedSet, List } from "immutable";
 
-export const _modDocs = `
-
-`;
+export const _docs = `Functions for working with tables.`;
 
 function flattenCols(table, columns) {
   checkType(columns, "string", "list");
@@ -23,7 +21,7 @@ function flattenCols(table, columns) {
 }
 
 export function of(value) {
-  // Create a table from `value`, where `value` is an object, list
+  // Create a table from `value`, where `value` may be an object, list
   // of objects, or table.
   //
   // - If `value` is an object, the keys become column names, and the values
@@ -45,12 +43,11 @@ export function of(value) {
   //   yards: [4172, 3731],
   //   tds: [41, 28],
   //   ints: [4, 6],
-  //   rings: 0,
   // })
   //
   // table.of([
-  //   { name: "Lamar", yards: 4172, tds: 41, ints: 4, rings: 0 },
-  //   { name: "Josh", yards: 3731, tds: 28, ints: 6, rings: 0 }
+  //   { name: "Lamar", yards: 4172, tds: 41, ints: 4 },
+  //   { name: "Josh", yards: 3731, tds: 28, ints: 6 }
   // ])
   // ```
   //
@@ -82,7 +79,7 @@ export function $new(columns) {
   // Create an empty table with the given `columns`.
   //
   // ```ptls
-  // table.new(["name", "yards", "tds", "ints", "rings"])
+  // table.new(["name", "yards", "tds", "ints"])
   // ```
 
   checkType(columns, "list");
@@ -93,7 +90,12 @@ export function len(table) {
   // Get the number of rows in `table`.
   //
   // ```ptls
-  // len(table.of([{ name: "Lamar", yards: 4172 }, { name: "Josh", yards: 3731 }]))
+  // players = table.of([
+  //   { name: "Lamar", yards: 4172 },
+  //   { name: "Josh", yards: 3731 },
+  // ])
+  //
+  // len(players)
   // ```
 
   checkType(table, "table");
@@ -104,11 +106,15 @@ export function isEmpty(table) {
   // Check whether `table` is empty (has `0` rows).
   //
   // ```ptls
-  // t1 = table.of([{ name: "Lamar", yards: 4172 }, { name: "Josh", yards: 3731 }])
-  // isEmpty(t1)
+  // players = table.of([
+  //   { name: "Lamar", yards: 4172 },
+  //   { name: "Josh", yards: 3731 },
+  // ])
   //
-  // t2 = table.new(["name", "yards", "tds", "ints", "rings"])
-  // isEmpty(t2)
+  // isEmpty(players)
+  //
+  // players = table.new(["name", "yards"])
+  // isEmpty(players)
   // ```
 
   return len(table) == 0;
@@ -116,20 +122,24 @@ export function isEmpty(table) {
 
 export function defaultCols(table, columns) {
   // If `table` has zero columns (and therefore by definition zero rows),
-  // return an empty table with the given `columns`: `table.new(columns)`.
-  // If `table` has columns then return `table`.
-  //
-  // ```ptls
-  // t1 = table.of([{ name: "Lamar", yards: 4172 }])
-  // table.defaultCols(t1, ["name", "yards"])
-  //
-  // t2 = table.of([])
-  // table.defaultCols(t2, ["name", "yards"])
-  // ```
+  // return an empty table with the given `columns`. If `table` has columns
+  // then return `table`.
   //
   // This is useful when you're making a table from a list of rows that may
   // or may not be empty, and you want to make sure your table ends up with
   // the correct columns.
+  //
+  // ```ptls
+  // players = table.of([
+  //   { name: "Lamar", yards: 4172 },
+  //   { name: "Josh", yards: 3731 },
+  // ])
+  //
+  // table.defaultCols(players, ["name", "yards"])
+  //
+  // players = table.of([])
+  // table.defaultCols(players, ["name", "yards"])
+  // ```
 
   checkType(table, "table");
   checkType(columns, "list");
@@ -146,7 +156,13 @@ export function rows(table) {
   // Get a list of the rows in `table`.
   //
   // ```ptls
-  // players = table.of({ name: ["Lamar", "Josh"], yards: [4172, 3731], tds: [41, 28] })
+  // players = table.of({
+  //   name: ["Lamar", "Josh"],
+  //   yards: [4172, 3731],
+  //   tds: [41, 28],
+  //   ints: [4, 6],
+  // })
+  //
   // table.rows(players)
   // ```
 
@@ -172,7 +188,7 @@ export function reverse(table) {
 }
 
 export function unique(table) {
-  // Remove duplicate rows from `table`, keeping only the first occurrence
+  // Deduplicate rows of `table`, keeping only the first occurrence
   // of each row.
   //
   // ```ptls
@@ -198,8 +214,8 @@ export function get(table, selector) {
   //
   // - If `selector` is a number, return the row at index `selector`.
   //
-  // - If `selector` is a string, return the values from the matching column
-  //   as a list.
+  // - If `selector` is a string, return the values from the column with name
+  //   `selector` as a list.
   //
   // - If `selector` is an object, return the first row that matches (contain
   //   all the entries in) `selector`, with the requirement that at least one
@@ -218,12 +234,13 @@ export function get(table, selector) {
   // table.get(cities, { state: "TX" })
   // ```
   //
-  // *Note that these operations can also be performed using the `[]` and
-  // `.` operators*:
+  // *Note that these operations can also be performed using the index `[]` and
+  // field `.` operators*.
   //
   // ```ptls
   // cities[1]
-  // cities.city -- or cities["city"]
+  // cities.city
+  // cities["city"]
   // cities[{ state: "TX" }]
   // ```
 
@@ -235,20 +252,21 @@ export function set(table, selector, value) {
   // Update the row or column in `table` that corresponds to `selector` with
   // `value`. `selector` may be a number, string, or object.
   //
-  // - If `selector` is a number, return the row at index `selector` with
-  //   `value`, where `value` is an object whose keys match the columns
-  //    of `table`.
+  // - If `selector` is a number, replace the row at index `selector` with the
+  //   data in `value`, where `value` is an object whose keys match the
+  //   columns of `table`.
   //
-  // - If `selector` is a string, set the column named `selector` with `value`.
+  // - If `selector` is a string, replace the column named `selector` with
+  //   `value`.
   //
   //   - If `value` is a list, it becomes the column data. A list `value`
   //     must have the same length as `table`.
-  //
   //   - If `value` is not a list, it is repeated across all rows.
   //
-  // - If `selector` is an object, return the first row that matches (contain
+  // - If `selector` is an object, find the first row that matches (contains
   //   all the entries in) `selector`, with the requirement that at least one
-  //   row matches.
+  //   row matches. Replace this row with the data in `value`, where `value`
+  //   is an object whose keys match the columns of `table`.
   //
   // ```ptls
   // cities = table.of([
@@ -266,7 +284,7 @@ export function set(table, selector, value) {
   // ```
   //
   // *Note that if you want to update an existing variable, you could also
-  // use variable assignment*:
+  // use variable assignment*.
   //
   // ```ptls
   // citiesCopy = cities
@@ -328,7 +346,8 @@ export function has(table, selector) {
   // Check whether `table` contains a column or row that matches `selector`,
   // which may be either a string or an object.
   //
-  // - If `selector` is a string, check whether `table` has a matching column.
+  // - If `selector` is a string, check whether `table` has a column named
+  //   `selector`.
   //
   // - If `selector` is an object, check whether `table` has a row which
   //   matches (contain all the entries in) `selector`.
@@ -359,7 +378,7 @@ export function has(table, selector) {
 }
 
 export function columns(table) {
-  // Get the column names of `table` as a list.
+  // Get the column names in `table` as a list.
   //
   // ```ptls
   // cities = table.of([
@@ -514,7 +533,7 @@ export function merge(tables) {
 }
 
 export function take(table, count) {
-  // Get a table containing the first `count` rows from `table`.
+  // Get the first `count` rows from `table`.
   //
   // ```ptls
   // cities = table.of([
@@ -540,7 +559,7 @@ export function take(table, count) {
 }
 
 export function takeLast(table, count) {
-  // Get a table containing the last `count` rows from `table`.
+  // Get the last `count` rows from `table`.
   //
   // ```ptls
   // cities = table.of([
@@ -634,8 +653,8 @@ export async function map(table, func) {
   // table.map(players, addTD)
   // ```
   //
-  // *Note that this can also be accomplished using the `$` operator along
-  // with `table.of`*:
+  // *Note that this can also be accomplished using the map `$` operator
+  // along with `table.of`*.
   //
   // ```ptls
   // players $ addTD | table.of
@@ -661,7 +680,7 @@ export async function filter(table, condition) {
   // table.filter(cities, fn(city) city.state == "TX" end)
   // ```
   //
-  // *Note that this can also be accomplished using the `?` operator*:
+  // *Note that this can also be accomplished using the filter `?` operator*.
   //
   // ```ptls
   // cities ? arg.state == "TX"
@@ -672,7 +691,7 @@ export async function filter(table, condition) {
 }
 
 export function select(table, columns) {
-  // Make a table containing the specified `columns` from `table`, in the
+  // Create a table containing the specified `columns` from `table`, in the
   // given order. `columns` may be a single string (for one column) or a list
   // of strings (for multiple columns).
   //
@@ -856,8 +875,11 @@ function listExtremum(table, columns, desc) {
 }
 
 export function max(table, columns) {
-  // Get the row that would come first if `table` were sorted by `columns` in
-  // descending order (that is, the one with the largest values in `columns`).
+  // Get the row with the largest values in `columns` where `columns` may be
+  // a string (single column) or a list of strings (multiple columns). In
+  // other words, get the row that would come first if `table` were sorted by
+  // `columns` in descending order.
+  //
   // See the docs for [table.sortBy](#table.sortBy) for details on the
   // sorting process.
   //
@@ -878,8 +900,11 @@ export function max(table, columns) {
 }
 
 export function min(table, columns) {
-  // Get the row that would come first if `table` were sorted by `columns` in
-  // ascending order (that is, the one with the smallest values in `columns`).
+  // Get the row with the smallest values in `columns` where `columns` may be
+  // a string (single column) or a list of strings (multiple columns). In
+  // other words, get the row that would come first if `table` were sorted by
+  // `columns` in ascending order.
+  //
   // See the docs for [table.sortBy](#table.sortBy) for details on the
   // sorting process.
   //
@@ -971,7 +996,8 @@ export async function summarize(table, columns, reducer) {
   // fn calcStateStats(group)
   //   totalPop = sum(group.population)
   //   biggestCity = table.max(group, "population").city
-  //   { totalPop, biggestCity }
+  //   numCities = len(group)
+  //   { totalPop, biggestCity, numCities }
   // end
   //
   // table.summarize(cities, "state", calcStateStats)
@@ -1000,8 +1026,8 @@ export async function summarize(table, columns, reducer) {
 }
 
 export function counts(table) {
-  // Return a table containing de-duplicated rows of `table`. Each row will
-  // have two additional entries: `count` and `share`, which will contain the
+  // Return a table containing deduplicated rows of `table`. Each row will
+  // have two additional entries `count` and `share`, which will contain the
   // number of copies of each row in the original table, and the fraction
   // of the total rows that this count represents. The original table may
   // not contain columns named `count` or `share`.

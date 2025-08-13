@@ -4,6 +4,8 @@ import { show } from "../../src/repr.js";
 import { Panic } from "../../src/panic.js";
 import { List } from "immutable";
 
+export const _docs = "Functions for working with strings (pieces of text).";
+
 export function of(value) {
   // Get the string representation of `value`.
   //
@@ -118,8 +120,8 @@ export function takeLast(string, count) {
 }
 
 export function drop(string, count) {
-  // Get a copy of `string` with the first `count` characters removed.
-  // If `count >= len(string)` then the `""` is returned.
+  // Remove the first `count` characters from `string`. If
+  // `count >= len(string)` then `""` is returned.
   //
   // ```ptls
   // drop("Hello World!", 5)
@@ -132,8 +134,8 @@ export function drop(string, count) {
 }
 
 export function dropLast(string, count) {
-  // Get a copy of `string` with the last `count` characters removed.
-  // If `count >= len(string)` then the `""` is returned.
+  // Remove the last `count` characters from `string`. If
+  // `count >= len(string)` then `""` is returned.
   //
   // ```ptls
   // dropLast("Hello World!", 5)
@@ -179,7 +181,7 @@ export function repeat(string, count) {
   // str.repeat("la", 5)
   // ```
   //
-  // *Note that this can also be accomplished using the `*` operator*:
+  // *Note that this can also be accomplished using the `*` operator*.
   //
   // ```ptls
   // "la" * 5

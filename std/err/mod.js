@@ -1,14 +1,12 @@
 import { checkType } from "../../src/values.js";
 import { Panic } from "../../src/panic.js";
 
-export const _modDocs = `
-Throw and catch errors.
+export const _docs = "Throw and catch errors.";
 
-In Pointless, errors are normal values which are raised and handled using a
-special control flow.
-`;
+// In Pointless, errors are normal values which are raised and handled using a
+// special control flow.
 
-class Err extends Panic {
+export class Err extends Panic {
   constructor(payload) {
     super("unhandled error", { payload });
     this.payload = payload;
@@ -17,6 +15,8 @@ class Err extends Panic {
 
 export function $throw(payload) {
   // Throw an error with a `payload`, which may be any type of value.
+  // Functions which throw errors should be called using `try` to avoid
+  // unhandled errors.
   //
   // ```ptls --panics
   // fn inverse(n)

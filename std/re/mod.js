@@ -3,6 +3,8 @@ import { show } from "../../src/repr.js";
 import { Table } from "../../src/table.js";
 import { OrderedMap, List } from "immutable";
 
+export const _docs = "Use regular expressions to search and manipulate strings.";
+
 const cache = new Map();
 
 function lookup(pattern) {
@@ -13,24 +15,24 @@ function lookup(pattern) {
   return cache.get(pattern);
 }
 
-export function escape(chars) {
-  // Escape special characters in `chars` so it can be used as a literal
+export function escape(string) {
+  // Escape special characters in `string` so it can be used as a literal
   // in a regular expression.
   //
   // ```ptls
   // re.escape("Hello? Can you *hear* me??")
   // ```
 
-  checkType(chars, "string");
-  return chars.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  checkType(string, "string");
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 export function test(string, pattern) {
   // Check whether `string` matches the regular expression `pattern`.
   //
   // ```ptls
-  // re.test("vanessa@example.com", r".+@.+\..+")
-  // re.test("vanessa at example dot com", r".+@.+\..+")
+  // re.test("nessa@example.com", r".+@.+\..+")
+  // re.test("nessa at example dot com", r".+@.+\..+")
   // ```
 
   checkType(string, "string");
@@ -41,7 +43,7 @@ export function test(string, pattern) {
 export function match(string, pattern) {
   // Find the matches for `pattern` in `string`.
   //
-  // Returns a table with the following columns:
+  // Return a table with the following columns:
   //
   // - `value`: The matched substring.
   // - `index`: Index of `value` in `string`.

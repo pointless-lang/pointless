@@ -1,6 +1,8 @@
 import { checkType } from "../../src/values.js";
 import { OrderedSet, List } from "immutable";
 
+export const _docs = "Functions for working with sets (collections of unique values).";
+
 export function of(values) {
   // Get a set containing each value in `values`. `values` may be
   // a list, table, or set. If `values` is a table then `set.of(values)`
@@ -34,8 +36,7 @@ export function isEmpty(set) {
   //
   // ```ptls
   // isEmpty(set.of([]))
-  // s = set.of(["a", "b", "c", "d"])
-  // isEmpty(s)
+  // isEmpty(set.of(["a", "b", "c", "d"]))
   // ```
 
   return len(set) == 0;
@@ -124,7 +125,8 @@ export function removeAll(set, values) {
 }
 
 export function merge(sets) {
-  // Merge (flatten) a list of `sets` into a single set.
+  // Merge (flatten) a list of `sets` into a single set. In other words, get
+  // the union of `sets`.
   //
   // ```ptls
   // s1 = set.of(["a", "b", "c"])
