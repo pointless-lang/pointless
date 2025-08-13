@@ -1,6 +1,7 @@
 export const keywords = [
   "and",
   "arg",
+  "case",
   "do",
   "elif",
   "else",
@@ -11,6 +12,7 @@ export const keywords = [
   "if",
   "import",
   "in",
+  "match",
   "none",
   "not",
   "or",

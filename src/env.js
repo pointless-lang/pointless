@@ -157,6 +157,8 @@ export class Env {
         throw new Returner(await this.eval(node.value));
       case "if":
         return this.evalIf(node);
+      case "match":
+        return this.evalMatch(node);
       case "for":
         return this.evalFor(node);
       case "tandemFor":
@@ -509,15 +511,32 @@ export class Env {
   }
 
   async evalIf(node) {
-    const { cases, fallback } = node.value;
+    const { branches, fallback } = node.value;
 
-    for (const { cond, body } of cases) {
+    for (const { cond, body } of branches) {
       if (await this.eval(cond, "boolean")) {
         return await this.eval(body);
       }
     }
 
-    return await this.eval(fallback);
+    return fallback ? await this.eval(fallback) : null;
+  }
+
+  async evalMatch(node) {
+    const { cond: condNode, cases, fallback } = node.value;
+    const cond = await this.eval(condNode);
+
+    for (const { patterns, body } of cases) {
+      for (const patternNode of patterns) {
+        const pattern = await this.eval(patternNode);
+
+        if (is(pattern, cond)) {
+          return await this.eval(body);
+        }
+      }
+    }
+
+    return fallback ? await this.eval(fallback) : null;
   }
 
   async evalFor(node) {

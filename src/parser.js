@@ -579,7 +579,7 @@ class Parser {
   getStatements(topLevel = false) {
     const statements = [];
 
-    while (!this.has("elif", "else", "end", "endOfFile", "do")) {
+    while (!this.has("case", "elif", "else", "end", "endOfFile", "do")) {
       if (statements.length) {
         // statement separator
         this.get("newline", ";");
@@ -596,7 +596,7 @@ class Parser {
     return new Node("fn", loc, { name: "fn", ...this.getParamsBody() });
   }
 
-  getCase() {
+  getBranch() {
     // get `<condition> then <expression>`, so we can use it
     // for `if` or `elif`
     const cond = this.getExpression();
@@ -607,11 +607,11 @@ class Parser {
 
   getIf() {
     const { loc } = this.get("if");
-    const cases = [this.getCase()];
+    const branches = [this.getBranch()];
 
     while (this.has("elif")) {
       this.get("elif");
-      cases.push(this.getCase());
+      branches.push(this.getBranch());
     }
 
     let fallback;
@@ -619,13 +619,32 @@ class Parser {
     if (this.has("else")) {
       this.get("else");
       fallback = this.getStatements();
-    } else {
-      // condition without else return none if no matching case is found
-      fallback = [new Node("none", loc, null)];
     }
 
     this.get("end");
-    return new Node("if", loc, { cases, fallback });
+    return new Node("if", loc, { branches, fallback });
+  }
+
+  getMatch() {
+    const { loc } = this.get("match");
+    const cond = this.getExpression();
+    const cases = [];
+
+    while (this.has("case")) {
+      const patterns = this.seq("case", "then", ",", this.getExpression);
+      const body = this.getStatements();
+      cases.push({ patterns, body });
+    }
+
+    let fallback;
+
+    if (this.has("else")) {
+      this.get("else");
+      fallback = this.getStatements();
+    }
+
+    this.get("end");
+    return new Node("match", loc, { cond, cases, fallback });
   }
 
   getImport() {
@@ -651,6 +670,8 @@ class Parser {
         return this.getFn();
       case "if":
         return this.getIf();
+      case "match":
+        return this.getMatch();
       case "import":
         return this.getImport();
       default:
