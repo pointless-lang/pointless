@@ -469,3 +469,20 @@ export function isAsciiDigit(string) {
   checkType(string, "string");
   return /^[0-9]*$/.test(string);
 }
+
+export function toNum(string) {
+  // Convert `string` to a number.
+  //
+  // ```ptls
+  // math.toNum("45.67")
+  // ```
+
+  checkType(string, "string");
+  const result = Number(string);
+
+  if (string === "" || Number.isNaN(result)) {
+    throw new Panic("invalid number string", { string });
+  }
+
+  return result;
+}

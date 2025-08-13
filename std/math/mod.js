@@ -1,6 +1,5 @@
-import { checkType, getType } from "../../src/values.js";
+import { checkType } from "../../src/values.js";
 import { checkPositive, checkNumResult, checkWhole } from "../../src/num.js";
-import { Panic } from "../../src/panic.js";
 
 export const _docs = "Mathematical functions and constants.";
 
@@ -28,30 +27,6 @@ export function isInt(n) {
 
   checkType(n, "number");
   return Number.isInteger(n);
-}
-
-export function toNum(value) {
-  // Convert `value` to a number, where `value` is a string or boolean.
-  //
-  // ```ptls
-  // math.toNum("45.67")
-  // math.toNum(true)
-  // math.toNum(false)
-  // ```
-
-  checkType(value, "boolean", "string");
-
-  if (getType(value) === "boolean") {
-    return value ? 1 : 0;
-  }
-
-  const result = Number(value);
-
-  if (value === "" || Number.isNaN(result)) {
-    throw new Panic("invalid number string", { value });
-  }
-
-  return result;
 }
 
 export function abs(n) {
