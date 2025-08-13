@@ -8,7 +8,7 @@ function handleUnavailable() {
   throw new Panic("not available in notebook mode");
 }
 
-const unavailable = ["console", "fs"].map((s) => s + ".");
+const unavailable = ["console", "fs", "async"].map((s) => s + ".");
 
 const shims = {};
 
