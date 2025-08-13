@@ -10,12 +10,11 @@ export function assert(predicate) {
   // Panic if the boolean `predicate` is `false`.
   //
   // ```ptls
-  // inches = 15
-  // assert(inches >= 0)
+  // assert(1 + 1 == 2)
   // ```
   //
   // ```ptls --panics
-  // assert(inches < 12)
+  // assert(1 + 1 == 11)
   // ```
 
   checkType(predicate, "boolean");

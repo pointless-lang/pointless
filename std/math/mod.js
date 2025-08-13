@@ -107,9 +107,9 @@ export function round(n) {
 }
 
 export function roundTo(n, decimals) {
-  // Round `n` to `decimals` places using [banker's rounding](https://en.wikipedia.org/wiki/Rounding#Rounding_half_to_even)
+  // Round `n` to `decimals` places using [banker's rounding](https://en.wikipedia.org/wiki/Rounding#Rounding_half_to_even).
   // If `decimals` is negative then rounding is done to the corresponding
-  // power of `10`.
+  // positive power of `10`.
   //
   // ```ptls
   // math.roundTo(17.45, 1)
@@ -216,8 +216,7 @@ export function acos(n) {
   // Return the arccosine (inverse cosine) of `n`, in radians.
   //
   // ```ptls
-  // math.acos(0)
-  // math.acos(1)
+  // math.acos(0.5) -- math.pi / 3
   // ```
 
   checkType(n, "number");
@@ -228,8 +227,7 @@ export function asin(n) {
   // Return the arcsine (inverse sine) of `n`, in radians.
   //
   // ```ptls
-  // math.asin(0)
-  // math.asin(1)
+  // math.asin(0.5) -- math.pi / 6
   // ```
 
   checkType(n, "number");
@@ -240,8 +238,7 @@ export function atan(n) {
   // Return the arctangent (inverse tangent) of `n`, in radians.
   //
   // ```ptls
-  // math.atan(0)
-  // math.atan(1)
+  // math.atan(1) -- math.pi / 4
   // ```
 
   checkType(n, "number");
@@ -253,8 +250,7 @@ export function atan2(y, x) {
   // to determine the correct quadrant.
   //
   // ```ptls
-  // math.atan2(1, 1)
-  // math.atan2(1, -1)
+  // math.atan2(1, -1) -- 3 * math.pi / 4
   // ```
 
   checkType(y, "number");
