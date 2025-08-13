@@ -1,6 +1,6 @@
 import { getType } from "../../src/values.js";
 import { Func } from "../../src/func.js";
-import { std } from "../../std/std.js";
+import { spawnStd } from "../../std/std.js";
 import { Panic } from "../../src/panic.js";
 import { Env } from "../../src/env.js";
 
@@ -32,10 +32,19 @@ function convert(value) {
   return value;
 }
 
-const defs = {};
+let webStd;
 
-for (const [name, value] of std.defs) {
-  defs[name] = convert(value);
+export async function spawnWebStd() {
+  if (!webStd) {
+    const std = await spawnStd();
+    const defs = {};
+
+    for (const [name, value] of std.parent.defs) {
+      defs[name] = convert(value);
+    }
+
+    webStd = new Env(null, new Map(Object.entries(defs)));
+  }
+
+  return webStd.spawn();
 }
-
-export const webStd = new Env(null, new Map(Object.entries(defs)));

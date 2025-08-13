@@ -1,6 +1,6 @@
 import { highlight } from "./highlight.js";
 import { h } from "./escape.js";
-import { webStd } from "./web-std.js";
+import { spawnWebStd } from "./web-std.js";
 import { tokenize } from "../../src/tokenizer.js";
 import { parse } from "../../src/parser.js";
 import { repr, show } from "../../src/repr.js";
@@ -144,7 +144,7 @@ export async function renderMarkdown(filePath, source) {
     return queue;
   }
 
-  const env = webStd.spawn();
+  const env = await spawnWebStd();
   const marked = new Marked();
 
   const highlighter = markedHighlight({

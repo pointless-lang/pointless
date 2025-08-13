@@ -3,7 +3,7 @@ import { parse } from "../src/parser.js";
 import { tokenize } from "../src/tokenizer.js";
 import { show } from "../src/repr.js";
 import { Panic } from "../src/panic.js";
-import { std } from "../std/std.js";
+import { spawnStd } from "../std/std.js";
 
 // This repl doesn't support multi line statements or expressions.
 // It should but it's limited by the behavior of node's readline functionality.
@@ -61,7 +61,7 @@ import { std } from "../std/std.js";
 
 // To Do: add commands: exit, run, ls, cd
 
-const env = std.spawn();
+const env = await spawnStd();
 
 export async function repl() {
   // very silly default behavior from eslint here imo

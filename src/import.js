@@ -5,14 +5,14 @@ import { parse } from "./parser.js";
 import { tokenize } from "./tokenizer.js";
 import { Table } from "./table.js";
 import { loadJson } from "./json.js";
-import { std } from "../std/std.js";
+import { spawnStd } from "../std/std.js";
 import { List } from "immutable";
 
 const cache = new Map();
 const prefixChars = /^(?:([a-z]+):)?/;
 
 async function evalProgram(statements) {
-  return await std.spawn().eval(statements);
+  return (await spawnStd()).eval(statements);
 }
 
 export async function getImport(root, path) {
