@@ -83,15 +83,13 @@ async function showDef(modName, name, value, consts) {
 }
 
 function makeSidebar(modName, mod) {
-  const links = [];
-
-  for (const [name, value] of Object.entries(mod)) {
-    links.push(h`
+  const links = Object.entries(mod).map(
+    ([name, value]) => h`
       <li>
         <code><a href="#${name}">${name}</a></code>$$${showTags(modName, name, value)}
       </li>
-    `);
-  }
+    `,
+  );
 
   return h`
     <ul>
@@ -100,22 +98,17 @@ function makeSidebar(modName, mod) {
   `;
 }
 
-async function showMod(modName, mod) {
-  const { _docs = "", _consts = {} } = await import(
-    `../../std/${modName}/mod.js`
-  );
-
-  const docs = await renderMarkdown("std", _docs);
+async function showMod(modName, mod, docs, consts) {
   const defs = [];
 
   for (const [name, value] of Object.entries(mod)) {
-    defs.push(await showDef(modName, name, value, _consts));
+    defs.push(await showDef(modName, name, value, consts));
   }
 
   return h`
-    $$${docs}
+    $$${await renderMarkdown("std", docs)}
 
-    <a href="."><strong>&lt;- Back to Standard Library Contents</strong></a>
+    <a href="."><strong>↩ Back to Standard Library Contents</strong></a>
 
     $$${defs}
   `;
@@ -124,7 +117,32 @@ async function showMod(modName, mod) {
 export async function buildStd() {
   await mkdir(`site/dist/stdlib`, { recursive: true });
 
+  const links = [];
+  const main = [];
+
   for (const [modName, mod] of Object.entries(modules)) {
+    const { _docs = "", _consts = {} } = await import(
+      `../../std/${modName}/mod.js`
+    );
+
+    links.push(h`
+      <li>
+        <code><a href="${modName}.html">${modName}</a></code>
+      </li>
+    `);
+
+    const summary = _docs.trim().split("\n")[0];
+
+    main.push(h`
+      <li class="mod-link">
+        <a href="${modName}.html">
+          <strong>${modName}</strong>
+        </a>
+      
+        <div>$$${summary}</div>
+      </li>
+    `);
+
     await writePage(
       `stdlib/${modName}.html`,
       `Standard Library: ${modName}`,
@@ -135,8 +153,24 @@ export async function buildStd() {
           <code><a href="#std.${modName}">std.${modName}</a></code>
         </h2>
 
-        $$${await showMod(modName, mod)}
+        $$${await showMod(modName, mod, _docs, _consts)}
       `,
     );
   }
+
+  await writePage(
+    `stdlib/index.html`,
+    `Standard Library`,
+    "std.css",
+    h`
+      <ul>
+        $$${links}
+      </ul>
+    `,
+    h`
+      <ul>
+        $$${main}
+      </ul>
+    `,
+  );
 }

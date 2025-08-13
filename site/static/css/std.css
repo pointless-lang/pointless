@@ -1,5 +1,20 @@
 @import url("base.css");
 
+.mod-link + .mod-link {
+  margin-top: 16px;
+}
+
+.mod-link strong {
+  margin-bottom: 10px;
+  display: inline-block;
+  font-size: 1.1rem;
+}
+
+.mod-link a {
+  /*color: inherit;*/
+  display: block;
+}
+
 .contents {
   margin-left: 24px;
 }

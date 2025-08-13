@@ -1,7 +1,8 @@
 html {
   font-size: 16px;
   height: 100%;
-  scroll-padding-top: 60px;
+  scroll-padding-top: 20px;
+  overflow-y: auto;
 }
 
 body {
@@ -67,7 +68,7 @@ nav li {
 #sidebar {
   grid-area: sidebar;
   border-left: 2px solid #eee;
-  padding: 4px 0px 4px 24px;
+  padding: 4px 0 4px 24px;
   height: min-content;
   font-size: 0.9rem;
   font-weight: bold;
@@ -123,7 +124,7 @@ main > hr:first-child {
 
 main > hr:first-child + *,
 main > :first-child {
-  margin-top: 0;
+  margin-top: 5px;
 }
 
 p {
@@ -137,7 +138,6 @@ ol {
 }
 
 li {
-  line-height: 1.5;
   margin-block: calc(var(--margin) / 3) 0;
 }
 

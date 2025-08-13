@@ -6,7 +6,7 @@ import { repr } from "../../src/repr.js";
 import { Panic } from "../../src/panic.js";
 import { OrderedMap, OrderedSet, List } from "immutable";
 
-export const _docs = `Functions for working with tables.`;
+export const _docs = "Functions for working with tables.";
 
 function flattenCols(table, columns) {
   checkType(columns, "string", "list");
@@ -981,7 +981,6 @@ export async function summarize(table, columns, reducer) {
   //
   // ```ptls
   // cities = table.of([
-  //   { city: "New York", state: "NY", population: 8478072 },
   //   { city: "Los Angeles", state: "CA", population: 3878704 },
   //   { city: "Chicago", state: "IL", population: 2721308 },
   //   { city: "Houston", state: "TX", population: 2390125 },
@@ -990,7 +989,6 @@ export async function summarize(table, columns, reducer) {
   //   { city: "San Antonio", state: "TX", population: 1526656 },
   //   { city: "San Diego", state: "CA", population: 1404452 },
   //   { city: "Dallas", state: "TX", population: 1326087 },
-  //   { city: "Jacksonville", state: "FL", population: 1009833 },
   // ])
   //
   // fn calcStateStats(group)

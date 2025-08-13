@@ -14,6 +14,10 @@
       / auto 1fr;
   }
 
+  header {
+    padding: 0;
+  }
+
   nav {
     justify-content: left;
   }

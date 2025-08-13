@@ -3,7 +3,8 @@ import { show } from "../../src/repr.js";
 import { Table } from "../../src/table.js";
 import { OrderedMap, List } from "immutable";
 
-export const _docs = "Use regular expressions to search and manipulate strings.";
+export const _docs =
+  "Use regular expressions to search and manipulate strings.";
 
 const cache = new Map();
 

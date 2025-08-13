@@ -1,7 +1,8 @@
 import { checkType } from "../../src/values.js";
 import { OrderedSet, List } from "immutable";
 
-export const _docs = "Functions for working with sets (collections of unique values).";
+export const _docs =
+  "Functions for working with sets (collections of unique values).";
 
 export function of(values) {
   // Get a set containing each value in `values`. `values` may be

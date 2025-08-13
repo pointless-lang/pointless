@@ -51,8 +51,7 @@ export function base(title, style, sidebar, main) {
 }
 
 export async function writePage(path, title, style, sidebar, main) {
-  path = `site/dist/${path}`;
   const html = base(title, style, sidebar, main);
   const result = await format(html, { parser: "html" });
-  await writeFile(path, result);
+  await writeFile(`site/dist/${path}`, result);
 }
