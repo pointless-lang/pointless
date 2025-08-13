@@ -14,10 +14,6 @@
       / auto 1fr;
   }
 
-  header {
-    margin-bottom: -10px;
-  }
-
   nav {
     justify-content: left;
   }
@@ -43,8 +39,6 @@
   }
 
   header {
-    margin: 0;
-    position: static;
     padding: 0;
     gap: 20px;
   }
