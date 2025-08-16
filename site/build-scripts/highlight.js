@@ -2,24 +2,55 @@ export function highlight(tokens) {
   return new Highlighter(tokens).annotated.join("");
 }
 
-const stdMods = new Set([
+const globals = new Set([
   "async",
   "char",
   "console",
   "err",
-  "file",
+  "fs",
+  "lang",
   "list",
   "math",
   "nada",
   "obj",
+  "overloads",
   "rand",
   "re",
   "ref",
   "set",
-  "sh",
-  "std",
   "str",
   "table",
+  "test",
+  "assert",
+  "chars",
+  "clear",
+  "drop",
+  "dropLast",
+  "has",
+  "isEmpty",
+  "join",
+  "len",
+  "max",
+  "min",
+  "print",
+  "prompt",
+  "push",
+  "range",
+  "remove",
+  "reverse",
+  "round",
+  "roundTo",
+  "select",
+  "sleep",
+  "sort",
+  "sortBy",
+  "sortDesc",
+  "sortDescBy",
+  "span",
+  "split",
+  "sum",
+  "take",
+  "takeLast",
 ]);
 
 const strInner = [
@@ -215,7 +246,7 @@ class Highlighter {
         let last = this.next();
 
         while (this.has("field")) {
-          if (stdMods.has(last.value)) {
+          if (globals.has(last.value)) {
             this.add(last.value, "std");
           } else {
             this.add(last.value);
@@ -272,7 +303,7 @@ class Highlighter {
         return;
       }
 
-      if (stdMods.has(value)) {
+      if (globals.has(value)) {
         this.add(value, "std");
         return;
       }
