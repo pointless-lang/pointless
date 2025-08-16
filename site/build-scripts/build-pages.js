@@ -5,15 +5,27 @@ import { resolve } from "node:path";
 import { readdir, readFile, mkdir, cp } from "node:fs/promises";
 import matter from "gray-matter";
 
-function makeSidebar(content) {
-  const matches = [...content.matchAll(/^##(.*)/gm)];
-  const links = matches.map(
-    ([, title]) => h`
-      <li>
-        <a href="#${headerId(title)}">${title}</a>
-      </li>
-    `,
-  );
+function makeSidebar(content, sidebar) {
+  let links;
+
+  if (sidebar) {
+    links = sidebar.map(
+      ({ text, href }) => h`
+        <li>
+          <a href="${href}">${text}</a>
+        </li>
+      `,
+    );
+  } else {
+    const matches = [...content.matchAll(/^##(.*)/gm)];
+    links = matches.map(
+      ([, title]) => h`
+        <li>
+          <a href="#${headerId(title)}">${title}</a>
+        </li>
+      `,
+    );
+  }
 
   return h`
     <ol>
@@ -31,7 +43,7 @@ async function buildPage(path) {
     `${path}/index.html`,
     data.title,
     "base.css",
-    makeSidebar(content),
+    makeSidebar(content, data.sidebar),
     await renderMarkdown(filePath, content),
   );
 }
