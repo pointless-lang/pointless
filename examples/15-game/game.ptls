@@ -3,14 +3,11 @@ fn update(board, key)
   r = math.floor(oldInd / 4)
   c = oldInd % 4
 
-  if key == "left" then
-    c += 1
-  elif key == "right" then
-    c -= 1
-  elif key == "up" then
-    r += 1
-  elif key == "down" then
-    r -= 1
+  match key
+    case "left"  then c += 1
+    case "right" then c -= 1
+    case "up"    then r += 1
+    case "down"  then r -= 1
   end
 
   newInd = math.clamp(r, 0, 3) * 4 + math.clamp(c, 0, 3)

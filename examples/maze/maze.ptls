@@ -34,8 +34,8 @@ end
 fn solve(board, r, c)
   cell = board[r][c]
   
-  if cell == "▒" or cell == "█" then
-    return false
+  match cell
+    case "▒", "█" then return false
   end
   
   board |= update(r, c, "▒")

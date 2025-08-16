@@ -26,14 +26,15 @@ fn runOp(vm)
   op = vm.ops[vm.ip]
   byte = vm.data[vm.dp]
 
-  if   op == ">" then vm.dp += 1
-  elif op == "<" then vm.dp -= 1
-  elif op == "+" then vm.data[vm.dp] += 1
-  elif op == "-" then vm.data[vm.dp] -= 1
-  elif op == "." then print(byte)
-  elif op == "," then
-    vm.data[vm.dp] = vm.input[0]
-    vm.input |= drop(1)
+  match op
+    case ">" then vm.dp += 1
+    case "<" then vm.dp -= 1
+    case "+" then vm.data[vm.dp] += 1
+    case "-" then vm.data[vm.dp] -= 1
+    case "." then print(byte)
+    case "," then
+      vm.data[vm.dp] = vm.input[0]
+      vm.input |= drop(1)
   end
 
   if op == "[" and byte == 0 or op == "]" and byte != 0 then

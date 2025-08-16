@@ -32,17 +32,22 @@ binOps = set.of([
   "add", "sub", "mul", "div", "mod", "eq", "gt", "lt", "and", "or"
 ])
 
+fn boolToNum(boolean)
+  if boolean then 1 else 0 end
+end
+
 fn binOp(op, a, b)
-  if   op == "add" then a + b
-  elif op == "sub" then a - b
-  elif op == "mul" then a * b
-  elif op == "div" then floor(a / b)
-  elif op == "mod" then a % b
-  elif op == "eq"  then math.toNum(a == b)
-  elif op == "gt"  then math.toNum(a > b)
-  elif op == "lt"  then math.toNum(a < b)
-  elif op == "and" then math.toNum(a != 0 and b != 0)
-  elif op == "or"  then math.toNum(a != 0 or b != 0)
+  match op
+    case "add" then a + b
+    case "sub" then a - b
+    case "mul" then a * b
+    case "div" then floor(a / b)
+    case "mod" then a % b
+    case "eq"  then boolToNum(a == b)
+    case "gt"  then boolToNum(a > b)
+    case "lt"  then boolToNum(a < b)
+    case "and" then boolToNum(a != 0 and b != 0)
+    case "or"  then boolToNum(a != 0 or b != 0)
   end
 end
 
@@ -59,34 +64,39 @@ fn runInst(vm, inst)
     | drop(1)
     $ evalArg(vm)
 
-  ipDelta = 1
-
   if has(binOps, op) then
     vm |= setReg(binOp(op, args[0], args[1]))
-  elif op == "not" then
-    vm |= setReg(math.toNum(args[0] == 0))
-  elif op == "set" then
-    vm |= setReg(args[1])
-  elif op == "jmp" then
-    ipDelta = args[0]
-  elif op == "jeq" then
-    ipDelta = if args[1] == args[2] then args[0] else 1 end
-  elif op == "jne" then
-    ipDelta = if args[1] != args[2] then args[0] else 1 end
-  elif op == "halt" then
-    vm.halted = true
-  elif op == "init" then
-    vm.memory = args
-  elif op == "load" then
-    vm |= setReg(vm.memory[args[1]])
-    vm.lastMem = args[1]
-  elif op == "store" then
-    vm.memory[args[1]] = args[0]
-    vm.lastMem = args[1]
-  elif op == "print" then
-    vm.output += char.of(args[0])
-  else
-    throw({ err: "invalid instruction", op })
+    vm.ip += 1
+    return vm
+  end
+
+  ipDelta = 1
+
+  match op
+    case "not" then
+      vm |= setReg(boolToNum(args[0] == 0))
+    case "set" then
+      vm |= setReg(args[1])
+    case "jmp" then
+      ipDelta = args[0]
+    case "jeq" then
+      ipDelta = if args[1] == args[2] then args[0] else 1 end
+    case "jne" then
+      ipDelta = if args[1] != args[2] then args[0] else 1 end
+    case "halt" then
+      vm.halted = true
+    case "init" then
+      vm.memory = args
+    case "load" then
+      vm |= setReg(vm.memory[args[1]])
+      vm.lastMem = args[1]
+    case "store" then
+      vm.memory[args[1]] = args[0]
+      vm.lastMem = args[1]
+    case "print" then
+      vm.output += char.of(args[0])
+    else
+      throw({ err: "invalid instruction", op })
   end
 
   vm.ip += ipDelta
