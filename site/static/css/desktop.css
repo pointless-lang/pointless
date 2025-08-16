@@ -270,6 +270,29 @@ pre.wrap code {
   margin-block: var(--margin);
 }
 
+.snippet.good::after, .snippet.bad::after {
+  font-size: 0.8rem;
+  align-content: center;
+}
+
+.snippet.good::after {
+  content: "✅";
+}
+
+.snippet.bad {
+  margin-top: -16px;
+}
+
+.snippet.bad::after {
+  content: "❌";
+}
+
+.snippet.good, .snippet.bad {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
 .snippet pre {
   margin-block: 0;
 }
