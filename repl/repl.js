@@ -20,7 +20,7 @@ import { spawnStd } from "../std/std.js";
 // stdout.write("> ");
 //
 // rl.on("line", async (line) => {
-//   // await undefined;
+//   await undefined;
 //   console.log("echo:", line);
 //   stdout.write("> ");
 // });
