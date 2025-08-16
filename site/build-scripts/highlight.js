@@ -70,7 +70,6 @@ const identifier = /[a-zA-Z][a-zA-Z0-9]*/;
 const classNames = {
   comment: "comment",
   number: "number",
-  rawString: "string",
   arg: "keyword",
   case: "keyword",
   do: "keyword",
@@ -173,7 +172,9 @@ class Highlighter {
 
   advance() {
     if (this.has("string")) {
-      let chars = this.next().value;
+      const chars = this.next().value.slice(1, -1);
+      this.add(`"`, "quotes");
+
       let index = 0;
 
       while (index < chars.length) {
@@ -183,7 +184,7 @@ class Highlighter {
           regex.lastIndex = index;
           const match = regex.exec(chars);
 
-          if (match && (!next || match.index < next.index)) {
+          if (match && (!next || match.index < next.match.index)) {
             next = { className, match };
           }
         }
@@ -203,6 +204,18 @@ class Highlighter {
           index = chars.length;
         }
       }
+
+      this.add(`"`, "quotes");
+      return;
+    }
+
+    if (this.has("rawString")) {
+      const { value } = this.next();
+      const prefixLen = value.indexOf(`"`) + 1;
+
+      this.add(value.slice(0, prefixLen), "quotes");
+      this.add(value.slice(prefixLen, -prefixLen + 1), "string");
+      this.add(value.slice(-prefixLen + 1), "quotes");
 
       return;
     }
