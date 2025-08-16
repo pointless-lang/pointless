@@ -354,7 +354,7 @@ class Parser {
 
     // don't allow whitespace, newlines, or comments before suffixes
     // `foo.bar` is valid, `foo .bar` is not
-    while (this.has("field", "[", "(", "?") && !this.has(...skip)) {
+    while (this.has("field", "[", "(") && !this.has(...skip)) {
       const { type, loc } = this.peek();
 
       switch (type) {
