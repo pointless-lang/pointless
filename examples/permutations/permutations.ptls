@@ -10,7 +10,7 @@ end
 
 fn subPermute(elem, elems)
   elems
-    ? arg != elem
+    | remove(elem)
     | permutations
     $ [elem] + arg
 end

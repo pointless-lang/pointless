@@ -1,6 +1,9 @@
 fn showTask(task)
-  mark = if task.done then "x" else " " end
-  print("[$mark] $task.name")
+  if task.done then
+    "[x] $task.name"
+  else
+    "[ ] $task.name"
+  end
 end
 
 fn app()
@@ -13,6 +16,7 @@ fn app()
     tasks
       | sortBy(["done", "name"])
       $ showTask
+      $ print
       
     name = prompt("\ntask name: ")
 

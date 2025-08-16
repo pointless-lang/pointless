@@ -50,11 +50,11 @@ fn solve(board, r, c)
     solve(board, r, c + 1) or
     solve(board, r, c - 1)
   then
-    return true
+    true
+  else
+    update(board, r, c, " ")
+    false
   end
-
-  update(board, r, c, " ")
-  false
 end
 
 solve(board, 1, 1)

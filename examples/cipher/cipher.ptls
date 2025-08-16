@@ -5,16 +5,17 @@ alphabet = chars("abcdefghijklmnopqrstuvwxyz")
 fn shift(letter)
   index = list.indexOf(alphabet, str.toLower(letter))
 
-  if index == none then
-    letter
-  else
-    shifted = alphabet[(index + 13) % 26]
-
-    if str.isUpper(letter) then
-      str.toUpper(shifted)
+  shifted =
+    if index == none then
+      letter
     else
-      shifted
+      alphabet[(index + 13) % 26]
     end
+
+  if str.isUpper(letter) then
+    str.toUpper(shifted)
+  else
+    shifted
   end
 end
 

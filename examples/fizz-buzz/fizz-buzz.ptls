@@ -1,16 +1,13 @@
 fn fizzBuzz(n)
-  message =
-    if n % 15 == 0 then
-      "fizz buzz"
-    elif n % 5 == 0 then
-      "buzz"
-    elif n % 3 == 0 then
-      "fizz"
-    else
-      n
-    end
-
-  print(message)
+  if n % 15 == 0 then
+    print("fizz buzz")
+  elif n % 5 == 0 then
+    print("buzz")
+  elif n % 3 == 0 then
+    print("fizz")
+  else
+    print(n)
+  end
 end
 
 span(1, 100) $ fizzBuzz
