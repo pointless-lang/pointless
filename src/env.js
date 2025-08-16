@@ -565,7 +565,7 @@ export class Env {
 
   async evalTandemFor(node) {
     const { keyName, valName, range: rangeNode, body } = node.value;
-    let range = await this.eval(rangeNode, "list", "table", "object", "set");
+    let range = await this.eval(rangeNode, "list", "table");
 
     if (getType(range) === "object") {
       for (const [key, value] of range) {
