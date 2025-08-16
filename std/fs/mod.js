@@ -47,12 +47,12 @@ export async function readBytes(path) {
   }
 }
 
-export async function write(path, value) {
+export async function write(value, path) {
   // Convert `value` to a string and write to the file at `path`,
   // creating the file if it doesn't already exist.
   //
   // ```ptls --no-eval
-  // fs.write("lyrics.txt", "I hope you understand, everybody scams")
+  // fs.write("I hope you understand, everybody scams", "lyrics.txt")
   // ```
 
   checkType(path, "string");
@@ -65,7 +65,7 @@ export async function write(path, value) {
   }
 }
 
-export async function writeBytes(path, bytes) {
+export async function writeBytes(bytes, path) {
   checkType(path, "string");
   checkType(bytes, "list");
   throw Error("unimplemented");
