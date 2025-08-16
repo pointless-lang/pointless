@@ -275,7 +275,8 @@ pre.wrap code {
   margin-block: var(--margin);
 }
 
-.snippet.good::after, .snippet.bad::after {
+.snippet.good::after,
+.snippet.bad::after {
   font-size: 0.8rem;
   align-content: center;
 }
@@ -292,7 +293,8 @@ pre.wrap code {
   content: "❌";
 }
 
-.snippet.good, .snippet.bad {
+.snippet.good,
+.snippet.bad {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 10px;

@@ -4,7 +4,7 @@ title: Best Practices
 
 recommendations
 
-write better code 
+write better code
 
 avoid indecision
 
@@ -47,11 +47,15 @@ evilTwin = obj.set(player, "malice", 100)
 player = obj.set(player, "enemies", player.enemies + 1)
 ```
 
-*Note that the code in the first code block is equivalent to the code in the second. In Pointless, assignment statements like those in the first code block mutate variable bindings, not the data structures themselves, so you don't have to worry about variable aliasing issues like you would in other languages.*
+_Note that the code in the first code block is equivalent to the code in the
+second. In Pointless, assignment statements like those in the first code block
+mutate variable bindings, not the data structures themselves, so you don't have
+to worry about variable aliasing issues like you would in other languages._
 
 ## Don't Update via Concatenation
 
-Use variable updates instead of object concatenation to update [record objects](/docs/language/objects#record-objects).
+Use variable updates instead of object concatenation to update
+[record objects](/docs/language/objects#record-objects).
 
 ```ptls --no-eval --class good
 player.health += 1
@@ -63,7 +67,9 @@ player += { health: player.health + 1 }
 
 ## Use Objects to Represent Records
 
-Use objects to represent [records](/docs/language/objects#record-objects) (structures with a fixed number of entries that each have a distinct role). Do not use lists as records.
+Use objects to represent [records](/docs/language/objects#record-objects)
+(structures with a fixed number of entries that each have a distinct role). Do
+not use lists as records.
 
 ```ptls --no-eval --class good
 point = { x: 1, y: 2 }
@@ -89,7 +95,8 @@ Omit quotes for keys in [record objects](/docs/language/objects#record-objects).
 
 ## Use Key Punning
 
-Use object key punning when setting an object key to a variable of the same name.
+Use object key punning when setting an object key to a variable of the same
+name.
 
 ```ptls --no-eval --class good
 point = { x, y }
@@ -101,7 +108,8 @@ point = { x: x, y: y }
 
 ## Use Identifier Record Keys and Columns
 
-Use valid identifiers as [record object](/docs/language/objects#record-objects) keys and table columns.
+Use valid identifiers as [record object](/docs/language/objects#record-objects)
+keys and table columns.
 
 ```ptls --no-eval --class good
 { userName: "Clementine", userId: 0 }
@@ -157,8 +165,8 @@ table.of([
 
 ## Use Row Lookups
 
-Use the row lookup feature of tables to find individual rows based on
-unique field values.
+Use the row lookup feature of tables to find individual rows based on unique
+field values.
 
 ```ptls --no-eval --class good
 philly = cities[{ name: "Philadelphia" }]
@@ -298,7 +306,8 @@ Use multi-line strings when they make string contents clearer.
 
 ## Use Multi-Line String Alignment
 
-Leverage the automatic trimming and alignment behavior of multi-line strings to format code more legibly.
+Leverage the automatic trimming and alignment behavior of multi-line strings to
+format code more legibly.
 
 ```ptls --no-eval --class good
 if printPtls then
@@ -322,7 +331,8 @@ if printPtls then
 end
 ```
 
-*These two strings produce the same output. For details see [multi-line strings](/docs/language/strings#multi-line-strings).*
+_These two strings produce the same output. For details see
+[multi-line strings](/docs/language/strings#multi-line-strings)._
 
 ## Avoid Redundant Booleans
 
@@ -358,7 +368,8 @@ end
 
 ## Use Boolean Parentheses
 
-Use parentheses in expressions that mix different boolean operators (`and`, `or`, or `not`).
+Use parentheses in expressions that mix different boolean operators (`and`,
+`or`, or `not`).
 
 ```ptls --no-eval --class good
 isGood and (isFast or isCheap)
@@ -370,7 +381,8 @@ isGood and isFast or isCheap
 
 ## Use Set Membership
 
-Use sets instead of lists to store a large number of unique values on which you will be calling `has`.
+Use sets instead of lists to store a large number of unique values on which you
+will be calling `has`.
 
 ```ptls --no-eval --class good
 scrabbleWords = set.of(import "lines:scrabble-dict.txt")
@@ -386,7 +398,8 @@ has(scrabbleWords, "yeet")
 
 ## Use Match
 
-Use `match` instead of `if` when matching an expression to three or more possible values.
+Use `match` instead of `if` when matching an expression to three or more
+possible values.
 
 ```ptls --no-eval --class good
 match spin
@@ -474,7 +487,8 @@ print(sortDescBy(table.summarize(games, "team", getStats), "winPct"))
 
 ## Use Map and Filter Operators
 
-Use the map `$` and filter `?` operators instead of `map` and `filter` functions.
+Use the map `$` and filter `?` operators instead of `map` and `filter`
+functions.
 
 ```ptls --no-eval --class good
 numbers ? math.isEven $ arg / 2
@@ -502,7 +516,8 @@ numbers
 
 ## Avoid Anonymous Functions
 
-Use top-level function definitions or `arg` expressions instead of anonymous functions.
+Use top-level function definitions or `arg` expressions instead of anonymous
+functions.
 
 ```ptls --no-eval --class good
 fn indentLine(line, n)
@@ -553,7 +568,9 @@ words $ fn(word) translations[word] end
 
 ## Put the Most Important Parameter First
 
-Put the most important parameter first in a function definition. If a function could be described as transforming, accessing, or analyzing one of its arguments, then that argument is probably the most important.
+Put the most important parameter first in a function definition. If a function
+could be described as transforming, accessing, or analyzing one of its
+arguments, then that argument is probably the most important.
 
 ```ptls --no-eval --class good
 fn swap(values, indexA, indexB)
@@ -684,7 +701,8 @@ end
 
 ## Use Specific Functions
 
-If a function exists that accomplishes a specific task, choose it over more general functions.
+If a function exists that accomplishes a specific task, choose it over more
+general functions.
 
 ```ptls --no-eval --class good
 chars("Hello world!")

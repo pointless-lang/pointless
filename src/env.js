@@ -68,8 +68,6 @@ export class Env {
     let result = null;
 
     for (const [index, node] of nodes.entries()) {
-      Env.currentPath = node.loc.path;
-
       try {
         this.blameLocs.push(null);
         result = await this.dispatch(node);
