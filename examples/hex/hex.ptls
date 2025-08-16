@@ -20,7 +20,7 @@ end
 
 fn toHex(n)
   assert(n >= 0)
-  assert(num.isInt(n))
+  assert(math.isInt(n))
 
   result = ""
 

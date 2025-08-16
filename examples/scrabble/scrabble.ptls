@@ -1,4 +1,5 @@
 points = import "json:points.json"
+
 text = import "text:alice.txt"
 
 fn wordInfo(word)
@@ -7,7 +8,7 @@ fn wordInfo(word)
     $ points[arg]
     | sum
 
-  { letter: word[0], word, score }
+  { letter: take(word, 1), word, score }
 end
 
 text
@@ -15,7 +16,7 @@ text
   | list.unique
   $ wordInfo
   | table.of
-  | groupBy("letter")
+  | table.group("letter")
   $ table.top("score", 1)
   | table.merge
   | sortBy("letter")
