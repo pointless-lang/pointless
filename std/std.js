@@ -147,8 +147,6 @@ function makeStd() {
   }
 
   Object.assign(defs, globals);
-  defs.std = OrderedMap(defs);
-
   std = new Env(null, new Map(Object.entries(defs)));
 }
 
