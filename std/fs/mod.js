@@ -40,6 +40,14 @@ export async function read(path) {
   }
 }
 
+export async function readBytes(path) {
+  try {
+    return List(await readFile(path));
+  } catch (err) {
+    throw new Panic("file read error", { path, err: String(err) });
+  }
+}
+
 export async function write(path, value) {
   // Convert `value` to a string and write to the file at `path`,
   // creating the file if it doesn't already exist.
@@ -56,6 +64,12 @@ export async function write(path, value) {
   } catch (err) {
     throw new Panic("file write error", { path, err: String(err) });
   }
+}
+
+export async function writeBytes(path, bytes) {
+  checkType(path, "string");
+  checkType(bytes, "list");
+  throw Error("unimplemented");
 }
 
 export async function ls(path) {
