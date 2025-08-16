@@ -84,7 +84,7 @@ async function renderCode(code, config, filePath, env) {
   }
 
   return h`
-    <div class="snippet">
+    <div class="snippet ${config.class}">
       $$${source}
       $$${resultLines}
       $$${finalDef}
@@ -100,6 +100,7 @@ const options = [
   { name: "raw", type: Boolean },
   { name: "hide", type: Boolean },
   { name: "panics", type: Boolean },
+  { name: "class", type: String },
   { name: "max-height", type: Number },
 ];
 
@@ -128,7 +129,7 @@ const renderer = {
   code({ text }) {
     // Don't re-wrap code block that's already been rendered
     // It's messy but it works
-    if (!text.trim().startsWith('<div class="snippet">')) {
+    if (!text.trim().startsWith('<div class="snippet')) {
       return h`<pre><code>${text}</code></pre>`;
     }
 
