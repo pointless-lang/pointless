@@ -42,14 +42,14 @@ const rules = [
   // rust-style raw strings
   // must come before name rule
   rule("rawString", /r(#*)"[^]*?"\1/),
+  // unmatchedQuote rule must come after string rule
+  rule("unmatchedQuote", /(r#*)?"/),
   rule("whitespace", /[ \t]+/),
-  // name rule must come after keyword rules
+  // name rule must come after keyword and raw string rules
   rule("name", /[a-zA-Z][a-zA-Z0-9]*/),
   // comment rule must come before '-' symbol rule
   rule("comment", /--.*/),
   ...symbolRules,
-  // unmatchedQuote rule must come after string rule
-  rule("unmatchedQuote", /(r#*)?"/),
   // unexpectedCharacter rule must come last
   rule("unexpectedCharacter", /./),
 ];
