@@ -24,12 +24,11 @@ export function base(title, style, sidebar, main) {
 
           <nav>
             <ul>
-              <li><a href="/learn">Learn</a></li>
-              <li><a href="/philosophy">Philosophy</a></li>
-              <li><a href="/blog">Blog</a></li>
-              <li><a href="/docs">Docs</a></li>
-              <li><a href="/install">Install</a></li>
-              <li><a href="https://github.com/pointless-lang/">Source</a></li>
+              <li><a href="/">Home</a></li>
+              <li><a href="/get-started/">Get Started</a></li>
+              <li><a href="/docs/">Documentation</a></li>
+              <li><a href="/philosophy/">Philosophy</a></li>
+              <li><a href="/articles/">Articles</a></li>
             </ul>
           </nav>
         </header>
