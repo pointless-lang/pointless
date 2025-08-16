@@ -23,7 +23,9 @@ fn makeBoard()
 
   for i in range(15) do
     for j in range(i) do
-      swaps += math.toNum(board[i] < board[j])
+      if board[i] < board[j] then
+        swaps += 1
+      end
     end
   end
 

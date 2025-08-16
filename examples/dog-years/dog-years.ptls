@@ -1,6 +1,6 @@
-currentYear = math.toNum(prompt("current year: "))
-birthYear = math.toNum(prompt("your birth year: "))
-dogBirthYear = math.toNum(prompt("dog birth year: "))
+currentYear = str.toNum(prompt("current year: "))
+birthYear = str.toNum(prompt("your birth year: "))
+dogBirthYear = str.toNum(prompt("dog birth year: "))
 
 age = currentYear - birthYear
 dogAge = currentYear - dogBirthYear

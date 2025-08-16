@@ -474,7 +474,7 @@ export function toNum(string) {
   // Convert `string` to a number.
   //
   // ```ptls
-  // math.toNum("45.67")
+  // str.toNum("45.67")
   // ```
 
   checkType(string, "string");

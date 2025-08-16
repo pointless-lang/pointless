@@ -17,14 +17,14 @@ vm = {
 fn regIndex(regName)
   regName
     | drop(1)
-    | math.toNum
+    | str.toNum
 end
 
 fn evalArg(token, vm)
   if str.startsWith(token, "r") then
     vm.registers[regIndex(token)]
   else
-    math.toNum(token)
+    str.toNum(token)
   end
 end
 
