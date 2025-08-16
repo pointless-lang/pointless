@@ -89,9 +89,14 @@ nav li {
   padding: 0;
 }
 
-#sidebar li::before {
+#sidebar li:has(a[href^="#"]) {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 5px;
+}
+
+#sidebar li:has(a[href^="#"])::before {
   content: "#";
-  margin-right: 2px;
 }
 
 #sidebar a {
@@ -159,9 +164,9 @@ h3 {
   color: #444;
 }
 
-h1 a,
-h2 a,
-h3 a {
+h1 a[href^="#"],
+h2 a[href^="#"],
+h3 a[href^="#"] {
   color: inherit;
 }
 
