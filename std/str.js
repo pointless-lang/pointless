@@ -1,7 +1,7 @@
-import { checkType } from "../../src/values.js";
-import { checkWhole, checkPositive } from "../../src/num.js";
-import { show } from "../../src/repr.js";
-import { Panic } from "../../src/panic.js";
+import { checkType } from "../src/values.js";
+import { checkWhole, checkPositive } from "../src/num.js";
+import { show } from "../src/repr.js";
+import { Panic } from "../src/panic.js";
 import { List } from "immutable";
 
 export const _docs = "Functions for working with strings (pieces of text).";

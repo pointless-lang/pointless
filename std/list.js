@@ -1,10 +1,10 @@
-import { checkWhole, checkPositive, checkNumResult } from "../../src/num.js";
-import { checkIndex, checkNonEmpty } from "../../src/list.js";
-import { checkType, compare } from "../../src/values.js";
-import { Table } from "../../src/table.js";
-import * as table from "../table/mod.js";
+import * as table from "./table.js";
+import { checkWhole, checkPositive, checkNumResult } from "../src/num.js";
+import { checkIndex, checkNonEmpty } from "../src/list.js";
+import { checkType, compare } from "../src/values.js";
+import { Table } from "../src/table.js";
+import { Panic } from "../src/panic.js";
 import { is, OrderedMap, List, Repeat } from "immutable";
-import { Panic } from "../../src/panic.js";
 
 export const _docs = "Functions for working with lists.";
 

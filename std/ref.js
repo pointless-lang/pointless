@@ -1,5 +1,5 @@
-import { Ref } from "../../src/ref.js";
-import { checkType } from "../../src/values.js";
+import { Ref } from "../src/ref.js";
+import { checkType } from "../src/values.js";
 
 export const _docs = `
 Work with mutable state.

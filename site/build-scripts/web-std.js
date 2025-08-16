@@ -1,6 +1,6 @@
 import { getType } from "../../src/values.js";
 import { Func } from "../../src/func.js";
-import { spawnStd } from "../../std/std.js";
+import { spawnStd } from "../../src/std.js";
 import { Panic } from "../../src/panic.js";
 import { Env } from "../../src/env.js";
 

@@ -1,9 +1,9 @@
-import { checkType, compareAll, getType } from "../../src/values.js";
-import * as obj from "../obj/mod.js";
-import * as list from "../list/mod.js";
-import { Table } from "../../src/table.js";
-import { repr } from "../../src/repr.js";
-import { Panic } from "../../src/panic.js";
+import { checkType, compareAll, getType } from "../src/values.js";
+import * as obj from "./obj.js";
+import * as list from "./list.js";
+import { Table } from "../src/table.js";
+import { repr } from "../src/repr.js";
+import { Panic } from "../src/panic.js";
 import { OrderedMap, OrderedSet, List } from "immutable";
 
 export const _docs = "Functions for working with tables.";

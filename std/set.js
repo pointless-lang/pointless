@@ -1,4 +1,4 @@
-import { checkType } from "../../src/values.js";
+import { checkType } from "../src/values.js";
 import { OrderedSet, List } from "immutable";
 
 export const _docs =

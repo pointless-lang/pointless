@@ -122,7 +122,7 @@ export async function buildStd() {
 
   for (const [modName, mod] of Object.entries(modules)) {
     const { _docs = "", _consts = {} } = await import(
-      `../../std/${modName}/mod.js`
+      `../../std/${modName}.js`
     );
 
     links.push(h`

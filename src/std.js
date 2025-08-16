@@ -1,6 +1,6 @@
-import { checkType, getType } from "../src/values.js";
-import { Func } from "../src/func.js";
-import { Env } from "../src/env.js";
+import { checkType, getType } from "./values.js";
+import { Func } from "./func.js";
+import { Env } from "./env.js";
 import { readdir } from "node:fs/promises";
 import { OrderedMap } from "immutable";
 
@@ -15,12 +15,13 @@ async function makeModules() {
   // wrapped functions shouldn't destructure arguments
   // or use spread syntax or default param values
   const paramChars = /\(([$\w\s,]*)\)/;
+  const fileNames = await readdir(import.meta.dirname + "/../std");
+  
+  // Remove .js file extension
+  const modNames = fileNames.map((fileName) => fileName.slice(0, -3));
 
-  const entries = await readdir(import.meta.dirname, { withFileTypes: true });
-  const dirs = entries.filter((entry) => entry.isDirectory());
-
-  for (const { name: modName } of dirs) {
-    const native = await import(`./${modName}/mod.js`);
+  for (const modName of modNames) {
+    const native = await import(`../std/${modName}.js`);
     const mod = {};
 
     for (let [name, value] of Object.entries(native)) {

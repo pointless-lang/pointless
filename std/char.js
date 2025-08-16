@@ -1,7 +1,7 @@
-import { checkType } from "../../src/values.js";
-import { checkPositive, checkWhole } from "../../src/num.js";
-import * as list from "../list/mod.js";
-import { Panic } from "../../src/panic.js";
+import { checkType } from "../src/values.js";
+import { checkPositive, checkWhole } from "../src/num.js";
+import * as list from "./list.js";
+import { Panic } from "../src/panic.js";
 
 export const _docs = "Manipulate individual Unicode characters.";
 

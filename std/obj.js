@@ -1,5 +1,5 @@
-import { checkType, getType } from "../../src/values.js";
-import { checkKey, isMatch } from "../../src/obj.js";
+import { checkType, getType } from "../src/values.js";
+import { checkKey, isMatch } from "../src/obj.js";
 import { is, OrderedMap } from "immutable";
 
 export const _docs = "Functions for working with objects.";

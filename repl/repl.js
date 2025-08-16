@@ -3,7 +3,7 @@ import { parse } from "../src/parser.js";
 import { tokenize } from "../src/tokenizer.js";
 import { show } from "../src/repr.js";
 import { Panic } from "../src/panic.js";
-import { spawnStd } from "../std/std.js";
+import { spawnStd } from "../src/std.js";
 
 // This repl doesn't support multi line statements or expressions.
 // It should but it's limited by the behavior of node's readline functionality.

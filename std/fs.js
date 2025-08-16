@@ -1,6 +1,6 @@
-import { show } from "../../src/repr.js";
-import { checkType } from "../../src/values.js";
-import { Panic } from "../../src/panic.js";
+import { show } from "../src/repr.js";
+import { checkType } from "../src/values.js";
+import { Panic } from "../src/panic.js";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { readdir } from "node:fs/promises";

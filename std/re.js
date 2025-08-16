@@ -1,6 +1,6 @@
-import { checkType } from "../../src/values.js";
-import { show } from "../../src/repr.js";
-import { Table } from "../../src/table.js";
+import { checkType } from "../src/values.js";
+import { show } from "../src/repr.js";
+import { Table } from "../src/table.js";
 import { OrderedMap, List } from "immutable";
 
 export const _docs =

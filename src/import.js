@@ -1,11 +1,11 @@
-import { readFile, realpath } from "node:fs/promises";
-import { resolve } from "node:path";
 import { Panic } from "./panic.js";
 import { parse } from "./parser.js";
 import { tokenize } from "./tokenizer.js";
 import { Table } from "./table.js";
 import { loadJson } from "./json.js";
-import { spawnStd } from "../std/std.js";
+import { spawnStd } from "./std.js";
+import { readFile, realpath } from "node:fs/promises";
+import { resolve } from "node:path";
 import { List } from "immutable";
 
 const cache = new Map();

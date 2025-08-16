@@ -1,5 +1,5 @@
-import { checkType } from "../../src/values.js";
-import { checkPositive, checkNumResult, checkWhole } from "../../src/num.js";
+import { checkType } from "../src/values.js";
+import { checkPositive, checkNumResult, checkWhole } from "../src/num.js";
 
 export const _docs = "Mathematical functions and constants.";
 

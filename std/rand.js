@@ -1,7 +1,7 @@
-import { checkType, getType } from "../../src/values.js";
-import { checkWhole } from "../../src/num.js";
-import { checkNonEmpty } from "../../src/list.js";
-import { Table } from "../../src/table.js";
+import { checkType, getType } from "../src/values.js";
+import { checkWhole } from "../src/num.js";
+import { checkNonEmpty } from "../src/list.js";
+import { Table } from "../src/table.js";
 import { List } from "immutable";
 
 export const _docs = "Generate random values.";

@@ -1,6 +1,6 @@
-import { checkType } from "../../src/values.js";
-import { Panic } from "../../src/panic.js";
-import { Err } from "../../src/err.js";
+import { checkType } from "../src/values.js";
+import { Panic } from "../src/panic.js";
+import { Err } from "../src/err.js";
 import { is, OrderedMap } from "immutable";
 
 export const _docs =
