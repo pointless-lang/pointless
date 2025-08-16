@@ -62,12 +62,11 @@ solved = span(1, 15) + [""]
 
 fn play()
   board = makeBoard()
+  show(board)
 
-  while
-    show(board)
-    board != solved
-  do    
+  while board != solved do    
     board |= update(console.rawKey().name)
+    show(board)
   end
 end
 

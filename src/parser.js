@@ -448,7 +448,7 @@ class Parser {
 
   getWhile() {
     const { loc } = this.get("while");
-    const cond = this.getStatements();
+    const cond = this.getExpression();
     this.get("do");
     const body = this.getStatements();
     this.get("end");

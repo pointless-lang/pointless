@@ -23,7 +23,9 @@ fn getScore(word)
   end
 end
 
-while
+maxScore = 0
+
+while maxScore == 0 do
   alphabet = "abcdefghijklmnopqrstuvwxyz"
     | chars
     | rand.shuffle
@@ -41,9 +43,7 @@ while
     | list.of
     $ getScore
     | sum
-
-  maxScore == 0
-do end
+end
 
 guessed = set.of([])
 score = 0

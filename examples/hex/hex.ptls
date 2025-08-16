@@ -24,11 +24,10 @@ fn toHex(n)
 
   result = ""
 
-  while
+  while n > 0 or result == "" do
     result += hexDigits[n % 16]
     n = math.floor(n / 16)
-    n > 0
-  do end
+  end
 
   reverse(result)
 end

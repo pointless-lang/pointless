@@ -1,5 +1,4 @@
 words = set.of(import "lines:words.txt")
-
 answer = rand.sample(words)
 
 fn getScore(guess)
@@ -32,10 +31,11 @@ fn getScore(guess)
   join(score, "")
 end
 
-while
+score = none
+
+while score != "🟩🟩🟩🟩🟩" do
   guess = prompt("Enter a guess: ")
   console.write("\u001b[1A\u001b[2K")
   score = getScore(guess)
   print("$guess $score")
-  score != "🟩🟩🟩🟩🟩"
-do end
+end
