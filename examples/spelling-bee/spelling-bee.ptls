@@ -50,9 +50,9 @@ score = 0
 
 while score < maxScore do
   grid = "
-     . .
-    . . .
-     . .
+   . .
+  . . .
+   . .
   "
 
   for letter in alphabet do

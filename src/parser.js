@@ -23,7 +23,7 @@ const ops = [
 const stringInner = /^r?#*"([\s\S]*)"#*$/;
 const fmtVar =
   /\$(?:[_a-zA-Z]\w*(?:\.[_a-zA-Z]\w*)*|\([_a-zA-Z]\w*(?:\.[_a-zA-Z]\w*)*\))/g;
-const indent = /^[ \t]*/;
+const indent = /^[ ]*/;
 
 class Node {
   constructor(type, loc, value) {
@@ -199,17 +199,16 @@ class Parser {
       return value;
     }
 
-    const lines = value.split(/\r?\n/).map((l) => l.trimEnd());
+    const lines = value.split(/\r?\n/);
+    let minIndent = lines.at(-1).match(indent)[0].length;
 
-    if (lines[0] === "") {
+    if (lines[0].trim() === "") {
       lines.shift();
     }
 
-    if (lines.at(-1) === "") {
+    if (lines.at(-1).trim() === "") {
       lines.pop();
     }
-
-    let minIndent = Infinity;
 
     for (const line of lines) {
       const newIndent = line.match(indent)[0].length;
@@ -219,7 +218,7 @@ class Parser {
       }
     }
 
-    return lines.map((line) => line.slice(minIndent)).join("\n");
+    return lines.map((line) => line.slice(minIndent).trimEnd()).join("\n");
   }
 
   getFmt(value, loc) {
