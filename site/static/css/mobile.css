@@ -4,13 +4,13 @@
   }
 }
 
-@media (width <= 900px) {
+@media (width <= 950px) {
   body {
     grid-template:
       "header header" auto
       "title title" auto
-      "sidebar sidebar" 1fr
-      "main main" auto
+      "sidebar sidebar" auto
+      "main main" 1fr
       / auto 1fr;
   }
 
@@ -27,7 +27,7 @@
   }
 }
 
-@media (width <= 600px) {
+@media (width <= 700px) {
   html {
     scroll-padding-top: 20px;
   }
