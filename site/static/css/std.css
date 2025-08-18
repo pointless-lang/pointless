@@ -1,17 +1,21 @@
 @import url("base.css");
 
-.mod-link + .mod-link {
-  margin-top: 16px;
+.page-links {
+  padding: 0;
+  list-style: none;
 }
 
-.mod-link strong {
-  margin-bottom: 10px;
+.page-links li + li {
+  margin-top: 30px;
+}
+
+.page-links strong {
+  margin-bottom: 16px;
   display: inline-block;
   font-size: 1.1rem;
 }
 
-.mod-link a {
-  /*color: inherit;*/
+.page-links a {
   display: block;
 }
 
@@ -21,6 +25,10 @@
 
 #sidebar ul {
   gap: 6px;
+}
+
+#sidebar li {
+  align-items: center;
 }
 
 #sidebar li::before {
@@ -37,8 +45,8 @@
   display: inline-block;
 
   &[title="Global"] {
-    background-color: #ffdab3;
-    color: #c2803b;
+    background-color: #ead9ff;
+    color: #b77ecd;
 
     &::before {
       content: "G";
@@ -46,8 +54,8 @@
   }
 
   &[title="Overloaded"] {
-    background-color: #ead9ff;
-    color: #b77ecd;
+    background-color: #ffdab3;
+    color: #c2803b;
 
     &::before {
       content: "O";
@@ -65,7 +73,6 @@
 }
 
 #sidebar .tag {
-  margin: 0 0 0 6px;
   padding: 0;
   width: 8px;
   height: 8px;
@@ -76,11 +83,11 @@
   }
 
   &[title="Global"] {
-    background-color: #ffc689;
+    background-color: #d4b0ff;
   }
 
   &[title="Overloaded"] {
-    background-color: #d4b0ff;
+    background-color: #ffc689;
   }
 
   &[title="Constant"] {

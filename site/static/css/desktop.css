@@ -129,7 +129,7 @@ main > hr:first-child {
 
 main > hr:first-child + *,
 main > :first-child {
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 p {
@@ -277,12 +277,13 @@ pre.wrap code {
 
 .snippet.good::after,
 .snippet.bad::after {
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   align-content: center;
+  opacity: 0.5;
 }
 
 .snippet.good::after {
-  content: "✅";
+  content: "✓";
 }
 
 .snippet.bad {
@@ -290,7 +291,7 @@ pre.wrap code {
 }
 
 .snippet.bad::after {
-  content: "❌";
+  content: "✕";
 }
 
 .snippet.good,
