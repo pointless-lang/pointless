@@ -1,9 +1,13 @@
-import { getType } from "../../src/values.js";
-import { modules, globals, variants } from "../../std/std.js";
 import { writePage } from "./write-page.js";
 import { renderMarkdown } from "./render-markdown.js";
 import { h } from "./escape.js";
+import { getType } from "../../src/values.js";
+import { loadMeta } from "../../src/std.js";
 import { mkdir } from "node:fs/promises";
+
+let modules;
+let globals;
+let variants;
 
 function getDocStr(func) {
   const comment = func.handler
@@ -57,11 +61,11 @@ async function showDocs(modName, name, value, consts) {
         </p>
       `;
 
-    return h`$$${await renderMarkdown("std", getDocStr(value))} $$${overloader}`;
+    return h`$$${await renderMarkdown(modName, getDocStr(value))} $$${overloader}`;
   }
 
   return await renderMarkdown(
-    "std",
+    modName,
     `${consts[name] ?? ""}\n\`\`\`ptls --hide\n${modName}.${name}\n\`\`\``,
   );
 }
@@ -73,10 +77,10 @@ async function showDef(modName, name, value, consts) {
   return h`
     <hr />
 
-    <h3 class="def-name" id="${name}">
+    <h2 class="def-name" id="${name}">
       <code><a href="#${name}">${label}</a></code>
       $$${showTags(modName, name, value)}
-    </h3>
+    </h2>
 
     <div class="contents">$$${docs}</div>
   `;
@@ -106,7 +110,7 @@ async function showMod(modName, mod, docs, consts) {
   }
 
   return h`
-    $$${await renderMarkdown("std", docs)}
+    $$${await renderMarkdown(modName, docs)}
 
     <a href="."><strong>↩ Back to Standard Library Contents</strong></a>
 
@@ -115,7 +119,12 @@ async function showMod(modName, mod, docs, consts) {
 }
 
 export async function buildStd() {
-  await mkdir(`site/dist/stdlib`, { recursive: true });
+  const meta = await loadMeta();
+  modules = meta.modules;
+  globals = meta.globals;
+  variants = meta.variants;
+
+  await mkdir(`site/dist/docs/stdlib`, { recursive: true });
 
   const links = [];
   const main = [];
@@ -134,7 +143,7 @@ export async function buildStd() {
     const summary = _docs.trim().split("\n")[0];
 
     main.push(h`
-      <li class="mod-link">
+      <li>
         <a href="${modName}.html">
           <strong>${modName}</strong>
         </a>
@@ -144,22 +153,16 @@ export async function buildStd() {
     `);
 
     await writePage(
-      `stdlib/${modName}.html`,
+      `docs/stdlib/${modName}.html`,
       `Standard Library: ${modName}`,
       "std.css",
       makeSidebar(modName, mod),
-      h`
-        <h2 id="std.${modName}">
-          <code><a href="#std.${modName}">std.${modName}</a></code>
-        </h2>
-
-        $$${await showMod(modName, mod, _docs, _consts)}
-      `,
+      await showMod(modName, mod, _docs, _consts),
     );
   }
 
   await writePage(
-    `stdlib/index.html`,
+    `docs/stdlib/index.html`,
     `Standard Library`,
     "std.css",
     h`
@@ -168,7 +171,7 @@ export async function buildStd() {
       </ul>
     `,
     h`
-      <ul>
+      <ul class="page-links">
         $$${main}
       </ul>
     `,
