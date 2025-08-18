@@ -1,5 +1,5 @@
 import { checkType } from "../src/values.js";
-import { List } from "immutable";
+import im from "immutable";
 
 export const _docs = "Manage concurrent operations.";
 
@@ -27,7 +27,7 @@ export async function getFirst(funcs) {
   //   "b"
   // end
   //
-  // async.getFirst([getA, getB]) -- Returns "b" after 100 ms
+  // Async.getFirst([getA, getB]) -- Returns "b" after 100 ms
   // ```
 
   checkType(funcs, "list");
@@ -57,7 +57,7 @@ export async function getAll(funcs) {
   //   "b"
   // end
   //
-  // async.getAll([getA, getB]) -- Returns ["a", "b"] after 200 ms
+  // Async.getAll([getA, getB]) -- Returns ["a", "b"] after 200 ms
   // ```
 
   checkType(funcs, "list");
@@ -67,7 +67,7 @@ export async function getAll(funcs) {
     return func.call();
   });
 
-  return List(await Promise.all(promises));
+  return im.List(await Promise.all(promises));
 }
 
 export async function sleep(ms) {
@@ -86,7 +86,7 @@ export async function $yield() {
   // to progress.
   //
   // ```ptls --no-eval
-  // async.yield() -- Pause to allow other functions to run
+  // Async.yield() -- Pause to allow other functions to run
   // ```
 
   await new Promise((next) => setTimeout(next, 0));

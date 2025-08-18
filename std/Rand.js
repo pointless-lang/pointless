@@ -2,7 +2,7 @@ import { checkType, getType } from "../src/values.js";
 import { checkWhole } from "../src/num.js";
 import { checkNonEmpty } from "../src/list.js";
 import { Table } from "../src/table.js";
-import { List } from "immutable";
+import im from "immutable";
 
 export const _docs = "Generate random values.";
 
@@ -10,7 +10,7 @@ export function random() {
   // Get a random fractional number between `0` and `1`.
   //
   // ```ptls
-  // rand.random()
+  // Rand.random()
   // ```
 
   return Math.random();
@@ -21,14 +21,14 @@ export function sample(values) {
   // a list, table, or set.
   //
   // ```ptls
-  // rand.sample(["hearts", "diamonds", "clubs", "spades"])
+  // Rand.sample(["hearts", "diamonds", "clubs", "spades"])
   // ```
 
   checkType(values, "list", "table", "set");
   const index = Math.floor(Math.random() * values.size);
 
   if (getType(values) === "set") {
-    values = List(values);
+    values = im.List(values);
   }
 
   if (getType(values) === "list") {
@@ -44,7 +44,7 @@ export function span(from, to) {
   // Return a random integer between `from` and `to`, inclusive.
   //
   // ```ptls
-  // rand.span(1, 10)
+  // Rand.span(1, 10)
   // ```
 
   checkWhole(from);
@@ -60,7 +60,7 @@ export function range(limit) {
   // Return a random integer between `0` and `limit - 1`, inclusive.
   //
   // ```ptls
-  // rand.range(10)
+  // Rand.range(10)
   // ```
 
   checkWhole(limit);
@@ -72,7 +72,7 @@ export function shuffle(values) {
   // Shuffles `values`, where values is a list or table.
   //
   // ```ptls
-  // rand.shuffle([1, 2, 3, 4])
+  // Rand.shuffle([1, 2, 3, 4])
   // ```
 
   checkType(values, "list", "table");
@@ -86,6 +86,6 @@ export function shuffle(values) {
   }
 
   return getType(values) === "list"
-    ? List(items)
-    : Table.fromRows(List(items), values.keys());
+    ? im.List(items)
+    : Table.fromRows(im.List(items), values.keys());
 }

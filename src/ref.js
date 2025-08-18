@@ -6,6 +6,6 @@ export class Ref {
   }
 
   toString() {
-    return `ref.of(${repr(this.value)})`;
+    return `Ref.of(${repr(this.value)})`;
   }
 }

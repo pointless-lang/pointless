@@ -14,7 +14,7 @@ export function $throw(payload) {
   // ```ptls --panics
   // fn inverse(n)
   //   if n == 0 then
-  //     err.throw("n must not be zero")
+  //     Err.throw("n must not be zero")
   //   end
   //
   //   1 / n
@@ -34,7 +34,7 @@ export async function $try(func, handler) {
   // ```ptls
   // fn inverse(n)
   //   if n == 0 then
-  //     err.throw("n must not be zero")
+  //     Err.throw("n must not be zero")
   //   end
   //
   //   1 / n
@@ -44,8 +44,8 @@ export async function $try(func, handler) {
   //   "an error occured: $msg"
   // end
   //
-  // err.try(fn() inverse(5) end, showErr)
-  // err.try(fn() inverse(0) end, showErr)
+  // Err.try(fn() inverse(5) end, showErr)
+  // Err.try(fn() inverse(0) end, showErr)
   // ```
 
   checkType(func, "function");
@@ -69,14 +69,14 @@ export async function orElse(func, $default) {
   // ```ptls
   // fn inverse(n)
   //   if n == 0 then
-  //     err.throw("n must not be zero")
+  //     Err.throw("n must not be zero")
   //   end
   //
   //   1 / n
   // end
   //
-  // err.orElse(fn() inverse(5) end, none)
-  // err.orElse(fn() inverse(0) end, none)
+  // Err.orElse(fn() inverse(5) end, none)
+  // Err.orElse(fn() inverse(0) end, none)
   // ```
 
   checkType(func, "function");

@@ -35,7 +35,7 @@ function showTags(modName, name, value) {
 }
 
 async function showDocs(modName, name, value, consts) {
-  if (modName === "overloads") {
+  if (modName === "Overloads") {
     const items = variants[name].map(
       (child) => h`<li><a href="#${child.name}">${child}</a></li>`,
     );

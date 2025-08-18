@@ -6,8 +6,8 @@ export function orElse(value, $default) {
   // Return `default` if `value` is `none`, otherwise return `value`.
   //
   // ```ptls
-  // nada.orElse(none, "txt")
-  // nada.orElse("png", "txt")
+  // Nada.orElse(none, "txt")
+  // Nada.orElse("png", "txt")
   // ```
 
   return getType(value) === "none" ? $default : value;

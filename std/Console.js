@@ -4,7 +4,7 @@ import { Panic } from "../src/panic.js";
 import { getLine } from "../repl/prompt.js";
 import { emitKeypressEvents } from "node:readline";
 import { stdin, stdout } from "node:process";
-import { OrderedMap } from "immutable";
+import im from "immutable";
 
 export const _docs = "Printing, prompting, and low-level console interaction.";
 
@@ -24,7 +24,7 @@ export function debug(value) {
   // return `value`. Useful for debugging and logging.
   //
   // ```ptls --no-eval
-  // console.debug("Hello") -- Prints "Hello"
+  // Console.debug("Hello") -- Prints "Hello"
   // ```
 
   console.log(repr(value));
@@ -35,7 +35,7 @@ export function write(string) {
   // Print `string` to stdout without adding a trailing newline.
   //
   // ```ptls --no-eval
-  // console.write("Hello") -- Prints Hello without a trailing newline
+  // Console.write("Hello") -- Prints Hello without a trailing newline
   // ```
 
   checkType(string, "string");
@@ -47,7 +47,7 @@ export function error(value) {
   // Print `value` to stderr and return `value`.
   //
   // ```ptls --no-eval
-  // console.error("Hello") -- Prints Hello to stderr
+  // Console.error("Hello") -- Prints Hello to stderr
   // ```
 
   console.error(show(value));
@@ -55,7 +55,7 @@ export function error(value) {
 }
 
 export function clear() {
-  // Clear the console.
+  // Clear the Console.
   //
   // ```ptls --no-eval
   // clear() -- Clears the console
@@ -93,7 +93,7 @@ export async function rawKey() {
   //
   // ```ptls --no-eval
   // -- Reads the next keypress, storing the result in a variable
-  // key = console.rawKey()
+  // key = Console.rawKey()
   // ```
   //
   // Sample outputs:
@@ -169,7 +169,7 @@ export async function rawKey() {
         .set("shift", key.shift)
         .set("sequence", key.sequence);
 
-      resolve(OrderedMap(map));
+      resolve(im.OrderedMap(map));
     });
   });
 }

@@ -2,7 +2,7 @@ import { checkType } from "../src/values.js";
 import { checkWhole, checkPositive } from "../src/num.js";
 import { show } from "../src/repr.js";
 import { Panic } from "../src/panic.js";
-import { List } from "immutable";
+import im from "immutable";
 
 export const _docs = "Functions for working with strings (pieces of text).";
 
@@ -10,7 +10,7 @@ export function of(value) {
   // Get the string representation of `value`.
   //
   // ```ptls
-  // str.of([100, false, "foo", print])
+  // Str.of([100, false, "foo", print])
   // ```
 
   return show(value);
@@ -50,7 +50,7 @@ export function chars(string) {
   checkType(string, "string");
   // List fumbles the bag if we pass string directly.
   // Need to use spread operator to split unicode chars correctly.
-  return List([...string]);
+  return im.List([...string]);
 }
 
 const newline = /\r?\n/g;
@@ -60,18 +60,18 @@ export function lines(string) {
   // by the regex `\r?\n`. Separators are not inclued in the returned lines.
   //
   // ```ptls
-  // str.lines("foo\n\nbar\r\nbaz\n")
+  // Str.lines("foo\n\nbar\r\nbaz\n")
   // ```
 
   checkType(string, "string");
-  return List(string.split(newline));
+  return im.List(string.split(newline));
 }
 
 export function get(string, index) {
   // Get the character at position `index` in `string`.
   //
   // ```ptls
-  // str.get("Hello World!", 1)
+  // Str.get("Hello World!", 1)
   // ```
 
   checkType(string, "string");
@@ -157,12 +157,12 @@ export function split(string, separator) {
 
   checkType(string, "string");
   checkType(separator, "string");
-  return List(string.split(separator));
+  return im.List(string.split(separator));
 }
 
 export function join(list, separator) {
   // Join the values in `list` into a single string, inserting `separator` between them.
-  // Each value is converted to a string using `str.of`.
+  // Each value is converted to a string using `Str.of`.
   //
   // ```ptls
   // join([1, 2, 3, 4], " -> ")
@@ -178,7 +178,7 @@ export function repeat(string, count) {
   // Repeat `string` `count` times. If `count <= 0`, then `""` is returned.
   //
   // ```ptls
-  // str.repeat("la", 5)
+  // Str.repeat("la", 5)
   // ```
   //
   // *Note that this can also be accomplished using the `*` operator*.
@@ -208,7 +208,7 @@ export async function replace(string, substr, replacement) {
   // Replace all occurrences of `substr` in `string` with `replacement`.
   //
   // ```ptls
-  // str.replace("A catalog of cats", "cat", "dog")
+  // Str.replace("A catalog of cats", "cat", "dog")
   // ```
 
   checkType(string, "string");
@@ -222,7 +222,7 @@ export async function replaceFirst(string, substr, replacement) {
   // Replace the first occurrence of `substr` in `string` with `replacement`.
   //
   // ```ptls
-  // str.replaceFirst("A catalog of cats", "cat", "dog")
+  // Str.replaceFirst("A catalog of cats", "cat", "dog")
   // ```
 
   checkType(string, "string");
@@ -236,8 +236,8 @@ export function startsWith(string, prefix) {
   // Check whether `string` begins with `prefix`.
   //
   // ```ptls
-  // str.startsWith("apple pie", "app")
-  // str.startsWith("apple pie", "pecan")
+  // Str.startsWith("apple pie", "app")
+  // Str.startsWith("apple pie", "pecan")
   // ```
 
   checkType(string, "string");
@@ -249,8 +249,8 @@ export function endsWith(string, prefix) {
   // Check whether `string` ends with `prefix`.
   //
   // ```ptls
-  // str.endsWith("apple pie", "pie")
-  // str.endsWith("apple pie", "cake")
+  // Str.endsWith("apple pie", "pie")
+  // Str.endsWith("apple pie", "cake")
   // ```
 
   checkType(string, "string");
@@ -262,8 +262,8 @@ export function contains(string, substr) {
   // Check whether `string` contains the substring `substr`.
   //
   // ```ptls
-  // str.contains("assume", "sum")
-  // str.contains("assume", "you")
+  // Str.contains("assume", "sum")
+  // Str.contains("assume", "you")
   // ```
 
   checkType(string, "string");
@@ -276,8 +276,8 @@ export function indexOf(string, subStr) {
   // Returns `none` if `string` does not contain `substr`.
   //
   // ```ptls
-  // str.indexOf("mississippi", "issi")
-  // str.indexOf("mississippi", "bama")
+  // Str.indexOf("mississippi", "issi")
+  // Str.indexOf("mississippi", "bama")
   // ```
 
   checkType(string, "string");
@@ -290,8 +290,8 @@ export function padLeft(value, n) {
   // so that the total length is at least `n` characters.
   //
   // ```ptls
-  // str.padLeft("Java", 10)
-  // str.padLeft("JavaScript", 10)
+  // Str.padLeft("Java", 10)
+  // Str.padLeft("JavaScript", 10)
   // ```
 
   checkType(n, "number");
@@ -305,8 +305,8 @@ export function padRight(value, n) {
   // so that the total length is at least `n` characters.
   //
   // ```ptls
-  // str.padRight("Java", 10)
-  // str.padRight("JavaScript", 10)
+  // Str.padRight("Java", 10)
+  // Str.padRight("JavaScript", 10)
   // ```
 
   checkType(n, "number");
@@ -319,7 +319,7 @@ export function trim(string) {
   // Remove the leading and trailing whitespace from `string`.
   //
   // ```ptls
-  // str.trim("  hello\n")
+  // Str.trim("  hello\n")
   // ```
 
   checkType(string, "string");
@@ -330,7 +330,7 @@ export function trimLeft(string) {
   // Remove the leading whitespace from `string`.
   //
   // ```ptls
-  // str.trimLeft("  hello\n")
+  // Str.trimLeft("  hello\n")
   // ```
 
   checkType(string, "string");
@@ -341,7 +341,7 @@ export function trimRight(string) {
   // Remove the trailing whitespace from `string`.
   //
   // ```ptls
-  // str.trimRight("  hello\n")
+  // Str.trimRight("  hello\n")
   // ```
 
   checkType(string, "string");
@@ -352,7 +352,7 @@ export function toUpper(string) {
   // Convert `string` to uppercase.
   //
   // ```ptls
-  // str.toUpper("Hello World!")
+  // Str.toUpper("Hello World!")
   // ```
 
   checkType(string, "string");
@@ -363,7 +363,7 @@ export function toLower(string) {
   // Convert `string` to lowercase.
   //
   // ```ptls
-  // str.toLower("Hello World!")
+  // Str.toLower("Hello World!")
   // ```
 
   checkType(string, "string");
@@ -371,22 +371,22 @@ export function toLower(string) {
 }
 
 export function isUpper(string) {
-  // Check whether `str.toUpper(string) == string`.
+  // Check whether `Str.toUpper(string) == string`.
   //
   // ```ptls
-  // str.isUpper("HELLO WORLD!")
-  // str.isUpper("Hello World!")
+  // Str.isUpper("HELLO WORLD!")
+  // Str.isUpper("Hello World!")
   // ```
 
   return toUpper(string) === string;
 }
 
 export function isLower(string) {
-  // Check whether `str.toLower(string) == string`.
+  // Check whether `Str.toLower(string) == string`.
   //
   // ```ptls
-  // str.isLower("hello world!")
-  // str.isLower("Hello World!")
+  // Str.isLower("hello world!")
+  // Str.isLower("Hello World!")
   // ```
 
   return toLower(string) === string;
@@ -396,9 +396,9 @@ export function isAlpha(string) {
   // Check if `string` contains only Unicode letters.
   //
   // ```ptls
-  // str.isAlpha("hello")
-  // str.isAlpha("你好")
-  // str.isAlpha("hi!")
+  // Str.isAlpha("hello")
+  // Str.isAlpha("你好")
+  // Str.isAlpha("hi!")
   // ```
 
   checkType(string, "string");
@@ -409,9 +409,9 @@ export function isAlphaNum(string) {
   // Check if `string` contains only Unicode letters or digits.
   //
   // ```ptls
-  // str.isAlphaNum("hello456")
-  // str.isAlphaNum("你好٤٥٦")
-  // str.isAlphaNum("hi!")
+  // Str.isAlphaNum("hello456")
+  // Str.isAlphaNum("你好٤٥٦")
+  // Str.isAlphaNum("hi!")
   // ```
 
   checkType(string, "string");
@@ -422,9 +422,9 @@ export function isDigit(string) {
   // Check if `string` contains only Unicode digits.
   //
   // ```ptls
-  // str.isDigit("456")
-  // str.isDigit("٤٥٦")
-  // str.isDigit("hello")
+  // Str.isDigit("456")
+  // Str.isDigit("٤٥٦")
+  // Str.isDigit("hello")
   // ```
 
   checkType(string, "string");
@@ -435,9 +435,9 @@ export function isAsciiAlpha(string) {
   // Check if `string` contains only ASCII letters.
   //
   // ```ptls
-  // str.isAsciiAlpha("hello")
-  // str.isAsciiAlpha("你好")
-  // str.isAsciiAlpha("hi!")
+  // Str.isAsciiAlpha("hello")
+  // Str.isAsciiAlpha("你好")
+  // Str.isAsciiAlpha("hi!")
   // ```
 
   checkType(string, "string");
@@ -448,9 +448,9 @@ export function isAsciiAlphaNum(string) {
   // Check if `string` contains only ASCII letters or digits.
   //
   // ```ptls
-  // str.isAsciiAlphaNum("hello456")
-  // str.isAsciiAlphaNum("你好٤٥٦")
-  // str.isAsciiAlphaNum("hi!")
+  // Str.isAsciiAlphaNum("hello456")
+  // Str.isAsciiAlphaNum("你好٤٥٦")
+  // Str.isAsciiAlphaNum("hi!")
   // ```
 
   checkType(string, "string");
@@ -461,9 +461,9 @@ export function isAsciiDigit(string) {
   // Check if `string` contains only ASCII digits.
   //
   // ```ptls
-  // str.isAsciiDigit("456")
-  // str.isAsciiDigit("٤٥٦")
-  // str.isAsciiDigit("hello")
+  // Str.isAsciiDigit("456")
+  // Str.isAsciiDigit("٤٥٦")
+  // Str.isAsciiDigit("hello")
   // ```
 
   checkType(string, "string");
@@ -474,7 +474,7 @@ export function toNum(string) {
   // Convert `string` to a number.
   //
   // ```ptls
-  // str.toNum("45.67")
+  // Str.toNum("45.67")
   // ```
 
   checkType(string, "string");

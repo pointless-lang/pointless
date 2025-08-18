@@ -1,28 +1,28 @@
-import * as table from "./table.js";
+import * as tableMod from "./Table.js";
 import { checkWhole, checkPositive, checkNumResult } from "../src/num.js";
 import { checkIndex, checkNonEmpty } from "../src/list.js";
 import { checkType, compare } from "../src/values.js";
 import { Table } from "../src/table.js";
 import { Panic } from "../src/panic.js";
-import { is, OrderedMap, List, Repeat } from "immutable";
+import im from "immutable";
 
 export const _docs = "Functions for working with lists.";
 
 export function of(values) {
   // Get a list containing each value in `values`. `values` may be
-  // a set, table, or list. If `values` is a table then `list.of(values)`
+  // a set, table, or list. If `values` is a table then `List.of(values)`
   // returns a list of the table's rows.
   //
   // ```ptls
-  // s = set.of(["a", "b", "c", "d"])
-  // list.of(s)
+  // s = Set.of(["a", "b", "c", "d"])
+  // List.of(s)
   //
-  // t = table.of({ name: ["Ducky", "Clementine"], type: ["dog", "bird"] })
-  // list.of(t)
+  // t = Table.of({ name: ["Ducky", "Clementine"], type: ["dog", "bird"] })
+  // List.of(t)
   // ```
 
   checkType(values, "list", "set", "table");
-  return List(values);
+  return im.List(values);
 }
 
 export function len(list) {
@@ -40,7 +40,7 @@ export function repeat(value, count) {
   // Create a list containing `value` repeated `count` times.
   //
   // ```ptls
-  // list.repeat("0", 5)
+  // List.repeat("0", 5)
   // ```
   //
   // *Note that this can also be accomplished using the `*` operator*:
@@ -51,7 +51,7 @@ export function repeat(value, count) {
 
   checkPositive(count, "number");
   checkWhole(count);
-  return Repeat(value, count).toList();
+  return im.Repeat(value, count).toList();
 }
 
 export function isEmpty(list) {
@@ -82,8 +82,8 @@ export function hasAll(list, values) {
   // where `values` is a list, set, or table.
   //
   // ```ptls
-  // list.hasAll(["a", "b", "c"], ["b", "c"])
-  // list.hasAll(["a", "b", "c"], ["d", "c"])
+  // List.hasAll(["a", "b", "c"], ["b", "c"])
+  // List.hasAll(["a", "b", "c"], ["d", "c"])
   // ```
 
   checkType(list, "list");
@@ -94,7 +94,7 @@ export function get(list, index) {
   // Return the value at `index` in `list`.
   //
   // ```ptls
-  // list.get(["a", "b", "c", "d"], 2)
+  // List.get(["a", "b", "c", "d"], 2)
   // ```
   //
   // *Note that this can also be accomplished using the index `[]` operator*:
@@ -112,7 +112,7 @@ export function set(list, index, value) {
   // Replace the element at `index` in `list` with `value`.
   //
   // ```ptls
-  // list.set(["a", "b", "d", "d"], 2, "c")
+  // List.set(["a", "b", "d", "d"], 2, "c")
   // ```
   //
   // *Note that if you want to update an existing variable, you could also
@@ -132,7 +132,7 @@ export function put(value, list, index) {
   // Replace the element at `index` in `list` with `value`.
   //
   // ```ptls
-  // list.put("c", ["a", "b", "d", "d"], 2)
+  // List.put("c", ["a", "b", "d", "d"], 2)
   // ```
   //
   // *Note that if you want to update an existing variable, you could also
@@ -158,7 +158,7 @@ export function pop(list) {
   // Remove the last element from `list`.
   //
   // ```ptls
-  // list.pop(["a", "b", "c", "d", "e"])
+  // List.pop(["a", "b", "c", "d", "e"])
   // ```
 
   checkNonEmpty(list);
@@ -180,7 +180,7 @@ export function swap(list, indexA, indexB) {
   // Swap the elements at `indexA` and `indexB` in `list`.
   //
   // ```ptls
-  // list.swap(["a", "c", "b", "d"], 1, 2)
+  // List.swap(["a", "c", "b", "d"], 1, 2)
   // ```
 
   checkType(list, "list");
@@ -243,12 +243,12 @@ export function merge(lists) {
   // Merge (flatten) `lists` into a single list.
   //
   // ```ptls
-  // list.merge([["a", "b"], ["c"], ["d", "e"]])
+  // List.merge([["a", "b"], ["c"], ["d", "e"]])
   // ```
 
   checkType(lists, "list");
   lists.forEach((list) => checkType(list, "list"));
-  return List().concat(...lists);
+  return im.List().concat(...lists);
 }
 
 export function chunks(list, count) {
@@ -256,7 +256,7 @@ export function chunks(list, count) {
   // be shorter).
   //
   // ```ptls
-  // list.chunks([1, 2, 3, 4, 5, 6, 7, 8], 3)
+  // List.chunks([1, 2, 3, 4, 5, 6, 7, 8], 3)
   // ```
 
   checkType(list, "list");
@@ -269,14 +269,14 @@ export function chunks(list, count) {
     elems.push(list.slice(index, index + count));
   }
 
-  return List(elems);
+  return im.List(elems);
 }
 
 export async function map(list, func) {
   // Transform each value in `list` using `func`.
   //
   // ```ptls
-  // list.map([1, 2, 3, 4], fn(n) n * 2 end)
+  // List.map([1, 2, 3, 4], fn(n) n * 2 end)
   // ```
   //
   // *Note that this can also be accomplished using the map `$` operator*:
@@ -294,20 +294,20 @@ export async function map(list, func) {
     elems.push(await func.call(value));
   }
 
-  return List(elems);
+  return im.List(elems);
 }
 
 export async function filter(list, condition) {
   // Get the values in `list` that satisfy `condition`.
   //
   // ```ptls
-  // list.filter([1, 2, 3, 4], math.isEven)
+  // List.filter([1, 2, 3, 4], Math.isEven)
   // ```
   //
   // *Note that this can also be accomplished using the filter `?` operator*:
   //
   // ```ptls
-  // [1, 2, 3, 4] ? math.isEven
+  // [1, 2, 3, 4] ? Math.isEven
   // ```
 
   checkType(list, "list");
@@ -320,7 +320,7 @@ export async function filter(list, condition) {
     }
   }
 
-  return List(elems);
+  return im.List(elems);
 }
 
 export async function remove(list, value) {
@@ -331,7 +331,7 @@ export async function remove(list, value) {
   // ```
 
   checkType(list, "list");
-  return list.filter((elem) => !is(elem, value));
+  return list.filter((elem) => !im.is(elem, value));
 }
 
 export async function removeAll(list, values) {
@@ -339,7 +339,7 @@ export async function removeAll(list, values) {
   // where `values` is a list, set, or table.
   //
   // ```ptls
-  // list.removeAll([1, 2, none, 3, 4, 0, none], [none, 0])
+  // List.removeAll([1, 2, none, 3, 4, 0, none], [none, 0])
   // ```
 
   checkType(list, "list");
@@ -351,8 +351,8 @@ export async function find(list, condition) {
   // if no match is present.
   //
   // ```ptls
-  // list.find([7, 8, 9, 10], math.isEven)
-  // list.find([7, 8, 9, 10], fn(n) n < 5 end)
+  // List.find([7, 8, 9, 10], Math.isEven)
+  // List.find([7, 8, 9, 10], fn(n) n < 5 end)
   // ```
 
   checkType(list, "list");
@@ -372,8 +372,8 @@ export async function indexOf(list, value) {
   // if `value` does not appear in `list`.
   //
   // ```ptls
-  // list.indexOf([1, 9, 9, 6], 9)
-  // list.indexOf([1, 9, 9, 6], 0)
+  // List.indexOf([1, 9, 9, 6], 9)
+  // List.indexOf([1, 9, 9, 6], 0)
   // ```
 
   checkType(list, "list");
@@ -385,18 +385,18 @@ export async function count(list, value) {
   // Count the number of times `value` appears in `list`.
   //
   // ```ptls
-  // list.count([1, 9, 9, 6], 9)
+  // List.count([1, 9, 9, 6], 9)
   // ```
 
   checkType(list, "list");
-  return list.count((elem) => is(elem, value));
+  return list.count((elem) => im.is(elem, value));
 }
 
 export async function group(list, func) {
   // Group each `value` in `list` according to `func(value)`.
   //
   // ```ptls
-  // list.group(
+  // List.group(
   //   ["apple", "pear", "peach", "banana", "plum", "apricot", "orange"],
   //   fn(word) take(word, 1) end
   // )
@@ -417,7 +417,7 @@ export async function group(list, func) {
     groups.get(group).push(value);
   }
 
-  return OrderedMap(groups).map(List);
+  return im.OrderedMap(groups).map(im.List);
 }
 
 function doSort(list, desc) {
@@ -461,7 +461,7 @@ async function doSortBy(list, ranker, desc) {
     ranks.push({ rank: await ranker.call(value), value });
   }
 
-  return List(
+  return im.List(
     ranks
       .sort((a, b) => compare(a.rank, b.rank, desc))
       .map(({ value }) => value),
@@ -502,7 +502,7 @@ export function top(list, count) {
   // Sort `list` in descending order and get the first `count` values.
   //
   // ```ptls
-  // list.top([3, 1, 4, 1, 5, 9, 2, 6, 5, 4], 5)
+  // List.top([3, 1, 4, 1, 5, 9, 2, 6, 5, 4], 5)
   // ```
 
   return take(sortDesc(list), count);
@@ -512,7 +512,7 @@ export function bottom(list, count) {
   // Sort `list` in ascending order and get the first `count` values.
   //
   // ```ptls
-  // list.bottom([3, 1, 4, 1, 5, 9, 2, 6, 5, 4], 5)
+  // List.bottom([3, 1, 4, 1, 5, 9, 2, 6, 5, 4], 5)
   // ```
 
   return take(sort(list), count);
@@ -536,7 +536,7 @@ export function min(numbers) {
   // Get the minimum of `numbers`.
   //
   // ```ptls
-  // list.min([-7, 1, 50])
+  // List.min([-7, 1, 50])
   // ```
 
   return listExtremum(numbers, Math.min);
@@ -546,7 +546,7 @@ export function max(numbers) {
   // Get the maximum of `numbers`.
   //
   // ```ptls
-  // list.max([-7, 1, 50])
+  // List.max([-7, 1, 50])
   // ```
 
   return listExtremum(numbers, Math.max);
@@ -573,7 +573,7 @@ export function average(numbers) {
   // Get the average of `numbers`.
   //
   // ```ptls
-  // list.average([10, 50, 60])
+  // List.average([10, 50, 60])
   // ```
 
   checkType(numbers, "list");
@@ -585,8 +585,8 @@ export function median(numbers) {
   // Get the median of `numbers`.
   //
   // ```ptls
-  // list.median([1, 1, 1, 2, 3, 4, 5])
-  // list.median([7, 9])
+  // List.median([1, 1, 1, 2, 3, 4, 5])
+  // List.median([7, 9])
   // ```
 
   checkType(numbers, "list");
@@ -609,7 +609,7 @@ export function counts(list) {
   // sorted descending by `count`.
   //
   // ```ptls
-  // list.counts(["NY", "CA", "IL", "TX", "AZ", "PA", "TX", "CA", "TX", "FL"])
+  // List.counts(["NY", "CA", "IL", "TX", "AZ", "PA", "TX", "CA", "TX", "FL"])
   // ```
 
   checkType(list, "list");
@@ -621,20 +621,20 @@ export function counts(list) {
   }
 
   const columns = new Map()
-    .set("value", List(counts.keys()))
-    .set("count", List(counts.values()))
-    .set("share", List(counts.values().map((c) => c / list.size)));
+    .set("value", im.List(counts.keys()))
+    .set("count", im.List(counts.values()))
+    .set("share", im.List(counts.values().map((c) => c / list.size)));
 
-  return table.sortDescBy(new Table(OrderedMap(columns)), "count");
+  return tableMod.sortDescBy(new Table(im.OrderedMap(columns)), "count");
 }
 
 export function all(list) {
   // Check whether every value in a `list` of booleans is `true`.
   //
   // ```ptls
-  // list.all([])
-  // list.all([true, true, true])
-  // list.all([true, true, false])
+  // List.all([])
+  // List.all([true, true, true])
+  // List.all([true, true, false])
   // ```
 
   checkType(list, "list");
@@ -652,9 +652,9 @@ export function any(list) {
   // Check whether any value in a `list` of booleans is `true`.
   //
   // ```ptls
-  // list.any([])
-  // list.any([false, false, false])
-  // list.any([false, false, true])
+  // List.any([])
+  // List.any([false, false, false])
+  // List.any([false, false, true])
   // ```
 
   checkType(list, "list");
@@ -675,7 +675,7 @@ export function any(list) {
 //   const values = list.filter(n => n !== null);
 
 //   if (!length) {
-//     return OrderedMap({ length, unique: 0, nones: 0, sum: 0, mode: null,
+//     return im.OrderedMap({ length, unique: 0, nones: 0, sum: 0, mode: null,
 //       median: null, mean: null, min: null, max: null});
 //   }
 
@@ -715,7 +715,7 @@ export function any(list) {
 //     }
 //   }
 
-//   return OrderedMap({ length, unique, nones, });
+//   return im.OrderedMap({ length, unique, nones, });
 // }
 
 export function unique(list) {
@@ -723,7 +723,7 @@ export function unique(list) {
   // of each value.
   //
   // ```ptls
-  // list.unique(["NY", "CA", "IL", "TX", "AZ", "PA", "TX", "CA", "TX", "FL"])
+  // List.unique(["NY", "CA", "IL", "TX", "AZ", "PA", "TX", "CA", "TX", "FL"])
   // ```
 
   checkType(list, "list");
@@ -750,7 +750,7 @@ export function span(from, to) {
     elems.push(n);
   }
 
-  return from < to ? List(elems) : List(elems).reverse();
+  return from < to ? im.List(elems) : im.List(elems).reverse();
 }
 
 export function range(limit) {
@@ -764,7 +764,7 @@ export function range(limit) {
   checkWhole(limit);
 
   if (limit < 1) {
-    return List();
+    return im.List();
   }
 
   return span(0, limit - 1);
@@ -775,7 +775,7 @@ export function normalize(numbers) {
   // `sum(numbers) > 0`.
   //
   // ```ptls
-  // list.normalize([5, 7, 8])
+  // List.normalize([5, 7, 8])
   // ```
 
   checkType(numbers, "list");
@@ -800,7 +800,7 @@ export function percents(numbers) {
   // `sum(numbers) > 0`.
   //
   // ```ptls
-  // list.percents([5, 7, 8])
+  // List.percents([5, 7, 8])
   // ```
 
   return normalize(numbers).map((n) => n * 100);

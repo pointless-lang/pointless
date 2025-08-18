@@ -18,14 +18,14 @@ export function repr(value, compact = false) {
     case "boolean":
     case "number":
       if (Number.isNaN(value)) {
-        return "math.nan";
+        return "Math.nan";
       }
 
       switch (value) {
         case Infinity:
-          return "math.inf";
+          return "Math.inf";
         case -Infinity:
-          return "-math.inf";
+          return "-Math.inf";
       }
 
       return value.toString();
@@ -55,7 +55,7 @@ export function repr(value, compact = false) {
 
     case "set":
       return formatElems(
-        "set.of([",
+        "Set.of([",
         "])",
         [...value].map((elem) => repr(elem, compact)),
         compact,

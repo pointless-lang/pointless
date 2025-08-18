@@ -1,6 +1,6 @@
 import { checkType, getType } from "../src/values.js";
 import { checkKey, isMatch } from "../src/obj.js";
-import { is, OrderedMap } from "immutable";
+import im from "immutable";
 
 export const _docs = "Functions for working with objects.";
 
@@ -11,14 +11,14 @@ export function of(value) {
   // is an object then return it.
   //
   // ```ptls
-  // cities = table.of([
+  // cities = Table.of([
   //   { city: "New York", state: "NY" },
   //   { city: "Los Angeles", state: "CA" },
   //   { city: "Chicago", state: "IL" },
   //   { city: "Houston", state: "TX" },
   // ])
   //
-  // obj.of(cities)
+  // Obj.of(cities)
   // ```
 
   checkType(value, "table", "object");
@@ -42,8 +42,8 @@ export function matches(object, matcher) {
   //
   // ```ptls
   // ducky = { name: "Ducky", type: "dog", age: 9 }
-  // obj.matches(ducky, { name: "Ducky", age: 9 })
-  // obj.matches(ducky, { name: "Ducky", type: "cat" })
+  // Obj.matches(ducky, { name: "Ducky", age: 9 })
+  // Obj.matches(ducky, { name: "Ducky", type: "cat" })
   // ```
 
   return isMatch(object, matcher);
@@ -53,7 +53,7 @@ export function get(object, key) {
   // Get the value corresponding to `key` in `object`.
   //
   // ```ptls
-  // obj.get({ q: 9, r: 5, b: 3, n: 3, p: 1 }, "q")
+  // Obj.get({ q: 9, r: 5, b: 3, n: 3, p: 1 }, "q")
   // ```
   //
   // *Note that this can also be accomplished using the index `[]` operator*:
@@ -72,8 +72,8 @@ export function getDefault(object, key, $default) {
   //
   // ```ptls
   // capitals = { Maine: "Augusta", Maryland: "Annapolis", Massachusetts: "Boston" }
-  // obj.getDefault(capitals, "Massachusetts", "idk")
-  // obj.getDefault(capitals, "Massocheichei", "idk")
+  // Obj.getDefault(capitals, "Massachusetts", "idk")
+  // Obj.getDefault(capitals, "Massocheichei", "idk")
   // ```
 
   checkType(object, "object");
@@ -85,7 +85,7 @@ export function set(object, key, value) {
   //
   // ```ptls
   // phrases = { "Hello": "Ola", "Good afternoon": "Boa tarde" }
-  // obj.set(phrases, "Good night", "Boa noite")
+  // Obj.set(phrases, "Good night", "Boa noite")
   // ```
   //
   // *Note that if you want to update an existing variable, you could also
@@ -105,7 +105,7 @@ export function put(value, object, key) {
   //
   // ```ptls
   // phrases = { "Hello": "Ola", "Good afternoon": "Boa tarde" }
-  // obj.put("Good night", phrases, "Boa noite")
+  // Obj.put("Good night", phrases, "Boa noite")
   // ```
 
   checkType(object, "object");
@@ -117,8 +117,8 @@ export function setDefault(object, key, value) {
   //
   // ```ptls
   // phrases = { "Hello": "Ola", "Good afternoon": "Boa tarde" }
-  // obj.setDefault(phrases, "Hello", "E aí")
-  // obj.setDefault(phrases, "Good night", "Boa noite")
+  // Obj.setDefault(phrases, "Hello", "E aí")
+  // Obj.setDefault(phrases, "Good night", "Boa noite")
   // ```
 
   checkType(object, "object");
@@ -129,7 +129,7 @@ export function merge(objects) {
   // Merge (flatten) a list of `objects` into a single object.
   //
   // ```ptls
-  // obj.merge([
+  // Obj.merge([
   //   { "Hello": "Ola", "Good afternoon": "Boa tarde" },
   //   { "Hello": "E aí?", "Good night": "Boa noite" },
   // ])
@@ -137,14 +137,14 @@ export function merge(objects) {
 
   checkType(objects, "list");
   objects.forEach((object) => checkType(object, "object"));
-  return OrderedMap().concat(...objects);
+  return im.OrderedMap().concat(...objects);
 }
 
 export function keys(object) {
   // Get the keys in `object` as a list.
   //
   // ```ptls
-  // obj.keys({ q: 9, r: 5, b: 3, n: 3, p: 1 })
+  // Obj.keys({ q: 9, r: 5, b: 3, n: 3, p: 1 })
   // ```
 
   checkType(object, "object");
@@ -155,7 +155,7 @@ export function values(object) {
   // Get the values in `object` as a list.
   //
   // ```ptls
-  // obj.values({ q: 9, r: 5, b: 3, n: 3, p: 1 })
+  // Obj.values({ q: 9, r: 5, b: 3, n: 3, p: 1 })
   // ```
 
   checkType(object, "object");
@@ -202,7 +202,7 @@ export function select(object, keys) {
     map.set(key, object.get(key));
   }
 
-  return OrderedMap(map);
+  return im.OrderedMap(map);
 }
 
 export function focus(object, keys) {
@@ -210,7 +210,7 @@ export function focus(object, keys) {
   // in the given order.
   //
   // ```ptls
-  // obj.focus({ name: "Lamar", yards: 4172, tds: 41, ints: 4 }, ["name", "tds"])
+  // Obj.focus({ name: "Lamar", yards: 4172, tds: 41, ints: 4 }, ["name", "tds"])
   // ```
 
   checkType(object, "object");
@@ -228,7 +228,7 @@ export function focus(object, keys) {
     map.set(key, value);
   }
 
-  return OrderedMap(map);
+  return im.OrderedMap(map);
 }
 
 export function remove(object, key) {
@@ -249,7 +249,7 @@ export function removeAll(object, keys) {
   // Remove the entries with the given `keys` from `object`.
   //
   // ```ptls
-  // obj.removeAll(
+  // Obj.removeAll(
   //   { name: "Lamar", yards: 4172, tds: 41, ints: 4, fumbles: 10 },
   //   ["ints", "fumbles"]
   // )
@@ -264,7 +264,7 @@ export function rename(object, old, $new) {
   // Update the entry in `object` with key `old` to have key `new`.
   //
   // ```ptls
-  // obj.rename(
+  // Obj.rename(
   //   { name: "Lamar", yards: 4172, tds: 41, ints: 4 },
   //   "tds",
   //   "touchdowns"
@@ -278,9 +278,9 @@ export function rename(object, old, $new) {
   const map = new Map();
 
   for (const [key, value] of object) {
-    const newKey = is(key, old) ? $new : key;
+    const newKey = im.is(key, old) ? $new : key;
     map.set(newKey, value);
   }
 
-  return OrderedMap(map);
+  return im.OrderedMap(map);
 }

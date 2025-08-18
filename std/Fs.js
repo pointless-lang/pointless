@@ -4,7 +4,7 @@ import { Panic } from "../src/panic.js";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { readdir } from "node:fs/promises";
-import { List } from "immutable";
+import im from "immutable";
 
 export const _docs = `
 Read and manipulate files and directories.
@@ -16,7 +16,7 @@ export async function read(path) {
   // Read the text file at `path`.
   //
   // ```ptls --no-eval
-  // fs.read("lyrics.txt")
+  // Fs.read("lyrics.txt")
   // ```
   //
   // *Tip:* To read files from a fixed path, consider using `import`, which
@@ -41,7 +41,7 @@ export async function read(path) {
 
 export async function readBytes(path) {
   try {
-    return List(await readFile(path));
+    return im.List(await readFile(path));
   } catch (err) {
     throw new Panic("file read error", { path, err: String(err) });
   }
@@ -52,7 +52,7 @@ export async function write(value, path) {
   // creating the file if it doesn't already exist.
   //
   // ```ptls --no-eval
-  // fs.write("I hope you understand, everybody scams", "lyrics.txt")
+  // Fs.write("I hope you understand, everybody scams", "lyrics.txt")
   // ```
 
   checkType(path, "string");
@@ -87,7 +87,7 @@ export async function ls(path) {
 
   try {
     const entries = await readdir(fullPath, { withFileTypes: true });
-    return List(
+    return im.List(
       entries.map((entry) =>
         entry.isDirectory() ? `${entry.name}/` : entry.name,
       ),

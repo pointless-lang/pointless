@@ -1,30 +1,30 @@
 import { checkType } from "../src/values.js";
-import { OrderedSet, List } from "immutable";
+import im from "immutable";
 
 export const _docs =
   "Functions for working with sets (collections of unique values).";
 
 export function of(values) {
   // Get a set containing each value in `values`. `values` may be
-  // a list, table, or set. If `values` is a table then `set.of(values)`
+  // a list, table, or set. If `values` is a table then `Set.of(values)`
   // returns a set of the table's rows.
   //
   // ```ptls
   // l = ["NY", "CA", "IL", "TX", "AZ", "PA", "TX", "CA", "TX", "FL"]
-  // set.of(l)
-  // t = table.of({ name: ["Ducky", "Clementine"], type: ["dog", "bird"] })
-  // set.of(t)
+  // Set.of(l)
+  // t = Table.of({ name: ["Ducky", "Clementine"], type: ["dog", "bird"] })
+  // Set.of(t)
   // ```
 
   checkType(values, "set", "list", "table");
-  return OrderedSet(values);
+  return im.OrderedSet(values);
 }
 
 export function len(set) {
   // Return the number of elements in `set`.
   //
   // ```ptls
-  // s = set.of(["a", "b", "c", "d"])
+  // s = Set.of(["a", "b", "c", "d"])
   // len(s)
   // ```
 
@@ -36,8 +36,8 @@ export function isEmpty(set) {
   // Check whether `set` is empty.
   //
   // ```ptls
-  // isEmpty(set.of([]))
-  // isEmpty(set.of(["a", "b", "c", "d"]))
+  // isEmpty(Set.of([]))
+  // isEmpty(Set.of(["a", "b", "c", "d"]))
   // ```
 
   return len(set) == 0;
@@ -47,7 +47,7 @@ export function has(set, value) {
   // Return whether `set` contains `value`.
   //
   // ```ptls
-  // s = set.of(["a", "b", "c"])
+  // s = Set.of(["a", "b", "c"])
   // has(s, "b")
   // has(s, "d")
   // ```
@@ -62,9 +62,9 @@ export function hasAll(set, values) {
   // superset of `values`, and `values` is a subset of `set`.
   //
   // ```ptls
-  // s = set.of(["a", "b", "c"])
-  // set.hasAll(s, ["b", "c"])
-  // set.hasAll(s, ["d", "c"])
+  // s = Set.of(["a", "b", "c"])
+  // Set.hasAll(s, ["b", "c"])
+  // Set.hasAll(s, ["d", "c"])
   // ```
 
   checkType(set, "set");
@@ -75,9 +75,9 @@ export function add(set, value) {
   // Add `value` to `set`.
   //
   // ```ptls
-  // s = set.of(["a", "b", "c"])
-  // set.add(s, "b")
-  // set.add(s, "d")
+  // s = Set.of(["a", "b", "c"])
+  // Set.add(s, "b")
+  // Set.add(s, "d")
   // ```
 
   checkType(set, "set");
@@ -89,9 +89,9 @@ export function addAll(set, values) {
   // In other words, get the union of `set` and `values`.
   //
   // ```ptls
-  // s = set.of(["a", "b", "c"])
-  // set.addAll(s, ["b", "e"])
-  // set.addAll(s, ["d", "e"])
+  // s = Set.of(["a", "b", "c"])
+  // Set.addAll(s, ["b", "e"])
+  // Set.addAll(s, ["d", "e"])
   // ```
 
   checkType(set, "set");
@@ -102,9 +102,9 @@ export function remove(set, value) {
   // Remove `value` from `set`, if present.
   //
   // ```ptls
-  // s = set.of(["a", "b", "c"])
-  // set.remove(s, "b")
-  // set.remove(s, "d")
+  // s = Set.of(["a", "b", "c"])
+  // Set.remove(s, "b")
+  // Set.remove(s, "d")
   // ```
 
   checkType(set, "set");
@@ -116,9 +116,9 @@ export function removeAll(set, values) {
   // list, or table. In other words, get the difference of `set` and `values`.
   //
   // ```ptls
-  // s = set.of(["a", "b", "c"])
-  // set.removeAll(s, ["b", "c"])
-  // set.removeAll(s, ["d", "c"])
+  // s = Set.of(["a", "b", "c"])
+  // Set.removeAll(s, ["b", "c"])
+  // Set.removeAll(s, ["d", "c"])
   // ```
 
   checkType(set, "set");
@@ -130,13 +130,13 @@ export function merge(sets) {
   // the union of `sets`.
   //
   // ```ptls
-  // s1 = set.of(["a", "b", "c"])
-  // s2 = set.of(["d", "b", "e"])
-  // set.merge([s1, s2])
+  // s1 = Set.of(["a", "b", "c"])
+  // s2 = Set.of(["d", "b", "e"])
+  // Set.merge([s1, s2])
   // ```
 
   checkType(sets, "list");
-  return OrderedSet().concat(...sets.map(of));
+  return im.OrderedSet().concat(...sets.map(of));
 }
 
 export function intersection(set, values) {
@@ -145,9 +145,9 @@ export function intersection(set, values) {
   // of `set` and `values`.
   //
   // ```ptls
-  // s1 = set.of(["a", "b", "c"])
-  // s2 = set.of(["c", "b", "e"])
-  // set.intersection(s1, s2)
+  // s1 = Set.of(["a", "b", "c"])
+  // s2 = Set.of(["c", "b", "e"])
+  // Set.intersection(s1, s2)
   // ```
 
   checkType(set, "set");
@@ -167,10 +167,10 @@ export function powerset(set) {
   // Get a list of all of the subsets of `set` (the powerset of `set`).
   //
   // ```ptls
-  // set.powerset(set.of(["a", "b", "c"]))
+  // Set.powerset(Set.of(["a", "b", "c"]))
   // ```
 
   checkType(set, "set");
-  const sets = subsets([...set]).map((elems) => OrderedSet(elems));
-  return List(sets);
+  const sets = subsets([...set]).map((elems) => im.OrderedSet(elems));
+  return im.List(sets);
 }

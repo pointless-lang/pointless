@@ -1,7 +1,7 @@
 import { checkType } from "../src/values.js";
 import { show } from "../src/repr.js";
 import { Table } from "../src/table.js";
-import { OrderedMap, List } from "immutable";
+import im from "immutable";
 
 export const _docs =
   "Use regular expressions to search and manipulate strings.";
@@ -21,7 +21,7 @@ export function escape(string) {
   // in a regular expression.
   //
   // ```ptls
-  // re.escape("Hello? Can you *hear* me??")
+  // Re.escape("Hello? Can you *hear* me??")
   // ```
 
   checkType(string, "string");
@@ -32,8 +32,8 @@ export function test(string, pattern) {
   // Check whether `string` matches the regular expression `pattern`.
   //
   // ```ptls
-  // re.test("nessa@example.com", r".+@.+\..+")
-  // re.test("nessa at example dot com", r".+@.+\..+")
+  // Re.test("nessa@example.com", r".+@.+\..+")
+  // Re.test("nessa at example dot com", r".+@.+\..+")
   // ```
 
   checkType(string, "string");
@@ -52,23 +52,23 @@ export function match(string, pattern) {
   // - `named`: Object of named captures.
   //
   // ```ptls
-  // re.match("nessa@example.com, megan@xkcd.com", r"(?<name>\w+)@(\w+\.\w+)")
+  // Re.match("nessa@example.com, megan@xkcd.com", r"(?<name>\w+)@(\w+\.\w+)")
   // ```
 
   checkType(string, "string");
   checkType(pattern, "string");
 
-  const matches = List(string.matchAll(lookup(pattern)) ?? []);
+  const matches = im.List(string.matchAll(lookup(pattern)) ?? []);
 
   const rows = matches.map((result) => {
     const value = result[0];
     const index = result.index;
-    const groups = List(result.slice(1));
-    const named = OrderedMap(Object.entries(result.groups ?? {}));
-    return OrderedMap(Object.entries({ value, index, groups, named }));
+    const groups = im.List(result.slice(1));
+    const named = im.OrderedMap(Object.entries(result.groups ?? {}));
+    return im.OrderedMap(Object.entries({ value, index, groups, named }));
   });
 
-  return Table.fromRows(rows, List(["value", "index", "groups", "named"]));
+  return Table.fromRows(rows, im.List(["value", "index", "groups", "named"]));
 }
 
 export function split(string, pattern) {
@@ -76,19 +76,19 @@ export function split(string, pattern) {
   // The matching separators are not included in the resulting substrings.
   //
   // ```ptls
-  // re.split("NYC NY  USA", " +")
+  // Re.split("NYC NY  USA", " +")
   // ```
 
   checkType(string, "string");
   checkType(pattern, "string");
-  return List(string.split(lookup(pattern)));
+  return im.List(string.split(lookup(pattern)));
 }
 
 export async function replace(string, pattern, replacement) {
   // Replace all matches of `pattern` in `string` with `replacement`.
   //
   // ```ptls
-  // re.replace("2025  07 22", " +", ".")
+  // Re.replace("2025  07 22", " +", ".")
   // ```
 
   checkType(string, "string");
@@ -101,7 +101,7 @@ export async function replaceBy(string, pattern, replacer) {
   // Replace all matches of `pattern` in `string` with `replacement`.
   //
   // ```ptls
-  // re.replaceBy("a catalog of cats", r"cat\w*", str.toUpper)
+  // Re.replaceBy("a catalog of cats", r"cat\w*", Str.toUpper)
   // ```
 
   checkType(string, "string");
