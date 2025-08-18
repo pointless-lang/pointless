@@ -2,19 +2,7 @@
 title: Best Practices
 ---
 
-recommendations
-
-write better code
-
-avoid indecision
-
-no weight in phrasing
-
-not exhaustive
-
-core language not standard library
-
-language reference
+These best-practices are meant to help you make effective use of the language features of Pointless. They are recommendations, not strict rules. This guide focuses on the core language, rather than the standard library. For more information on Pointless language features see the language reference.
 
 ## Use Compound Assignment
 
@@ -30,6 +18,18 @@ score = score + 1
 price = round(price)
 ```
 
+## Avoid Getter Functions
+
+Use built-in syntax to access list elements, object values, and table rows and columns.
+
+```ptls --no-eval --class good
+games[0].score
+```
+
+```ptls --no-eval --class bad
+Obj.get(Table.get(games, 0), "score")
+```
+
 ## Avoid Setter Functions
 
 Use variable updates instead of setter functions to transform data structures.
@@ -42,9 +42,9 @@ player.enemies += 1
 ```
 
 ```ptls --no-eval --class bad
-evilTwin = obj.set(player, "malice", 100)
+evilTwin = Obj.set(player, "malice", 100)
 
-player = obj.set(player, "enemies", player.enemies + 1)
+player = Obj.set(player, "enemies", player.enemies + 1)
 ```
 
 _Note that the code in the first code block is equivalent to the code in the
@@ -81,18 +81,6 @@ point = [1, 2]
 card = [10, "hearts"]
 ```
 
-## Omit String Key Quotes
-
-Omit quotes for keys in [record objects](/docs/language/objects#record-objects).
-
-```ptls --no-eval --class good
-{ city: "Chicago", state: "IL", population: 2721308 }
-```
-
-```ptls --no-eval --class bad
-{ "city": "Chicago", "state": "IL", "population": 2721308 }
-```
-
 ## Use Key Punning
 
 Use object key punning when setting an object key to a variable of the same
@@ -106,6 +94,18 @@ point = { x, y }
 point = { x: x, y: y }
 ```
 
+## Omit String Key Quotes
+
+Omit quotes for keys in [record objects](/docs/language/objects#record-objects).
+
+```ptls --no-eval --class good
+{ city: "Chicago", state: "IL", population: 2721308 }
+```
+
+```ptls --no-eval --class bad
+{ "city": "Chicago", "state": "IL", "population": 2721308 }
+```
+
 ## Use Identifier Record Keys and Columns
 
 Use valid identifiers as [record object](/docs/language/objects#record-objects)
@@ -114,7 +114,7 @@ keys and table columns.
 ```ptls --no-eval --class good
 { userName: "Clementine", userId: 0 }
 
-table.of([
+Table.of([
   { userName: "Clementine", userId: 0 },
   { userName: "Ducky", userId: 1 },
 ])
@@ -123,7 +123,7 @@ table.of([
 ```ptls --no-eval --class bad
 { "user name": "Clementine", "user-id": 0 }
 
-table.of([
+Table.of([
   { "user name": "Clementine", "user-id": 0 },
   { "user name": "Ducky", "user-id": 1 },
 ])
@@ -146,7 +146,7 @@ city["name"]
 Use tables to store lists of objects with matching keys.
 
 ```ptls --no-eval --class good
-table.of([
+Table.of([
   { city: "New York", state: "NY", population: 8478072 },
   { city: "Los Angeles", state: "CA", population: 3878704 },
   { city: "Chicago", state: "IL", population: 2721308 },
@@ -355,13 +355,13 @@ end
 Use `not` instead of `== false`.
 
 ```ptls --no-eval --class good
-if not math.isInt(quantity) then
+if not Math.isInt(quantity) then
   print("quantity must be a whole number")
 end
 ```
 
 ```ptls --no-eval --class bad
-if math.isInt(quantity) == false then
+if Math.isInt(quantity) == false then
   print("quantity must be a whole number")
 end
 ```
@@ -381,11 +381,11 @@ isGood and isFast or isCheap
 
 ## Use Set Membership
 
-Use sets instead of lists to store a large number of unique values on which you
+Use sets instead of lists to store a large number of values on which you
 will be calling `has`.
 
 ```ptls --no-eval --class good
-scrabbleWords = set.of(import "lines:scrabble-dict.txt")
+scrabbleWords = Set.of(import "lines:scrabble-dict.txt")
 
 has(scrabbleWords, "yeet")
 ```
@@ -407,8 +407,8 @@ match spin
     score += pot
     pot = 0
   case "hei" then
-    score += math.ceil(pot / 2)
-    pot -= math.ceil(pot / 2)
+    score += Math.ceil(pot / 2)
+    pot -= Math.ceil(pot / 2)
   case "shin" then
     score -= 1
     pot += 1
@@ -420,8 +420,8 @@ if spin == "gimel" then
   score += pot
   pot = 0
 elif spin == "hei" then
-  score += math.ceil(pot / 2)
-  pot -= math.ceil(pot / 2)
+  score += Math.ceil(pot / 2)
+  pot -= Math.ceil(pot / 2)
 elif spin == "shin" then
   score -= 1
   pot += 1
@@ -459,7 +459,12 @@ end
 Lift variable assignments outside of simple conditionals.
 
 ```ptls --no-eval --class good
-sweetener = if diet == "vegan" then "agave" else "honey" end
+sweetener =
+  if diet == "vegan" then
+    "agave"
+  else
+    "honey"
+  end
 ```
 
 ```ptls --no-eval --class bad
@@ -476,13 +481,13 @@ Refactor nested function calls into pipeline syntax when possible.
 
 ```ptls --no-eval --class good
 games
-  | table.summarize("team", getStats)
+  | Table.summarize("team", getStats)
   | sortDescBy("winPct")
   | print
 ```
 
 ```ptls --no-eval --class bad
-print(sortDescBy(table.summarize(games, "team", getStats), "winPct"))
+print(sortDescBy(Table.summarize(games, "team", getStats), "winPct"))
 ```
 
 ## Use Map and Filter Operators
@@ -491,11 +496,11 @@ Use the map `$` and filter `?` operators instead of `map` and `filter`
 functions.
 
 ```ptls --no-eval --class good
-numbers ? math.isEven $ arg / 2
+numbers ? Math.isEven $ arg / 2
 ```
 
 ```ptls --no-eval --class bad
-list.map(list.filter(numbers, math.isEven), fn(n) n * 2 end)
+List.map(List.filter(numbers, Math.isEven), fn(n) n * 2 end)
 ```
 
 ## Omit Pipe Parentheses
@@ -504,53 +509,45 @@ Omit parentheses for single-argument functions in pipelines.
 
 ```ptls --no-eval --class good
 numbers
-  $ math.sqrt
+  $ Math.sqrt
   | print
 ```
 
 ```ptls --no-eval --class bad
 numbers
-  $ math.sqrt()
+  $ Math.sqrt()
   | print()
 ```
 
 ## Avoid Anonymous Functions
 
-Use top-level function definitions or `arg` expressions instead of anonymous
-functions.
+Use top-level function definitions instead of anonymous functions.
 
 ```ptls --no-eval --class good
-fn indentLine(line, n)
-  " " * n + line
+fn distance(point, center)
+  dx = point.x - center.x
+  dy = point.y - center.y
+  Math.sqrt(dx ** 2 + dx ** 2)
 end
 
-fn indentLines(string, n)
-  string
-    | str.lines
-    $ indentLine(n)
-    | join("\n")
-end
-
---- or ---
-
-fn indentLines(string, n)
-  string
-    | str.lines
-    $ " " * n + arg
-    | join("\n")
+fn averageDistance(points, center)
+  points
+    $ distance(center)
+    | List.average
 end
 ```
 
 ```ptls --no-eval --class bad
-fn indentLines(string, n)
-  indentLine = fn(line)
-    " " * n + line
+fn averageDistance(points, center)
+  distance = fn(point)
+    dx = point.x - center.x
+    dy = point.y - center.y
+    Math.sqrt(dx ** 2 + dx ** 2)
   end
 
-  string
-    | str.lines
-    $ indentLine
-    | join("\n")
+  points
+    $ distance
+    | List.average
 end
 ```
 
@@ -573,24 +570,23 @@ could be described as transforming, accessing, or analyzing one of its
 arguments, then that argument is probably the most important.
 
 ```ptls --no-eval --class good
-fn swap(values, indexA, indexB)
-  -- Transform a list `values` by swapping the elements at `indexA` and `indexB`
+fn swap(list, indexA, indexB)
+  -- Transform `list` by swapping the values at `indexA` and `indexB`
 end
 
-fn has(values, item)
-  -- Check whether a list `values` contains `item`
+fn startsWith(string, prefix)
+  -- Check if `string` starts with `prefix`
 end
 ```
 
 ```ptls --no-eval --class bad
-fn swap(indexA, indexB, values)
-  -- Transform a list `values` by swapping the elements at `indexA` and `indexB`
+fn swap(indexA, indexB, list)
+  -- Transform `list` by swapping the values at `indexA` and `indexB`
 end
 
-
-fn has(item, values)
-  -- Check whether a list `values` contains `item`
-end
+fn startsWith(prefix, string)
+  -- Check if `string` starts with `prefix`
+end  
 ```
 
 ## Write Pure Functions
@@ -678,7 +674,7 @@ Refactor code to avoid using `elif` or `else` after a return statement.
 ```ptls --no-eval --class good
 fn findOdd(numbers)
   for n in numbers do
-    if math.isOdd(n) then
+    if Math.isOdd(n) then
       return n
     end
 
@@ -690,7 +686,7 @@ end
 ```ptls --no-eval --class bad
 fn findOdd(numbers)
   for n in numbers do
-    if math.isOdd(n) then
+    if Math.isOdd(n) then
       return n
     else
       print("Skipped $n")
@@ -701,7 +697,7 @@ end
 
 ## Use Specific Functions
 
-If a function exists that accomplishes a specific task, choose it over more
+If a function exists that specifically accomplishes a desired task, choose it over more
 general functions.
 
 ```ptls --no-eval --class good
@@ -723,33 +719,41 @@ print("Hello world!")
 ```
 
 ```ptls --no-eval --class bad
-console.print("Hello world!")
+Console.print("Hello world!")
 ```
 
 ## Don't Shadow Globals
 
-Don't shadow global built-in functions or modules.
+Don't shadow global built-in functions.
 
 ```ptls --no-eval --class good
-numbers = [1, 2, 4, 8]
-maximum = 8
+message = "Enter a rating 1-5: "
+maximum = 5
 ```
 
 ```ptls --no-eval --class bad
-list = [1, 2, 4, 8]
-max = 8
+prompt = "Enter a rating 1-5: "
+max = 5
 ```
 
 ## Use Camel Case
 
-Use camel case for multi-word variable names.
+Use camel case for multi-word variable, function, and [record objects](/docs/language/objects#record-objects) key names. Don't capitalize single-word names.
 
 ```ptls --no-eval --class good
 gameState = "paused"
+
+fn point(x, y)
+  { x, y }
+end
 ```
 
 ```ptls --no-eval --class bad
 gamestate = "paused"
+
+fn Point(x, y)
+  { x, y }
+end
 ```
 
 ## Don't Use Uppercase for Constants
@@ -774,6 +778,54 @@ n = 0.1
 
 ```ptls --no-eval --class bad
 n = .1
+```
+
+## Use Trailing Commas in Data Structures
+
+Include a comma after the last item in a list or object expression spanning
+multiple lines.
+
+```ptls --no-eval --class good
+days = [
+  "Lunes",
+  "Martes",
+  "Miércoles",
+  "Jueves",
+  "Viernes",
+  "Sábado",
+  "Domingo",
+]
+```
+
+```ptls --no-eval --class bad
+days = [
+  "Lunes",
+  "Martes",
+  "Miércoles",
+  "Jueves",
+  "Viernes",
+  "Sábado",
+  "Domingo"
+]
+```
+
+## Omit Trailing Commas for Function Arguments
+
+Don't include a comma after the last argument in a function call spanning
+multiple lines.
+
+```ptls --no-eval --class good
+split(
+  "Lunes Martes Miércoles Jueves Viernes Sábado Domingo",
+  " "
+)
+```
+
+```ptls --no-eval --class bad
+split(
+  "Lunes Martes Miércoles Jueves Viernes Sábado Domingo",
+  " ",
+)
 ```
 
 ## Avoid Import Side Effects
@@ -822,30 +874,6 @@ end
 maximum
 ```
 
-## Use Consistent Export Keys
-
-Ensure that exported objects always have the same keys.
-
-```ptls --no-eval --class good
-fn maximum(a, b)
-  if a > b then a else b end
-end
-
-{ maximum }
-```
-
-```ptls --no-eval --class bad
-fn maximum(a, b)
-  if a > b then a else b end
-end
-
-if language == "jp" then
-  { saidai: maximum }
-else
-  { maximum }
-end
-```
-
 ## Use Fixed-Path Imports
 
 Use `import` to load files from a fixed path relative to your source file.
@@ -856,7 +884,7 @@ story = import "text:alice.txt"
 
 ```ptls --no-eval --class bad
 -- Won't work if script is called outside the source directory
-story = fs.read("alice.txt")
+story = Fs.read("alice.txt")
 ```
 
 ## Use Import Directives
@@ -868,7 +896,7 @@ story = import "lines:alice.txt"
 ```
 
 ```ptls --no-eval --class bad
-story = str.lines(import "text:alice.txt")
+story = Str.lines(import "text:alice.txt")
 ```
 
 ## Use Anonymous Loops
