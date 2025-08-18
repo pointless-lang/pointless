@@ -6,7 +6,7 @@ import { loadJson } from "./json.js";
 import { spawnStd } from "./std.js";
 import { readFile, realpath } from "node:fs/promises";
 import { resolve } from "node:path";
-import { List } from "immutable";
+import im from "immutable";
 
 const cache = new Map();
 const prefixChars = /^(?:([a-z]+):)?/;
@@ -65,7 +65,7 @@ async function dispatch(prefix, relPath, absPath) {
     case "text":
       return source;
     case "lines":
-      return List(source.replace(/\r?\n^/, "").split(/\r?\n/g));
+      return im.List(source.replace(/\r?\n^/, "").split(/\r?\n/g));
     case "csv":
       return Table.fromCsv(source);
     case "json":

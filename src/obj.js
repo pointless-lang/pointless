@@ -1,6 +1,6 @@
 import { checkType } from "./values.js";
 import { Panic } from "./panic.js";
-import { is } from "immutable";
+import im from "immutable";
 
 export function checkKey(object, key) {
   checkType(object, "object");
@@ -16,6 +16,6 @@ export function isMatch(object, matcher) {
   checkType(object, "object");
   checkType(matcher, "object");
   return matcher.every(
-    (value, key) => object.has(key) && is(object.get(key), value),
+    (value, key) => object.has(key) && im.is(object.get(key), value),
   );
 }

@@ -1,7 +1,7 @@
 import { checkType, getType } from "./values.js";
 import { checkWhole } from "./num.js";
 import { Panic } from "./panic.js";
-import { List } from "immutable";
+import im from "immutable";
 
 export function checkIndex(list, index) {
   checkType(list, "list");
@@ -43,5 +43,5 @@ export async function filter(list, func) {
     }
   }
 
-  return List(elems);
+  return im.List(elems);
 }

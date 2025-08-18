@@ -1,4 +1,4 @@
-import { OrderedMap, List } from "immutable";
+import im from "immutable";
 
 export function loadJson(string) {
   // needs improvements, better error reporting
@@ -7,7 +7,7 @@ export function loadJson(string) {
 
 function convert(jsonVal) {
   if (Array.isArray(jsonVal)) {
-    return List(jsonVal.map(convert));
+    return im.List(jsonVal.map(convert));
   }
 
   if (typeof jsonVal === "object") {
@@ -17,7 +17,7 @@ function convert(jsonVal) {
       map.set(key, convert(value));
     }
 
-    return OrderedMap(map);
+    return im.OrderedMap(map);
   }
 
   return jsonVal;

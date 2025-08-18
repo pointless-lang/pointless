@@ -5,10 +5,10 @@ import { invisible } from "./repr.js";
 import { Panic } from "./panic.js";
 import { parseData } from "./csv.js";
 import { repr } from "./repr.js";
-import { is, OrderedMap, List, Repeat } from "immutable";
+import im from "immutable";
 
 export class Table {
-  constructor(data = OrderedMap()) {
+  constructor(data = im.OrderedMap()) {
     checkType(data, "object");
 
     data = new Map(data);
@@ -30,11 +30,11 @@ export class Table {
     // can't expand data until we know final size
     for (const [column, values] of data) {
       if (getType(values) !== "list") {
-        data.set(column, Repeat(values, this.size).toList());
+        data.set(column, im.Repeat(values, this.size).toList());
       }
     }
 
-    this.data = OrderedMap(data);
+    this.data = im.OrderedMap(data);
   }
 
   static fromCsv(source) {
@@ -73,14 +73,14 @@ export class Table {
     }
 
     for (const column of columns) {
-      data.set(column, List(data.get(column)));
+      data.set(column, im.List(data.get(column)));
     }
 
-    return new Table(OrderedMap(data));
+    return new Table(im.OrderedMap(data));
   }
 
   equals(other) {
-    return is(this.data, other.data);
+    return im.is(this.data, other.data);
   }
 
   checkColumnLength(values) {
@@ -182,7 +182,7 @@ export class Table {
       rows.push(await func.call(row));
     }
 
-    return Table.fromRows(List(rows), this.columns());
+    return Table.fromRows(im.List(rows), this.columns());
   }
 
   async filter(func) {
@@ -195,7 +195,7 @@ export class Table {
       }
     }
 
-    return Table.fromRows(List(rows), this.columns());
+    return Table.fromRows(im.List(rows), this.columns());
   }
 
   getRow(index) {
@@ -206,7 +206,7 @@ export class Table {
       map.set(column, values.get(index));
     }
 
-    return OrderedMap(map);
+    return im.OrderedMap(map);
   }
 
   addRow(row) {
@@ -218,7 +218,7 @@ export class Table {
       data.set(column, values.push(row.get(column)));
     }
 
-    return new Table(OrderedMap(data));
+    return new Table(im.OrderedMap(data));
   }
 
   setRow(index, row) {
@@ -231,7 +231,7 @@ export class Table {
       data.set(column, values.set(index, row.get(column)));
     }
 
-    return new Table(OrderedMap(data));
+    return new Table(im.OrderedMap(data));
   }
 
   getColumn(column) {
@@ -243,7 +243,7 @@ export class Table {
     checkType(column, "string");
 
     if (getType(values) !== "list") {
-      values = Repeat(values, this.size).toList();
+      values = im.Repeat(values, this.size).toList();
     }
 
     this.checkColumnLength(values);
@@ -259,7 +259,7 @@ export class Table {
       data.set(column, this.data.get(column));
     }
 
-    return new Table(OrderedMap(data));
+    return new Table(im.OrderedMap(data));
   }
 
   *[Symbol.iterator]() {
@@ -290,7 +290,7 @@ export class Table {
       }
     }
 
-    return Table.fromRows(List(rows), this.columns());
+    return Table.fromRows(im.List(rows), this.columns());
   }
 
   remove(matcher) {
@@ -305,7 +305,7 @@ export class Table {
       }
     }
 
-    return Table.fromRows(List(rows), this.columns());
+    return Table.fromRows(im.List(rows), this.columns());
   }
 
   findMatch(matcher) {
@@ -335,7 +335,7 @@ export class Table {
       data.set(column, values.concat(otherValues));
     }
 
-    return new Table(OrderedMap(data));
+    return new Table(im.OrderedMap(data));
   }
 
   static merge(tables) {
@@ -353,7 +353,7 @@ export class Table {
       data.set(column, []);
     }
 
-    data = OrderedMap(data);
+    data = im.OrderedMap(data);
 
     for (const table of tables) {
       checkType(table, "table");
@@ -364,7 +364,7 @@ export class Table {
       }
     }
 
-    return new Table(data.map(List));
+    return new Table(data.map(im.List));
   }
 
   toString() {

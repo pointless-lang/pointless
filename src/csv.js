@@ -1,5 +1,5 @@
 import { parse as csvParse } from "csv-parse/sync";
-import { OrderedMap, List } from "immutable";
+import im from "immutable";
 
 export function parseData(source) {
   // sketchy, doesn't parse quoted strings
@@ -20,7 +20,7 @@ export function parseData(source) {
     }
   }
 
-  return OrderedMap(columns).map(List);
+  return im.OrderedMap(columns).map(im.List);
 }
 
 const number = /^\d*\.?\d+([eE][+-]?\d+)?$/;

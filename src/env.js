@@ -7,7 +7,7 @@ import { show } from "./repr.js";
 import { getImport } from "./import.js";
 import { Panic } from "./panic.js";
 import { dirname } from "node:path";
-import { is, OrderedMap, OrderedSet, List, Repeat } from "immutable";
+import im from "immutable";
 
 export class Returner {
   constructor(value) {
@@ -166,9 +166,9 @@ export class Env {
       case "while":
         return this.evalWhile(node);
       case "list":
-        return List(await this.evalEach(node.value));
+        return im.List(await this.evalEach(node.value));
       case "set":
-        return OrderedSet(await this.evalEach(node.value));
+        return im.OrderedSet(await this.evalEach(node.value));
       case "object":
         return this.evalObject(node);
       case "access":
@@ -226,9 +226,9 @@ export class Env {
 
     switch (op) {
       case "==":
-        return is(a, b);
+        return im.is(a, b);
       case "!=":
-        return !is(a, b);
+        return !im.is(a, b);
       case "+": {
         const typeA = getType(a);
         checkType(b, typeA);
@@ -254,7 +254,7 @@ export class Env {
           case "list":
             checkType(b, "number");
             checkWhole(b);
-            return List(Repeat(a, b)).flatten(true);
+            return im.List(im.Repeat(a, b)).flatten(true);
         }
       }
     }
@@ -352,7 +352,7 @@ export class Env {
   //
   // gets interpreted by `update` as something like this:
   //   prev = items[i].quantity
-  //   items = obj.set(items, i, list.set(items[i], "quantity", prev + 1))
+  //   items = Obj.set(items, i, List.set(items[i], "quantity", prev + 1))
 
   async update(container, keys, isCompound, rhs) {
     if (!keys.length) {
@@ -430,7 +430,7 @@ export class Env {
       elems.push(await func.call(elem, ...args));
     }
 
-    return List(elems);
+    return im.List(elems);
 
     // let toTable = getType(iter) === "table";
     // let keys;
@@ -447,7 +447,7 @@ export class Env {
     //   }
     // }
 
-    // return toTable ? Table.fromRows(List(elems), keys) : List(elems);
+    // return toTable ? Table.fromRows(im.List(elems), keys) : im.List(elems);
   }
 
   async evalFilter(node) {
@@ -475,7 +475,7 @@ export class Env {
       }
     }
 
-    return List(elems);
+    return im.List(elems);
   }
 
   evalFn(node) {
@@ -528,7 +528,7 @@ export class Env {
       for (const patternNode of patterns) {
         const pattern = await this.eval(patternNode);
 
-        if (is(pattern, cond)) {
+        if (im.is(pattern, cond)) {
           return await this.eval(body);
         }
       }
@@ -613,7 +613,7 @@ export class Env {
       map.set(key, await this.eval(valueNode));
     }
 
-    return OrderedMap(map);
+    return im.OrderedMap(map);
   }
 
   async evalAccess(node) {

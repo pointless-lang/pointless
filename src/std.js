@@ -2,7 +2,7 @@ import { checkType, getType } from "./values.js";
 import { Func } from "./func.js";
 import { Env } from "./env.js";
 import { readdir } from "node:fs/promises";
-import { OrderedMap } from "immutable";
+import im from "immutable";
 
 let std;
 let modules;
@@ -16,7 +16,7 @@ async function makeModules() {
   // or use spread syntax or default param values
   const paramChars = /\(([$\w\s,]*)\)/;
   const fileNames = await readdir(import.meta.dirname + "/../std");
-  
+
   // Remove .js file extension
   const modNames = fileNames.map((fileName) => fileName.slice(0, -3));
 
@@ -61,23 +61,23 @@ async function makeModules() {
 
 function makeGlobals() {
   globals = {
-    assert: modules.test.assert,
-    chars: modules.str.chars,
-    clear: modules.console.clear,
-    join: modules.str.join,
-    max: modules.list.max,
-    min: modules.list.min,
-    print: modules.console.print,
-    prompt: modules.console.prompt,
-    range: modules.list.range,
-    round: modules.math.round,
-    roundTo: modules.math.roundTo,
-    sleep: modules.async.sleep,
-    sort: modules.list.sort,
-    sortDesc: modules.list.sortDesc,
-    span: modules.list.span,
-    split: modules.str.split,
-    sum: modules.list.sum,
+    assert: modules.Test.assert,
+    chars: modules.Str.chars,
+    clear: modules.Console.clear,
+    join: modules.Str.join,
+    max: modules.List.max,
+    min: modules.List.min,
+    print: modules.Console.print,
+    prompt: modules.Console.prompt,
+    range: modules.List.range,
+    round: modules.Math.round,
+    roundTo: modules.Math.roundTo,
+    sleep: modules.Async.sleep,
+    sort: modules.List.sort,
+    sortDesc: modules.List.sortDesc,
+    span: modules.List.span,
+    split: modules.Str.split,
+    sum: modules.List.sum,
   };
 }
 
@@ -99,17 +99,17 @@ function makeOverloads() {
   };
 
   const typesMap = {
-    list: "list",
-    none: "nada",
-    number: "math",
-    object: "obj",
-    set: "set",
-    string: "str",
-    table: "table",
+    list: "List",
+    none: "Nada",
+    number: "Math",
+    object: "Obj",
+    set: "Set",
+    string: "Str",
+    table: "Table",
   };
 
   variants = {};
-  modules.overloads = {};
+  modules.Overloads = {};
 
   for (const [name, params] of Object.entries(overloads)) {
     const types = [];
@@ -131,10 +131,10 @@ function makeOverloads() {
       return modules[modName][name].call(...args);
     };
 
-    const fullName = `overloads.${name}`;
+    const fullName = `Overloads.${name}`;
     const overload = new Func(handler, fullName, params);
     globals[name] = overload;
-    modules.overloads[name] = overload;
+    modules.Overloads[name] = overload;
   }
 }
 
@@ -144,7 +144,7 @@ function makeStd() {
   // Need to sort cause overloads was added later
   for (let name of Object.keys(modules).toSorted()) {
     // Convert modules to ptls objects
-    defs[name] = OrderedMap(modules[name]);
+    defs[name] = im.OrderedMap(modules[name]);
   }
 
   Object.assign(defs, globals);

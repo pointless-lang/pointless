@@ -2,7 +2,7 @@ import { Panic } from "./panic.js";
 import { Table } from "./table.js";
 import { Func } from "./func.js";
 import { Ref } from "./ref.js";
-import { OrderedMap, OrderedSet, List } from "immutable";
+import im from "immutable";
 
 export function getType(value) {
   if (value === null) {
@@ -25,15 +25,15 @@ export function getType(value) {
       return "reference";
   }
 
-  if (OrderedMap.isOrderedMap(value)) {
+  if (im.isOrderedMap(value)) {
     return "object";
   }
 
-  if (OrderedSet.isOrderedSet(value)) {
+  if (im.isOrderedSet(value)) {
     return "set";
   }
 
-  if (List.isList(value)) {
+  if (im.isList(value)) {
     return "list";
   }
 
