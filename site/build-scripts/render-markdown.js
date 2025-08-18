@@ -14,7 +14,7 @@ async function renderCode(code, config, filePath, env) {
   try {
     tokens = tokenize(`${filePath}:embedded`, code);
   } catch (err) {
-    console.error(String(err));
+    console.error(String(err), err);
     tokens = [];
     panic = h`<pre class="result panic"><code>${err}</code></pre>`;
   }
@@ -46,7 +46,7 @@ async function renderCode(code, config, filePath, env) {
     try {
       statements = parse(tokens);
     } catch (err) {
-      console.error(err);
+      console.error(String(err), err);
       statements = [];
       panic = h`<pre class="result panic"><code>${err}</code></pre>`;
     }
@@ -68,7 +68,7 @@ async function renderCode(code, config, filePath, env) {
         }
       } catch (err) {
         if (!config["panics"]) {
-          console.error(String(err));
+          console.error(String(err), err);
         }
 
         panic = h`<pre class="result panic"><code>${err}</code></pre>`;
