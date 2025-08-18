@@ -1,9 +1,9 @@
 fn isMatch(word)
   letters = word
     | chars
-    | set.of
+    | Set.of
 
-  set.hasAll(alphabet, letters) and has(letters, required)
+  Set.hasAll(alphabet, letters) and has(letters, required)
 end
 
 fn getScore(word)
@@ -13,7 +13,7 @@ fn getScore(word)
 
   unique = word
     | chars
-    | set.of
+    | Set.of
     | len
 
   if unique == 7 then
@@ -28,24 +28,24 @@ maxScore = 0
 while maxScore == 0 do
   alphabet = "abcdefghijklmnopqrstuvwxyz"
     | chars
-    | rand.shuffle
+    | Rand.shuffle
     | take(7)
 
   required = alphabet[3]
-  alphabet |= set.of
+  alphabet |= Set.of
 
   answers = import "lines:words.txt"
     ? len(arg) >= 4
     ? isMatch
-    | set.of
+    | Set.of
 
   maxScore = answers
-    | list.of
+    | List.of
     $ getScore
     | sum
 end
 
-guessed = set.of([])
+guessed = Set.of([])
 score = 0
 
 while score < maxScore do
@@ -56,13 +56,13 @@ while score < maxScore do
   "
 
   for letter in alphabet do
-    grid |= str.replaceFirst(".", letter)
+    grid |= Str.replaceFirst(".", letter)
   end
 
   print(grid)
 
   guessed
-    | list.of
+    | List.of
     | join(" ")
     | print("Guessed: $arg")
 
@@ -78,7 +78,7 @@ while score < maxScore do
   elif has(guessed, guess) then
     print("Already guessed")
   else
-    guessed |= set.add(guess)
+    guessed |= Set.add(guess)
     score += getScore(guess)
   end
 

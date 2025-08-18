@@ -10,8 +10,8 @@ for r, row in board do
       i = n - 1
       rows[r][i] = true
       cols[c][i] = true
-      br = math.floor(r / 3)
-      bc = math.floor(c / 3)
+      br = Math.floor(r / 3)
+      bc = Math.floor(c / 3)
       blocks[br][bc][i] = true
     end
   end
@@ -32,8 +32,8 @@ fn solve(solver, r, c)
     return solve(solver, r, c + 1)
   end
 
-  br = math.floor(r / 3)
-  bc = math.floor(c / 3)
+  br = Math.floor(r / 3)
+  bc = Math.floor(c / 3)
 
   for n in span(1, 9) do
     i = n - 1
@@ -68,7 +68,7 @@ end
 fn showRow(row)
   row
     $ if arg == 0 then " " else arg end
-    | list.chunks(3)
+    | List.chunks(3)
     $ join(" ")
     | join(" | ")
 end
@@ -76,7 +76,7 @@ end
 fn show(solver)
   solver.board
     $ showRow
-    | list.chunks(3)
+    | List.chunks(3)
     $ join("\n")
     | join("\n------+-------+------\n")
 end

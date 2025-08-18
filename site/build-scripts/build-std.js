@@ -19,7 +19,7 @@ function getDocStr(func) {
 }
 
 function showTags(modName, name, value) {
-  if (modName !== "overloads" && variants[name]) {
+  if (modName !== "Overloads" && variants[name]) {
     return `<span class="tag" title="Overloaded"></span>`;
   }
 
@@ -53,7 +53,7 @@ async function showDocs(modName, name, value, consts) {
       variants[name] &&
       h`
         <p class="overloads">
-          (Accessible as a global through <a href="./overloads#${name}">overloads.${name}</a>)
+          (Accessible as a global through <a href="./Overloads#${name}">Overloads.${name}</a>)
         </p>
       `;
 

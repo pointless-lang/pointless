@@ -1,8 +1,8 @@
 size = 10
 
 fn newGoal()
-  x = rand.range(size)
-  y = rand.range(size)
+  x = Rand.range(size)
+  y = Rand.range(size)
   { x, y }
 end
 
@@ -12,12 +12,12 @@ game = {
   playing: true,
   growing: false,
   head: { x: 1, y: 1 },
-  body: table.new(["x", "y"]),
+  body: Table.new(["x", "y"]),
   goal: newGoal(),
   score: 0,
 }
 
-deltaRef = ref.of({ x: 1, y: 0 })
+deltaRef = Ref.of({ x: 1, y: 0 })
 
 fn printBoard(board)
   border = "──" * size
@@ -60,7 +60,7 @@ fn moveHead(game)
 
   game.growing = false
 
-  delta = ref.get(deltaRef)
+  delta = Ref.get(deltaRef)
 
   game.head.x += delta.x
   game.head.y += delta.y
@@ -74,7 +74,7 @@ fn checkCollision(game)
   if has(game.body, game.head) then
     game.playing = false
     -- Temporary workaround for lack of JS promise cancellation
-    console.pauseStdin()
+    Console.pauseStdin()
     render(game)
   end
 
@@ -101,7 +101,7 @@ end
 
 fn getInput()
   while true do
-    key = console.rawKey().name
+    key = Console.rawKey().name
 
     delta =
       if key == "left" then
@@ -114,7 +114,7 @@ fn getInput()
         { x: 0, y: 1 }
       end
      
-    ref.set(deltaRef, delta)
+    Ref.set(deltaRef, delta)
   end
 end
 
@@ -130,4 +130,4 @@ fn update()
   end
 end
 
-async.getFirst([getInput, update])
+Async.getFirst([getInput, update])

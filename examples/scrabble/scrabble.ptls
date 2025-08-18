@@ -13,11 +13,11 @@ end
 
 text
   | split(" ")
-  | list.unique
+  | List.unique
   $ wordInfo
-  | table.of
-  | table.group("letter")
-  $ table.top("score", 1)
-  | table.merge
+  | Table.of
+  | Table.group("letter")
+  $ Table.top("score", 1)
+  | Table.merge
   | sortBy("letter")
   | print

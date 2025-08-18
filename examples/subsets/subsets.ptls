@@ -10,13 +10,13 @@ end
 
 fn subsets(elems)
   elems
-    | list.of
+    | List.of
     | sublists(0)
-    $ set.of
+    $ Set.of
 end
 
 "abcd"
   | chars
-  | set.of
+  | Set.of
   | subsets
   | print

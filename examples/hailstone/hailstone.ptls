@@ -24,7 +24,7 @@ fn scale(n, maxVal)
 end
 
 fn getBar(scaled)
-  bars[math.min(math.floor(scaled), 7)]
+  bars[Math.min(Math.floor(scaled), 7)]
 end
 
 fn chart(values)

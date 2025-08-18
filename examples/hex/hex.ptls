@@ -4,7 +4,7 @@ fn parse(string)
   assert(len(string) > 0)
 
   digits = string
-    | str.toLower
+    | Str.toLower
     | reverse
     | chars
 
@@ -12,7 +12,7 @@ fn parse(string)
 
   for digit in digits do
     result *= 16
-    result += list.indexOf(hexDigits, digit)
+    result += List.indexOf(hexDigits, digit)
   end
 
   result
@@ -20,13 +20,13 @@ end
 
 fn toHex(n)
   assert(n >= 0)
-  assert(math.isInt(n))
+  assert(Math.isInt(n))
 
   result = ""
 
   while n > 0 or result == "" do
     result += hexDigits[n % 16]
-    n = math.floor(n / 16)
+    n = Math.floor(n / 16)
   end
 
   reverse(result)

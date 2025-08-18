@@ -22,7 +22,7 @@ fn next(cells, r, c)
     end
   end
 
-  math.toNum(nbrs == 3 or nbrs + cell == 3)
+  Math.toNum(nbrs == 3 or nbrs + cell == 3)
 end
 
 fn update(cells)

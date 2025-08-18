@@ -13,7 +13,7 @@ maze = "
 "
 
 board = maze
-  | str.lines
+  | Str.lines
   $ chars
 
 print(board)

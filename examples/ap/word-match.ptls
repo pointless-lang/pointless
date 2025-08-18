@@ -4,7 +4,7 @@ fn scoreGuess(word, guess)
   matches = 0
 
   while word != "" do
-    matches += math.toNum(str.startsWith(word, guess))
+    matches += Math.toNum(Str.startsWith(word, guess))
     word |= drop(1)
   end
 

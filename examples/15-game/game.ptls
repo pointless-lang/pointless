@@ -1,6 +1,6 @@
 fn update(board, key)
-  oldInd = list.indexOf(board, "")
-  r = math.floor(oldInd / 4)
+  oldInd = List.indexOf(board, "")
+  r = Math.floor(oldInd / 4)
   c = oldInd % 4
 
   match key
@@ -10,12 +10,12 @@ fn update(board, key)
     case "down"  then r -= 1
   end
 
-  newInd = math.clamp(r, 0, 3) * 4 + math.clamp(c, 0, 3)
-  list.swap(board, oldInd, newInd)
+  newInd = Math.clamp(r, 0, 3) * 4 + Math.clamp(c, 0, 3)
+  List.swap(board, oldInd, newInd)
 end
 
 fn makeBoard()
-  board = rand.shuffle(span(1, 15))
+  board = Rand.shuffle(span(1, 15))
   swaps = 0
 
   for i in range(15) do
@@ -26,8 +26,8 @@ fn makeBoard()
     end
   end
 
-  if math.isEven(swaps) then
-    board |= list.swap(0, 1)
+  if Math.isEven(swaps) then
+    board |= List.swap(0, 1)
   end
 
   [""] + board
@@ -47,8 +47,8 @@ fn show(board)
   "
 
   for cell in board do
-    padded = str.padLeft(cell, 2)
-    template |= str.replaceFirst("..", padded)
+    padded = Str.padLeft(cell, 2)
+    template |= Str.replaceFirst("..", padded)
   end
 
   clear()
@@ -62,7 +62,7 @@ fn play()
   show(board)
 
   while board != solved do    
-    board |= update(console.rawKey().name)
+    board |= update(Console.rawKey().name)
     show(board)
   end
 end

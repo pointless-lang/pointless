@@ -9,7 +9,7 @@ for index, op in ops do
   elif op == "]" then
     jumps[stack[-1]] = index
     jumps[index] = stack[-1]
-    stack |= list.pop
+    stack |= List.pop
   end
 end
 

@@ -22,19 +22,19 @@ fn getStats(group)
   }
 end
 
-home = table.of({
+home = Table.of({
   team: games.homeTeam,
   scored: games.homeScore,
   allowed: games.awayScore,
 })
 
-away = table.of({
+away = Table.of({
   team: games.awayTeam,
   scored: games.awayScore,
   allowed: games.homeScore,
 })
 
 (home + away)
-  | table.summarize("team", getStats)
+  | Table.summarize("team", getStats)
   | sortDescBy("winPct")
   | print

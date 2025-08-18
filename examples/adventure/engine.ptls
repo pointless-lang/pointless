@@ -23,7 +23,7 @@ fn update(game)
   end
 
   choice = prompt("\nEnter a number: ")
-  game.current = paths[math.toNum(choice) - 1].dest
+  game.current = paths[Math.toNum(choice) - 1].dest
   game
 end
 

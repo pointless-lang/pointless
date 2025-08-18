@@ -3,7 +3,7 @@
 purchases = import "csv:purchases.csv"
 
 fn calcTotal(group)
-  threshold = list.median(group.amount) * 10
+  threshold = List.median(group.amount) * 10
 
   total = group
     ? arg.amount <= threshold
@@ -14,6 +14,6 @@ fn calcTotal(group)
 end
 
 purchases
-  | table.summarize("country", calcTotal)
+  | Table.summarize("country", calcTotal)
   | sortDescBy("total")
   | print

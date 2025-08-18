@@ -1,8 +1,8 @@
 source = import "lines:chart.asm"
 
 instrs = source
-  $ str.trim
-  ? not (isEmpty(arg) or str.startsWith(arg, "--"))
+  $ Str.trim
+  ? not (isEmpty(arg) or Str.startsWith(arg, "--"))
 
 vm = {
   ip: 0,
@@ -17,18 +17,18 @@ vm = {
 fn regIndex(regName)
   regName
     | drop(1)
-    | str.toNum
+    | Str.toNum
 end
 
 fn evalArg(token, vm)
-  if str.startsWith(token, "r") then
+  if Str.startsWith(token, "r") then
     vm.registers[regIndex(token)]
   else
-    str.toNum(token)
+    Str.toNum(token)
   end
 end
 
-binOps = set.of([
+binOps = Set.of([
   "add", "sub", "mul", "div", "mod", "eq", "gt", "lt", "and", "or"
 ])
 
@@ -94,7 +94,7 @@ fn runInst(vm, inst)
       vm.memory[args[1]] = args[0]
       vm.lastMem = args[1]
     case "print" then
-      vm.output += char.of(args[0])
+      vm.output += Char.of(args[0])
     else
       throw({ err: "invalid instruction", op })
   end
@@ -138,7 +138,7 @@ fn logMem(vm)
 end
 
 fn logOutput(vm)
-  console.write("\n$vm.output")
+  Console.write("\n$vm.output")
 end
 
 fn run(vm)

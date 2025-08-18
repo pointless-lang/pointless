@@ -6,8 +6,8 @@ fn getChars(word)
 end
 
 groups = import "lines:unixdict.txt"
-  | list.groupBy(getChars)
-  | obj.values
+  | List.groupBy(getChars)
+  | Obj.values
 
 maxLen = groups
   $ len

@@ -3,7 +3,7 @@ alphabet = chars("abcdefghijklmnopqrstuvwxyz")
 -- Shift a single letter 13 places
 
 fn shift(letter)
-  index = list.indexOf(alphabet, str.toLower(letter))
+  index = List.indexOf(alphabet, Str.toLower(letter))
 
   shifted =
     if index == none then
@@ -12,8 +12,8 @@ fn shift(letter)
       alphabet[(index + 13) % 26]
     end
 
-  if str.isUpper(letter) then
-    str.toUpper(shifted)
+  if Str.isUpper(letter) then
+    Str.toUpper(shifted)
   else
     shifted
   end

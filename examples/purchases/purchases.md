@@ -13,7 +13,7 @@ fn calcTotal(group)
   { total: sum(group.amount) }
 end
 
-table.summarize(purchases, "country", calcTotal)
+Table.summarize(purchases, "country", calcTotal)
 ```
 
 ```ptls
@@ -25,20 +25,20 @@ fn calcTotal(group)
   { total }
 end
 
-table.summarize(purchases, "country", calcTotal)
+Table.summarize(purchases, "country", calcTotal)
 ```
 
 ```ptls
-median = list.median(purchases.amount)
+median = List.median(purchases.amount)
 
 purchases
   ? arg.amount <= median * 10
-  | table.summarize("country", calcTotal)
+  | Table.summarize("country", calcTotal)
 ```
 
 ```ptls
 fn calcTotal(group)
-  threshold = list.median(group.amount) * 10
+  threshold = List.median(group.amount) * 10
 
   total = group
     ? arg.amount <= threshold
@@ -48,5 +48,5 @@ fn calcTotal(group)
   { total }
 end
 
-table.summarize(purchases, "country", calcTotal)
+Table.summarize(purchases, "country", calcTotal)
 ```

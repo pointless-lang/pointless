@@ -1,12 +1,12 @@
 fn height(n)
-  round(10 + 10 * math.cos(n / 4))
+  round(10 + 10 * Math.cos(n / 4))
 end
 
 fn plot(n)
   a = height(n)
   b = height(n + 6)
-  before = " " * math.min(a, b)
-  between = "." * math.abs(a - b)
+  before = " " * Math.min(a, b)
+  between = "." * Math.abs(a - b)
   "$before*$between*"
 end
 

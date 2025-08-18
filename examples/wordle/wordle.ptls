@@ -1,5 +1,5 @@
-words = set.of(import "lines:words.txt")
-answer = rand.sample(words)
+words = Set.of(import "lines:words.txt")
+answer = Rand.sample(words)
 
 fn getScore(guess)
   if not has(words, guess) then
@@ -13,7 +13,7 @@ fn getScore(guess)
     if guess[i] == answer[i] then
       score[i] = "🟩"
     else
-      counts |= obj.setDefault(answer[i], 0)
+      counts |= Obj.setDefault(answer[i], 0)
       counts[answer[i]] += 1
     end
   end
@@ -21,7 +21,7 @@ fn getScore(guess)
   for i in range(5) do
     if
       score[i] != "🟩" and
-      obj.getDefault(counts, guess[i], 0) > 0
+      Obj.getDefault(counts, guess[i], 0) > 0
     then
       score[i] = "🟨"
       counts[guess[i]] -= 1
@@ -35,7 +35,7 @@ score = none
 
 while score != "🟩🟩🟩🟩🟩" do
   guess = prompt("Enter a guess: ")
-  console.write("\u001b[1A\u001b[2K")
+  Console.write("\u001b[1A\u001b[2K")
   score = getScore(guess)
   print("$guess $score")
 end

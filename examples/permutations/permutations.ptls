@@ -4,7 +4,7 @@ fn permutations(elems)
   else
     elems
       $ subPermute(elems)
-      | list.merge
+      | List.merge
   end
 end
 

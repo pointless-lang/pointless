@@ -14,15 +14,15 @@ alphabet = chars("abcdefghijklmnopqrstuvwxyz")
 -- Shift a single letter 13 places
 
 fn shift(letter)
-  index = list.indexOf(alphabet, str.toLower(letter))
+  index = List.indexOf(alphabet, Str.toLower(letter))
 
   if index == none then
     letter
   else
     shifted = alphabet[(index + 13) % 26]
 
-    if str.isUpper(letter) then
-      str.toUpper(shifted)
+    if Str.isUpper(letter) then
+      Str.toUpper(shifted)
     else
       shifted
     end
@@ -67,12 +67,12 @@ containing the `26` letters of the English alphabet. We do this using the
 alphabet = chars("abcdefghijklmnopqrstuvwxyz")
 ```
 
-We can use the `list.indexOf` function to get the index of a character within
+We can use the `List.indexOf` function to get the index of a character within
 `alphabet`. For example, the letter `"i"` (the 9th letter in the alphabet) will
 have index `8` (Pointless lists are _0-indexed_).
 
 ```ptls
-list.indexOf(alphabet, "i")
+List.indexOf(alphabet, "i")
 ```
 
 In addition to finding the index of a letter, we can also do the reverse: get a
@@ -93,7 +93,7 @@ We can write a few lines of code that do just that.
 
 ```ptls
 letter = "i"
-index = list.indexOf(alphabet, letter)
+index = List.indexOf(alphabet, letter)
 shifted = alphabet[(index + 13) % 26]
 ```
 
@@ -109,7 +109,7 @@ single letter and return the corresponding ROT13 encoded letter. We can use the
 
 ```ptls
 fn shift(letter)
-  index = list.indexOf(alphabet, letter)
+  index = List.indexOf(alphabet, letter)
   shifted = alphabet[(index + 13) % 26]
   shifted
 end
@@ -220,7 +220,7 @@ Currently, our code looks like this.
 alphabet = chars("abcdefghijklmnopqrstuvwxyz")
 
 fn shift(letter)
-  index = list.indexOf(alphabet, letter)
+  index = List.indexOf(alphabet, letter)
   shifted = alphabet[(index + 13) % 26]
   shifted
 end
@@ -240,7 +240,7 @@ having `shift` convert `letter` to lowercase before finding its index.
 
 ```ptls
 fn shift(letter)
-  index = list.indexOf(alphabet, str.toLower(letter))
+  index = List.indexOf(alphabet, Str.toLower(letter))
   shifted = alphabet[(index + 13) % 26]
   shifted
 end
@@ -271,11 +271,11 @@ whether `letter` is uppercase and convert `shifted` to uppercase when necessary.
 
 ```ptls
 fn shift(letter)
-  index = list.indexOf(alphabet, str.toLower(letter))
+  index = List.indexOf(alphabet, Str.toLower(letter))
   shifted = alphabet[(index + 13) % 26]
 
-  if str.isUpper(letter) then
-    str.toUpper(shifted)
+  if Str.isUpper(letter) then
+    Str.toUpper(shifted)
   else
     shifted
   end
@@ -292,23 +292,23 @@ cipher(cipher("Cat"))
 ## Non-Alphabetic Characters
 
 The final piece to consider is non-alphabetic characters. Currently, if we call
-`shift` with a non-alphabetic character (like `"!"`), the call to `list.indexOf`
+`shift` with a non-alphabetic character (like `"!"`), the call to `List.indexOf`
 will return `none`. This will cause an error later when we try to do math with
 the `none` value as though it were a number. We can fix this by having `shift`
-check whether `list.indexOf` returned `none` and returning `letter` unmodified
+check whether `List.indexOf` returned `none` and returning `letter` unmodified
 if it did.
 
 ```ptls
 fn shift(letter)
-  index = list.indexOf(alphabet, str.toLower(letter))
+  index = List.indexOf(alphabet, Str.toLower(letter))
 
   if index == none then
     letter
   else
     shifted = alphabet[(index + 13) % 26]
 
-    if str.isUpper(letter) then
-      str.toUpper(shifted)
+    if Str.isUpper(letter) then
+      Str.toUpper(shifted)
     else
       shifted
     end

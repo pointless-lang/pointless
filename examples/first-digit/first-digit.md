@@ -67,19 +67,19 @@ Before we can get the first digit of the number, we need to convert it to a
 string.
 
 ```ptls
-str.of(cities.population[0])
+Str.of(cities.population[0])
 ```
 
 Next, we'll convert our number string into a list of characters.
 
 ```ptls
-chars(str.of(cities.population[0]))
+chars(Str.of(cities.population[0]))
 ```
 
 And get the first digit character from the list.
 
 ```ptls
-chars(str.of(cities.population[0]))[0]
+chars(Str.of(cities.population[0]))[0]
 ```
 
 ## Calculating Frequencies
@@ -88,7 +88,7 @@ Let's take a moment and refactor our code into pipeline syntax using the `|`
 operator and `arg` keyword.
 
 ```ptls --no-eval
-cities.population[0] | chars(str.of(arg))[0]
+cities.population[0] | chars(Str.of(arg))[0]
 ```
 
 We'll tweak this code to use the mapping pipeline operator `$` to get the first
@@ -96,16 +96,16 @@ digit for every population value in the list, rather than just the first
 population.
 
 ```ptls --max-height 200
-cities.population $ chars(str.of(arg))[0]
+cities.population $ chars(Str.of(arg))[0]
 ```
 
-Finally, we'll use `list.counts` to get the occurrence count and share for each
+Finally, we'll use `List.counts` to get the occurrence count and share for each
 value.
 
 ```ptls
 cities.population
-  $ chars(str.of(arg))[0]
-  | list.counts
+  $ chars(Str.of(arg))[0]
+  | List.counts
 ```
 
 Now we have the frequency information (in the `share` column) for each starting
@@ -118,8 +118,8 @@ we'll go back and store our table in a new variable.
 
 ```ptls --no-echo
 digitStats = cities.population
-  $ chars(str.of(arg))[0]
-  | list.counts
+  $ chars(Str.of(arg))[0]
+  | List.counts
 ```
 
 We can use this new variable to access the values in the `share` column as a
@@ -177,8 +177,8 @@ Here's the complete code.
 cities = import "csv:pa-cities.csv"
 
 digitStats = cities.population
-  $ chars(str.of(arg))[0]
-  | list.counts
+  $ chars(Str.of(arg))[0]
+  | List.counts
 
 digitStats.share $= roundTo(arg * 100, 1)
 
