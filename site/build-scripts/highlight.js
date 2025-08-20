@@ -10,7 +10,7 @@ const globals = new Set([
   "Fs",
   "List",
   "Math",
-  "Nada",
+  "None",
   "Obj",
   "Overloads",
   "Rand",

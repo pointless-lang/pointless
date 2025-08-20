@@ -100,7 +100,7 @@ function makeOverloads() {
 
   const typesMap = {
     list: "List",
-    none: "Nada",
+    none: "None",
     number: "Math",
     object: "Obj",
     set: "Set",
