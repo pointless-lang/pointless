@@ -1,26 +1,11 @@
 @import url("base.css");
 
-.page-links {
-  padding: 0;
-  list-style: none;
-}
-
-.page-links li + li {
-  margin-top: 30px;
-}
-
-.page-links strong {
-  margin-bottom: 16px;
-  display: inline-block;
-  font-size: 1.1rem;
-}
-
-.page-links a {
-  display: block;
-}
-
 .contents {
   margin-left: 24px;
+}
+
+.def-name {
+  font-size: 1.16rem;
 }
 
 #sidebar ul {
@@ -37,7 +22,7 @@
 
 .tag {
   font-weight: bold;
-  font-size: 0.8em;
+  font-size: 0.9em;
   padding: 1px 6px 2px;
   margin-inline: 1px;
   border-radius: 3px;
