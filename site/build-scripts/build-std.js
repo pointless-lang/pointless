@@ -3,11 +3,9 @@ import { renderMarkdown } from "./render-markdown.js";
 import { h } from "./escape.js";
 import { getType } from "../../src/values.js";
 import { loadMeta } from "../../src/std.js";
-import { mkdir } from "node:fs/promises";
+import { mkdir, readFile } from "node:fs/promises";
 
-let modules;
-let globals;
-let variants;
+const intro = await readFile("site/pages/stdlib/intro.md", "utf8");
 
 function getDocStr(func) {
   const comment = func.handler
@@ -23,11 +21,11 @@ function getDocStr(func) {
 }
 
 function showTags(modName, name, value) {
-  if (modName !== "Overloads" && variants[name]) {
+  if (modName !== "Overloads" && meta.variants[name]) {
     return `<span class="tag" title="Overloaded"></span>`;
   }
 
-  if (globals[name] === value) {
+  if (meta.globals[name] === value) {
     return `<span class="tag" title="Global"></span>`;
   }
 
@@ -40,7 +38,7 @@ function showTags(modName, name, value) {
 
 async function showDocs(modName, name, value, consts) {
   if (modName === "Overloads") {
-    const items = variants[name].map(
+    const items = meta.variants[name].map(
       (child) => h`<li><a href="#${child.name}">${child}</a></li>`,
     );
 
@@ -54,7 +52,7 @@ async function showDocs(modName, name, value, consts) {
 
   if (getType(value) === "function") {
     const overloader =
-      variants[name] &&
+      meta.variants[name] &&
       h`
         <p class="overloads">
           (Accessible as a global through <a href="./Overloads#${name}">Overloads.${name}</a>)
@@ -95,11 +93,7 @@ function makeSidebar(modName, mod) {
     `,
   );
 
-  return h`
-    <ul>
-      $$${links}
-    </ul>
-  `;
+  return h`<ul>$$${links}</ul>`;
 }
 
 async function showMod(modName, mod, docs, consts) {
@@ -111,49 +105,43 @@ async function showMod(modName, mod, docs, consts) {
 
   return h`
     $$${await renderMarkdown(modName, docs)}
-
     <a href="."><strong>↩ Back to Standard Library Contents</strong></a>
-
     $$${defs}
   `;
 }
 
-export async function buildStd() {
-  const meta = await loadMeta();
-  modules = meta.modules;
-  globals = meta.globals;
-  variants = meta.variants;
+let meta;
 
-  await mkdir(`site/dist/docs/stdlib`, { recursive: true });
+export async function buildStd() {
+  meta = await loadMeta();
+
+  await mkdir(`site/dist/stdlib`, { recursive: true });
 
   const links = [];
   const main = [];
 
-  for (const [modName, mod] of Object.entries(modules)) {
+  for (const [modName, mod] of Object.entries(meta.modules)) {
     const { _docs = "", _consts = {} } = await import(
       `../../std/${modName}.js`
     );
 
-    links.push(h`
-      <li>
-        <code><a href="${modName}.html">${modName}</a></code>
-      </li>
-    `);
+    links.push(
+      h`<li><code><a href="${modName}.html">${modName}</a></code></li>`,
+    );
 
-    const summary = _docs.trim().split("\n")[0];
+    const firstLine = _docs.trim().split("\n")[0];
+    const summary = await renderMarkdown("std", firstLine);
 
     main.push(h`
       <li>
-        <a href="${modName}.html">
-          <strong>${modName}</strong>
-        </a>
+        <a href="${modName}.html"><strong>${modName}</strong></a>
       
-        <div>$$${summary}</div>
+        $$${summary}
       </li>
     `);
 
     await writePage(
-      `docs/stdlib/${modName}.html`,
+      `stdlib/${modName}.html`,
       `Standard Library: ${modName}`,
       "std.css",
       makeSidebar(modName, mod),
@@ -162,18 +150,16 @@ export async function buildStd() {
   }
 
   await writePage(
-    `docs/stdlib/index.html`,
+    `stdlib/index.html`,
     `Standard Library`,
     "std.css",
+    h`<ul>$$${links}</ul>`,
     h`
-      <ul>
-        $$${links}
-      </ul>
-    `,
-    h`
-      <ul class="page-links">
-        $$${main}
-      </ul>
+      $$${await renderMarkdown("std", intro)}
+
+      <hr />
+
+      <ul class="page-links">$$${main}</ul>
     `,
   );
 }

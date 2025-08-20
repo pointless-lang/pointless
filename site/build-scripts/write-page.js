@@ -24,10 +24,10 @@ export function base(title, style, sidebar, main) {
 
           <nav>
             <ul>
-              <li><a href="/">Home</a></li>
               <li><a href="/get-started/">Get Started</a></li>
-              <li><a href="/docs/">Documentation</a></li>
               <li><a href="/philosophy/">Philosophy</a></li>
+              <li><a href="/language/">Language</a></li>
+              <li><a href="/stdlib/">Standard Lib</a></li>
               <li><a href="/articles/">Articles</a></li>
             </ul>
           </nav>

@@ -2,31 +2,35 @@
 title: Best Practices
 ---
 
-These best-practices are meant to help you make effective use of the language features of Pointless. They are recommendations, not strict rules. This guide focuses on the core language, rather than the standard library. For more information on Pointless language features see the language reference.
+These best-practices are meant to help you make effective use of the language
+features of Pointless. They are recommendations, not strict rules. This guide
+focuses on the core language, rather than the standard library. For more
+information on Pointless language features see the language reference.
 
 ## Use Compound Assignment
 
 Use compound assignment operators when possible.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 score += 1
 price |= round
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 score = score + 1
 price = round(price)
 ```
 
 ## Avoid Getter Functions
 
-Use built-in syntax to access list elements, object values, and table rows and columns.
+Use built-in syntax to access list elements, object values, and table rows and
+columns.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 games[0].score
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 Obj.get(Table.get(games, 0), "score")
 ```
 
@@ -34,14 +38,14 @@ Obj.get(Table.get(games, 0), "score")
 
 Use variable updates instead of setter functions to transform data structures.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 evilTwin = player
 evilTwin.malice = 100
 
 player.enemies += 1
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 evilTwin = Obj.set(player, "malice", 100)
 
 player = Obj.set(player, "enemies", player.enemies + 1)
@@ -57,11 +61,11 @@ to worry about variable aliasing issues like you would in other languages._
 Use variable updates instead of object concatenation to update
 [record objects](/docs/language/objects#record-objects).
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 player.health += 1
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 player += { health: player.health + 1 }
 ```
 
@@ -71,12 +75,12 @@ Use objects to represent [records](/docs/language/objects#record-objects)
 (structures with a fixed number of entries that each have a distinct role). Do
 not use lists as records.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 point = { x: 1, y: 2 }
 card = { value: 10, suit: "hearts" }
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 point = [1, 2]
 card = [10, "hearts"]
 ```
@@ -86,11 +90,11 @@ card = [10, "hearts"]
 Use object key punning when setting an object key to a variable of the same
 name.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 point = { x, y }
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 point = { x: x, y: y }
 ```
 
@@ -98,11 +102,11 @@ point = { x: x, y: y }
 
 Omit quotes for keys in [record objects](/docs/language/objects#record-objects).
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 { city: "Chicago", state: "IL", population: 2721308 }
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 { "city": "Chicago", "state": "IL", "population": 2721308 }
 ```
 
@@ -111,7 +115,7 @@ Omit quotes for keys in [record objects](/docs/language/objects#record-objects).
 Use valid identifiers as [record object](/docs/language/objects#record-objects)
 keys and table columns.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 { userName: "Clementine", userId: 0 }
 
 Table.of([
@@ -120,7 +124,7 @@ Table.of([
 ])
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 { "user name": "Clementine", "user-id": 0 }
 
 Table.of([
@@ -133,11 +137,11 @@ Table.of([
 
 Use `.` syntax for object keys and table columns when possible.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 city.name
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 city["name"]
 ```
 
@@ -145,7 +149,7 @@ city["name"]
 
 Use tables to store lists of objects with matching keys.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 Table.of([
   { city: "New York", state: "NY", population: 8478072 },
   { city: "Los Angeles", state: "CA", population: 3878704 },
@@ -154,7 +158,7 @@ Table.of([
 ])
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 [
   { city: "New York", state: "NY", population: 8478072 },
   { city: "Los Angeles", state: "CA", population: 3878704 },
@@ -168,11 +172,11 @@ Table.of([
 Use the row lookup feature of tables to find individual rows based on unique
 field values.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 philly = cities[{ name: "Philadelphia" }]
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 philly = (cities ? arg.name == "Philadelphia")[0]
 ```
 
@@ -180,11 +184,11 @@ philly = (cities ? arg.name == "Philadelphia")[0]
 
 When possible, structure table updates around columns rather than rows.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 products.price $= arg - 1
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 products $= arg + { price: arg.price - 1 }
 ```
 
@@ -192,11 +196,11 @@ products $= arg + { price: arg.price - 1 }
 
 Use `isEmpty` instead of `len(...) == 0` to check for empty data structures.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 isEmpty(playlist)
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 len(playlist) == 0
 ```
 
@@ -204,11 +208,11 @@ len(playlist) == 0
 
 Use `push` to append a single item to a list or table instead of concatenation.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 numbers |= push(n)
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 numbers += [n]
 ```
 
@@ -216,11 +220,11 @@ numbers += [n]
 
 Use negative indices to access items from the end of a list or table.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 items[-1]
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 items[len(items) - 1]
 ```
 
@@ -228,12 +232,12 @@ items[len(items) - 1]
 
 Use the `*` operator to repeat strings and list elements.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 ":)" * 4
 [0] * 10
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 ":):):):)"
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ```
@@ -242,11 +246,11 @@ Use the `*` operator to repeat strings and list elements.
 
 Use string interpolation instead of concatenation.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 "Hello $person.name!"
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 "Hello " + person.name + "!"
 ```
 
@@ -254,11 +258,11 @@ Use string interpolation instead of concatenation.
 
 Omit unnecessary parentheses around interpolated variables.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 "$price dollars for a pair of socks!?"
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 "$(price) dollars for a pair of socks!?"
 ```
 
@@ -266,11 +270,11 @@ Omit unnecessary parentheses around interpolated variables.
 
 Use raw strings to avoid excessive escape sequences.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 r"C:\Users\Ducky\Documents"
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 "C:\\Users\\Ducky\\Documents"
 ```
 
@@ -278,11 +282,11 @@ r"C:\Users\Ducky\Documents"
 
 Omit unnecessary levels of raw string quote escaping.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 r#"Hello "world!""#
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 r##"Hello "world!""##
 ```
 
@@ -290,7 +294,7 @@ r##"Hello "world!""##
 
 Use multi-line strings when they make string contents clearer.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 "
 ▓▓  ▓▓▓ ▓    ▓▓
 ▓ ▓  ▓  ▓   ▓
@@ -300,7 +304,7 @@ Use multi-line strings when they make string contents clearer.
 "
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 "▓▓  ▓▓▓ ▓    ▓▓\n▓ ▓  ▓  ▓   ▓\n▓▓   ▓  ▓    ▓\n▓    ▓  ▓     ▓\n▓    ▓  ▓▓▓ ▓▓"
 ```
 
@@ -309,7 +313,7 @@ Use multi-line strings when they make string contents clearer.
 Leverage the automatic trimming and alignment behavior of multi-line strings to
 format code more legibly.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 if printPtls then
   print("
   ▓▓  ▓▓▓ ▓    ▓▓
@@ -321,7 +325,7 @@ if printPtls then
 end
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 if printPtls then
   print("▓▓  ▓▓▓ ▓    ▓▓
 ▓ ▓  ▓  ▓   ▓
@@ -338,13 +342,13 @@ _These two strings produce the same output. For details see
 
 Don't include redundant boolean comparisons in logical expressions.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 if item.onSale then
   print(item.price / 2)
 end
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 if item.onSale == true then
   print(item.price / 2)
 end
@@ -354,13 +358,13 @@ end
 
 Use `not` instead of `== false`.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 if not Math.isInt(quantity) then
   print("quantity must be a whole number")
 end
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 if Math.isInt(quantity) == false then
   print("quantity must be a whole number")
 end
@@ -371,26 +375,26 @@ end
 Use parentheses in expressions that mix different boolean operators (`and`,
 `or`, or `not`).
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 isGood and (isFast or isCheap)
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 isGood and isFast or isCheap
 ```
 
 ## Use Set Membership
 
-Use sets instead of lists to store a large number of values on which you
-will be calling `has`.
+Use sets instead of lists to store a large number of values on which you will be
+calling `has`.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 scrabbleWords = Set.of(import "lines:scrabble-dict.txt")
 
 has(scrabbleWords, "yeet")
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 scrabbleWords = import "lines:scrabble-dict.txt"
 
 has(scrabbleWords, "yeet")
@@ -401,7 +405,7 @@ has(scrabbleWords, "yeet")
 Use `match` instead of `if` when matching an expression to three or more
 possible values.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 match spin
   case "gimel" then
     score += pot
@@ -415,7 +419,7 @@ match spin
 end
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 if spin == "gimel" then
   score += pot
   pot = 0
@@ -432,7 +436,7 @@ end
 
 Flatten nested conditionals when possible.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 if n > 0 then
   "positive"
 elif n < 0 then
@@ -442,7 +446,7 @@ else
 end
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 if n > 0 then
   "positive"
 else
@@ -458,7 +462,7 @@ end
 
 Lift variable assignments outside of simple conditionals.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 sweetener =
   if diet == "vegan" then
     "agave"
@@ -479,7 +483,7 @@ end
 
 Refactor nested function calls into pipeline syntax when possible.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 games
   | Table.summarize("team", getStats)
   | sortDescBy("winPct")
@@ -495,7 +499,7 @@ print(sortDescBy(Table.summarize(games, "team", getStats), "winPct"))
 Use the map `$` and filter `?` operators instead of `map` and `filter`
 functions.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 numbers ? Math.isEven $ arg / 2
 ```
 
@@ -507,7 +511,7 @@ List.map(List.filter(numbers, Math.isEven), fn(n) n * 2 end)
 
 Omit parentheses for single-argument functions in pipelines.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 numbers
   $ Math.sqrt
   | print
@@ -523,7 +527,7 @@ numbers
 
 Use top-level function definitions instead of anonymous functions.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 fn distance(point, center)
   dx = point.x - center.x
   dy = point.y - center.y
@@ -555,7 +559,7 @@ end
 
 Use `arg` in function pipelines instead of anonymous functions.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 words $ translations[arg]
 ```
 
@@ -569,7 +573,7 @@ Put the most important parameter first in a function definition. If a function
 could be described as transforming, accessing, or analyzing one of its
 arguments, then that argument is probably the most important.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 fn swap(list, indexA, indexB)
   -- Transform `list` by swapping the values at `indexA` and `indexB`
 end
@@ -586,14 +590,14 @@ end
 
 fn startsWith(prefix, string)
   -- Check if `string` starts with `prefix`
-end  
+end
 ```
 
 ## Write Pure Functions
 
 Write pure (side effect free) functions when possible.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 fn showTask(task)
   if task.done then
     "[x] $task.name"
@@ -623,7 +627,7 @@ tasks $ printTask
 
 Don't use `return` for the final expression in a function.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 fn sqrt(n)
   n ** 0.5
 end
@@ -651,7 +655,7 @@ end
 
 Don't use early `return` statements that don't simplify your code.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 fn min(a, b)
   if a < b then a else b end
 end
@@ -671,7 +675,7 @@ end
 
 Refactor code to avoid using `elif` or `else` after a return statement.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 fn findOdd(numbers)
   for n in numbers do
     if Math.isOdd(n) then
@@ -697,10 +701,10 @@ end
 
 ## Use Specific Functions
 
-If a function exists that specifically accomplishes a desired task, choose it over more
-general functions.
+If a function exists that specifically accomplishes a desired task, choose it
+over more general functions.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 chars("Hello world!")
 pop(items)
 ```
@@ -714,7 +718,7 @@ dropLast(items, 1)
 
 Omit module prefixes when calling global functions.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 print("Hello world!")
 ```
 
@@ -726,7 +730,7 @@ Console.print("Hello world!")
 
 Don't shadow global built-in functions.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 message = "Enter a rating 1-5: "
 maximum = 5
 ```
@@ -738,9 +742,11 @@ max = 5
 
 ## Use Camel Case
 
-Use camel case for multi-word variable, function, and [record objects](/docs/language/objects#record-objects) key names. Don't capitalize single-word names.
+Use camel case for multi-word variable, function, and
+[record objects](/docs/language/objects#record-objects) key names. Don't
+capitalize single-word names.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 gameState = "paused"
 
 fn point(x, y)
@@ -760,7 +766,7 @@ end
 
 Don't use uppercase names for constants.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 pi = 3.141592654
 ```
 
@@ -772,7 +778,7 @@ PI = 3.141592654
 
 Include a leading `0` in decimal literals for numbers between `0` and `1`.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 n = 0.1
 ```
 
@@ -785,7 +791,7 @@ n = .1
 Include a comma after the last item in a list or object expression spanning
 multiple lines.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 days = [
   "Lunes",
   "Martes",
@@ -814,7 +820,7 @@ days = [
 Don't include a comma after the last argument in a function call spanning
 multiple lines.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 split(
   "Lunes Martes Miércoles Jueves Viernes Sábado Domingo",
   " "
@@ -832,7 +838,7 @@ split(
 
 Library code should not have side effects when imported.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 fn maximum(a, b)
   if a > b then a else b end
 end
@@ -844,7 +850,7 @@ end
 { maximum, showInfo }
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 fn maximum(a, b)
   if a > b then a else b end
 end
@@ -858,7 +864,7 @@ print("Maximum™ Version 1.0, patent pending")
 
 Export objects instead of individual definitions.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 fn maximum(a, b)
   if a > b then a else b end
 end
@@ -866,7 +872,7 @@ end
 { maximum }
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 fn maximum(a, b)
   if a > b then a else b end
 end
@@ -878,11 +884,11 @@ maximum
 
 Use `import` to load files from a fixed path relative to your source file.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 story = import "text:alice.txt"
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 -- Won't work if script is called outside the source directory
 story = Fs.read("alice.txt")
 ```
@@ -891,11 +897,11 @@ story = Fs.read("alice.txt")
 
 Use import directives when they simplify your code.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 story = import "lines:alice.txt"
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 story = Str.lines(import "text:alice.txt")
 ```
 
@@ -903,13 +909,13 @@ story = Str.lines(import "text:alice.txt")
 
 Omit unnecessary loop variables.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 for 10 do
   print("loading")
 end
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 for n in range(10) do
   print("loading")
 end
@@ -919,13 +925,13 @@ end
 
 Use a second loop variable to track indices when looping over lists or tables.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 for player, index in rankings do
   print("$index $player")
 end
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 index = 0
 
 for player in rankings do
@@ -938,13 +944,13 @@ end
 
 Use a second loop variable to track values when looping over objects.
 
-```ptls --no-eval --class good
+```ptls --no-eval --class yes
 for item, quantity in inventory do
   print("$item x $quantity")
 end
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 for item in inventory do
   quantity = inventory[item]
   print("$item x $quantity")
