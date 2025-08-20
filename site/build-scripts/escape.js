@@ -10,18 +10,17 @@ function escapeHtml(string) {
 export function h(strings, ...values) {
   let result = "";
 
-  for (const [index, value] of values.entries()) {
+  for (let [index, value] of values.entries()) {
     const str = strings[index];
 
-    if (str.endsWith("$$")) {
-      const val = [value]
-        .flat(Infinity)
-        .map((val) => (val ? val : ""))
-        .join("");
+    const flattened =
+      typeof value?.[Symbol.iterator] === "function" ? [...value] : [value];
 
+    if (str.endsWith("$$")) {
+      const val = flattened.map((val) => (val ? val : "")).join("");
       result += str.slice(0, -2) + val;
     } else {
-      const val = [value].flat(Infinity).map(String).join("");
+      const val = flattened.map(String).join("");
       result += str + escapeHtml(val);
     }
   }
