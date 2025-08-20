@@ -33,7 +33,7 @@ export function of(value) {
   //
   // - If `value` is a list of objects, these objects become the rows of the
   //   table. The objects must have the same keys, which become the column
-  //   names.
+  //   names. Note that a table with no columns will always have zero rows.
   //
   // - If `value` is a table, return it.
   //
@@ -50,12 +50,6 @@ export function of(value) {
   //   { name: "Lamar", pos: "qb", yards: 4172, tds: 41, ints: 4 },
   //   { name: "Josh", pos: "qb", yards: 3731, tds: 28, ints: 6 }
   // ])
-  // ```
-  //
-  // Note that a table with no columns will always have zero rows.
-  //
-  // ```ptls
-  // Table.of([{}, {}])
   // ```
 
   checkType(value, "object", "list", "table");
@@ -825,7 +819,7 @@ export function sortDescBy(table, columns) {
 export function top(table, columns, count) {
   // Sort `table` in descending order by `columns` and take the first
   // `count` rows of the sorted table.
-  // 
+  //
   // Equivalent to `take(sortDescBy(table, columns), count)`.
   //
   // ```ptls
@@ -1069,9 +1063,11 @@ export function counts(table) {
     }
   }
 
-  const rows = im.List(counts.values()).map(({ row, count }) =>
-    row.set("count", count).set("share", count / table.size),
-  );
+  const rows = im
+    .List(counts.values())
+    .map(({ row, count }) =>
+      row.set("count", count).set("share", count / table.size),
+    );
 
   const result = of(rows);
   return sortDescBy(result, "count");

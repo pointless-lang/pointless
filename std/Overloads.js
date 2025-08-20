@@ -1,2 +1,2 @@
 export const _docs =
-  "Bundling similar type-specific functions into unified global functions.";
+  "Global wrapper functions combining similar type-specific functions.";
