@@ -1,5 +1,6 @@
 ---
-title: First-Digit Law
+title: First-Digit Law Tutorial
+parent: Articles
 ---
 
 ## Introduction

@@ -1,5 +1,6 @@
 ---
 title: The Pointless Language
+summary: A Language for Learning
 ---
 
 ```ptls
@@ -22,5 +23,5 @@ fn cipher(message)
     | join("")
 end
 
-cipher("uryyb jbeyq!")
+cipher("uryyb jbeyq")
 ```

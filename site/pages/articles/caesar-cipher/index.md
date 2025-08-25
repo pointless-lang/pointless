@@ -1,8 +1,7 @@
 ---
-title: Caesar Cipher
+title: Caesar Cipher Tutorial
+summary: Encode and decode text using a Caesar cipher.
 ---
-
-## Introduction
 
 Let's see an example to get a feel for the language. I'll show you how I wrote
 the following program, which can encode and decode a message using a simple

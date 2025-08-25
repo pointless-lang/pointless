@@ -1,3 +1,9 @@
+---
+title: Standard Library
+type: collection
+summary: Modules containing built-in functionality
+---
+
 The Pointless standard library contains useful built-in functions and constants.
 This functionality is split into modules: globally-defined objects with
 definitions based around common themes. For instance, the `Str` module contains
