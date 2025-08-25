@@ -138,11 +138,7 @@ class Parser {
   updateImplicit(name, loc) {
     if (name === "arg") {
       if (!this.implicits.length) {
-        throw new Panic(
-          "implicit function argument cannot be used here",
-          {},
-          loc,
-        );
+        throw new Panic("pipeline placeholder cannot be used here", {}, loc);
       }
 
       this.implicits[this.implicits.length - 1] ??= loc;

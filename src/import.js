@@ -56,7 +56,7 @@ export async function getImport(root, path) {
 
 async function dispatch(prefix, relPath, absPath) {
   if (prefix === "raw") {
-    return [...(await readFile(absPath))];
+    return im.List(await readFile(absPath));
   }
 
   const source = await readFile(absPath, "utf8");
