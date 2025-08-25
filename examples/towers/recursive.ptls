@@ -5,7 +5,7 @@ towers = [span(height, 1), [], []]
 
 fn moveSingle(towers, src, dest)
   towers[dest] |= push(towers[src][-1])
-  towers[src] |= pop
+  towers[src] |= List.pop
   showTowers(towers, height)
   towers
 end
@@ -13,13 +13,13 @@ end
 fn solve(towers, src, dest, depth)
   if depth > 0 then
     tmpIndex = 3 - src - dest
-    towers |= arg
+    towers
       | solve(src, tmpIndex, depth - 1)
       | moveSingle(src, dest)
       | solve(tmpIndex, dest, depth - 1)
+  else
+    towers
   end
-
-  towers
 end
 
 showTowers(towers, height)

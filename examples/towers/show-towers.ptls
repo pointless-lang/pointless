@@ -29,7 +29,7 @@ fn showTowers(towers, height)
 
   clear()
   combined $ print
-  sleep(200)
+  sleep(100)
 end
 
 showTowers
