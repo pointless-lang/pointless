@@ -1,1 +1,226 @@
-print(re.match("vanessa@example.com, megan@xkcd.com", r"(?<name>\w+)@(?<domain>\w+\.\w+)"))
+fn log(result, message)
+  print(message)
+  result
+end
+
+alphabet = chars("abcdefghijklmnopqrstuvwxyz")
+
+fn shift(letter)
+  index = List.indexOf(alphabet, letter)
+
+  if index == none then
+    letter
+  else
+    alphabet[(index + 13) % 26]
+  end
+
+  | log(arg, { letter })
+end
+
+fn cipher(message)
+  message
+    | chars
+    $ shift
+    | join("")
+end
+
+"uryyb jbeyq"
+  | cipher
+  | print
+
+-- "ptls"
+--   | chars
+--   $ arg * 2
+--   | join("")
+--   | print
+
+-- if true then
+--   print("
+--   ▓▓  ▓▓▓ ▓    ▓▓
+--   ▓ ▓  ▓  ▓   ▓
+--   ▓▓   ▓  ▓    ▓
+--   ▓    ▓  ▓     ▓
+--   ▓    ▓  ▓▓▓ ▓▓
+--   ")
+-- end
+
+-- player = "rock"
+-- ai = "scissors"
+
+-- winner = match [player, ai]
+--   case
+--     ["rock", "scissors"],
+--     ["paper", "rock"],
+--     ["scissors", "paper"],
+--   then "player"
+
+--   case
+--     ["rock", "paper"],
+--     ["paper", "scissors"],
+--     ["scissors", "rock"],
+--   then "ai"
+
+--   else none
+-- end
+
+--     print("
+--     ▒
+--     ▒
+--     ▒
+
+--     ▒
+--     ")
+
+-- rankInfo = table.of({
+--   rank: ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"],
+--   value: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10],
+--   index: range(13),
+-- })
+
+-- fn getValue(card)
+--   rankInfo[{ rank: card.rank }].value
+-- end
+
+-- fn getIndex(card)
+--   rankInfo[{ rank: card.rank }].index
+-- end
+
+-- symbols = {
+--   h: "♥",
+--   d: "♦",
+--   c: "♣",
+--   s: "♠",
+-- }
+
+-- deck = table.new(["rank", "suit"])
+
+-- for rank in rankInfo.rank do
+--   for suit in symbols do
+--     deck |= push({ rank, suit })
+--   end
+-- end
+
+-- fn show(card)
+--   symbol = symbols[card.suit]
+--   "$card.rank$symbol "
+-- end
+
+-- fn subsets(cards)
+--   cards
+--     | set.of
+--     | set.powerset
+--     | remove(set.of([]))
+--     $ list.of
+--     $ table.of
+--     $ table.defaultCols(["rank", "suit"])
+-- end
+
+-- fn isRun(cards)
+--   vals = getCounts(cards)
+
+--   if not set.isSet(vals) then
+--     false
+--   else
+--     len = length(cards)
+--     len >= 3 and len == max(vals) - min(vals) + 1
+--   end
+-- end
+
+-- fn is15(cards)
+--   sum(getValue(cards)) == 15
+-- end
+
+-- fn isRun(cards)
+--   n = len(cards)
+
+--   if n < 3 then
+--     return false
+--   end
+
+--   values = cards
+--     $ getValue
+--     | list.unique
+
+--   len(values) == n and max(values) - min(values) + 1 == n
+-- end
+
+-- fn isFlush(cards)
+--   len(cards) >= 4 and len(list.unique(cards.suit)) == 1
+-- end
+
+-- fn isPair(cards)
+--   len(cards) == 2 and cards[0].rank == cards[1].rank
+-- end
+
+-- hand = table.of([
+--   { rank: "6", suit: "s" },
+--   { rank: "7", suit: "c" },
+--   { rank: "8", suit: "d" },
+--   { rank: "8", suit: "h" },
+-- ])
+
+-- hand
+--   | subsets
+--   ? isRun
+--   | print
+
+-- -- hand
+-- --   | getScore
+-- --   | print
+
+-- -- monads
+-- -- icon
+-- -- theme
+-- -- build
+-- -- delete css
+-- -- docs no css
+-- -- name
+-- -- auto gen site
+
+-- -- who
+-- -- what
+-- -- how
+-- -- who
+
+-- -- language for education
+-- -- action is tutorial
+-- -- better demo code
+
+-- -- footer: docs, contact, source
+
+-- no partial app
+
+-- avoid lambdas, python was right
+-- remove complex while conditions
+-- no partial app
+-- arg no lambda functions
+
+-- removed setter variables
+
+-- functional:
+-- point free
+-- transformations
+-- little functions
+-- expressions
+-- declarative
+-- immutable
+-- no methods
+-- no oop
+
+-- not:
+-- macros
+-- homoiconicity
+-- laziness
+-- recursion
+-- immutable definitions
+-- partial application
+-- anon functions
+-- modules
+-- type theory
+-- dsls
+
+-- update syntax
+-- combine records and maps, tuples and lists, not sets and lists
+
+-- auto std dispatch
+-- smalljawns
