@@ -21,7 +21,7 @@ async function renderCode(code, config, filePath, env) {
 
   const source =
     !config["hide"] &&
-    h`<pre><code class="ptls">$$${highlight(tokens)}</code></pre>`;
+    h`<pre><code class="ptls">$${highlight(tokens)}</code></pre>`;
 
   let resultLines = "";
   let finalDef = "";
@@ -63,7 +63,7 @@ async function renderCode(code, config, filePath, env) {
           const value = env.lookup(name);
 
           finalDef = h`
-            <pre class="result ${wrap}" $$${style}><code><div class="var-name">${name}</div>${display(value)}</code></pre>
+            <pre class="result ${wrap}" $${style}><code><div class="var-name">${name}</div>${display(value)}</code></pre>
           `;
         }
       } catch (err) {
@@ -80,15 +80,15 @@ async function renderCode(code, config, filePath, env) {
     resultLines =
       echo &&
       results.length &&
-      h`<pre class="result ${wrap}" $$${style}><code>${results.join("\n")}</code></pre>`;
+      h`<pre class="result ${wrap}" $${style}><code>${results.join("\n")}</code></pre>`;
   }
 
   return h`
     <div class="snippet ${config.class}">
-      $$${source}
-      $$${resultLines}
-      $$${finalDef}
-      $$${panic}
+      $${source}
+      $${resultLines}
+      $${finalDef}
+      $${panic}
     </div>`;
 }
 
@@ -118,7 +118,7 @@ const renderer = {
     const hr = depth === 2 ? "<hr />" : "";
 
     return h`
-      $$${hr}
+      $${hr}
       
       <h${depth} id="${anchor}">
         <a href="#${anchor}">${text}</a>

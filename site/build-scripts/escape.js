@@ -7,22 +7,24 @@ function escapeHtml(string) {
     .replace(/'/g, "&#39;");
 }
 
+export function serialize(value, raw) {
+  const flattened =
+    typeof value?.[Symbol.iterator] === "function" ? [...value] : [value];
+
+  return raw
+    ? flattened.map((val) => (val ? val : "")).join("")
+    : escapeHtml(flattened.map(String).join(""));
+}
+
 export function h(strings, ...values) {
   let result = "";
 
   for (let [index, value] of values.entries()) {
     const str = strings[index];
 
-    const flattened =
-      typeof value?.[Symbol.iterator] === "function" ? [...value] : [value];
-
-    if (str.endsWith("$$")) {
-      const val = flattened.map((val) => (val ? val : "")).join("");
-      result += str.slice(0, -2) + val;
-    } else {
-      const val = flattened.map(String).join("");
-      result += str + escapeHtml(val);
-    }
+    result += str.endsWith("$")
+      ? str.slice(0, -1) + serialize(value, true)
+      : str + serialize(value, false);
   }
 
   return result + strings.at(-1);
