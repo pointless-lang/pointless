@@ -4,8 +4,7 @@ title: Best Practices
 
 These best-practices are meant to help you make effective use of the language
 features of Pointless. They are recommendations, not strict rules. This guide
-focuses on the core language, rather than the standard library. For more
-information on Pointless language features see the language reference.
+focuses on the core language, rather than the standard library.
 
 ## Use Compound Assignment
 
