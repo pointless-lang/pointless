@@ -22,10 +22,22 @@ export function of(code) {
   return String.fromCodePoint(code);
 }
 
+export function code(char) {
+  // Get the Unicode code point of the single-character string `char`.
+  //
+  // ```ptls
+  // Char.code("A")
+  // Char.code("🙂")
+  // ```
+
+  checkChar(char);
+  return char.codePointAt(0);
+}
+
 function checkChar(string) {
   checkType(string, "string");
 
-  if (string.length != 1) {
+  if ([...string].length != 1) {
     throw new Panic("expected a single character", { string });
   }
 }
@@ -42,5 +54,5 @@ export function span(from, to) {
 
   checkChar(from);
   checkChar(to);
-  return List.span(from.charCodeAt(0), to.charCodeAt(0)).map(of);
+  return List.span(from.codePointAt(0), to.codePointAt(0)).map(of);
 }

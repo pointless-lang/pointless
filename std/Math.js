@@ -136,6 +136,20 @@ export function clamp(n, min, max) {
   return Math.max(min, Math.min(max, n));
 }
 
+export function wrap(n, start, limit) {
+  checkType(n, "number");
+  checkType(start, "number");
+  checkType(limit, "number");
+
+  if (start >= limit) {
+    throw new Panic("start must be less than limit");
+  }
+
+  const diff = limit - start;
+  const offset = (((n - start) % diff) + diff) % diff;
+  return start + offset;
+}
+
 export function sign(n) {
   // Return the sign of `n`.
   //

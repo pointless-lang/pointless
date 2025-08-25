@@ -40,6 +40,12 @@ export async function read(path) {
 }
 
 export async function readBytes(path) {
+  // Read the file at `path` as a list of bytes.
+  //
+  // ```ptls --no-eval
+  // Fs.readBytes("icon.png")
+  // ```
+
   try {
     return im.List(await readFile(path));
   } catch (err) {
@@ -75,12 +81,12 @@ export async function ls(path) {
   // List the contents of the directory at `path`.
   //
   // ```ptls --no-eval
-  // ls("./pointless")
+  // ls("./school")
   // ```
   // Example output:
   //
   // ```
-  // ["docs/", "examples/", "package.json", "src/", "std/", "test.ptls"]
+  // ["classes/", "notes/", "to-do.txt"]
   // ```
 
   const fullPath = resolve(path);
