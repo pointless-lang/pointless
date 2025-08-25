@@ -427,27 +427,33 @@ export class Env {
     const elems = [];
 
     for (const elem of iter) {
+      // setBlame improves error location reporting
+      //
+      // >> ["a"] $ Math.abs $ print
+      // panic: type error
+      // expected: number
+      // got: string
+      //
+      // ["a"] $ Math.abs $ print
+      //             ^
+      // At repl:1:13
+      //
+      // VS
+      //
+      // >> ["a"] $ Math.abs $ print
+      // panic: type error
+      // expected: number
+      // got: string
+      //
+      // ["a"] $ Math.abs $ print
+      //                  ^
+      // At repl:1:18
+
+      this.setBlame(funcNode.loc);
       elems.push(await func.call(elem, ...args));
     }
 
     return im.List(elems);
-
-    // let toTable = getType(iter) === "table";
-    // let keys;
-
-    // for (const elem of iter) {
-    //   const result = await func.call(elem, ...args);
-    //   elems.push(result);
-
-    //   toTable &&= getType(result) === "object";
-
-    //   if (toTable) {
-    //     keys ??= result.keySeq().toList();
-    //     toTable &&= result.keySeq().equals(keys);
-    //   }
-    // }
-
-    // return toTable ? Table.fromRows(im.List(elems), keys) : im.List(elems);
   }
 
   async evalFilter(node) {
@@ -470,6 +476,7 @@ export class Env {
     const elems = [];
 
     for (const elem of iter) {
+      this.setBlame(funcNode.loc);
       if (await func.callCondition(elem, ...args)) {
         elems.push(elem);
       }
