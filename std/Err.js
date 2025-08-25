@@ -1,8 +1,6 @@
 import { checkType } from "../src/values.js";
 import { Err } from "../src/err.js";
 
-export const _docs = "Throw and catch errors.";
-
 // In Pointless, errors are normal values which are raised and handled using a
 // special control flow.
 

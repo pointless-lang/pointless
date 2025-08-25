@@ -3,9 +3,6 @@ import { Panic } from "../src/panic.js";
 import { Err } from "../src/err.js";
 import im from "immutable";
 
-export const _docs =
-  "Functions for writing tests and verifying program behavior.";
-
 export function assert(predicate) {
   // Panic if the boolean `predicate` is `false`.
   //

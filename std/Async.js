@@ -1,8 +1,6 @@
 import { checkType } from "../src/values.js";
 import im from "immutable";
 
-export const _docs = "Manage concurrent operations.";
-
 // In Pointless, all function calls are implicitly awaited; there are no raw
 // promises that can be created and awaited later. Instead, the \`async\` module
 // provides a small set of structured tools for running batches of functions

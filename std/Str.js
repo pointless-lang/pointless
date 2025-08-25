@@ -4,8 +4,6 @@ import { show } from "../src/repr.js";
 import { Panic } from "../src/panic.js";
 import im from "immutable";
 
-export const _docs = "Functions for working with strings (pieces of text).";
-
 export function of(value) {
   // Get the string representation of `value`.
   //

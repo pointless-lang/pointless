@@ -2,8 +2,6 @@ import { checkType, getType } from "../src/values.js";
 import { checkKey, isMatch } from "../src/obj.js";
 import im from "immutable";
 
-export const _docs = "Functions for working with objects.";
-
 export function of(value) {
   // Convert `value` to an object, where `value` is either a table or an
   // object. If `value` is a table, return an object whose keys are column

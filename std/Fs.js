@@ -6,28 +6,11 @@ import { resolve } from "node:path";
 import { readdir } from "node:fs/promises";
 import im from "immutable";
 
-export const _docs = `
-Read and manipulate files and directories.
-
-Paths are resolved relative to the current working directory.
-`;
-
 export async function read(path) {
   // Read the text file at `path`.
   //
   // ```ptls --no-eval
   // Fs.read("lyrics.txt")
-  // ```
-  //
-  // *Tip:* To read files from a fixed path, consider using `import`, which
-  // which allows you to load and process file contents from a path relative
-  // to a script's source file.
-  //
-  // ```ptls --no-eval
-  // someVar = import "text:some-file.txt"  -- Import text as a string
-  // someVar = import "lines:some-file.txt" -- Import text as a list of lines
-  // someVar = import "csv:some-file.csv"   -- Import CSV as a table
-  // someVar = import "json:some-file.json" -- Import JSON as a ptls value
   // ```
 
   checkType(path, "string");

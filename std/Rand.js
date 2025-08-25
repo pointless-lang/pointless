@@ -4,8 +4,6 @@ import { checkNonEmpty } from "../src/list.js";
 import { Table } from "../src/table.js";
 import im from "immutable";
 
-export const _docs = "Generate random values.";
-
 export function random() {
   // Get a random fractional number between `0` and `1`.
   //

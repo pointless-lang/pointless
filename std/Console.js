@@ -6,8 +6,6 @@ import { emitKeypressEvents } from "node:readline";
 import { stdin, stdout } from "node:process";
 import im from "immutable";
 
-export const _docs = "Printing, prompting, and low-level console interaction.";
-
 export function print(value) {
   // Print `value` to stdout and return `value`.
   //

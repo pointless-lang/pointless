@@ -1,15 +1,6 @@
 import { checkType } from "../src/values.js";
 import { checkPositive, checkNumResult, checkWhole } from "../src/num.js";
-
-export const _docs = "Mathematical functions and constants.";
-
-export const _consts = {
-  e: "Euler's number.",
-  inf: "Floating-point infinity.",
-  nan: '"Not a number". [Cursed floating-point nonsense](https://stackoverflow.com/questions/1565164/what-is-the-rationale-for-all-comparisons-returning-false-for-ieee754-nan-values).',
-  pi: "The constant π (pi).",
-  tau: "`2 * Math.pi`. See [The Tau Manifesto](https://www.tauday.com/tau-manifesto).",
-};
+import { Panic } from "../src/panic.js";
 
 export const pi = Math.PI;
 export const tau = pi * 2;

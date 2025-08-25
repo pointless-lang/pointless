@@ -1,9 +1,6 @@
 import { checkType } from "../src/values.js";
 import im from "immutable";
 
-export const _docs =
-  "Functions for working with sets (collections of unique values).";
-
 export function of(values) {
   // Get a set containing each value in `values`. `values` may be
   // a list, table, or set. If `values` is a table then `Set.of(values)`

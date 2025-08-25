@@ -3,9 +3,6 @@ import { show } from "../src/repr.js";
 import { Table } from "../src/table.js";
 import im from "immutable";
 
-export const _docs =
-  "Use regular expressions to search and manipulate strings.";
-
 const cache = new Map();
 
 function lookup(pattern) {

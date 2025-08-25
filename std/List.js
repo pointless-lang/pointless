@@ -6,8 +6,6 @@ import { Table } from "../src/table.js";
 import { Panic } from "../src/panic.js";
 import im from "immutable";
 
-export const _docs = "Functions for working with lists.";
-
 export function of(values) {
   // Get a list containing each value in `values`. `values` may be
   // a set, table, or list. If `values` is a table then `List.of(values)`

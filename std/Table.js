@@ -6,8 +6,6 @@ import { repr } from "../src/repr.js";
 import { Panic } from "../src/panic.js";
 import im from "immutable";
 
-export const _docs = "Functions for working with tables.";
-
 function flattenCols(table, columns) {
   checkType(columns, "string", "list");
 

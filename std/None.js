@@ -1,7 +1,5 @@
 import { getType } from "../src/values.js";
 
-export const _docs = "Functions for working with none values.";
-
 export function orElse(value, $default) {
   // Return `default` if `value` is `none`, otherwise return `value`.
   //
