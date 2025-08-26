@@ -550,6 +550,30 @@ export function max(numbers) {
   return listExtremum(numbers, Math.max);
 }
 
+export function minNone(numbers) {
+  // Get the minimum of `numbers` or `none` if `numbers` is empty.
+  //
+  // ```ptls
+  // List.minNone([-7, 1, 50])
+  // List.minNone([])
+  // ```
+
+  checkType(numbers, "list");
+  return isEmpty(numbers) ? null : listExtremum(numbers, Math.min);
+}
+
+export function maxNone(numbers) {
+  // Get the maximum of `numbers` or `none` if `numbers` is empty.
+  //
+  // ```ptls
+  // List.maxNone([-7, 1, 50])
+  // List.maxNone([])
+  // ```
+
+  checkType(numbers, "list");
+  return isEmpty(numbers) ? null : listExtremum(numbers, Math.max);
+}
+
 export function sum(numbers) {
   // Get the sum of `numbers`.
   //
