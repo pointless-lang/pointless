@@ -470,7 +470,7 @@ export class Env {
     const func = await this.eval(funcNode, "function");
 
     if (getType(iter) === "table") {
-      return await iter.filter(func);
+      return await iter.filter(func, args);
     }
 
     const elems = [];

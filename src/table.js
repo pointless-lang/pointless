@@ -185,12 +185,12 @@ export class Table {
     return Table.fromRows(im.List(rows), this.columns());
   }
 
-  async filter(func) {
+  async filter(func, args = []) {
     checkType(func, "function");
     const rows = [];
 
     for (const row of this) {
-      if (await func.callCondition(row)) {
+      if (await func.callCondition(row, ...args)) {
         rows.push(row);
       }
     }
