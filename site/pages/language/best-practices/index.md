@@ -1,10 +1,15 @@
 ---
 title: Best Practices
+summary: Guidelines for writing clear and concise Pointless code
 ---
 
 These best-practices are meant to help you make effective use of the language
-features of Pointless. They are recommendations, not strict rules. This guide
-focuses on the core language, rather than the standard library.
+features of Pointless. They are recommendations, not strict rules. You can find
+detailed semantic descriptions for the language features covered here in the
+[language reference].
+
+This guide focuses on recommendations relating to the core language, rather than
+the [standard library].
 
 ## Use Compound Assignment
 
@@ -55,10 +60,10 @@ second. In Pointless, assignment statements like those in the first code block
 mutate variable bindings, not the data structures themselves, so you don't have
 to worry about variable aliasing issues like you would in other languages._
 
-## Don't Update via Concatenation
+## Don't Concatenate to Update
 
-Use variable updates instead of object concatenation to update
-[record objects](/docs/language/objects#record-objects).
+Use variable updates instead of object concatenation to update [record
+objects][records].
 
 ```ptls --no-eval --class yes
 player.health += 1
@@ -68,11 +73,10 @@ player.health += 1
 player += { health: player.health + 1 }
 ```
 
-## Use Objects to Represent Records
+## Use Objects for Records
 
-Use objects to represent [records](/docs/language/objects#record-objects)
-(structures with a fixed number of entries that each have a distinct role). Do
-not use lists as records.
+Use objects to represent [records] (structures with a fixed number of entries
+that each have a distinct role). Do not use lists as records.
 
 ```ptls --no-eval --class yes
 point = { x: 1, y: 2 }
@@ -99,7 +103,7 @@ point = { x: x, y: y }
 
 ## Omit String Key Quotes
 
-Omit quotes for keys in [record objects](/docs/language/objects#record-objects).
+Omit quotes for keys in [record objects][records].
 
 ```ptls --no-eval --class yes
 { city: "Chicago", state: "IL", population: 2721308 }
@@ -109,10 +113,9 @@ Omit quotes for keys in [record objects](/docs/language/objects#record-objects).
 { "city": "Chicago", "state": "IL", "population": 2721308 }
 ```
 
-## Use Identifier Record Keys and Columns
+## Use Identifier Keys
 
-Use valid identifiers as [record object](/docs/language/objects#record-objects)
-keys and table columns.
+Use valid identifiers as record object keys and table columns.
 
 ```ptls --no-eval --class yes
 { userName: "Clementine", userId: 0 }
@@ -134,7 +137,7 @@ Table.of([
 
 ## Use Dot Syntax
 
-Use `.` syntax for object keys and table columns when possible.
+Use `.` syntax to access and update object keys and table columns when possible.
 
 ```ptls --no-eval --class yes
 city.name
@@ -146,7 +149,7 @@ city["name"]
 
 ## Don't Use Lists as Tables
 
-Use tables to store lists of objects with matching keys.
+Use tables to store lists of [record objects][records] with matching keys.
 
 ```ptls --no-eval --class yes
 Table.of([
@@ -181,7 +184,7 @@ philly = (cities ? arg.name == "Philadelphia")[0]
 
 ## Use Column Operations
 
-When possible, structure table updates around columns rather than rows.
+When possible, structure table operations around columns rather than rows.
 
 ```ptls --no-eval --class yes
 products.price $= arg - 1
@@ -253,7 +256,7 @@ Use string interpolation instead of concatenation.
 "Hello " + person.name + "!"
 ```
 
-## Omit Interpolation Parentheses
+## Omit Interpolation Parens
 
 Omit unnecessary parentheses around interpolated variables.
 
@@ -277,7 +280,7 @@ r"C:\Users\Ducky\Documents"
 "C:\\Users\\Ducky\\Documents"
 ```
 
-## Minimize Raw String Escape Levels
+## Minimize Raw String Escapes
 
 Omit unnecessary levels of raw string quote escaping.
 
@@ -307,7 +310,7 @@ Use multi-line strings when they make string contents clearer.
 "▓▓  ▓▓▓ ▓    ▓▓\n▓ ▓  ▓  ▓   ▓\n▓▓   ▓  ▓    ▓\n▓    ▓  ▓     ▓\n▓    ▓  ▓▓▓ ▓▓"
 ```
 
-## Use Multi-Line String Alignment
+## Leverage String Alignment
 
 Leverage the automatic trimming and alignment behavior of multi-line strings to
 format code more legibly.
@@ -401,7 +404,7 @@ has(scrabbleWords, "yeet")
 
 ## Use Match
 
-Use `match` instead of `if` when matching an expression to three or more
+Use `match` instead of `if` when matching an expression with three or more
 possible values.
 
 ```ptls --no-eval --class yes
@@ -410,8 +413,8 @@ match spin
     score += pot
     pot = 0
   case "hei" then
-    score += Math.ceil(pot / 2)
-    pot -= Math.ceil(pot / 2)
+    score += pot / 2
+    pot /= 2
   case "shin" then
     score -= 1
     pot += 1
@@ -423,8 +426,8 @@ if spin == "gimel" then
   score += pot
   pot = 0
 elif spin == "hei" then
-  score += Math.ceil(pot / 2)
-  pot -= Math.ceil(pot / 2)
+  score += pot / 2
+  pot /= 2
 elif spin == "shin" then
   score -= 1
   pot += 1
@@ -457,7 +460,7 @@ else
 end
 ```
 
-## Refactor Conditional Assignments
+## Refactor Conditional Defs
 
 Lift variable assignments outside of simple conditionals.
 
@@ -470,7 +473,7 @@ sweetener =
   end
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 if diet == "vegan" then
   sweetener = "agave"
 else
@@ -489,7 +492,7 @@ games
   | print
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 print(sortDescBy(Table.summarize(games, "team", getStats), "winPct"))
 ```
 
@@ -502,7 +505,7 @@ functions.
 numbers ? Math.isEven $ arg / 2
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 List.map(List.filter(numbers, Math.isEven), fn(n) n * 2 end)
 ```
 
@@ -516,7 +519,7 @@ numbers
   | print
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 numbers
   $ Math.sqrt()
   | print()
@@ -540,7 +543,7 @@ fn averageDistance(points, center)
 end
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 fn averageDistance(points, center)
   distance = fn(point)
     dx = point.x - center.x
@@ -562,11 +565,50 @@ Use `arg` in function pipelines instead of anonymous functions.
 words $ translations[arg]
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 words $ fn(word) translations[word] end
 ```
 
-## Put the Most Important Parameter First
+## Omit Initial Arg
+
+Omit `arg` that would otherwise be the first argument in a pipeline function
+call.
+
+```ptls --no-eval --class yes
+numbers $ Math.roundTo(2)
+```
+
+```ptls --no-eval --class no
+numbers $ Math.roundTo(arg, 2)
+```
+
+_Note that `arg` cannot be omitted as the first argument if subsequent arguments
+to the function also use `arg`, since using `arg` stops the first argument to a
+pipeline call from being implicitly passed. Refactor calls like these into new
+functions to avoid this situation._
+
+```ptls --no-eval --class yes
+-- Best option: refactor into a new function
+
+fn joinFirst(strs)
+  join(strs, strs[0])
+end
+
+strings | joinFirst
+```
+
+```ptls --no-eval --class no
+-- Incorrect: wrong number of arguments, since using `arg` in the second
+-- argument means that the first argument is no longer implicitly passed
+
+strings | join(arg[0])
+
+-- Correct, but confusing
+
+strings | join(arg, arg[0])
+```
+
+## Put Primary Parameter First
 
 Put the most important parameter first in a function definition. If a function
 could be described as transforming, accessing, or analyzing one of its
@@ -582,7 +624,7 @@ fn startsWith(string, prefix)
 end
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 fn swap(indexA, indexB, list)
   -- Transform `list` by swapping the values at `indexA` and `indexB`
 end
@@ -610,7 +652,7 @@ tasks
   $ print
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 fn printTask(task)
   if task.done then
     print("[x] $task.name")
@@ -636,7 +678,7 @@ fn min(a, b)
 end
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 fn sqrt(n)
   return n ** 0.5
 end
@@ -660,7 +702,7 @@ fn min(a, b)
 end
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 fn min(a, b)
   if a < b then
     return a
@@ -686,7 +728,7 @@ fn findOdd(numbers)
 end
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 fn findOdd(numbers)
   for n in numbers do
     if Math.isOdd(n) then
@@ -708,7 +750,7 @@ chars("Hello world!")
 pop(items)
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 split("Hello world!", "")
 dropLast(items, 1)
 ```
@@ -721,7 +763,7 @@ Omit module prefixes when calling global functions.
 print("Hello world!")
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 Console.print("Hello world!")
 ```
 
@@ -734,46 +776,38 @@ message = "Enter a rating 1-5: "
 maximum = 5
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 prompt = "Enter a rating 1-5: "
 max = 5
 ```
 
 ## Use Camel Case
 
-Use camel case for multi-word variable, function, and
-[record objects](/docs/language/objects#record-objects) key names. Don't
-capitalize single-word names.
+Use camel case for multi-word variable, function, table column, and record
+objects key names. Don't capitalize single-word names. Don't capitalize constant
+names.
 
 ```ptls --no-eval --class yes
 gameState = "paused"
+
+pi = 3.141592654
 
 fn point(x, y)
   { x, y }
 end
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 gamestate = "paused"
+
+PI = 3.141592654
 
 fn Point(x, y)
   { x, y }
 end
 ```
 
-## Don't Use Uppercase for Constants
-
-Don't use uppercase names for constants.
-
-```ptls --no-eval --class yes
-pi = 3.141592654
-```
-
-```ptls --no-eval --class bad
-PI = 3.141592654
-```
-
-## Use Zero for Decimals
+## Use Leading Zero for Decimals
 
 Include a leading `0` in decimal literals for numbers between `0` and `1`.
 
@@ -781,11 +815,11 @@ Include a leading `0` in decimal literals for numbers between `0` and `1`.
 n = 0.1
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 n = .1
 ```
 
-## Use Trailing Commas in Data Structures
+## Use Trailing Structure Comma
 
 Include a comma after the last item in a list or object expression spanning
 multiple lines.
@@ -802,7 +836,7 @@ days = [
 ]
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 days = [
   "Lunes",
   "Martes",
@@ -814,23 +848,41 @@ days = [
 ]
 ```
 
-## Omit Trailing Commas for Function Arguments
+## Omit Trailing Function Comma
 
-Don't include a comma after the last argument in a function call spanning
-multiple lines.
+Don't include a comma after the last argument in a function call or the last
+parameter in a function definition.
 
 ```ptls --no-eval --class yes
 split(
   "Lunes Martes Miércoles Jueves Viernes Sábado Domingo",
   " "
 )
+
+fn manhattanDistance(
+  x1,
+  y1,
+  x2,
+  y2
+)
+  Math.abs(x1 - x2) + Math.abs(y1 - y2)
+end
 ```
 
-```ptls --no-eval --class bad
+```ptls --no-eval --class no
 split(
   "Lunes Martes Miércoles Jueves Viernes Sábado Domingo",
   " ",
 )
+
+fn manhattanDistance(
+  x1,
+  y1,
+  x2,
+  y2,
+)
+  Math.abs(x1 - x2) + Math.abs(y1 - y2)
+end
 ```
 
 ## Avoid Import Side Effects
@@ -955,3 +1007,5 @@ for item in inventory do
   print("$item x $quantity")
 end
 ```
+
+[records]: /language/Objects#records
