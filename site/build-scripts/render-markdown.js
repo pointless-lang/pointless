@@ -1,3 +1,4 @@
+import { autoLinks } from "../auto-links.js";
 import { highlight } from "./highlight.js";
 import { h } from "./escape.js";
 import { spawnWebStd } from "./web-std.js";
@@ -135,6 +136,20 @@ const renderer = {
 
     return text;
   },
+
+  // text({ text }) {
+  //   return text.replaceAll(/\[(.+?)\](?!\()/g, (_, fragment) => {
+  //     let link;
+
+  //     for (const [pattern, url] of Object.entries(autoLinks)) {
+  //       if (fragment.toLowerCase().startsWith(pattern)) {
+  //         return h`<a href="${url}">${fragment}</a>`;
+  //       }
+  //     }
+
+  //     return fragment;
+  //   });
+  // },
 };
 
 export async function renderMarkdown(filePath, source) {
