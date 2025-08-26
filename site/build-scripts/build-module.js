@@ -26,7 +26,8 @@ export function moduleSidebar(path) {
   const links = Object.entries(meta.modules[modName]).map(
     ([name, value]) => h`
       <li>
-        <code><a href="#${name}">${name}</a></code>$${showTags(modName, name, value)}
+        <a href="#${name}">${name}</a>
+        $${showTags(modName, name, value)}
       </li>
     `,
   );
@@ -49,9 +50,10 @@ function getDocStr(func) {
 
 async function showDocs(modName, name, value, consts) {
   if (modName === "Overloads") {
-    const items = meta.variants[name].map(
-      (child) => h`<li><a href="#${child.name}">${child}</a></li>`,
-    );
+    const items = meta.variants[name].map((child) => {
+      const other = child.name.split(".")[0];
+      return h`<li><a href="../${other}/#${name}">${child}</a></li>`;
+    });
 
     return h`
       <p>Overload of:</p>
@@ -66,7 +68,7 @@ async function showDocs(modName, name, value, consts) {
       meta.variants[name] &&
       h`
         <p class="overloads">
-          (Accessible as a global through <a href="./Overloads#${name}">Overloads.${name}</a>)
+          (Accessible as a global through <a href="../Overloads/#${name}">Overloads.${name}</a>)
         </p>
       `;
 
