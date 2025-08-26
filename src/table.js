@@ -419,7 +419,7 @@ function showValue(value) {
     escaped.test(value) ||
     invisible.test(value)
   ) {
-    return repr(value);
+    return repr(value, true);
   }
 
   return value;
