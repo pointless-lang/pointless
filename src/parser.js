@@ -387,20 +387,12 @@ class Parser {
     return new Node("def", loc, { name, keys: [], isCompound: false, rhs });
   }
 
-  checkInFn() {
-    if (!this.fnDepth) {
-      const { loc, value } = this.peek();
-      throw new Panic(
-        "Keyword can only be used within a function",
-        { $keyword: value },
-        loc,
-      );
-    }
-  }
-
   getReturn() {
-    this.checkInFn();
     const { loc } = this.get("return");
+
+    if (!this.fnDepth) {
+      throw new Panic("Cannot use `return` outside of function", loc);
+    }
 
     const value = this.has("elif", "else", "end")
       ? new Node("none", loc, null)
