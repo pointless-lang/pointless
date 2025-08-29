@@ -6,7 +6,7 @@
     "fmt": "prettier --write --prose-wrap=always .",
     "lint": "eslint .; stylelint site/static/css/* notebook/*.css",
     "build": "node --watch-path=. site/build-scripts/build.js",
-    "serve": "serve site/dist"
+    "serve": "serve --config site/serve.json"
   },
   "devDependencies": {
     "command-line-args": "^6.0.1",
