@@ -101,5 +101,13 @@ export async function genModule(path, data) {
     `);
   }
 
-  return defs;
+  const object = await renderMarkdown(
+    modName,
+    `\`\`\`ptls --max-height 200\n${modName}\n\`\`\``,
+  );
+
+  return h`
+    $${object}
+    $${defs}
+  `;
 }
