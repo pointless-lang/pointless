@@ -15,12 +15,12 @@ function defaultSidebar(content) {
   return h`<ol>$${links}</ol>`;
 }
 
-async function makeSidebar(path, type, content) {
+async function makeSidebar(path, type, data, content) {
   switch (type) {
     case "module":
       return await moduleSidebar(path);
     case "collection":
-      return await collectionSidebar(path);
+      return await collectionSidebar(path, data);
     case undefined:
       return defaultSidebar(content);
   }
@@ -31,7 +31,7 @@ export async function makeGenerated(path, type, data) {
     case "module":
       return await genModule(path, data);
     case "collection":
-      return await genCollection(path);
+      return await genCollection(path, data);
     case undefined:
       return "";
   }
@@ -48,7 +48,7 @@ async function buildPage(path, backlink) {
   const { title, type, summary } = data;
 
   const subtitle = summary && parseInline(summary);
-  const sidebar = await makeSidebar(path, type, content);
+  const sidebar = await makeSidebar(path, type, data, content);
 
   const intro = await renderMarkdown(filePath, content);
   const generated = await makeGenerated(path, type, data);

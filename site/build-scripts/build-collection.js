@@ -11,44 +11,47 @@ async function getData(path, fileName) {
   return cache[filePath];
 }
 
-export async function collectionSidebar(path) {
-  const links = [];
-  const files = await readdir(`site/pages/${path}`, {
-    withFileTypes: true,
-  });
+function splitTitle(fullTitle) {
+  return fullTitle?.split(": ").at(-1);
+}
 
-  for (const file of files) {
-    if (file.isDirectory()) {
-      const data = await getData(path, file.name);
-      links.push(
-        h`<li><a href="${file.name}/">${data.link ?? data.title}</a></li>`,
-      );
-    }
+async function getChildren(path, data) {
+  return (
+    data.links ??
+    (await readdir(`site/pages/${path}`, { withFileTypes: true }))
+      .filter((file) => file.isDirectory())
+      .map(({ name }) => name)
+  );
+}
+
+export async function collectionSidebar(path, data) {
+  const links = [];
+
+  for (const file of await getChildren(path, data)) {
+    const data = await getData(path, file);
+    links.push(h`<li><a href="${file}/">${splitTitle(data.title)}</a></li>`);
   }
 
   return h`<ul>$${links}</ul>`;
 }
 
-export async function genCollection(path) {
+export async function genCollection(path, data) {
   const main = [];
-  const files = await readdir(`site/pages/${path}`, { withFileTypes: true });
 
-  for (const file of files) {
-    if (file.isDirectory()) {
-      const data = await getData(path, file.name);
+  for (const file of await getChildren(path, data)) {
+    const data = await getData(path, file);
 
-      const summary = await renderMarkdown(
-        `site/pages/${path}/${file.name}/index.md`,
-        data.summary ?? "",
-      );
+    const summary = await renderMarkdown(
+      `site/pages/${path}/${file}/index.md`,
+      data.summary ?? "",
+    );
 
-      main.push(h`
+    main.push(h`
         <li>
-          <a href="${file.name}/"><strong>${data.link ?? data.title}</strong></a>
+          <a href="${file}/"><strong>${splitTitle(data.title)}</strong></a>
           $${summary}
         </li>
       `);
-    }
   }
 
   return h`
