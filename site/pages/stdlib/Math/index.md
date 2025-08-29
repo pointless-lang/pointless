@@ -1,6 +1,5 @@
 ---
 title: "Standard Library: Math"
-link: Math
 type: module
 summary: Mathematical functions and constants.
 consts:

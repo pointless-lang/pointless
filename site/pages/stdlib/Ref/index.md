@@ -1,6 +1,5 @@
 ---
 title: "Standard Library: Ref"
-link: Ref
 type: module
 summary: Work with mutable state.
 ---

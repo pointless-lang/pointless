@@ -1,6 +1,5 @@
 ---
 title: "Standard Library: Fs"
-link: Fs
 type: module
 summary: Read and manipulate files and directories.
 ---
