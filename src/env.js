@@ -50,6 +50,7 @@ export class Env {
       .toReversed()
       .map((defs) => [...defs])
       .flat();
+
     return new Env(undefined, new Map(entries));
   }
 
@@ -570,7 +571,7 @@ export class Env {
 
   async evalTandemFor(node) {
     const { keyName, valName, range: rangeNode, body } = node.value;
-    let range = await this.eval(rangeNode, "list", "table");
+    let range = await this.eval(rangeNode, "list", "object", "table");
 
     if (getType(range) === "object") {
       for (const [key, value] of range) {
