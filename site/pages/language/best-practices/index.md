@@ -1,15 +1,15 @@
 ---
-title: Best Practices
+title: "Language Reference: Best Practices"
 summary: Guidelines for writing clear and concise Pointless code
 ---
 
 These best-practices are meant to help you make effective use of the language
 features of Pointless. They are recommendations, not strict rules. You can find
 detailed semantic descriptions for the language features covered here in the
-[language reference].
+[language reference](/language).
 
-This guide focuses on recommendations relating to the core language, rather than
-the [standard library].
+Note that this guide focuses on recommendations relating to the core language,
+rather than the [standard library](/stdlib).
 
 ## Use Compound Assignment
 
@@ -23,6 +23,20 @@ price |= round
 ```ptls --no-eval --class no
 score = score + 1
 price = round(price)
+```
+
+## Separate Statements
+
+Put statements on separate lines.
+
+```ptls --no-eval --class yes
+x = 6
+y = 7
+print(x * y)
+```
+
+```ptls --no-eval --class no
+x = 6; y = 7; print(x * y)
 ```
 
 ## Avoid Getter Functions
@@ -60,23 +74,11 @@ second. In Pointless, assignment statements like those in the first code block
 mutate variable bindings, not the data structures themselves, so you don't have
 to worry about variable aliasing issues like you would in other languages._
 
-## Don't Concatenate to Update
-
-Use variable updates instead of object concatenation to update [record
-objects][records].
-
-```ptls --no-eval --class yes
-player.health += 1
-```
-
-```ptls --no-eval --class no
-player += { health: player.health + 1 }
-```
-
 ## Use Objects for Records
 
-Use objects to represent [records] (structures with a fixed number of entries
-that each have a distinct role). Do not use lists as records.
+Use objects to represent [records](/language/Objects#records) (structures with a
+fixed number of entries that each have a distinct role). Do not use lists as
+records.
 
 ```ptls --no-eval --class yes
 point = { x: 1, y: 2 }
@@ -88,22 +90,21 @@ point = [1, 2]
 card = [10, "hearts"]
 ```
 
-## Use Key Punning
+## Don't Concatenate to Update
 
-Use object key punning when setting an object key to a variable of the same
-name.
+Use variable updates instead of object concatenation to update record objects.
 
 ```ptls --no-eval --class yes
-point = { x, y }
+player.health += 1
 ```
 
 ```ptls --no-eval --class no
-point = { x: x, y: y }
+player += { health: player.health + 1 }
 ```
 
 ## Omit String Key Quotes
 
-Omit quotes for keys in [record objects][records].
+Omit quotes for keys in record objects.
 
 ```ptls --no-eval --class yes
 { city: "Chicago", state: "IL", population: 2721308 }
@@ -135,6 +136,19 @@ Table.of([
 ])
 ```
 
+## Use Key Punning
+
+Use object key punning when setting an object key to a variable of the same
+name.
+
+```ptls --no-eval --class yes
+point = { x, y }
+```
+
+```ptls --no-eval --class no
+point = { x: x, y: y }
+```
+
 ## Use Dot Syntax
 
 Use `.` syntax to access and update object keys and table columns when possible.
@@ -149,7 +163,7 @@ city["name"]
 
 ## Don't Use Lists as Tables
 
-Use tables to store lists of [record objects][records] with matching keys.
+Use tables to store lists of record objects with matching keys.
 
 ```ptls --no-eval --class yes
 Table.of([
@@ -784,28 +798,31 @@ max = 5
 ## Use Camel Case
 
 Use camel case for multi-word variable, function, table column, and record
-objects key names. Don't capitalize single-word names. Don't capitalize constant
-names.
+object key names. Don't capitalize single-word names. Don't capitalize the names
+of constants.
 
 ```ptls --no-eval --class yes
 gameState = "paused"
 
-pi = 3.141592654
-
 fn point(x, y)
   { x, y }
 end
+
+pi = 3.141592654
 ```
 
 ```ptls --no-eval --class no
 gamestate = "paused"
 
-PI = 3.141592654
-
 fn Point(x, y)
   { x, y }
 end
+
+PI = 3.141592654
 ```
+
+_(Yes, the standard library module variables are capitalized; do as I say, not
+as I do)_
 
 ## Use Leading Zero for Decimals
 
@@ -819,10 +836,10 @@ n = 0.1
 n = .1
 ```
 
-## Use Trailing Structure Comma
+## Use Trailing Commas
 
-Include a comma after the last item in a list or object expression spanning
-multiple lines.
+When splitting a piece of comma-separated code across multiple lines, include a
+trailing comma on the last line before the closing delimeter.
 
 ```ptls --no-eval --class yes
 days = [
@@ -848,46 +865,9 @@ days = [
 ]
 ```
 
-## Omit Trailing Function Comma
+## No Import Side Effects
 
-Don't include a comma after the last argument in a function call or the last
-parameter in a function definition.
-
-```ptls --no-eval --class yes
-split(
-  "Lunes Martes Miércoles Jueves Viernes Sábado Domingo",
-  " "
-)
-
-fn manhattanDistance(
-  x1,
-  y1,
-  x2,
-  y2
-)
-  Math.abs(x1 - x2) + Math.abs(y1 - y2)
-end
-```
-
-```ptls --no-eval --class no
-split(
-  "Lunes Martes Miércoles Jueves Viernes Sábado Domingo",
-  " ",
-)
-
-fn manhattanDistance(
-  x1,
-  y1,
-  x2,
-  y2,
-)
-  Math.abs(x1 - x2) + Math.abs(y1 - y2)
-end
-```
-
-## Avoid Import Side Effects
-
-Library code should not have side effects when imported.
+Library code should never have side effects when imported.
 
 ```ptls --no-eval --class yes
 fn maximum(a, b)
@@ -933,7 +913,8 @@ maximum
 
 ## Use Fixed-Path Imports
 
-Use `import` to load files from a fixed path relative to your source file.
+Use `import` with the appropriate [specifier](/language/import/#specifiers) to
+load files from a fixed path relative to your source file.
 
 ```ptls --no-eval --class yes
 story = import "text:alice.txt"
@@ -942,18 +923,6 @@ story = import "text:alice.txt"
 ```ptls --no-eval --class no
 -- Won't work if script is called outside the source directory
 story = Fs.read("alice.txt")
-```
-
-## Use Import Directives
-
-Use import directives when they simplify your code.
-
-```ptls --no-eval --class yes
-story = import "lines:alice.txt"
-```
-
-```ptls --no-eval --class no
-story = Str.lines(import "text:alice.txt")
 ```
 
 ## Use Anonymous Loops
@@ -1007,5 +976,3 @@ for item in inventory do
   print("$item x $quantity")
 end
 ```
-
-[records]: /language/Objects#records
