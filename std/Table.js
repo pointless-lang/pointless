@@ -768,8 +768,10 @@ export function sortBy(table, columns) {
   // if two rows have the same value in that column, the second column is used
   // to break ties, and so on for any additional columns.
   //
-  // Values in the sort columns must be numbers, strings, or booleans, and all
-  // values within a column must share the same type.
+  // Values in the sort columns must be numbers, strings, booleans, or `none`,
+  // and all non-`none` values within a column must share the same type. Rows
+  // with `none` values in their sort columns will be placed at the end of the
+  // resulting table, whether sorting in ascending or descending order.
   //
   // ```ptls
   // cities = Table.of([
@@ -779,6 +781,7 @@ export function sortBy(table, columns) {
   //   { city: "San Antonio", state: "TX", population: 1526656 },
   //   { city: "San Diego", state: "CA", population: 1404452 },
   //   { city: "Dallas", state: "TX", population: 1326087 },
+  //   { city: "DC", state: none, population: 702250 },
   // ])
   //
   // sortBy(cities, "population")
@@ -803,6 +806,7 @@ export function sortDescBy(table, columns) {
   //   { city: "San Antonio", state: "TX", population: 1526656 },
   //   { city: "San Diego", state: "CA", population: 1404452 },
   //   { city: "Dallas", state: "TX", population: 1326087 },
+  //   { city: "DC", state: none, population: 702250 },
   // ])
   //
   // sortDescBy(cities, "population")

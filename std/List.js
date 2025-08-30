@@ -424,12 +424,13 @@ function doSort(list, desc) {
 }
 
 export function sort(list) {
-  // Sort a `list` of numbers, strings, or booleans in ascending order.
-  // All values in `list` must have the same type.
+  // Sort a `list` in ascending order, where `list` contains numbers, strings,
+  // booleans, or `none`s. All non-`none` values in `list` must be of the same
+  // type. Any `none` values will be placed at the end of the resulting list.
   //
   // ```ptls
   // sort([3, 1, 4, 1, 5, 9, 2, 6, 5, 4])
-  // sort(["apple", "pear", "peach", "banana", "plum", "apricot", "orange"])
+  // sort(["apple", "pear", "peach", "banana", "plum", "apricot", "orange", none])
   // sort([true, false, true, false])
   // ```
 
@@ -437,12 +438,12 @@ export function sort(list) {
 }
 
 export function sortDesc(list) {
-  // Sort a `list` of numbers, strings, or booleans in descending order.
-  // All values in `list` must have the same type.
+  // Sort a `list` in descending order. See the docs for [sort](#sort) for
+  // requirements for `list` and details on the sorting process.
   //
   // ```ptls
   // sortDesc([3, 1, 4, 1, 5, 9, 2, 6, 5, 4])
-  // sortDesc(["apple", "pear", "peach", "banana", "plum", "apricot", "orange"])
+  // sortDesc(["apple", "pear", "peach", "banana", "plum", "apricot", "orange", none])
   // sortDesc([true, false, true, false])
   // ```
 
@@ -468,8 +469,10 @@ async function doSortBy(list, ranker, desc) {
 
 export async function sortBy(list, ranker) {
   // Sort `list` in ascending order using `ranker(value)` as the sort key.
-  // The `ranker` function must return a number, string, or boolean, and
-  // all values returned must be of the same type.
+  // The `ranker` function must return a number, string, boolean, or `none`.
+  // All non-`none` values returned by `ranker` must be of the same type.
+  // Values for which `ranker` returns `none` will be placed at the end of
+  // the resulting list.
   //
   // ```ptls
   // sortBy(
@@ -483,8 +486,8 @@ export async function sortBy(list, ranker) {
 
 export async function sortDescBy(list, ranker) {
   // Sort `list` in descending order using `ranker(value)` as the sort key.
-  // The `ranker` function must return a number, string, or boolean, and
-  // all values returned must be of the same type.
+  // See the docs for [sortBy](#sortBy) for requirements for `ranker` and
+  // details on the sorting process.
   //
   // ```ptls
   // sortDescBy(

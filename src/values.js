@@ -67,11 +67,19 @@ export function compareAll(a, b, desc) {
 }
 
 export function compare(a, b, desc) {
-  checkType(a, "number", "string", "boolean");
-  checkType(b, "number", "string", "boolean");
+  checkType(a, "number", "string", "boolean", "none");
+  checkType(b, "number", "string", "boolean", "none");
 
   const typeA = getType(a);
   const typeB = getType(b);
+
+  if (typeA === "none") {
+    return 1;
+  }
+
+  if (typeB === "none") {
+    return -1;
+  }
 
   if (typeA !== typeB) {
     throw new Panic("cannot compare values of different types", {
