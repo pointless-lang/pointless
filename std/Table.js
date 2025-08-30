@@ -311,7 +311,7 @@ export function set(table, selector, value) {
 export function put(value, table, selector) {
   // Update the row or column in `table` that corresponds to `selector` with
   // `value`. `selector` may be a number, string, or object. See the docs for
-  // [Table.set](#Table.set) for details on the update process.
+  // [Table.set](#set) for details on the update process.
   //
   // ```ptls
   // cities = Table.of([
@@ -328,7 +328,7 @@ export function put(value, table, selector) {
   // ```
   //
   // *Note that if you want to update an existing variable, you could also
-  // use variable assignment. See the docs for [Table.set](#Table.set) for
+  // use variable assignment. See the docs for [Table.set](#set) for
   // more details.*
 
   checkType(table, "table");
@@ -792,7 +792,7 @@ export function sortBy(table, columns) {
 
 export function sortDescBy(table, columns) {
   // Sort the rows of `table` in descending order by one or more columns.
-  // See the docs for [Table.sortBy](#Table.sortBy) for details on the
+  // See the docs for [Table.sortBy](#sortBy) for details on the
   // sorting process.
   //
   // ```ptls
@@ -874,7 +874,7 @@ export function max(table, columns) {
   // other words, get the row that would come first if `table` were sorted by
   // `columns` in descending order.
   //
-  // See the docs for [Table.sortBy](#Table.sortBy) for details on the
+  // See the docs for [Table.sortBy](#sortBy) for details on the
   // sorting process.
   //
   // ```ptls
@@ -899,7 +899,7 @@ export function min(table, columns) {
   // other words, get the row that would come first if `table` were sorted by
   // `columns` in ascending order.
   //
-  // See the docs for [Table.sortBy](#Table.sortBy) for details on the
+  // See the docs for [Table.sortBy](#sortBy) for details on the
   // sorting process.
   //
   // ```ptls
@@ -968,7 +968,7 @@ export async function summarize(table, columns, reducer) {
   // column) or a list of strings (multiple columns).
   //
   // Rows are grouped based on the values in the given `columns` (see the
-  // docs for [Table.group](#Table.group) for details on the grouping
+  // docs for [Table.group](#group) for details on the grouping
   // process.) `reducer` is called for each group and returns an object
   // containing summary information. These objects are merged with each
   // group's column values to form the final summary row for that group.
