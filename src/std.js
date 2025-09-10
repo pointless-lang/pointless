@@ -67,6 +67,7 @@ function makeGlobals() {
     join: modules.Str.join,
     max: modules.List.max,
     min: modules.List.min,
+    parse: modules.Str.parse,
     print: modules.Console.print,
     prompt: modules.Console.prompt,
     range: modules.List.range,

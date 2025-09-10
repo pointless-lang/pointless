@@ -468,19 +468,31 @@ export function isAsciiDigit(string) {
   return /^[0-9]*$/.test(string);
 }
 
-export function toNum(string) {
-  // Convert `string` to a number.
+export function parse(string) {
+  // Convert `string` to a number, boolean, or `none`.
   //
   // ```ptls
-  // Str.toNum("45.67")
+  // parse("45.67")
+  // parse("false")
+  // parse("none")
   // ```
 
   checkType(string, "string");
-  const result = Number(string);
 
-  if (string === "" || Number.isNaN(result)) {
-    throw new Panic("invalid number string", { string });
+  switch (string) {
+    case "true":
+      return true;
+    case "false":
+      return false;
+    case "none":
+      return null;
   }
 
-  return result;
+  const result = Number(string);
+
+  if (string !== "" && !Number.isNaN(result)) {
+    return result;
+  }
+
+  throw new Panic("cannot parse string", { string });
 }
