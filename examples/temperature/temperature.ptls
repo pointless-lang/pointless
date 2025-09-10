@@ -1,4 +1,4 @@
 prompt("Degrees C: ")
-  | Math.toNum
+  | parse
   | arg * 9 / 5 + 32
   | print("Degrees F: $arg")

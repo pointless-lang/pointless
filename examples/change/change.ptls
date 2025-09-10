@@ -3,7 +3,7 @@ coins = Table.of({
   value: [25, 10, 5, 1],
 })
 
-cents = Str.toNum(prompt("Enter cents: "))
+cents = parse(prompt("Enter cents: "))
 
 print("-" * 10)
 
