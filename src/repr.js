@@ -8,9 +8,9 @@ function escapeInvisible(char) {
   return "\\u" + char.codePointAt(0).toString(16).padStart(4, "0");
 }
 
-export function show(value) {
+export function show(value, compact = false) {
   // leave out quotes and escapes
-  return getType(value) === "string" ? value : repr(value);
+  return getType(value) === "string" ? value : repr(value, (compact = false));
 }
 
 export function repr(value, compact = false) {

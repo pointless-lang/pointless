@@ -1,6 +1,6 @@
 import { highlight } from "./highlight.js";
 import { h } from "./escape.js";
-import { spawnWebStd } from "./web-std.js";
+import { spawnDocStd, shimConsole } from "./doc-std.js";
 import { tokenize } from "../../src/tokenizer.js";
 import { parse } from "../../src/parser.js";
 import { repr, show } from "../../src/repr.js";
@@ -8,13 +8,34 @@ import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
 import commandLineArgs from "command-line-args";
 
+function logErr(err, config) {
+  if (!config["panics"]) {
+    console.error(String(err), err);
+  }
+}
+
+function isConsole(node) {
+  if (node.type !== "call") {
+    return false;
+  }
+
+  const { func } = node.value;
+
+  if (func.type === "access") {
+    const { lhs } = func.value;
+    return lhs.type === "name" && lhs.value === "Console";
+  }
+
+  return func.type === "name" && func.value === "print";
+}
+
 async function renderCode(code, config, filePath, env) {
   let tokens;
 
   try {
     tokens = tokenize(`${filePath}:embedded`, code);
   } catch (err) {
-    console.error(String(err), err);
+    logErr(err, config);
     tokens = [];
     panic = h`<pre class="result panic"><code>${err}</code></pre>`;
   }
@@ -27,9 +48,11 @@ async function renderCode(code, config, filePath, env) {
   let finalDef = "";
   let panic = "";
 
+  shimConsole.inputs = config.input ?? [];
+
   if (!config["no-eval"]) {
     const display = config["raw"]
-      ? (value) => show(value)
+      ? (value) => show(value, config["compact"])
       : (value) => repr(value, config["compact"]);
 
     const echo = !config["no-echo"];
@@ -37,8 +60,8 @@ async function renderCode(code, config, filePath, env) {
     const maxHeight =
       config["max-height"] && `max-height: ${config["max-height"]}px;`;
 
-    const style = h`style="${maxHeight}"`;
-    const wrap = config["wrap"] && "wrap";
+    const wrap = config["wrap"] ? "wrap" : "";
+    const attrs = h`class="result ${wrap}" style="${maxHeight}"`;
     const results = [];
 
     let statements;
@@ -46,41 +69,55 @@ async function renderCode(code, config, filePath, env) {
     try {
       statements = parse(tokens);
     } catch (err) {
-      console.error(String(err), err);
+      logErr(err, config);
       statements = [];
       panic = h`<pre class="result panic"><code>${err}</code></pre>`;
     }
 
-    for (const statement of statements) {
+    for (const [index, statement] of statements.entries()) {
       try {
         const result = await env.eval(statement);
         finalDef = "";
 
-        if (statement.type !== "def") {
-          results.push(display(result));
-        } else if (echo && statement.value.rhs.type !== "fn") {
-          const name = statement.value.name;
-          const value = env.lookup(name);
+        if (shimConsole.output.length) {
+          results.push(shimConsole.getOutput());
+        }
 
-          finalDef = h`
-            <pre class="result ${wrap}" $${style}><code><div class="var-name">${name}</div>${display(value)}</code></pre>
-          `;
+        switch (statement.type) {
+          case "for":
+          case "tandemFor":
+          case "anonFor":
+          case "while":
+            break;
+
+          case "def":
+            if (echo && statement.value.rhs.type !== "fn") {
+              const name = statement.value.name;
+              const value = env.lookup(name);
+
+              finalDef = h`
+                <pre $${attrs}><code><div class="var-name">${name}</div>${display(value)}</code></pre>
+              `;
+            }
+
+            break;
+
+          default:
+            if (!isConsole(statement)) {
+              results.push(display(result) + "\n");
+            }
         }
       } catch (err) {
-        if (!config["panics"]) {
-          console.error(String(err), err);
-        }
-
+        logErr(err, config);
         panic = h`<pre class="result panic"><code>${err}</code></pre>`;
         finalDef = "";
         break;
       }
     }
 
-    resultLines =
-      echo &&
-      results.length &&
-      h`<pre class="result ${wrap}" $${style}><code>${results.join("\n")}</code></pre>`;
+    if (echo && results.length) {
+      resultLines = h`<pre $${attrs}><code>${results.join("")}</code></pre>`;
+    }
   }
 
   return h`
@@ -101,6 +138,7 @@ const options = [
   { name: "hide", type: Boolean },
   { name: "panics", type: Boolean },
   { name: "class", type: String },
+  { name: "input", type: String, multiple: true },
   { name: "max-height", type: Number },
 ];
 
@@ -145,7 +183,7 @@ export async function renderMarkdown(filePath, source) {
     return queue;
   }
 
-  const env = await spawnWebStd();
+  const env = await spawnDocStd();
   const marked = new Marked();
 
   const highlighter = markedHighlight({
