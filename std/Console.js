@@ -7,10 +7,13 @@ import { stdin, stdout } from "node:process";
 import im from "immutable";
 
 export function print(value) {
-  // Print `value` to stdout and return `value`.
+  // Print the string representation of `value` to stdout, followed by a
+  // newline, and return `value`. Does not include quotes if `value` is a
+  // string. Useful for general-purpose printing.
   //
-  // ```ptls --no-eval
-  // print("Hello") -- Prints Hello
+  // ```ptls
+  // print("Hello")
+  // print("world")
   // ```
 
   console.log(show(value));
@@ -18,11 +21,13 @@ export function print(value) {
 }
 
 export function debug(value) {
-  // Print `value` to stdout, including quotes if `value` is a string, and
-  // return `value`. Useful for debugging and logging.
+  // Print the string representation of `value` to stdout, followed by a
+  // newline, and return `value`. Include quotes if `value` is a string.
+  // Useful for debugging and logging.
   //
-  // ```ptls --no-eval
-  // Console.debug("Hello") -- Prints "Hello"
+  // ```ptls
+  // Console.debug("Hello")
+  // Console.debug("world")
   // ```
 
   console.log(repr(value));
@@ -32,8 +37,9 @@ export function debug(value) {
 export function write(string) {
   // Print `string` to stdout without adding a trailing newline.
   //
-  // ```ptls --no-eval
-  // Console.write("Hello") -- Prints Hello without a trailing newline
+  // ```ptls
+  // Console.write("Hello")
+  // Console.write("world")
   // ```
 
   checkType(string, "string");
@@ -42,10 +48,12 @@ export function write(string) {
 }
 
 export function error(value) {
-  // Print `value` to stderr and return `value`.
+  // Identical to `debug`, except that the result is sent to stderr rather
+  // than stdout.
   //
-  // ```ptls --no-eval
-  // Console.error("Hello") -- Prints Hello to stderr
+  // ```ptls
+  // Console.error("Hello")
+  // Console.error("world")
   // ```
 
   console.error(show(value));
@@ -53,10 +61,10 @@ export function error(value) {
 }
 
 export function clear() {
-  // Clear the Console.
+  // Clear the console.
   //
   // ```ptls --no-eval
-  // clear() -- Clears the console
+  // clear() -- Clear the console
   // ```
 
   console.clear();
@@ -64,12 +72,12 @@ export function clear() {
 }
 
 export async function prompt(message) {
-  // Prompt the user for input, displaying `message` beforehand. User input is
-  // returned as a string.
+  // Prompt the user for input, displaying the string `message` beforehand.
+  // User input is returned as a string.
   //
-  // ```ptls --no-eval
-  // -- Prompts the user for their name, storing the result in a variable
-  // name = prompt("Enter your name: ")
+  // ```ptls --input avery 28
+  // prompt("Enter name: ")
+  // Str.parse(prompt("Enter age: "))
   // ```
 
   checkType(message, "string");
@@ -90,8 +98,7 @@ export async function rawKey() {
   // Panics on <kbd>Ctrl</kbd> + <kbd>C</kbd> or <kbd>Ctrl</kbd> + <kbd>D</kbd>.
   //
   // ```ptls --no-eval
-  // -- Reads the next keypress, storing the result in a variable
-  // key = Console.rawKey()
+  // Console.rawKey() -- Read the next keypress
   // ```
   //
   // Sample outputs:
