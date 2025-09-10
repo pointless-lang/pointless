@@ -5,11 +5,11 @@ summary: Guidelines for writing clear and concise Pointless code
 
 These best-practices are meant to help you make effective use of the language
 features of Pointless. They are recommendations, not strict rules. You can find
-detailed semantic descriptions for the language features covered here in the
+detailed descriptions of the language features covered here in the
 [language reference](/language).
 
 Note that this guide focuses on recommendations relating to the core language,
-rather than the [standard library](/stdlib).
+rather than [the standard library](/stdlib).
 
 ## Use Compound Assignment
 
@@ -54,25 +54,19 @@ Obj.get(Table.get(games, 0), "score")
 
 ## Avoid Setter Functions
 
-Use variable updates instead of setter functions to transform data structures.
+Use [structural updates](/language/variables/#structural-updates) instead of
+setter functions to transform data structures.
 
 ```ptls --no-eval --class yes
 evilTwin = player
 evilTwin.malice = 100
-
 player.enemies += 1
 ```
 
 ```ptls --no-eval --class no
 evilTwin = Obj.set(player, "malice", 100)
-
 player = Obj.set(player, "enemies", player.enemies + 1)
 ```
-
-_Note that the code in the first code block is equivalent to the code in the
-second. In Pointless, assignment statements like those in the first code block
-mutate variable bindings, not the data structures themselves, so you don't have
-to worry about variable aliasing issues like you would in other languages._
 
 ## Use Objects for Records
 
