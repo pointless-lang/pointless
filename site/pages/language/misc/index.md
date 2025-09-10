@@ -1,5 +1,5 @@
 ---
-title: "Language Reference: Syntax Notes"
+title: "Language Reference: Miscellaneous"
 summary:
 ---
 
@@ -13,6 +13,7 @@ summary:
 - comments
 - camel case
 - no newline index field call
+- primitives
 
 - precedence
 - operators

@@ -15,3 +15,4 @@ summary:
 - fmt var fields
 - string merge
 - string repeat
+- arg interp
