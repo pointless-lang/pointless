@@ -708,6 +708,13 @@ class Parser {
     const types = ops[precedence];
 
     while (this.has(...types)) {
+      if (
+        this.has("-") &&
+        !(this.hasMulti("-", "whitespace") || this.hasMulti("-", "newline"))
+      ) {
+        break;
+      }
+
       const { type: op, loc } = this.get(...types);
       // left-associative operator gets +1 precedence
       const rhs = this.getLeftAssoc(precedence + 1);
