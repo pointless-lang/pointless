@@ -1,5 +1,5 @@
 ---
-title: "Standard Library: Console"
+title: "The Standard Library: Console"
 type: module
-summary: Printing, prompting, and low-level console interaction.
+summary: Printing, prompting, and low-level console interaction
 ---

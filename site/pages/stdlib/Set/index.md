@@ -1,5 +1,5 @@
 ---
-title: "Standard Library: Set"
+title: "The Standard Library: Set"
 type: module
-summary: Work with sets (collections of unique values).
+summary: Work with sets (collections of unique values)
 ---

@@ -1,7 +1,7 @@
 ---
-title: "Standard Library: Fs"
+title: "The Standard Library: Fs"
 type: module
-summary: Read and manipulate files and directories.
+summary: Read and manipulate files and directories
 ---
 
 Paths are resolved relative to the current working directory.
