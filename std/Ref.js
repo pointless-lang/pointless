@@ -7,9 +7,6 @@ export function of(value) {
   // ```ptls
   // Ref.of(0)
   // ```
-  //
-  // *Note that references must not reference themselves (aka circular
-  // references) as this could cause memory leaks and infinite recursion.*
 
   return new Ref(value);
 }
@@ -46,6 +43,7 @@ export async function put(value, ref) {
   // ```ptls
   // score = Ref.of(0)
   // Ref.put(1, score)
+  // score
   // ```
 
   checkType(ref, "reference");
