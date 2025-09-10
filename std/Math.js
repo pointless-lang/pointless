@@ -84,6 +84,12 @@ export function roundTo(n, decimals) {
 
   checkType(n, "number");
   checkWhole(decimals);
+
+  if (decimals < 0) {
+    const factor = 10 ** -decimals;
+    return round(n / factor) * factor;
+  }
+
   const factor = 10 ** decimals;
   return round(n * factor) / factor;
 }
