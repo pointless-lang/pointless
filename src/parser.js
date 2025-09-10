@@ -1,5 +1,6 @@
 import { keywords } from "./keywords.js";
 import { parseStr } from "./tokenizer.js";
+import { checkNumResult } from "./num.js";
 import { Panic } from "./panic.js";
 
 // skipped by default
@@ -171,7 +172,8 @@ class Parser {
 
   getNumber() {
     const { value, loc } = this.get("number");
-    return new Node("number", loc, Number(value));
+    const n = checkNumResult(Number(value));
+    return new Node("number", loc, n);
   }
 
   getNone() {
