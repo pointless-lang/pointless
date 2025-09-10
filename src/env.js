@@ -258,6 +258,26 @@ export class Env {
             return im.List(im.Repeat(a, b)).flatten(true);
         }
       }
+      case "<":
+        if (getType(a) === "string") {
+          checkType(b, "string");
+          return a < b;
+        }
+      case "<=":
+        if (getType(a) === "string") {
+          checkType(b, "string");
+          return a <= b;
+        }
+      case ">":
+        if (getType(a) === "string") {
+          checkType(b, "string");
+          return a > b;
+        }
+      case ">=":
+        if (getType(a) === "string") {
+          checkType(b, "string");
+          return a >= b;
+        }
     }
 
     checkType(a, "number");
