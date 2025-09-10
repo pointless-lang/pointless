@@ -4,6 +4,7 @@ export function highlight(tokens) {
 
 const globals = new Set([
   "Async",
+  "Bool",
   "Char",
   "Console",
   "Err",
