@@ -5,7 +5,9 @@
 :root {
   --font-mono: "DejaVu Sans Mono", monospace;
   --margin: 28px;
+  --text: #222;
   --gray: #eee;
+  --link: #346bed;
 }
 
 @font-face {
@@ -60,7 +62,7 @@ html {
 
 body {
   margin: 0;
-  color: #222;
+  color: var(--text);
   font-family: "Ubuntu", sans-serif;
   max-width: 1100px;
   min-height: 100vh;
@@ -90,7 +92,7 @@ header a {
 #logo {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   opacity: 0.8;
   font-size: 1.4em;
   color: #000;
@@ -98,8 +100,8 @@ header a {
 }
 
 #logo img {
-  height: 1.6em;
-  width: 1.6em;
+  height: 1.2em;
+  width: 1.2em;
 }
 
 nav {
@@ -141,7 +143,7 @@ nav li {
 #sidebar {
   grid-area: sidebar;
   border-left: 2px solid #eee;
-  padding: 4px 0 4px 20px;
+  padding: 4px 0 4px 18px;
   height: min-content;
   font-size: 0.9rem;
   font-weight: bold;
@@ -172,20 +174,20 @@ nav li {
   padding: 0;
 }
 
-#sidebar li:has(a[href^="#"]) {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 5px;
+#sidebar a[href^="#"] {
+  color: var(--text);
+  font-weight: normal;
 }
 
 #sidebar li:has(a[href^="#"])::before {
-  content: "#";
-  font-size: 0.8rem;
-  line-height: 1.3;
+  content: "-";
+  color: var(--text);
+  font-weight: normal;
+  margin-right: 2px;
 }
 
-#sidebar li a {
-  color: inherit;
+#sidebar li:has(a[href^=".."])::before {
+  content: "<";
 }
 
 .page-links {
@@ -251,7 +253,7 @@ kbd {
 
 a {
   text-decoration: none;
-  color: #2868ff;
+  color: var(--link);
 }
 
 h1,
@@ -449,13 +451,13 @@ kbd {
   font-size: 1.16rem;
 }
 
-.std li::before {
+#sidebar .std li::before {
   display: none;
 }
 
 .tag {
   font-weight: bold;
-  font-size: 0.8em;
+  font-size: 0.95rem;
   padding: 1px 4px 2px;
   margin-inline: 1px;
   border-radius: 3px;
