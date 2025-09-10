@@ -506,7 +506,11 @@ class Parser {
       if (base.type !== "name") {
         // complains about the upcoming `=` sign if we try to
         // define an invalid lhs like `a + b = 0`
-        throw unexpectedToken(this.peek());
+        throw new Panic(
+          "assignment target must be a variable name",
+          {},
+          base.loc,
+        );
       }
 
       const { loc, isCompound, rhs } = this.getAssign(def);
