@@ -64,7 +64,7 @@ export function isEmpty(list) {
 }
 
 export function has(list, value) {
-  // Return whether `list` contains `value`.
+  // Check whether `list` contains `value`.
   //
   // ```ptls
   // List.has(["a", "b", "c"], "b")
@@ -76,7 +76,7 @@ export function has(list, value) {
 }
 
 export function hasAll(list, values) {
-  // Return whether `list` contains every value in `values`,
+  // Check whether `list` contains every value in `values`,
   // where `values` is a list, set, or table.
   //
   // ```ptls

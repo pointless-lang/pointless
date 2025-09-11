@@ -41,7 +41,7 @@ export function isEmpty(set) {
 }
 
 export function has(set, value) {
-  // Return whether `set` contains `value`.
+  // Check whether `set` contains `value`.
   //
   // ```ptls
   // s = Set.of(["a", "b", "c"])
@@ -54,7 +54,7 @@ export function has(set, value) {
 }
 
 export function hasAll(set, values) {
-  // Return whether `set` contains every value in `values`, where `values`
+  // Check whether `set` contains every value in `values`, where `values`
   // is a set, list, or table. In other words, check whether `set` is a
   // superset of `values`, and `values` is a subset of `set`.
   //
