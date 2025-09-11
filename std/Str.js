@@ -1,5 +1,6 @@
 import { checkType } from "../src/values.js";
 import { checkWhole, checkPositive } from "../src/num.js";
+import { checkIndex } from "../src/list.js";
 import { show } from "../src/repr.js";
 import { Panic } from "../src/panic.js";
 import im from "immutable";
@@ -220,32 +221,32 @@ export function reverse(string) {
   return [...string].reverse().join("");
 }
 
-export async function replace(string, substr, replacement) {
-  // Replace all occurrences of `substr` in `string` with `replacement`.
+export async function replace(string, subString, replacement) {
+  // Replace all occurrences of `subString` in `string` with `replacement`.
   //
   // ```ptls
   // Str.replace("A catalog of cats", "cat", "dog")
   // ```
 
   checkType(string, "string");
-  checkType(substr, "string");
+  checkType(subString, "string");
   checkType(replacement, "string");
   // use anon func to avoid "$" special behavior
-  return string.replaceAll(substr, () => replacement);
+  return string.replaceAll(subString, () => replacement);
 }
 
-export async function replaceFirst(string, substr, replacement) {
-  // Replace the first occurrence of `substr` in `string` with `replacement`.
+export async function replaceFirst(string, subString, replacement) {
+  // Replace the first occurrence of `subString` in `string` with `replacement`.
   //
   // ```ptls
   // Str.replaceFirst("A catalog of cats", "cat", "dog")
   // ```
 
   checkType(string, "string");
-  checkType(substr, "string");
+  checkType(subString, "string");
   checkType(replacement, "string");
   // use anon func to avoid "$" special behavior
-  return string.replace(substr, () => replacement);
+  return string.replace(subString, () => replacement);
 }
 
 export function startsWith(string, prefix) {
@@ -274,8 +275,8 @@ export function endsWith(string, prefix) {
   return string.endsWith(prefix);
 }
 
-export function contains(string, substr) {
-  // Check whether `string` contains the substring `substr`.
+export function contains(string, subString) {
+  // Check whether `string` contains the substring `subString`.
   //
   // ```ptls
   // Str.contains("assume", "sum")
@@ -283,13 +284,13 @@ export function contains(string, substr) {
   // ```
 
   checkType(string, "string");
-  checkType(substr, "string");
-  return string.includes(substr);
+  checkType(subString, "string");
+  return string.includes(subString);
 }
 
-export function indexOf(string, subStr) {
-  // Get the index of the first occurrence of `subStr` in `string`.
-  // Returns `none` if `string` does not contain `substr`.
+export function indexOf(string, subString) {
+  // Get the index of the first occurrence of `subString` in `string`.
+  // Returns `none` if `string` does not contain `subString`.
   //
   // ```ptls
   // Str.indexOf("mississippi", "issi")
@@ -297,7 +298,7 @@ export function indexOf(string, subStr) {
   // ```
 
   checkType(string, "string");
-  const index = string.indexOf(subStr);
+  const index = string.indexOf(subString);
   return index >= 0 ? index : null;
 }
 
