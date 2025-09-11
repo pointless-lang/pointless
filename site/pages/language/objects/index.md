@@ -1,6 +1,6 @@
 ---
 title: "Language Reference: Objects"
-summary:
+subtitle:
 ---
 
 - objets

@@ -1,6 +1,6 @@
 ---
 title: "Language Reference: Strings"
-summary:
+subtitle:
 ---
 
 - strings

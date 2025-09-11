@@ -1,7 +1,7 @@
 ---
 title: "The Standard Library: Ref"
 type: module
-summary: Work with mutable state
+subtitle: Work with mutable state
 ---
 
 The core data structures in Pointless are immutable. _References_ serve as

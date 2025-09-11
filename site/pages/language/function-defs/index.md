@@ -1,6 +1,6 @@
 ---
 title: "Language Reference: Function Definitions"
-summary:
+subtitle:
 ---
 
 - defining functions

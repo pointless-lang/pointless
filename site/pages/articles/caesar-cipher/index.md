@@ -1,6 +1,6 @@
 ---
 title: Caesar Cipher Tutorial
-summary: Encode and decode text using a Caesar cipher.
+subtitle: Encode and decode text using a Caesar cipher.
 ---
 
 Let's see an example to get a feel for the language. I'll show you how I wrote

@@ -1,6 +1,6 @@
 ---
 title: Language Reference
-summary: Documentation and examples for the language features of Pointless
+subtitle: Documentation and examples for the language features of Pointless
 type: collection
 links:
   - comments

@@ -41,15 +41,15 @@ export async function genCollection(path, data) {
   for (const file of await getChildren(path, data)) {
     const data = await getData(path, file);
 
-    const summary = await renderMarkdown(
+    const subtitle = await renderMarkdown(
       `site/pages/${path}/${file}/index.md`,
-      data.summary ?? "",
+      data.subtitle ?? "",
     );
 
     main.push(h`
         <li>
           <a href="${file}/"><strong>${splitTitle(data.title)}</strong></a>
-          $${summary}
+          $${subtitle}
         </li>
       `);
   }

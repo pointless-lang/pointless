@@ -1,6 +1,6 @@
 ---
 title: "Language Reference: Best Practices"
-summary: Guidelines for writing clear and concise Pointless code
+subtitle: Guidelines for writing clear and concise Pointless code
 ---
 
 These best-practices are meant to help you make effective use of the language

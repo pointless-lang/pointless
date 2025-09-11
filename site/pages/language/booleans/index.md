@@ -1,6 +1,6 @@
 ---
 title: "Language Reference: Booleans"
-summary: True and false values and logical operators
+subtitle: True and false values and logical operators
 ---
 
 ## Syntax

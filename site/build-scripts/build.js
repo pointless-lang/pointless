@@ -45,11 +45,9 @@ async function buildPage(path, backlink) {
   const filePath = `site/pages/${path}/index.md`;
   const source = await readFile(filePath, "utf8");
   const { data, content } = matter(source);
-  const { title, type, summary } = data;
+  const { title, type, subtitle } = data;
 
-  const subtitle = summary && parseInline(summary);
   const sidebar = await makeSidebar(path, type, data, content);
-
   const intro = await renderMarkdown(filePath, content);
   const generated = await makeGenerated(path, type, data);
 

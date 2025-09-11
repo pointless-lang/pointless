@@ -1,6 +1,6 @@
 ---
 title: "Language Reference: Tables"
-summary:
+subtitle:
 ---
 
 - tables

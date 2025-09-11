@@ -1,6 +1,6 @@
 ---
 title: "Language Reference: Numbers"
-summary: Numbers and numerical operators
+subtitle: Numbers and numerical operators
 ---
 
 Pointless uses a single number type for integers and decimal numbers. See the

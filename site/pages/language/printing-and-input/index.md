@@ -1,6 +1,6 @@
 ---
 title: "Language Reference: Printing and User Input"
-summary: Print values and get user input in the console
+subtitle: Print values and get user input in the console
 ---
 
 While in-depth coverage of built-in functions is left to the

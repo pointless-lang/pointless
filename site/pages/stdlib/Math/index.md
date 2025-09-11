@@ -1,7 +1,7 @@
 ---
 title: "The Standard Library: Math"
 type: module
-summary: Mathematical functions and constants
+subtitle: Mathematical functions and constants
 consts:
   e: "Euler's number."
   inf: "Floating-point infinity."

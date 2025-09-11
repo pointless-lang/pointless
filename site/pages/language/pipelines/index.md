@@ -1,6 +1,6 @@
 ---
 title: "Language Reference: Pipelines"
-summary:
+subtitle:
 ---
 
 - pipelines

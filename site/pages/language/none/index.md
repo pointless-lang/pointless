@@ -1,9 +1,15 @@
 ---
 title: "Language Reference: None"
-summary: None values
+subtitle: None values
 ---
 
 ## Syntax
+
+In Pointless, `none` values are accessible through the `none` keyword.
+
+```ptls --no-echo
+none
+```
 
 ## Uses
 

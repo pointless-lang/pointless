@@ -1,6 +1,6 @@
 ---
 title: "Language Reference: Comments"
-summary: Comment syntax, comments as documentation, and "commenting out" code
+subtitle: Comment syntax, comments as documentation, and "commenting out" code
 ---
 
 ## Comment Syntax

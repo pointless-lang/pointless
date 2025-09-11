@@ -1,6 +1,6 @@
 ---
 title: The Pointless Language
-summary: A Language for Learning
+subtitle: A Language for Learning
 ---
 
 ```ptls

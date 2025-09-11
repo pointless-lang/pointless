@@ -1,7 +1,7 @@
 ---
 title: The Standard Library
 type: collection
-summary: Modules containing built-in functionality
+subtitle: Modules containing built-in functionality
 ---
 
 The Pointless standard library contains useful built-in functions and constants.
