@@ -67,8 +67,8 @@ export function has(list, value) {
   // Return whether `list` contains `value`.
   //
   // ```ptls
-  // has(["a", "b", "c"], "b")
-  // has(["a", "b", "c"], "d")
+  // List.has(["a", "b", "c"], "b")
+  // List.has(["a", "b", "c"], "d")
   // ```
 
   checkType(list, "list");

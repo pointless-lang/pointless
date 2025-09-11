@@ -354,20 +354,14 @@ export function has(table, selector) {
   //   { city: "Houston", state: "TX" },
   // ])
   //
-  // has(cities, "city")
-  // has(cities, "county")
+  // Table.has(cities, "city")
+  // Table.has(cities, "county")
   //
-  // has(cities, { state: "NY" })
-  // has(cities, { state: "VT" })
+  // Table.has(cities, { state: "NY" })
+  // Table.has(cities, { state: "VT" })
   // ```
 
   checkType(table, "table");
-  checkType(selector, "object", "string");
-
-  if (getType(selector) === "string") {
-    return table.data.has(selector);
-  }
-
   return table.has(selector);
 }
 

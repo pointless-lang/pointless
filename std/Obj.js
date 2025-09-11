@@ -27,8 +27,8 @@ export function has(object, key) {
   // Check whether `object` contains `key`.
   //
   // ```ptls
-  // has({ q: 9, r: 5, b: 3, n: 3, p: 1 }, "q")
-  // has({ q: 9, r: 5, b: 3, n: 3, p: 1 }, "k")
+  // Obj.has({ q: 9, r: 5, b: 3, n: 3, p: 1 }, "q")
+  // Obj.has({ q: 9, r: 5, b: 3, n: 3, p: 1 }, "k")
   // ```
 
   checkType(object, "object");

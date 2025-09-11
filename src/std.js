@@ -86,7 +86,6 @@ function makeOverloads() {
   const overloads = {
     drop: ["values", "count"],
     dropLast: ["values", "count"],
-    has: ["value", "elem"],
     isEmpty: ["values"],
     len: ["values"],
     push: ["values", "item"],

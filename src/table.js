@@ -274,8 +274,14 @@ export class Table {
     }
   }
 
-  has(matcher) {
-    return this.findMatch(matcher) !== undefined;
+  has(selector) {
+    checkType(selector, "object", "string");
+
+    if (getType(selector) === "string") {
+      return this.data.has(selector);
+    }
+
+    return this.findMatch(selector) !== undefined;
   }
 
   match(matcher) {

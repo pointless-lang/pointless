@@ -275,12 +275,12 @@ export function endsWith(string, prefix) {
   return string.endsWith(prefix);
 }
 
-export function contains(string, subString) {
+export function has(string, subString) {
   // Check whether `string` contains the substring `subString`.
   //
   // ```ptls
-  // Str.contains("assume", "sum")
-  // Str.contains("assume", "you")
+  // Str.has("assume", "sum")
+  // Str.has("assume", "you")
   // ```
 
   checkType(string, "string");

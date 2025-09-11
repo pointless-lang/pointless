@@ -45,8 +45,8 @@ export function has(set, value) {
   //
   // ```ptls
   // s = Set.of(["a", "b", "c"])
-  // has(s, "b")
-  // has(s, "d")
+  // Set.has(s, "b")
+  // Set.has(s, "d")
   // ```
 
   checkType(set, "set");

@@ -230,6 +230,21 @@ export class Env {
         return im.is(a, b);
       case "!=":
         return !im.is(a, b);
+      case "in":
+        checkType(b, "list", "set", "object", "string", "table");
+        switch (getType(a)) {
+          case "list":
+            return b.includes(a);
+          case "set":
+            return b.has(a);
+          case "object":
+            return b.has(a);
+          case "string":
+            checkType(a, "string");
+            return b.includes(a);
+          case "table":
+            return b.has(a);
+        }
       case "+": {
         const typeA = getType(a);
         checkType(b, typeA);
