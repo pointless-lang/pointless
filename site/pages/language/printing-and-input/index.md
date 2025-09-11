@@ -44,11 +44,11 @@ name = prompt("Enter name: ")
 ```
 
 The value returned by `prompt` will always be strings. You can use the
-`Str.parse` function to convert inputs to other
+[Str.parse](/stdlib/Str#parse) function to convert inputs to other
 [primitive](/language/misc#primitives) types.
 
 ```ptls --input 77
-f = Str.parse(prompt("Enter degrees F: "))
+f = parse(prompt("Enter degrees F: "))
 c = (f - 32) / 9 * 5
 "Degrees C: $c"
 ```
