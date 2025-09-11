@@ -532,7 +532,7 @@ export function splice(table, index, count, rows) {
   checkWhole(count);
   checkType(rows, "table");
 
-  const newRows = im.List(table).splice(index, count, ...rows)
+  const newRows = im.List(table).splice(index, count, ...rows);
   return Table.fromRows(newRows, table.columns());
 }
 
