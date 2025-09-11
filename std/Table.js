@@ -1,4 +1,5 @@
 import { checkType, compareAll, getType } from "../src/values.js";
+import { checkWhole } from "../src/num.js";
 import * as obj from "./Obj.js";
 import * as List from "./List.js";
 import { Table } from "../src/table.js";
@@ -503,6 +504,36 @@ export function pop(table) {
   }
 
   return dropLast(table, 1);
+}
+
+export function splice(table, index, count, rows) {
+  // Remove `count` rows from `table` starting at `index`, and
+  // replace them with those in the table `rows`.
+  //
+  // ```ptls
+  // cities = Table.of([
+  //   { city: "Houston", state: "TX" },
+  //   { city: "Phoenix", state: "AZ" },
+  //   { city: "Philadelphia", state: "PA" },
+  //   { city: "San Antonio", state: "TX" },
+  // ])
+  //
+  // newRows = Table.of([
+  //   { city: "New York", state: "NY" },
+  //   { city: "Los Angeles", state: "CA" },
+  //   { city: "Chicago", state: "IL" },
+  // ])
+  //
+  // Table.splice(cities, 1, 2, newRows)
+  // ```
+
+  checkType(table, "table");
+  table.checkIndex(index);
+  checkWhole(count);
+  checkType(rows, "table");
+
+  const newRows = im.List(table).splice(index, count, ...rows)
+  return Table.fromRows(newRows, table.columns());
 }
 
 export function merge(tables) {

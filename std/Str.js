@@ -145,6 +145,24 @@ export function dropLast(string, count) {
   return [...string].slice(0, -count).join("");
 }
 
+export function splice(string, index, count, subString) {
+  // Remove `count` characters from `string` starting at `index`, and
+  // replace them with the string `subString`.
+  //
+  // ```ptls
+  // Str.splice("abcdef", 3, 2, "xyz")
+  // ```
+
+  checkType(string, "string");
+  const chars = im.List([...string]);
+
+  checkIndex(chars, index);
+  checkWhole(count);
+  checkType(subString, "string");
+
+  return chars.splice(index, count, subString).join("");
+}
+
 export function split(string, separator) {
   // Split `string` into a list of substrings using `separator` as the delimiter.
   // `separator` is not included in the resulting substrings.

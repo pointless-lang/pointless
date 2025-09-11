@@ -237,6 +237,21 @@ export function dropLast(list, count) {
   return list.skipLast(count);
 }
 
+export function splice(list, index, count, values) {
+  // Remove `count` elements from `list` starting at `index`, and
+  // replace them with the list `values`.
+  //
+  // ```ptls
+  // List.splice(["a", "b", "c", "d", "e", "f"], 3, 2, ["x", "y", "z"])
+  // ```
+
+  checkType(list, "list");
+  checkIndex(list, index);
+  checkWhole(count);
+  checkType(values, "list");
+  return list.splice(index, count, ...values);
+}
+
 export function merge(lists) {
   // Merge (flatten) `lists` into a single list.
   //
