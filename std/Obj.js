@@ -36,12 +36,21 @@ export function has(object, key) {
 }
 
 export function matches(object, matcher) {
-  // Check whether `object` contains the entries in `matcher`.
+  // Check whether `object` *matches* the object `matcher`, meaning that
+  // `object` has all of the keys in `matcher`, and that for every `key`
+  // shared between `object` and `matcher`:
+  //
+  // - `object[key]` *matches* `matcher[key]` if both values are objects
+  // - `object[key] == matcher[key]` otherwise
   //
   // ```ptls
   // ducky = { name: "Ducky", type: "dog", age: 9 }
   // Obj.matches(ducky, { name: "Ducky", age: 9 })
   // Obj.matches(ducky, { name: "Ducky", type: "cat" })
+  //
+  // route = { from: { city: "philadelphia" }, to: { city: "baltimore" } }
+  // Obj.matches(route, { from: { city: "philadelphia" } })
+  // Obj.matches(route, { from: { city: "pittsburg" } })
   // ```
 
   return isMatch(object, matcher);
