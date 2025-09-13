@@ -18,9 +18,10 @@ links:
   - sets
   - tables
   - immutability
+  - function-defs
   - calls
   - pipelines
-  - function-defs
+  - async
   - imports
   - best-practices
   - misc
