@@ -6,11 +6,10 @@ import { loadMeta } from "../../src/std.js";
 const meta = await loadMeta();
 
 export function showTags(modName, name, value) {
-  if (modName !== "Overloads" && meta.variants[name]) {
-    return `<span class="tag" title="Overloaded"></span>`;
-  }
-
-  if (meta.globals[name] === value) {
+  if (
+    meta.globals[name] === value ||
+    (modName !== "Overloads" && meta.variants[name])
+  ) {
     return `<span class="tag" title="Global"></span>`;
   }
 

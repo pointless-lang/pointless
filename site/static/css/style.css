@@ -165,7 +165,7 @@ nav li {
   padding: 0;
   margin: 0;
   display: grid;
-  gap: 10px;
+  gap: 2px;
 }
 
 #sidebar li {
@@ -243,6 +243,7 @@ ol {
 
 li {
   margin-block: calc(var(--margin) / 3) 0;
+  line-height: 1.5;
 }
 
 code,
@@ -458,7 +459,7 @@ kbd {
 .tag {
   font-weight: bold;
   font-size: 0.95rem;
-  padding: 1px 4px 2px;
+  padding: 1px 4px;
   margin-inline: 1px;
   border-radius: 3px;
   cursor: help;
@@ -469,16 +470,7 @@ kbd {
     color: #b77ecd;
 
     &::before {
-      content: "G";
-    }
-  }
-
-  &[title="Overloaded"] {
-    background-color: #ffdab3;
-    color: #c2803b;
-
-    &::before {
-      content: "O";
+      content: "Global";
     }
   }
 
@@ -487,7 +479,7 @@ kbd {
     color: #4f99e8;
 
     &::before {
-      content: "C";
+      content: "Constant";
     }
   }
 }
@@ -505,10 +497,6 @@ kbd {
 
   &[title="Global"] {
     background-color: #d4b0ff;
-  }
-
-  &[title="Overloaded"] {
-    background-color: #ffc689;
   }
 
   &[title="Constant"] {

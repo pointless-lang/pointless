@@ -20,15 +20,6 @@ Str.toLower("Pointless")
 chars("Pointless")
 ```
 
-The standard library docs use symbols to highlight the following special
-properties:
-
-- <span class="tag" title="Global"></span> Global functions
-- <span class="tag" title="Overloaded"></span> [Overloaded](Overloads) global
-  functions
-- <span class="tag" title="Constant"></span> Constants (non-function
-  definitions)
-
 The language reference includes [tips](/language#reading-example-code) for
 reading the code examples in these documents.
 
