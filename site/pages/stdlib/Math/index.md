@@ -13,3 +13,5 @@ consts:
     "`2 * Math.pi`. See [The Tau
     Manifesto](https://www.tauday.com/tau-manifesto)."
 ---
+
+For more information on numbers see the [language reference](/language/numbers).

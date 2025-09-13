@@ -23,8 +23,8 @@ c = 1013904223
 
 fn random()
   next = (a * Ref.get(seed) + c) % m -- Calculate new seed
-  Ref.set(seed, next)                -- Store new seed
-  next / m                           -- Return scaled value
+  Ref.set(seed, next) -- Store new seed
+  next / m -- Return scaled value
 end
 
 random()
