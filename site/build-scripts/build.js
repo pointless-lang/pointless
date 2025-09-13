@@ -5,7 +5,6 @@ import { h, serialize } from "./escape.js";
 import { readdir, readFile, cp, rm, mkdir, writeFile } from "node:fs/promises";
 import matter from "gray-matter";
 import { format } from "prettier";
-import { parseInline } from "marked";
 
 function defaultSidebar(content) {
   const links = content

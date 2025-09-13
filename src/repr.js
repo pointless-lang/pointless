@@ -10,7 +10,7 @@ function escapeInvisible(char) {
 
 export function show(value, compact = false) {
   // leave out quotes and escapes
-  return getType(value) === "string" ? value : repr(value, (compact = false));
+  return getType(value) === "string" ? value : repr(value, compact);
 }
 
 export function repr(value, compact = false) {

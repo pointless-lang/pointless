@@ -74,7 +74,7 @@ async function renderCode(code, config, filePath, env) {
       panic = h`<pre class="result panic"><code>${err}</code></pre>`;
     }
 
-    for (const [index, statement] of statements.entries()) {
+    for (const statement of statements) {
       try {
         const result = await env.eval(statement);
         finalDef = "";
