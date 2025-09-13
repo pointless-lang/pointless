@@ -232,7 +232,7 @@ export class Env {
         return !im.is(a, b);
       case "in":
         checkType(b, "list", "set", "object", "string", "table");
-        switch (getType(a)) {
+        switch (getType(b)) {
           case "list":
             return b.includes(a);
           case "set":
@@ -245,6 +245,8 @@ export class Env {
           case "table":
             return b.has(a);
         }
+
+        break;
       case "+": {
         const typeA = getType(a);
         checkType(b, typeA);
@@ -272,26 +274,25 @@ export class Env {
             checkWhole(b);
             return im.List(im.Repeat(a, b)).flatten(true);
         }
+
+        break;
       }
       case "<":
-        if (getType(a) === "string") {
-          checkType(b, "string");
-          return a < b;
-        }
       case "<=":
-        if (getType(a) === "string") {
-          checkType(b, "string");
-          return a <= b;
-        }
       case ">":
-        if (getType(a) === "string") {
-          checkType(b, "string");
-          return a > b;
-        }
       case ">=":
         if (getType(a) === "string") {
           checkType(b, "string");
-          return a >= b;
+          switch (op) {
+            case "<":
+              return a < b;
+            case "<=":
+              return a <= b;
+            case ">":
+              return a > b;
+            case ">=":
+              return a >= b;
+          }
         }
     }
 
