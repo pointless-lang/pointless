@@ -1,7 +1,7 @@
 import { getLine } from "./prompt.js";
 import { parse } from "../src/parser.js";
 import { tokenize } from "../src/tokenizer.js";
-import { show } from "../src/repr.js";
+import { repr } from "../src/repr.js";
 import { Panic } from "../src/panic.js";
 import { spawnStd } from "../src/std.js";
 
@@ -94,7 +94,7 @@ async function runInput(input) {
     const ans = await env.eval(statement);
 
     if (statement.type !== "def") {
-      console.log(show(ans));
+      console.log(repr(ans));
       env.defs.set("ans", ans);
     }
   }
