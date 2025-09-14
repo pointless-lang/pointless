@@ -165,7 +165,7 @@ nav li {
   padding: 0;
   margin: 0;
   display: grid;
-  gap: 2px;
+  gap: 4px;
 }
 
 #sidebar li {
@@ -204,7 +204,7 @@ nav li {
 }
 
 .page-links strong {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   display: inline-block;
   font-size: 1.1rem;
 }
