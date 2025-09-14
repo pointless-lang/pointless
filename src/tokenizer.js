@@ -82,14 +82,21 @@ class Token {
         const match = this.value.match(invalidEscape);
 
         if (match) {
-          // +1 to skip '\'
-          const prefix = this.value.slice(0, match.index + 1);
-          // get loc of invalid char
+          // Get loc of invalid char
+          const prefix = this.value.slice(0, match.index + match[0].length - 1);
           const loc = this.loc.next(prefix);
+
+          if (match[1] == "\\u") {
+            throw new Panic(
+              "invalid unicode escape sequence",
+              { $expected: "'\\u{...}' where '...' is 1 to 6 hex digits" },
+              loc,
+            );
+          }
+
           throw new Panic(
             "invalid escape sequence",
-            // need to display raw so `repr` doesn't re-escape the string
-            { $escape: `"${match[1]}"` },
+            { $escape: `'${match[1]}'` },
             loc,
           );
         }
