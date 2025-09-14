@@ -22,9 +22,10 @@ const ops = [
 
 const escapeSeq = /\\["\\nrt]|\\u{([\dA-Fa-f]{1,6})}/g;
 const stringInner = /^r?#*"([\s\S]*)"#*$/;
+const indent = /^[ ]*/;
+
 const fmtVar =
   /\$(?:[_a-zA-Z]\w*(?:\.[_a-zA-Z]\w*)*|\([_a-zA-Z]\w*(?:\.[_a-zA-Z]\w*)*\))/g;
-const indent = /^[ ]*/;
 
 function parseStr(string, loc) {
   return string.replaceAll(escapeSeq, (match, code, index) => {
@@ -299,8 +300,8 @@ class Parser {
 
   getRawString() {
     const { value, loc } = this.get("rawString");
-    const inner = this.getStringInner(value);
-    return new Node("string", loc, inner);
+    const aligned = this.getAligned(value);
+    return new Node("string", loc, aligned);
   }
 
   getList() {
