@@ -265,10 +265,18 @@ export class Env {
       }
       case "*": {
         switch (getType(a)) {
+          case "number":
+            if (getType(b) === "string") {
+              checkType(a, "number");
+              checkWhole(a);
+              return b.repeat(Math.max(0, a));
+            }
+
+            break;
           case "string":
             checkType(b, "number");
             checkWhole(b);
-            return a.repeat(b);
+            return a.repeat(Math.max(0, b));
           case "list":
             checkType(b, "number");
             checkWhole(b);
