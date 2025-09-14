@@ -3,6 +3,9 @@ title: "Language Reference: Tables"
 subtitle:
 ---
 
+For information on built-in functions for working with tables, see the standard
+library [Table module](/stdlib/Table).
+
 - tables
 - table merge
 - update table index

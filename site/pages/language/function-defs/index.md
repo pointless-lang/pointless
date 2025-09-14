@@ -11,3 +11,4 @@ subtitle:
 - anon function closures
 - no inner function defs
 - err
+- final statemeny should not be assignment

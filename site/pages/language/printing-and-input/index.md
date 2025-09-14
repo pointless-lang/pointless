@@ -1,11 +1,10 @@
 ---
 title: "Language Reference: Printing and User Input"
-subtitle: Print values and get user input in the console
+subtitle: Printing values and getting user input in the console
 ---
 
-While in-depth coverage of built-in functions is left to the
-[standard library](/stdlib) documentation, the `print` and `prompt` functions
-are so commonly used that they deserve mention here as well.
+For information on built-in functions for working with the console, see the
+standard library [Console module](/stdlib/Console).
 
 ## Printing
 
@@ -43,7 +42,7 @@ name = prompt("Enter name: ")
 "Hello $name!"
 ```
 
-The value returned by `prompt` will always be strings. You can use the
+The value returned by `prompt` will always be a string. You can use the
 [Str.parse](/stdlib/Str#parse) function to convert inputs to other
 [primitive](/language/misc#primitives) types.
 

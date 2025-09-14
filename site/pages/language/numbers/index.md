@@ -3,13 +3,30 @@ title: "Language Reference: Numbers"
 subtitle: Numbers and numerical operators
 ---
 
-Pointless uses a single number type for integers and decimal numbers. See the
-[Math](/stdlib/Math) module in the standard library for built-in mathematical
-functions.
+Pointless uses a single number type for integers and decimal numbers, which it
+stores using
+[floating-point](https://en.wikipedia.org/wiki/Floating-point_arithmetic)
+representation.
+
+Important numerical functions include:
+
+| Function                             | Use                                 |
+| ------------------------------------ | ----------------------------------- |
+| [Math.abs](/stdlib/Math#abs)         | Get the absolute value of a number  |
+| [Math.ceil](/stdlib/Math#ceil)       | Round a number up                   |
+| [Math.floor](/stdlib/Math#floor)     | Round a number down                 |
+| [Math.max](/stdlib/Math#max)         | Get the maximum of two numbers      |
+| [Math.min](/stdlib/Math#min)         | Get the minimum of two numbers      |
+| [Math.round](/stdlib/Math#round)     | Round a number                      |
+| [Math.roundTo](/stdlib/Math#roundTo) | Round a number to a given precision |
+| [Math.sqrt ](/stdlib/Math#sqrt)      | Get the square root of a number     |
+
+See the standard library [Math module](/stdlib/Math) for more built-in functions
+for working with numbers.
 
 ## Syntax
 
-Numbers in Pointless use familiar mathematical syntax.
+Numbers use familiar mathematical syntax.
 
 ```ptls
 120
@@ -17,7 +34,7 @@ Numbers in Pointless use familiar mathematical syntax.
 -0.5
 ```
 
-Pointless numbers can also use
+Numbers can also use
 [engineering notation](https://en.wikipedia.org/wiki/Engineering_notation).
 
 ```ptls
@@ -46,6 +63,32 @@ These operators obey the standard
 2 + 3 * (4 + 1)
 ```
 
+## Comparison
+
+Numbers can be compared using the equals `==` and not-equals `!=` operators.
+
+```ptls
+1 + 1 == 2
+2 + 2 != 4
+```
+
+Numbers can also be compared using the following inequality operators:
+
+- `<` less-than
+- `>` greater-than
+- `<=` less-than-or-equal-to
+- `>=` greater-than-or-equal-to
+
+```ptls
+1 < 2
+1 > 2
+5 > 5
+5 >= 5
+```
+
+Be aware of [floating-point error](#floating-point-error) when comparing
+non-integer values.
+
 ## Modulus Behavior
 
 The modulus operator `%` uses the
@@ -58,6 +101,18 @@ operation will have the same sign as the divisor (the second operand).
 -10 % 7
 10 % -7
 -10 % -7
+```
+
+## Floating-point Error
+
+Like any system based on floating-point arithmetic, the results of some
+numerical operations in Pointless involving non-integer values
+[will be inexact](https://en.wikipedia.org/wiki/Floating-point_arithmetic#Accuracy_problems).
+
+```ptls
+n = (Math.sqrt(5) * 2) ** 2
+n
+n == 20
 ```
 
 ## Strictness

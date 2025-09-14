@@ -3,6 +3,9 @@ title: "Language Reference: Objects"
 subtitle:
 ---
 
+For information on built-in functions for working with objects, see the standard
+library [Object module](/stdlib/Object).
+
 - objets
 - punning
 - ident keys and columns

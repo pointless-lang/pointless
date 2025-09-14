@@ -1,6 +1,6 @@
 ---
 title: "Language Reference: Comments"
-subtitle: Comment syntax, comments as documentation, and "commenting out" code
+subtitle: Comment syntax, comments as documentation, and commenting out code
 ---
 
 ## Comment Syntax
@@ -61,7 +61,7 @@ end
 print(factors(60))
 ```
 
-## "Commenting Out" Code
+## Commenting Out Code
 
 Comment syntax can also be used to temporarily disable lines of code, which
 comes in handy during development. In the example below, we disable the line of

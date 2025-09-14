@@ -1,6 +1,6 @@
 ---
 title: "Language Reference: Variables"
-subtitle: Define, access, and update variables
+subtitle: Defining, accessing, and updating variables
 ---
 
 ## Defining Variables

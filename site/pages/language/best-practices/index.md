@@ -243,12 +243,12 @@ items[len(items) - 1]
 Use the `*` operator to repeat strings and list elements.
 
 ```ptls --no-eval --class yes
-":)" * 4
+"la" * 5
 [0] * 10
 ```
 
 ```ptls --no-eval --class no
-":):):):)"
+"lalalalala"
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ```
 
@@ -815,8 +815,8 @@ end
 PI = 3.141592654
 ```
 
-_(Yes, the standard library module variables are capitalized; do as I say, not
-as I do)_
+_(Yes, the standard library module variables [are capitalized](/articles); do as
+I say, not as I do)_
 
 ## Use Leading Zero for Decimals
 

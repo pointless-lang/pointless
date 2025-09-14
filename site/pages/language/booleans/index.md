@@ -1,11 +1,17 @@
 ---
 title: "Language Reference: Booleans"
-subtitle: True and false values and logical operators
+subtitle: Boolean (true and false) values and logical operators
 ---
+
+Pointless includes boolean (`true` and `false`) values, which let us write code
+that performs logical calculations.
+
+See the standard library [Bool module](/stdlib/Bool) for built-in functions for
+working with boolean values.
 
 ## Syntax
 
-In Pointless, booleans (true and false values) are accessible through keywords.
+In Pointless, booleans are accessible through keywords.
 
 ```ptls --no-echo
 true
