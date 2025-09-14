@@ -3,6 +3,7 @@ import { moduleSidebar, genModule } from "./build-module.js";
 import { headerId, renderMarkdown } from "./render-markdown.js";
 import { h, serialize } from "./escape.js";
 import { readdir, readFile, cp, rm, mkdir, writeFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import matter from "gray-matter";
 import { format } from "prettier";
 
@@ -37,10 +38,9 @@ export async function makeGenerated(path, type, data) {
 }
 
 let template;
+const backlinks = {};
 
-async function buildPage(path, backlink) {
-  template ??= await readFile(import.meta.dirname + "/template.html", "utf8");
-
+async function buildPage(path, depth) {
   const filePath = `site/pages/${path}/index.md`;
   const source = await readFile(filePath, "utf8");
   const { data, content } = matter(source);
@@ -55,39 +55,41 @@ async function buildPage(path, backlink) {
     $${generated}
   `;
 
+  const parentPath = resolve(`site/pages/${path}/..`);
+
+  backlinks[parentPath] ??=
+    depth > 1
+      ? matter(await readFile(parentPath + "/index.md", "utf8")).data.title
+      : "";
+
+  const values = {
+    title,
+    subtitle,
+    backlink: backlinks[parentPath],
+    sidebar,
+    main,
+  };
+
+  template ??= await readFile(import.meta.dirname + "/template.html", "utf8");
+
   const html = template.replaceAll(/\${1,2}{(\w+)}/g, (match, name) => {
-    const value = { title, subtitle, backlink, sidebar, main }[name];
-    return serialize(value, match.startsWith("$$"));
+    return serialize(values[name], match.startsWith("$$"));
   });
 
   const result = await format(html, { parser: "html" });
   await writeFile(`site/dist/${path}/index.html`, result);
-
-  return title;
 }
 
-async function buildDir(path, parent = "") {
+async function buildDir(path, depth = 0) {
   const files = await readdir(`site/pages/${path}`, { withFileTypes: true });
   await mkdir(`site/dist/${path}`, { recursive: true });
 
-  let backlink = "";
-
-  if (files.some(({ name }) => name === "index.md")) {
-    const title = await buildPage(path, parent);
-
-    if (path) {
-      backlink = title;
-    }
-  }
-
   for (const file of files) {
     if (file.name === "index.md") {
-      continue;
-    }
-
-    if (file.isDirectory()) {
+      await buildPage(path, depth);
+    } else if (file.isDirectory()) {
       const subPath = path ? `${path}/${file.name}` : file.name;
-      await buildDir(subPath, backlink);
+      await buildDir(subPath, depth + 1);
     } else {
       await cp(
         `site/pages/${path}/${file.name}`,
