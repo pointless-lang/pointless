@@ -44,7 +44,7 @@ Numbers can also use
 
 ## Operators
 
-Mathematical operations use the following symbols.
+Mathematical operations use the following operators.
 
 ```ptls
 -8 -- Negation
@@ -65,14 +65,15 @@ These operators obey the standard
 
 ## Comparison
 
-Numbers can be compared using the equals `==` and not-equals `!=` operators.
+Numbers can be compared for equality using the equals `==` and not-equals `!=`
+operators.
 
 ```ptls
 1 + 1 == 2
 2 + 2 != 4
 ```
 
-Numbers can also be compared using the following inequality operators:
+Numbers can also be compared using the inequality operators:
 
 - `<` less-than
 - `>` greater-than
