@@ -82,7 +82,10 @@ class Token {
           if (match[1] == "\\u") {
             throw new Panic(
               "invalid unicode escape sequence",
-              { $expected: "'\\u{...}' where '...' is 1 to 6 hex digits" },
+              {
+                $expected:
+                  "'\\u{...}' where '...' is a sequence of between 1 and 6 hex digits",
+              },
               loc,
             );
           }
