@@ -5,7 +5,7 @@ export const invisible = /(?! )[\p{C}\p{Z}]/gu;
 
 function escapeInvisible(char) {
   // Use unicode escapes for weird chars like '\v' instead of JS hex escapes
-  return "\\u" + char.codePointAt(0).toString(16).padStart(4, "0");
+  return `\\u{${char.codePointAt(0).toString(16)}}`;
 }
 
 export function show(value, compact = false) {

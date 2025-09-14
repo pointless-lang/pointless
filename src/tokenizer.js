@@ -12,13 +12,6 @@ function escape(chars) {
   return chars.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-export function parseStr(string) {
-  // ptls strings can contain newlines, js can't
-  // otherwise ptls escape syntax is a subset of js
-  const escaped = string.replaceAll("\n", "\\n");
-  return JSON.parse(`"${escaped}"`);
-}
-
 // need "\b" to avoid matching names with keyword prefixes, like "note" vs "not"
 const keywordRules = keywords.map((kwd) => rule(kwd, new RegExp(kwd + "\\b")));
 
@@ -55,7 +48,7 @@ const rules = [
 ];
 
 const invalidEscape =
-  /(^|[^\\])(\\\\)*(\\([^\\"nrtu]|u.{0,3}([^0-9a-fA-F]|$)))/;
+  /(?:^|[^\\])(?:\\\\)*(\\([^\\"nrtu]|u(?!{[0-9a-fA-F]{1,6}})))/;
 
 class Token {
   constructor(type, loc, value) {

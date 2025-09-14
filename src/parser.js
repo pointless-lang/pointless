@@ -1,5 +1,4 @@
 import { keywords } from "./keywords.js";
-import { parseStr } from "./tokenizer.js";
 import { checkNumResult } from "./num.js";
 import { Panic } from "./panic.js";
 
@@ -21,10 +20,36 @@ const ops = [
   ["*", "/", "%"],
 ];
 
+const escapeSeq = /\\["\\nrt]|\\u{([\dA-Fa-f]{1,6})}/g;
 const stringInner = /^r?#*"([\s\S]*)"#*$/;
 const fmtVar =
   /\$(?:[_a-zA-Z]\w*(?:\.[_a-zA-Z]\w*)*|\([_a-zA-Z]\w*(?:\.[_a-zA-Z]\w*)*\))/g;
 const indent = /^[ ]*/;
+
+function parseStr(string, loc) {
+  return string.replaceAll(escapeSeq, (match, code, index) => {
+    switch (match) {
+      case "\\\\":
+        return "\\";
+      case '\\"':
+        return '"';
+      case "\\n":
+        return "\n";
+      case "\\r":
+        return "\r";
+      case "\\t":
+        return "\t";
+    }
+
+    try {
+      return String.fromCodePoint(parseInt(code, 16));
+    } catch (_) {
+      // Make error point to start of invalid code sequence
+      loc = loc.next('"' + string.slice(0, index) + "\\u{");
+      throw new Panic("invaild code point", { $code: `'${code}'` }, loc);
+    }
+  });
+}
 
 class Node {
   constructor(type, loc, value) {
@@ -220,13 +245,16 @@ class Parser {
   }
 
   getFmt(value, loc) {
-    const fragments = value.split(fmtVar);
+    const rawFragments = value.split(fmtVar);
     const fmtVars = value.match(fmtVar);
 
+    const fragments = [];
     const fmtNodes = [];
     let innerLoc = loc.next('"');
 
     for (const [index, varStr] of fmtVars.entries()) {
+      fragments.push(parseStr(rawFragments[index], innerLoc));
+
       // remove '$' or '$()'
       const fmtInner = varStr.startsWith("$(")
         ? varStr.slice(2, -1)
@@ -236,7 +264,7 @@ class Parser {
       const varSegments = fmtInner.split(".");
       const name = varSegments[0];
 
-      innerLoc = innerLoc.next(fragments[index], "$");
+      innerLoc = innerLoc.next(rawFragments[index], "$");
       this.updateImplicit(name, innerLoc);
       let fmtNode = new Node("name", innerLoc, name);
       innerLoc = innerLoc.next(name);
@@ -252,10 +280,8 @@ class Parser {
       fmtNodes.push(fmtNode);
     }
 
-    return new Node("fmtString", loc, {
-      fragments: fragments.map(parseStr),
-      fmtNodes,
-    });
+    fragments.push(parseStr(rawFragments.at(-1), innerLoc));
+    return new Node("fmtString", loc, { fragments, fmtNodes });
   }
 
   getString() {
@@ -268,7 +294,7 @@ class Parser {
       return this.getFmt(aligned, loc);
     }
 
-    return new Node("string", loc, parseStr(aligned));
+    return new Node("string", loc, parseStr(aligned, loc));
   }
 
   getRawString() {
@@ -726,6 +752,7 @@ class Parser {
 
   getChain(lhs, handler, op) {
     const nodeType = { "|": "pipe", $: "map", "?": "filter" }[op.value];
+
     this.implicits.push(undefined);
     const result = handler.call(this);
     const loc = this.implicits.pop();
@@ -751,7 +778,6 @@ class Parser {
 
     while (this.has("|", "$", "?")) {
       const op = this.get("|", "$", "?");
-      this.has("(");
       lhs = this.getChain(lhs, this.getLeftAssoc, op);
     }
 

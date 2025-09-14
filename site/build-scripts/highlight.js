@@ -62,7 +62,7 @@ const strInner = [
     regex: /\$[a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z][a-zA-Z0-9]*)*/g,
     className: "interpolated",
   },
-  { regex: /\\["\\nrt]|\\u[\dA-Fa-f]{4}/g, className: "escape" },
+  { regex: /\\["\\nrt]|\\u{[\dA-Fa-f]{1,6}}/g, className: "escape" },
 ];
 
 const identifier = /[a-zA-Z][a-zA-Z0-9]*/;
