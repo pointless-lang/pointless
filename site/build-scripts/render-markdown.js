@@ -15,8 +15,13 @@ function logErr(err, config) {
 }
 
 function isConsole(node) {
-  if (node.type !== "call") {
-    return false;
+  switch (node.type) {
+    case "call":
+    case "pipe":
+    case "map":
+      break;
+    default:
+      return false;
   }
 
   const { func } = node.value;
@@ -145,7 +150,7 @@ const options = [
 export function headerId(title) {
   return title
     .toLowerCase()
-    .replace(/[^\w\s]+/g, "")
+    .replace(/[^\w\s-]+/g, "")
     .trim()
     .replace(/\s+/g, "-");
 }
