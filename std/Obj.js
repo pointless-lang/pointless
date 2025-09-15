@@ -3,10 +3,10 @@ import { checkKey, isMatch } from "../src/obj.js";
 import im from "immutable";
 
 export function of(value) {
-  // Convert `value` to an object, where `value` is either a table or an
-  // object. If `value` is a table, return an object whose keys are column
-  // names and values are lists of the column values in `table`. If `value`
-  // is an object then return it.
+  // Convert `value` to an object, where `value` is either a table or an object.
+  // If `value` is a table, return an object whose keys are column names and
+  // values are lists of the column values in `table`. If `value` is an object
+  // then return it.
   //
   // ```ptls
   // cities = Table.of([
@@ -36,8 +36,8 @@ export function has(object, key) {
 }
 
 export function matches(object, matcher) {
-  // Check whether `object` [matches](/language/objects#object-matching)
-  // the object `matcher`.
+  // Check whether `object` [matches](/language/objects#object-matching) the
+  // object `matcher`.
   //
   // ```ptls
   // ducky = { name: "Ducky", type: "dog", age: 9 }
@@ -59,7 +59,7 @@ export function get(object, key) {
   // Obj.get({ q: 9, r: 5, b: 3, n: 3, p: 1 }, "q")
   // ```
   //
-  // *Note that this can also be accomplished using the index `[]` operator*:
+  // _Note that this can also be accomplished using the index `[]` operator_:
   //
   // ```ptls
   // { q: 9, r: 5, b: 3, n: 3, p: 1 }["q"]
@@ -70,8 +70,8 @@ export function get(object, key) {
 }
 
 export function getDefault(object, key, $default) {
-  // Get the value corresponding to `key` in `object`, or `default`
-  // if `object` does not have `key`.
+  // Get the value corresponding to `key` in `object`, or `default` if `object`
+  // does not have `key`.
   //
   // ```ptls
   // capitals = { Maine: "Augusta", Maryland: "Annapolis", Massachusetts: "Boston" }
@@ -91,8 +91,8 @@ export function set(object, key, value) {
   // Obj.set(phrases, "Good night", "Boa noite")
   // ```
   //
-  // *Note that if you want to update an existing variable, you could also
-  // use variable assignment*:
+  // _Note that if you want to update an existing variable, you could also use
+  // variable assignment_:
   //
   // ```ptls
   // phrases = { "Hello": "Ola", "Good afternoon": "Boa tarde" }
@@ -188,8 +188,8 @@ export function isEmpty(object) {
 }
 
 export function select(object, keys) {
-  // Get a subset of the entries in `object` with the given `keys`. Entries
-  // will appear in the order given in `keys`.
+  // Get a subset of the entries in `object` with the given `keys`. Entries will
+  // appear in the order given in `keys`.
   //
   // ```ptls
   // select({ name: "Lamar", yards: 4172, tds: 41, ints: 4 }, ["name", "tds"])
@@ -209,8 +209,8 @@ export function select(object, keys) {
 }
 
 export function focus(object, keys) {
-  // Reorder the entries in `object` so that the given `keys` appear first,
-  // in the given order.
+  // Reorder the entries in `object` so that the given `keys` appear first, in
+  // the given order.
   //
   // ```ptls
   // Obj.focus({ name: "Lamar", yards: 4172, tds: 41, ints: 4 }, ["name", "tds"])

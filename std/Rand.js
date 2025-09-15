@@ -15,8 +15,8 @@ export function random() {
 }
 
 export function sample(values) {
-  // Return a random element from `values`, where `values` is
-  // a list, table, or set.
+  // Return a random element from `values`, where `values` is a list, table, or
+  // set.
   //
   // ```ptls
   // Rand.sample(["hearts", "diamonds", "clubs", "spades"])

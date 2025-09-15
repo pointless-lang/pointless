@@ -55,8 +55,8 @@ export function chars(string) {
 const newline = /\r?\n/g;
 
 export function lines(string) {
-  // Return a list of the lines in `string`, where lines are separeted
-  // by the regex `\r?\n`. Separators are not inclued in the returned lines.
+  // Return a list of the lines in `string`, where lines are separeted by the
+  // regex `\r?\n`. Separators are not inclued in the returned lines.
   //
   // ```ptls
   // Str.lines("foo\n\nbar\r\nbaz\n")
@@ -91,8 +91,8 @@ export function get(string, index) {
 }
 
 export function take(string, count) {
-  // Get a string containing the first `count` characters from `string`.
-  // If `count >= len(string)` then the entire string is returned.
+  // Get a string containing the first `count` characters from `string`. If
+  // `count >= len(string)` then the entire string is returned.
   //
   // ```ptls
   // take("Hello World!", 5)
@@ -105,8 +105,8 @@ export function take(string, count) {
 }
 
 export function takeLast(string, count) {
-  // Get a string containing the last `count` characters from `string`.
-  // If `count >= len(string)` then the entire string is returned.
+  // Get a string containing the last `count` characters from `string`. If
+  // `count >= len(string)` then the entire string is returned.
   //
   // ```ptls
   // takeLast("Hello World!", 5)
@@ -133,8 +133,8 @@ export function drop(string, count) {
 }
 
 export function dropLast(string, count) {
-  // Remove the last `count` characters from `string`. If
-  // `count >= len(string)` then `""` is returned.
+  // Remove the last `count` characters from `string`. If `count >= len(string)`
+  // then `""` is returned.
   //
   // ```ptls
   // dropLast("Hello World!", 5)
@@ -147,8 +147,8 @@ export function dropLast(string, count) {
 }
 
 export function splice(string, index, count, subString) {
-  // Remove `count` characters from `string` starting at `index`, and
-  // replace them with the string `subString`.
+  // Remove `count` characters from `string` starting at `index`, and replace
+  // them with the string `subString`.
   //
   // ```ptls
   // Str.splice("abcdef", 3, 2, "xyz")
@@ -165,8 +165,8 @@ export function splice(string, index, count, subString) {
 }
 
 export function split(string, separator) {
-  // Split `string` into a list of substrings using `separator` as the delimiter.
-  // `separator` is not included in the resulting substrings.
+  // Split `string` into a list of substrings using `separator` as the
+  // delimiter. `separator` is not included in the resulting substrings.
   //
   // ```ptls
   // split("a,b,,c", ",")
@@ -178,8 +178,8 @@ export function split(string, separator) {
 }
 
 export function join(list, separator) {
-  // Join the values in `list` into a single string, inserting `separator` between them.
-  // Each value is converted to a string using `Str.of`.
+  // Join the values in `list` into a single string, inserting `separator`
+  // between them. Each value is converted to a string using `Str.of`.
   //
   // ```ptls
   // join([1, 2, 3, 4], " -> ")
@@ -198,7 +198,7 @@ export function repeat(string, count) {
   // Str.repeat("la", 5)
   // ```
   //
-  // *Note that this can also be accomplished using the `*` operator*.
+  // _Note that this can also be accomplished using the `_` operator\*.
   //
   // ```ptls
   // "la" * 5
@@ -289,8 +289,8 @@ export function has(string, subString) {
 }
 
 export function indexOf(string, subString) {
-  // Get the index of the first occurrence of `subString` in `string`.
-  // Returns `none` if `string` does not contain `subString`.
+  // Get the index of the first occurrence of `subString` in `string`. Returns
+  // `none` if `string` does not contain `subString`.
   //
   // ```ptls
   // Str.indexOf("mississippi", "issi")
@@ -303,8 +303,8 @@ export function indexOf(string, subString) {
 }
 
 export function padLeft(value, n) {
-  // Convert `value` to a string and pad it on the left with spaces
-  // so that the total length is at least `n` characters.
+  // Convert `value` to a string and pad it on the left with spaces so that the
+  // total length is at least `n` characters.
   //
   // ```ptls
   // Str.padLeft("Java", 10)
@@ -318,8 +318,8 @@ export function padLeft(value, n) {
 }
 
 export function padRight(value, n) {
-  // Convert `value` to a string and pad it on the right with spaces
-  // so that the total length is at least `n` characters.
+  // Convert `value` to a string and pad it on the right with spaces so that the
+  // total length is at least `n` characters.
   //
   // ```ptls
   // Str.padRight("Java", 10)

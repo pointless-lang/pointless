@@ -2,9 +2,9 @@ import { checkType } from "../src/values.js";
 import im from "immutable";
 
 export function of(values) {
-  // Get a set containing each value in `values`. `values` may be
-  // a list, table, or set. If `values` is a table then `Set.of(values)`
-  // returns a set of the table's rows.
+  // Get a set containing each value in `values`. `values` may be a list, table,
+  // or set. If `values` is a table then `Set.of(values)` returns a set of the
+  // table's rows.
   //
   // ```ptls
   // l = ["NY", "CA", "IL", "TX", "AZ", "PA", "TX", "CA", "TX", "FL"]
@@ -54,9 +54,9 @@ export function has(set, value) {
 }
 
 export function hasAll(set, values) {
-  // Check whether `set` contains every value in `values`, where `values`
-  // is a set, list, or table. In other words, check whether `set` is a
-  // superset of `values`, and `values` is a subset of `set`.
+  // Check whether `set` contains every value in `values`, where `values` is a
+  // set, list, or table. In other words, check whether `set` is a superset of
+  // `values`, and `values` is a subset of `set`.
   //
   // ```ptls
   // s = Set.of(["a", "b", "c"])
@@ -82,8 +82,8 @@ export function add(set, value) {
 }
 
 export function addAll(set, values) {
-  // Add each of `values` to `set`, where `values` is a set, list, or table.
-  // In other words, get the union of `set` and `values`.
+  // Add each of `values` to `set`, where `values` is a set, list, or table. In
+  // other words, get the union of `set` and `values`.
   //
   // ```ptls
   // s = Set.of(["a", "b", "c"])
@@ -123,8 +123,8 @@ export function removeAll(set, values) {
 }
 
 export function merge(sets) {
-  // Merge (flatten) a list of `sets` into a single set. In other words, get
-  // the union of `sets`.
+  // Merge (flatten) a list of `sets` into a single set. In other words, get the
+  // union of `sets`.
   //
   // ```ptls
   // s1 = Set.of(["a", "b", "c"])
@@ -138,8 +138,8 @@ export function merge(sets) {
 
 export function intersection(set, values) {
   // Get the set of elements that appear in both `set` and `values`, where
-  // `values` is a set, list, or table. In other words, get the intersection
-  // of `set` and `values`.
+  // `values` is a set, list, or table. In other words, get the intersection of
+  // `set` and `values`.
   //
   // ```ptls
   // s1 = Set.of(["a", "b", "c"])

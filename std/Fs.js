@@ -37,8 +37,8 @@ export async function readBytes(path) {
 }
 
 export async function write(value, path) {
-  // Convert `value` to a string and write to the file at `path`,
-  // creating the file if it doesn't already exist.
+  // Convert `value` to a string and write to the file at `path`, creating the
+  // file if it doesn't already exist.
   //
   // ```ptls --no-eval
   // Fs.write("I hope you understand, everybody scams", "lyrics.txt")
@@ -66,6 +66,7 @@ export async function ls(path) {
   // ```ptls --no-eval
   // ls("./school")
   // ```
+  //
   // Example output:
   //
   // ```

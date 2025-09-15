@@ -7,9 +7,9 @@ import { Panic } from "../src/panic.js";
 import im from "immutable";
 
 export function of(values) {
-  // Get a list containing each value in `values`. `values` may be
-  // a set, table, or list. If `values` is a table then `List.of(values)`
-  // returns a list of the table's rows.
+  // Get a list containing each value in `values`. `values` may be a set, table,
+  // or list. If `values` is a table then `List.of(values)` returns a list of
+  // the table's rows.
   //
   // ```ptls
   // s = Set.of(["a", "b", "c", "d"])
@@ -41,7 +41,7 @@ export function repeat(value, count) {
   // List.repeat("0", 5)
   // ```
   //
-  // *Note that this can also be accomplished using the `*` operator*:
+  // _Note that this can also be accomplished using the `_` operator\*:
   //
   // ```ptls
   // ["0"] * 5
@@ -76,8 +76,8 @@ export function has(list, value) {
 }
 
 export function hasAll(list, values) {
-  // Check whether `list` contains every value in `values`,
-  // where `values` is a list, set, or table.
+  // Check whether `list` contains every value in `values`, where `values` is a
+  // list, set, or table.
   //
   // ```ptls
   // List.hasAll(["a", "b", "c"], ["b", "c"])
@@ -95,7 +95,7 @@ export function get(list, index) {
   // List.get(["a", "b", "c", "d"], 2)
   // ```
   //
-  // *Note that this can also be accomplished using the index `[]` operator*:
+  // _Note that this can also be accomplished using the index `[]` operator_:
   //
   // ```ptls
   // ["a", "b", "c", "d"][2]
@@ -113,8 +113,8 @@ export function set(list, index, value) {
   // List.set(["a", "b", "d", "d"], 2, "c")
   // ```
   //
-  // *Note that if you want to update an existing variable, you could also
-  // use variable assignment*:
+  // _Note that if you want to update an existing variable, you could also use
+  // variable assignment_:
   //
   // ```ptls
   // letters = ["a", "b", "d", "d"]
@@ -133,8 +133,8 @@ export function put(value, list, index) {
   // List.put("c", ["a", "b", "d", "d"], 2)
   // ```
   //
-  // *Note that if you want to update an existing variable, you could also
-  // use variable assignment*:
+  // _Note that if you want to update an existing variable, you could also use
+  // variable assignment_:
 
   checkType(list, "list");
   checkIndex(list, index);
@@ -238,8 +238,8 @@ export function dropLast(list, count) {
 }
 
 export function splice(list, index, count, values) {
-  // Remove `count` elements from `list` starting at `index`, and
-  // replace them with the list `values`.
+  // Remove `count` elements from `list` starting at `index`, and replace them
+  // with the list `values`.
   //
   // ```ptls
   // List.splice(["a", "b", "c", "d", "e", "f"], 3, 2, ["x", "y", "z"])
@@ -265,8 +265,8 @@ export function merge(lists) {
 }
 
 export function chunks(list, count) {
-  // Split `list` into chunks of length `count` (the final chunk may.
-  // be shorter).
+  // Split `list` into chunks of length `count` (the final chunk may. be
+  // shorter).
   //
   // ```ptls
   // List.chunks([1, 2, 3, 4, 5, 6, 7, 8], 3)
@@ -292,7 +292,7 @@ export async function map(list, func) {
   // List.map([1, 2, 3, 4], fn(n) n * 2 end)
   // ```
   //
-  // *Note that this can also be accomplished using the map `$` operator*:
+  // _Note that this can also be accomplished using the map `$` operator_:
   //
   // ```ptls
   // [1, 2, 3, 4] $ arg * 2
@@ -317,7 +317,7 @@ export async function filter(list, condition) {
   // List.filter([1, 2, 3, 4], Math.isEven)
   // ```
   //
-  // *Note that this can also be accomplished using the filter `?` operator*:
+  // _Note that this can also be accomplished using the filter `?` operator_:
   //
   // ```ptls
   // [1, 2, 3, 4] ? Math.isEven
@@ -348,8 +348,8 @@ export async function remove(list, value) {
 }
 
 export async function removeAll(list, values) {
-  // Remove all occurences of each value in `values` from `list`,
-  // where `values` is a list, set, or table.
+  // Remove all occurences of each value in `values` from `list`, where `values`
+  // is a list, set, or table.
   //
   // ```ptls
   // List.removeAll([1, 2, none, 3, 4, 0, none], [none, 0])
@@ -360,8 +360,8 @@ export async function removeAll(list, values) {
 }
 
 export async function find(list, condition) {
-  // Get the first value in `list` that satisfies `condition`, or `none`
-  // if no match is present.
+  // Get the first value in `list` that satisfies `condition`, or `none` if no
+  // match is present.
   //
   // ```ptls
   // List.find([7, 8, 9, 10], Math.isEven)
@@ -381,8 +381,8 @@ export async function find(list, condition) {
 }
 
 export async function indexOf(list, value) {
-  // Get the index of the first occurence of `value` in `list`, or `none`
-  // if `value` does not appear in `list`.
+  // Get the index of the first occurence of `value` in `list`, or `none` if
+  // `value` does not appear in `list`.
   //
   // ```ptls
   // List.indexOf([1, 9, 9, 6], 9)
@@ -483,11 +483,11 @@ async function doSortBy(list, ranker, desc) {
 }
 
 export async function sortBy(list, ranker) {
-  // Sort `list` in ascending order using `ranker(value)` as the sort key.
-  // The `ranker` function must return a number, string, boolean, or `none`.
-  // All non-`none` values returned by `ranker` must be of the same type.
-  // Values for which `ranker` returns `none` will be placed at the end of
-  // the resulting list.
+  // Sort `list` in ascending order using `ranker(value)` as the sort key. The
+  // `ranker` function must return a number, string, boolean, or `none`. All
+  // non-`none` values returned by `ranker` must be of the same type. Values for
+  // which `ranker` returns `none` will be placed at the end of the resulting
+  // list.
   //
   // ```ptls
   // sortBy(
@@ -500,9 +500,9 @@ export async function sortBy(list, ranker) {
 }
 
 export async function sortDescBy(list, ranker) {
-  // Sort `list` in descending order using `ranker(value)` as the sort key.
-  // See the docs for [sortBy](#sortBy) for requirements for `ranker` and
-  // details on the sorting process.
+  // Sort `list` in descending order using `ranker(value)` as the sort key. See
+  // the docs for [sortBy](#sortBy) for requirements for `ranker` and details on
+  // the sorting process.
   //
   // ```ptls
   // sortDescBy(
@@ -644,9 +644,8 @@ export function median(numbers) {
 }
 
 export function counts(list) {
-  // Get the counts and total shares for the values in `list`.
-  // Returns a table with columns `value`, `count`, and `share`,
-  // sorted descending by `count`.
+  // Get the counts and total shares for the values in `list`. Returns a table
+  // with columns `value`, `count`, and `share`, sorted descending by `count`.
   //
   // ```ptls
   // List.counts(["NY", "CA", "IL", "TX", "AZ", "PA", "TX", "CA", "TX", "FL"])
@@ -759,8 +758,8 @@ export function any(list) {
 // }
 
 export function unique(list) {
-  // Remove duplicate values from `list`, keeping only the first occurrence
-  // of each value.
+  // Remove duplicate values from `list`, keeping only the first occurrence of
+  // each value.
   //
   // ```ptls
   // List.unique(["NY", "CA", "IL", "TX", "AZ", "PA", "TX", "CA", "TX", "FL"])
@@ -771,8 +770,8 @@ export function unique(list) {
 }
 
 export function span(from, to) {
-  // Get a list of integers between `from` and `to`, inclusive.
-  // `from` and `to` must be integers.
+  // Get a list of integers between `from` and `to`, inclusive. `from` and `to`
+  // must be integers.
   //
   // ```ptls
   // span(1, 10)
@@ -794,8 +793,8 @@ export function span(from, to) {
 }
 
 export function range(limit) {
-  // Get a list of integers between `0` and `limit - 1`, inclusive.
-  // `limit` must be an integer. If `limit < 1` then `[]` is returned.
+  // Get a list of integers between `0` and `limit - 1`, inclusive. `limit` must
+  // be an integer. If `limit < 1` then `[]` is returned.
   //
   // ```ptls
   // range(10)

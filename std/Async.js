@@ -7,12 +7,12 @@ import im from "immutable";
 // concurrently.
 
 export async function getFirst(funcs) {
-  // Run the zero-argument functions in the list `funcs` concurrently and
-  // return the result of the first one that finishes.
+  // Run the zero-argument functions in the list `funcs` concurrently and return
+  // the result of the first one that finishes.
   //
-  // *Note: the functions that are still running when the first function
-  // finishes should be stopped; however, limitations of JS currently
-  // prevent this.*
+  // _Note: the functions that are still running when the first function
+  // finishes should be stopped; however, limitations of JS currently prevent
+  // this._
   //
   // ```ptls --no-eval
   // fn getA()
@@ -80,8 +80,8 @@ export async function sleep(ms) {
 }
 
 export async function $yield() {
-  // Pause a loop temporarily to allow other concurrently running functions
-  // to progress.
+  // Pause a loop temporarily to allow other concurrently running functions to
+  // progress.
   //
   // ```ptls --no-eval
   // Async.yield() -- Pause to allow other functions to run

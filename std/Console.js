@@ -22,8 +22,8 @@ export function print(value) {
 
 export function debug(value) {
   // Print the string representation of `value` to stdout, followed by a
-  // newline, and return `value`. Include quotes if `value` is a string.
-  // Useful for debugging and logging.
+  // newline, and return `value`. Include quotes if `value` is a string. Useful
+  // for debugging and logging.
   //
   // ```ptls
   // Console.debug("Hello")
@@ -48,8 +48,8 @@ export function write(string) {
 }
 
 export function error(value) {
-  // Identical to `debug`, except that the result is sent to stderr rather
-  // than stdout.
+  // Identical to `debug`, except that the result is sent to stderr rather than
+  // stdout.
   //
   // ```ptls
   // Console.error("Hello")
@@ -72,8 +72,8 @@ export function clear() {
 }
 
 export async function prompt(message) {
-  // Prompt the user for input, displaying the string `message` beforehand.
-  // User input is returned as a string.
+  // Prompt the user for input, displaying the string `message` beforehand. User
+  // input is returned as a string.
   //
   // ```ptls --input avery 28
   // prompt("Enter name: ")
@@ -85,8 +85,8 @@ export async function prompt(message) {
 }
 
 export async function rawKey() {
-  // Read a single keypress from the terminal in raw mode.
-  // Return an object with the following keypress event details:
+  // Read a single keypress from the terminal in raw mode. Return an object with
+  // the following keypress event details:
   //
   // - `str`: the character, if printable, or `none`.
   // - `name`: name of the key.

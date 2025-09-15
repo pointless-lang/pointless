@@ -5,9 +5,8 @@ import { Err } from "../src/err.js";
 // special control flow.
 
 export function $throw(payload) {
-  // Throw an error with a `payload`, which may be any type of value.
-  // Functions which throw errors should be called using `try` to avoid
-  // unhandled errors.
+  // Throw an error with a `payload`, which may be any type of value. Functions
+  // which throw errors should be called using `try` to avoid unhandled errors.
   //
   // ```ptls --panics
   // fn inverse(n)
@@ -25,9 +24,9 @@ export function $throw(payload) {
 }
 
 export async function $try(func, handler) {
-  // Call the zero-argument function `func`. If `func` returns a value
-  // without throwing an error, return it; otherwise, call `handler` with
-  // the error payload and return `handler(payload)`.
+  // Call the zero-argument function `func`. If `func` returns a value without
+  // throwing an error, return it; otherwise, call `handler` with the error
+  // payload and return `handler(payload)`.
   //
   // ```ptls
   // fn inverse(n)
@@ -61,8 +60,8 @@ export async function $try(func, handler) {
 }
 
 export async function orElse(func, $default) {
-  // Call the zero-argument function `func`. If `func` returns a value
-  // without throwing an error, return it; otherwise return `default`.
+  // Call the zero-argument function `func`. If `func` returns a value without
+  // throwing an error, return it; otherwise return `default`.
   //
   // ```ptls
   // fn inverse(n)

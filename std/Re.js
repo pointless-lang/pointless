@@ -14,8 +14,8 @@ function lookup(pattern) {
 }
 
 export function escape(string) {
-  // Escape special characters in `string` so it can be used as a literal
-  // in a regular expression.
+  // Escape special characters in `string` so it can be used as a literal in a
+  // regular expression.
   //
   // ```ptls
   // Re.escape("Hello? Can you *hear* me??")
@@ -69,8 +69,8 @@ export function match(string, pattern) {
 }
 
 export function split(string, pattern) {
-  // Split `string` using the regular expression `pattern`.
-  // The matching separators are not included in the resulting substrings.
+  // Split `string` using the regular expression `pattern`. The matching
+  // separators are not included in the resulting substrings.
   //
   // ```ptls
   // Re.split("NYC NY  USA", " +")

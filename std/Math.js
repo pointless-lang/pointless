@@ -54,7 +54,8 @@ export function ceil(n) {
 }
 
 export function round(n) {
-  // Round `n` to the nearest integer using [banker's rounding](https://en.wikipedia.org/wiki/Rounding#Rounding_half_to_even).
+  // Round `n` to the nearest integer using
+  // [banker's rounding](https://en.wikipedia.org/wiki/Rounding#Rounding_half_to_even).
   //
   // ```ptls
   // Math.round(3.14)
@@ -73,7 +74,8 @@ export function round(n) {
 }
 
 export function roundTo(n, decimals) {
-  // Round `n` to `decimals` places using [banker's rounding](https://en.wikipedia.org/wiki/Rounding#Rounding_half_to_even).
+  // Round `n` to `decimals` places using
+  // [banker's rounding](https://en.wikipedia.org/wiki/Rounding#Rounding_half_to_even).
   // If `decimals` is negative then rounding is done to the corresponding
   // positive power of `10`.
   //
@@ -232,8 +234,8 @@ export function atan(n) {
 }
 
 export function atan2(y, x) {
-  // Return the arctangent (inverse tangent) of `y / x`, using the signs
-  // to determine the correct quadrant.
+  // Return the arctangent (inverse tangent) of `y / x`, using the signs to
+  // determine the correct quadrant.
   //
   // ```ptls
   // Math.atan2(1, -1) -- 3 * Math.pi / 4
