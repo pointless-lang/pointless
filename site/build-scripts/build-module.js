@@ -5,11 +5,8 @@ import { loadMeta } from "../../src/std.js";
 
 const meta = await loadMeta();
 
-export function showTags(modName, name, value) {
-  if (
-    meta.globals[name] === value ||
-    (modName !== "Overloads" && meta.variants[name])
-  ) {
+export function showTags(name, value) {
+  if (meta.globals[name] === value || meta.variants[name]) {
     return `<span class="tag" title="Global"></span>`;
   }
 
@@ -20,13 +17,14 @@ export function showTags(modName, name, value) {
   return "";
 }
 
-export function moduleSidebar(path) {
-  const modName = path.split("/").at(-1);
+export function moduleSidebar(node) {
+  const modName = node.path.split("/").at(-1);
+
   const links = Object.entries(meta.modules[modName]).map(
     ([name, value]) => h`
       <li>
         <a href="#${name}">${name}</a>
-        $${showTags(modName, name, value)}
+        $${showTags(name, value)}
       </li>
     `,
   );
@@ -80,20 +78,20 @@ async function showDocs(modName, name, value, consts) {
   );
 }
 
-export async function genModule(path, data) {
-  const modName = path.split("/").at(-1);
+export async function genModule(node) {
+  const modName = node.path.split("/").at(-1);
   const defs = [];
 
   for (const [name, value] of Object.entries(meta.modules[modName])) {
     const label = getType(value) === "function" ? value : `${modName}.${name}`;
-    const docs = await showDocs(modName, name, value, data.consts);
+    const docs = await showDocs(modName, name, value, node.consts);
 
     defs.push(h`
       <hr />
 
       <h2 class="def-name" id="${name}">
         <code><a href="#${name}">${label}</a></code>
-        $${showTags(modName, name, value)}
+        $${showTags(name, value)}
       </h2>
 
       <div class="contents">$${docs}</div>
