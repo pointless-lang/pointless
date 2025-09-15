@@ -211,8 +211,8 @@ export function get(table, selector) {
   // - If `selector` is a string, return the values from the column with name
   //   `selector` as a list.
   // - If `selector` is an object, return the first row that
-  //   [matches](../Obj#matches) `selector`, with the requirement that at
-  //   least one row matches.
+  //   [matches](/language/objects#object-matching) `selector`, with the
+  //   requirement that at least one row matches.
   //
   // ```ptls
   // cities = Table.of([
@@ -257,9 +257,10 @@ export function set(table, selector, value) {
   //   - If `value` is not a list, it is repeated across all rows.
   //
   // - If `selector` is an object, find the first row that matches
-  //   [matches](../Obj#matches) `selector`, with the requirement that at
-  //   least one row matches. Replace this row with the data in `value`, where
-  //   `value` is an object whose keys match the columns of `table`.
+  //   [matches](/language/objects#object-matching) `selector`, with the
+  //   requirement that at least one row matches. Replace this row with the
+  //   data in `value`, where `value` is an object whose keys match the columns
+  //   of `table`.
   //
   // ```ptls
   // cities = Table.of([
@@ -342,7 +343,7 @@ export function has(table, selector) {
   // - If `selector` is a string, check whether `table` has a column named
   //   `selector`.
   // - If `selector` is an object, check whether `table` has a row which
-  //   [matches](../Obj#matches) `selector`.
+  //   [matches](/language/objects#object-matching) `selector`.
   //
   // ```ptls
   // cities = Table.of([
@@ -390,7 +391,7 @@ export function columns(table) {
 }
 
 export function indexOf(table, matcher) {
-  // Get the index of the first row in `table` that [matches](../Obj#matches)
+  // Get the index of the first row in `table` that [matches](/language/objects#object-matching)
   // the object `matcher`, or `none` if no row matches.
   //
   // ```ptls
@@ -410,7 +411,7 @@ export function indexOf(table, matcher) {
 }
 
 export function match(table, matcher) {
-  // Filter `table` to contain only the rows which [match](../Obj#matches)
+  // Filter `table` to contain only the rows which [match](/language/objects#object-matching)
   // the object `matcher`.
   //
   // ```ptls
@@ -438,7 +439,7 @@ export function remove(table, selector) {
   //   `selector`.
   //
   // - If `selector` is an object, remove all rows which
-  //   [match](../Obj#matches) `selector`.
+  //   [match](/language/objects#object-matching) `selector`.
   //
   // ```ptls
   // cities = Table.of([

@@ -36,12 +36,8 @@ export function has(object, key) {
 }
 
 export function matches(object, matcher) {
-  // Check whether `object` *matches* the object `matcher`, meaning that
-  // `object` has all of the keys in `matcher`, and that for every `key`
-  // shared between `object` and `matcher`:
-  //
-  // - `object[key]` *matches* `matcher[key]` if both values are objects
-  // - `object[key] == matcher[key]` otherwise
+  // Check whether `object` [matches](/language/objects#object-matching)
+  // the object `matcher`.
   //
   // ```ptls
   // ducky = { name: "Ducky", type: "dog", age: 9 }
