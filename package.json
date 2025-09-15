@@ -3,12 +3,13 @@
   "version": "0.2.0",
   "type": "module",
   "scripts": {
-    "fmt": "prettier --write --prose-wrap=always .",
+    "fmt": "prettier --write --prose-wrap=always .; node utils/formatStd.js",
     "lint": "eslint .; stylelint site/static/css/* notebook/*.css",
     "build": "node --watch-path=. site/build-scripts/build.js",
     "serve": "serve --config site/serve.json"
   },
   "devDependencies": {
+    "@prettier/sync": "^0.6.1",
     "command-line-args": "^6.0.1",
     "csv-parse": "^5.6.0",
     "eslint": "8.57.0",
