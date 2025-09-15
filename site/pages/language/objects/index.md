@@ -16,3 +16,11 @@ library [Object module](/stdlib/Object).
 - record objects
 
 - set, object order
+
+- object matching
+
+`object` has all of the keys in `matcher`, and that for every `key` shared
+between `object` and `matcher`:
+
+- `object[key]` _matches_ `matcher[key]` if both values are objects
+- `object[key] == matcher[key]` otherwise

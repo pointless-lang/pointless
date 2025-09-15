@@ -63,6 +63,20 @@ These operators obey the standard
 2 + 3 * (4 + 1)
 ```
 
+## Modulus Behavior
+
+The modulus operator `%` uses the
+[floor mod](https://en.wikipedia.org/wiki/Modulo#Variants_of_the_definition)
+variant when operating on negative values, meaning that the result of a modulus
+operation will have the same sign as the divisor (the second operand).
+
+```ptls
+10 % 7
+-10 % 7
+10 % -7
+-10 % -7
+```
+
 ## Comparison
 
 Numbers can be compared for equality using the equals `==` and not-equals `!=`
@@ -87,39 +101,26 @@ Numbers can also be compared using the inequality operators:
 5 >= 5
 ```
 
-Be aware of [floating-point error](#floating-point-error) when comparing
-non-integer values.
-
-## Modulus Behavior
-
-The modulus operator `%` uses the
-[floor mod](https://en.wikipedia.org/wiki/Modulo#Variants_of_the_definition)
-variant when operating on negative values, meaning that the result of a modulus
-operation will have the same sign as the divisor (the second operand).
-
-```ptls
-10 % 7
--10 % 7
-10 % -7
--10 % -7
-```
-
 ## Floating-point Error
 
 Like any system based on floating-point arithmetic, the results of some
 numerical operations in Pointless involving non-integer values
 [will be inexact](https://en.wikipedia.org/wiki/Floating-point_arithmetic#Accuracy_problems).
+Watch out for this behavior when comparing non-integer values.
 
 ```ptls
 n = (Math.sqrt(5) * 2) ** 2
 n
+
 n == 20
 ```
 
 ## Strictness
 
 Pointless is stricter than many other languges when it comes to numerical
-operations. Calculations that would produce `NaN` or infinity value in other
+operations. Calculations that would produce a
+[NaN](https://en.wikipedia.org/wiki/IEEE_754#NaNs) or
+[infinity](https://en.wikipedia.org/wiki/IEEE_754#Infinities) value in other
 languages will cause errors in Pointless.
 
 ```ptls --panics
@@ -132,5 +133,4 @@ languages will cause errors in Pointless.
 10 ** 1000
 ```
 
-Note that `NaN` and infinity values can be accessed via `Math.nan` and
-`Math.inf`.
+Note that NaN and infinity values can be accessed via `Math.nan` and `Math.inf`.

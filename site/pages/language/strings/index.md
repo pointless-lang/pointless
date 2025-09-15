@@ -3,11 +3,11 @@ title: "Language Reference: Strings"
 subtitle: Strings (pieces of text), string interpolation, and string operators
 ---
 
-Strings are pieces of text, represented as a sequence of characters. Like
-Python, Pointless does not include a separate type for working with individual
-characters. When necessary, characters are simply represented as strings with
-length one. For example, the `chars` function, which splits a string into
-characters, returns a list of single-character strings.
+Strings are pieces of text, represented as a sequence of characters. Pointless
+does not include a separate type for working with individual characters. When
+necessary, characters are simply represented as strings with length one. For
+example, the `chars` function, which splits a string into characters, returns a
+list of single-character strings.
 
 Important string-related functions include:
 
@@ -165,7 +165,7 @@ print("\\Hello\n\"world\"!")
 
 ## Unicode Escapes
 
-Unicode escape sequences have form `\u{...}` where `...` is a sequence of
+Unicode escape sequences have the form `\u{...}`, where `...` is a sequence of
 between 1 and 6 hexadecimal digits specifying the code point of the desired
 character. Code points must have a value between `0` and `10FFFF`.
 
@@ -175,10 +175,8 @@ character. Code points must have a value between `0` and `10FFFF`.
 
 ## Raw Strings
 
-Pointless borrows
-[Rust's syntax](https://doc.rust-lang.org/reference/tokens.html#grammar-RAW_STRING_LITERAL)
-for raw strings, in which raw strings are prefixed with the character `r`. Unlike regular
-strings, raw strings do not interpret escape sequences or perform variable
+Raw strings in Pointless are prefixed with the character `r`. Unlike regular
+strings, raw strings do not interpret escape sequences or perform string
 interpolation, which makes them useful for storing pieces of text verbatim.
 
 ```ptls

@@ -125,6 +125,24 @@ distance(0, 0, 3, 4)
 dx
 ```
 
+Function-scoping means that control structures like conditionals and loops don't
+create new scopes. Variables defined within these control structures (including
+loop variables) will be accessible outside of the structures.
+
+```ptls
+numbers = [1, 2, 3, 4, 5]
+total = 0
+
+for n in numbers do
+  total += n
+end
+
+total
+n
+```
+
+## Shadowing
+
 Local variables with the same names as globals will _shadow_ those globals.
 Defining a local variable inside a function will not change the value of a
 global variable with the same name.
@@ -141,22 +159,6 @@ end
 
 incScore() -- The updated `score` value returned from `incScore`
 score -- Value of the global variable hasn't changed
-```
-
-Function-scoping means that control structures like conditionals and loops don't
-create new scopes. Variables defined within these control structures (including
-loop variables) will be accessible outside of the structures.
-
-```ptls
-numbers = [1, 2, 3, 4, 5]
-total = 0
-
-for n in numbers do
-  total += n
-end
-
-total
-n
 ```
 
 ## Structural Updates
