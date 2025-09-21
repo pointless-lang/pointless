@@ -20,3 +20,59 @@ subtitle:
 - pow parens
 - parens
 - associativity
+
+## In Language Constructs
+
+There are several situations in which language constructs will produce `none`
+values, including:
+
+- Evaluating an `if` or `match` expression with no matching branch and no `else`
+  branch.
+- Calling a function, evaluating a conditional branch, or importing a script
+  which contains no code, or whose [final statement](misc#final-statement-value)
+  is not an expression.
+
+- Evaluating an `if` or `match` expression with no matching branch and no `else`
+  branch.
+
+  ```ptls
+  n = 7
+
+  if n % 2 == 0 then
+    "even"
+  end
+
+  match n % 2
+    case 0 then "even"
+  end
+  ```
+
+- Calling a function, evaluating a conditional branch, or importing a script
+  which contains no code.
+
+  ```ptls
+  fn nada()
+  end
+
+  nada()
+
+  if true then
+  end
+  ```
+
+- Calling a function, evaluating a conditional branch, or importing a script
+  whose final statement is a variable assignment or a loop.
+
+  ```ptls
+  fn justChecking()
+    for n in span(1, 10) do
+      assert(n > 0)
+    end
+  end
+
+  justChecking()
+
+  if true then
+    n = 100
+  end
+  ```
