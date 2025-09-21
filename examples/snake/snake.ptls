@@ -71,7 +71,7 @@ fn moveHead(game)
 end
 
 fn checkCollision(game)
-  if has(game.body, game.head) then
+  if game.head in game.body then
     game.playing = false
     -- Temporary workaround for lack of JS promise cancellation
     Console.pauseStdin()
@@ -82,7 +82,7 @@ fn checkCollision(game)
 end
 
 fn atGoal(game)
-  game.goal == game.head or has(game.body, game.goal)
+  game.goal == game.head or game.goal in game.body
 end
 
 fn checkGoal(game)
