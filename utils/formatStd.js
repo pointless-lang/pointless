@@ -35,5 +35,7 @@ for (const file of fs.readdirSync("std/")) {
   // Should be itempotent
   if (result !== source) {
     console.log(`Formatted doc comments in std/${file}`);
+  } else {
+    console.log(`Checked doc comments in std/${file}`);
   }
 }

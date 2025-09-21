@@ -25,11 +25,14 @@ async function getTree(path, parent = null) {
       const { data, content } = matter(source);
 
       node.content = content;
-      node.title = data.title;
-      node.subtitle = data.subtitle;
-      node.consts = data.consts;
-      node.links = data.links;
-      node.type = data.type;
+
+      // title
+      // subtitle
+      // consts
+      // links
+      // type
+      Object.assign(node, data);
+
       node.label = data.title?.split(": ").at(-1);
     } else if (file.isDirectory()) {
       const subPath = path ? `${path}/${file.name}` : file.name;
