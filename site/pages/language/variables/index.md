@@ -25,15 +25,9 @@ total = 100
 points / total
 ```
 
-Attempting to access a variable which has not been defined will cause an error.
+## Reassigning Variables
 
-```ptls --panics
-1 - salePrice / normalPrice
-```
-
-## Redefining Variables
-
-Variables can updated after being initially defined. The syntax for redefining
+Variables can updated after being initially defined. The syntax for reassigning
 an existing variable is the same as for defining a new variable.
 
 ```ptls
@@ -127,18 +121,14 @@ Defining a local variable inside a function will not change the value of a
 global variable with the same name.
 
 ```ptls
-score = 0
+greeting = "Hello"
 
-fn incScore()
-  -- Changes the value of `score` within the function, making a new local
-  -- definition and leaving the global definition for `score` unchanged.
-  score += 1
-  score
+fn sayHi()
+  -- Changes the value of `greeting` within the function, making a new local
+  -- definition and leaving the global definition for `greeting` unchanged
+  greeting = "hi"
+  "$greeting world!"
 end
-
-incScore() -- The updated `score` value returned from `incScore`
-score -- Value of the global variable hasn't changed
-```
 
 sayHi()
 greeting -- Value of the global variable hasn't changed

@@ -16,9 +16,10 @@ export class Returner {
 }
 
 export class Env {
-  constructor(parent, defs) {
+  constructor(parent, defs, locals = new Set()) {
     this.parent = parent;
     this.defs = defs;
+    this.locals = locals;
     // used to evaluate compound assignments
     // for example: `x += 1` gets transformed into `x = prev + 1`
     // and 1 gets pushed to `prev` before the definition is evaluated
@@ -26,8 +27,8 @@ export class Env {
     this.blameLocs = [];
   }
 
-  spawn(defs = new Map()) {
-    return new Env(this, defs);
+  spawn(defs = new Map(), locals = new Set()) {
+    return new Env(this, defs, locals);
   }
 
   snapshot() {
@@ -115,6 +116,10 @@ export class Env {
     while (env) {
       if (env.defs.has(name)) {
         return env.defs.get(name);
+      }
+
+      if (env.locals.has(name)) {
+        throw new Panic("local name is not yet defined", { $name: name });
       }
 
       env = env.parent;
@@ -531,14 +536,14 @@ export class Env {
   }
 
   evalFn(node) {
-    const { name, params, body } = node.value;
+    const { name, params, body, locals } = node.value;
 
     // Anon functions have nam "fn"
     const parent = name === "fn" ? this.snapshot() : this;
 
     const handler = async (...args) => {
       const defs = new Map(params.map((param, index) => [param, args[index]]));
-      const env = parent.spawn(defs);
+      const env = parent.spawn(defs, locals);
 
       try {
         return await env.eval(body);

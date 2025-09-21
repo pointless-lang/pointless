@@ -86,6 +86,7 @@ class Parser {
   index = 0;
   fnDepth = 0;
   implicits = [];
+  locals = [];
 
   constructor(tokens) {
     this.tokens = tokens;
@@ -170,6 +171,10 @@ class Parser {
 
       this.implicits[this.implicits.length - 1] ??= loc;
     }
+  }
+
+  addLocal(name) {
+    this.locals.at(-1)?.add(name);
   }
 
   // get a sequence of elements (using the handler method),
@@ -412,7 +417,7 @@ class Parser {
   getFnDef() {
     const { loc } = this.get("fn");
     const name = this.get("name").value;
-    const rhs = new Node("fn", loc, { name, ...this.getParamsBody() });
+    const rhs = new Node("fn", loc, { name, ...this.getFnInner() });
     return new Node("def", loc, { name, keys: [], isCompound: false, rhs });
   }
 
@@ -443,14 +448,18 @@ class Parser {
 
     if (this.hasMulti("name", "in")) {
       const name = this.get("name").value;
+      this.addLocal(name);
       this.get("in");
       return new Node("for", loc, { name, ...this.getRangeBody() });
     }
 
     if (this.hasMulti("name", ",")) {
       const keyName = this.get("name").value;
+      this.addLocal(keyName);
       this.get(",");
+      
       const valName = this.get("name").value;
+      this.addLocal(valName);
       this.get("in");
 
       return new Node("tandemFor", loc, {
@@ -540,13 +549,10 @@ class Parser {
         );
       }
 
+      const name = base.value;
+      this.addLocal(name);
       const { loc, isCompound, rhs } = this.getAssign(def);
-      return new Node("def", loc, {
-        name: base.value,
-        keys,
-        isCompound,
-        rhs,
-      });
+      return new Node("def", loc, {name, keys, isCompound, rhs });
     }
 
     return lhs;
@@ -585,15 +591,17 @@ class Parser {
     return this.getDef();
   }
 
-  getParamsBody() {
+  getFnInner() {
     const params = this.seq("(", ")", ",", () => this.get("name").value);
 
     this.fnDepth++;
+    this.locals.push(new Set());
     const body = this.getStatements();
+    const locals = this.locals.pop();
     this.fnDepth--;
 
     this.get("end");
-    return { params, body };
+    return { params, body, locals };
   }
 
   getStatements(topLevel = false) {
@@ -613,7 +621,7 @@ class Parser {
 
   getFn() {
     const { loc } = this.get("fn");
-    return new Node("fn", loc, { name: "fn", ...this.getParamsBody() });
+    return new Node("fn", loc, { name: "fn", ...this.getFnInner() });
   }
 
   getBranch() {
@@ -759,7 +767,7 @@ class Parser {
     const loc = this.implicits.pop();
 
     const rhs = loc
-      ? new Node("fn", loc, { name: "fn", params: ["arg"], body: [result] })
+      ? new Node("fn", loc, { name: "fn", params: ["arg"], body: [result], locals: new Set() })
       : result;
 
     if (rhs.type === "call") {
