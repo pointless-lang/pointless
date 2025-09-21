@@ -3,9 +3,11 @@ fn sort(nums)
     nums
   else
     pivot = nums[0]
-    left = nums ? arg < pivot
+
+    left   = nums ? arg < pivot
     middle = nums ? arg == pivot
-    right = nums ? arg > pivot
+    right  = nums ? arg > pivot
+    
     sort(left) + middle + sort(right)
   end
 end
