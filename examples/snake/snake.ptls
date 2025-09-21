@@ -31,7 +31,7 @@ fn printBoard(board)
 end
 
 fn setBlock(board, loc, code)
-  board[loc.y][loc.x] = "\u001b[$(code)m██\u001b[0m"
+  board[loc.y][loc.x] = "\u{1b}[$(code)m██\u{1b}[0m"
   board
 end
 
