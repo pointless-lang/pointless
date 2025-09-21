@@ -108,7 +108,7 @@ async function renderCode(code, config, filePath, env) {
             break;
 
           default:
-            if (!isConsole(statement)) {
+            if (echo && !isConsole(statement)) {
               results.push(display(result) + "\n");
             }
         }
@@ -120,7 +120,7 @@ async function renderCode(code, config, filePath, env) {
       }
     }
 
-    if (echo && results.length) {
+    if (results.length) {
       resultLines = h`<pre $${attrs}><code>${results.join("")}</code></pre>`;
     }
   }
