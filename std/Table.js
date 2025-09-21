@@ -25,7 +25,6 @@ export function of(value) {
   //
   // - If `value` is an object, the keys become column names, and the values
   //   become the data for each column.
-  //
   //   - List values are used directly as the table's column data, and must all
   //     be the same length.
   //   - Non-list values are repeated across all rows.
@@ -250,7 +249,6 @@ export function set(table, selector, value) {
   //
   // - If `selector` is a string, replace the column named `selector` with
   //   `value`.
-  //
   //   - If `value` is a list, it becomes the column data. A list `value` must
   //     have the same length as `table`.
   //   - If `value` is not a list, it is repeated across all rows.

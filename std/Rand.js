@@ -14,6 +14,16 @@ export function random() {
   return Math.random();
 }
 
+export function bool() {
+  // Get `true` or `false`, chosen at random.
+  //
+  // ```ptls
+  // Rand.bool()
+  // ```
+
+  return Math.random() > 0.5;
+}
+
 export function sample(values) {
   // Return a random element from `values`, where `values` is a list, table, or
   // set.
