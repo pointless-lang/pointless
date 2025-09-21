@@ -1,0 +1,55 @@
+diff --git a/src/utils/deepEqual.ts b/src/utils/deepEqual.ts
+index f7f3b1e02..8b9d6d626 100644
+--- a/src/utils/deepEqual.ts
++++ b/src/utils/deepEqual.ts
+@@ -7,7 +7,9 @@ import { isAssociative } from '../predicates/isAssociative';
+ import { isCollection } from '../predicates/isCollection';
+ import { isIndexed } from '../predicates/isIndexed';
+ import { isKeyed } from '../predicates/isKeyed';
++import { isMap } from '../predicates/isMap';
+ import { isOrdered } from '../predicates/isOrdered';
++import { isSet } from '../predicates/isSet';
+ 
+ export default function deepEqual(
+   a: Range | Repeat | Collection<unknown, unknown>,
+@@ -43,7 +45,7 @@ export default function deepEqual(
+   const notAssociative = !isAssociative(a);
+ 
+   // @ts-expect-error Range extends Collection, which implements [Symbol.iterator], so it is valid
+-  if (isOrdered(a)) {
++  if (isOrdered(a) && !isMap(a) && !isSet(a)) {
+     const entries = a.entries();
+     // @ts-expect-error need to cast as boolean
+     return (
+@@ -59,7 +61,8 @@ export default function deepEqual(
+   if (a.size === undefined) {
+     // @ts-expect-error size should exists on Collection
+     if (b.size === undefined) {
+-      if (typeof a.cacheResult === 'function') {
++      // @ts-expect-error Range extends Collection, which implements [Symbol.iterator], so it is valid
++      if (!isOrdered(a) && typeof a.cacheResult === 'function') {
+         a.cacheResult();
+       }
+     } else {
+diff --git a/src/utils/hasCollection.ts b/src/utils/hasCollection.ts
+index 1d544aa58..fd2ac12f7 100644
+--- a/src/utils/hasCollection.ts
++++ b/src/utils/hasCollection.ts
+@@ -2,14 +2,16 @@ import type { Collection } from '../../type-definitions/immutable';
+ import { hash } from '../Hash';
+ import { imul, smi } from '../Math';
+ import { isKeyed } from '../predicates/isKeyed';
++import { isMap } from '../predicates/isMap';
+ import { isOrdered } from '../predicates/isOrdered';
++import { isSet } from '../predicates/isSet';
+ 
+ export function hashCollection<K, V>(collection: Collection<K, V>): number {
+   // @ts-expect-error Migrate to CollectionImpl in v6
+   if (collection.size === Infinity) {
+     return 0;
+   }
+-  const ordered = isOrdered(collection);
++  const ordered = isOrdered(collection) && !isMap(collection) && !isSet(collection);
+   const keyed = isKeyed(collection);
+   let h: number = ordered ? 1 : 0;
+ 

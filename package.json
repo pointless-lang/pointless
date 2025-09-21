@@ -41,7 +41,7 @@
     }
   },
   "dependencies": {
-    "immutable": "^4.3.7",
+    "immutable": "file:immutable",
     "open": "^10.2.0",
     "ws": "^8.18.3"
   }
