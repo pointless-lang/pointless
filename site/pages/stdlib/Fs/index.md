@@ -11,9 +11,6 @@ allows you to load and process file contents from a path relative to a script's
 source file.
 
 ```ptls --no-eval
-import "text:some-file.txt"  -- Import text as a string
-import "lines:some-file.txt" -- Import text as a list of lines
-import "csv:some-file.csv"   -- Import CSV as a table
-import "json:some-file.json" -- Import JSON as a ptls value
-import "raw:some-file.png"   -- Import file as a list of bytes
+import "text:some-file.txt" -- Import text file as a string
+import "raw:some-file.png"  -- Import file as a list of bytes
 ```
