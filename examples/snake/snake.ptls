@@ -99,21 +99,17 @@ fn checkGoal(game)
   game
 end
 
+deltas = {
+  "left": { x: -1, y: 0 },
+  "right": { x: 1, y: 0 },
+  "up": { x: 0, y: -1 },
+  "down": { x: 0, y: 1 },
+}
+
 fn getInput()
   while true do
     key = Console.rawKey().name
-
-    delta =
-      if key == "left" then
-        { x: -1, y: 0 }
-      elif key == "right" then
-        { x: 1, y: 0 }
-      elif key == "up" then
-        { x: 0, y: -1 }
-      elif key == "down" then
-        { x: 0, y: 1 }
-      end
-     
+    delta = deltas[key]
     Ref.set(deltaRef, delta)
   end
 end
