@@ -76,3 +76,25 @@ values, including:
     n = 100
   end
   ```
+
+## Identifier Names
+
+An identifier in Pointless is a name that starts with an ASCII letter `[a-zA-Z]`
+and is followed by zero or more ASCII letters or digits `[a-zA-Z0-9]`. Variable
+names must be valid identifiers, and must not be [keywords].
+
+**Valid identifier examples:**
+
+```
+nickname
+highScore
+player2
+```
+
+**Invalid identifier examples:**
+
+```
+nick$nam€
+high_score
+2player
+```
