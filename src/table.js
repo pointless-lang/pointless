@@ -83,6 +83,10 @@ export class Table {
     return im.is(this.data, other.data);
   }
 
+  hashCode() {
+    return im.hash(this.data);
+  }
+
   checkColumnLength(values) {
     if (this.size && values.size !== this.size) {
       throw new Panic("mismatched column lengths");
