@@ -10,16 +10,15 @@ links:
   - booleans
   - none
   - strings
-  - equality
-  - conditionals
-  - loops
   - lists
   - objects
   - sets
   - tables
+  - equality
   - immutability
-  - function-defs
-  - calls
+  - conditionals
+  - loops
+  - functions
   - pipelines
   - async
   - imports
