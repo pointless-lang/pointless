@@ -21,6 +21,9 @@ subtitle:
 - parens
 - associativity
 
+side effects (like printing a value, setting a variable, or returning from a
+function)
+
 ## In Language Constructs
 
 There are several situations in which language constructs will produce `none`

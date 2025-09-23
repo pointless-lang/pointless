@@ -53,7 +53,7 @@ score = 0
 score += 1 -- Equivalent to score = score + 1
 ```
 
-Compound assignment also works with pipeline operators.
+Compound assignment also works with [pipeline operators](../pipelines).
 
 ```ptls
 cmpPct = 27 / 43
@@ -68,8 +68,8 @@ The available compound assignment operators are `+=`, `-=`, `*=`, `/=`, `**=`,
 Pointless is _function-scoped_, meaning that functions determine the scope of
 variables.
 
-Variables defined outside of functions are _globals_, and can be accessed by any
-functions or other code in the program once they are defined.
+Variables defined outside of functions are _globals_, and can be accessed both
+by code within functions and code outside of functions.
 
 ```ptls
 pi = 3.14 -- Close enough
@@ -153,7 +153,7 @@ sayHi()
 
 ## Structural Updates
 
-In Pointless, we can use assignment syntax to update variables storing
+In Pointless, we can use assignment syntax to update variables containing
 [lists](/language/lists/#updates), [objects](/language/objects/#updates), and
 [tables](/language/tables/#updates).
 
@@ -164,6 +164,6 @@ hero.score += 1 -- Increment the `score` value in `hero`
 hero.items[0] = "food" -- Replace the first value in the `items` list in `hero`
 ```
 
-Note that while structural updates like these are still variable reassignments;
+Note that structural updates like these are still just variable reassignments;
 they **do not mutate** the underlying data structures like they would in other
 languages. See the chapter on [immutability](../immutability) for more details.

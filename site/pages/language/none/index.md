@@ -41,3 +41,18 @@ end
 first(["a", "b", "c", "d"])
 first([])
 ```
+
+## In Language Constructs
+
+Sometimes language constructs will produce `none` values. For example, a
+function that contains no code will return `none` when called.
+
+```ptls
+fn nada()
+end
+
+nada()
+```
+
+You can find more information on situations where language produces `none`
+values in the other chapters of the language reference.

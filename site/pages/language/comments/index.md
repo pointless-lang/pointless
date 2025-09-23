@@ -15,14 +15,14 @@ the line.
 Comments can be placed at the end of a line containing code
 
 ```ptls --no-eval
-print((a + b) / 2) -- Print the average of `a` and `b`
+avg = (a + b) / 2 -- Calculate the average of `a` and `b`
 ```
 
 or on their own line.
 
 ```ptls --no-eval
--- Print the hamonic mean of `a` and `b`
-print(2 / (1 / a + 1 / b))
+-- Calculate the hamonic mean of `a` and `b`
+avg = 2 / (1 / a + 1 / b)
 ```
 
 ## Comments as Documentation
@@ -31,7 +31,7 @@ Comments can be used to describe what a piece of code does and how it works. The
 example below uses comments to describe the behavior of the function `factors`,
 mark what each variable does, and explain the algorithm being implemented.
 
-```ptls --no-eval
+```ptls
 -- Calculate the prime factors of a positive integer `num`. Return a list of
 -- the calculated factors. Requires that `num > 1`.
 
@@ -58,7 +58,7 @@ fn factors(num)
 end
 
 -- Calculate the prime factors of `60`
-print(factors(60))
+factors(60)
 ```
 
 ## Commenting Out Code
@@ -68,7 +68,7 @@ comes in handy during development. In the example below, we disable the line of
 code that gets input from the user in order to test the rest of the program
 using a hard-coded value.
 
-```ptls --no-eval
+```ptls
 -- name = prompt("Enter a name: ")
 name = "豆豆"
 "Hello $name!"

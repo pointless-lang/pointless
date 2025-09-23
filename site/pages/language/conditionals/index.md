@@ -9,7 +9,7 @@ more conditions. Pointless has two conditional constructs: `if` expressions and
 
 ## If Expressions
 
-The most common form of an `if` expression has the syntax
+The basic form of an `if` expression has the syntax
 
 ```ptls --no-eval
 if condition then
@@ -76,9 +76,9 @@ end
 ## If as a Statement
 
 An `if` expression may also be used as a [statement](misc#statements), in which
-case its value is ignored. In these cases, the expression is used to run side
-effects (like printing a value, setting a variable, or returning from a
-function) while the result of the expression itself is not used.
+case its value is ignored. In these cases, the expression is used to run
+[side effects](../misc#side-effects) (like printing a value or updating a
+variable) while the result of the expression itself is not used.
 
 ```ptls
 rect = { width: 3, height: 4 }
@@ -98,7 +98,7 @@ The `none` in the output above is the unused result from the `if` expression.
 
 ## Match Expressions
 
-The most common form of a `match` expression has the syntax
+The basic form of a `match` expression has the syntax
 
 ```ptls --no-eval
 match expression
