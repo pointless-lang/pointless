@@ -103,7 +103,7 @@ export function repr(value, compact = false) {
     case "table":
       if (compact) {
         const inner = [...value].map((row) => repr(row, true)).join(", ");
-        return `Table.of(${inner})`;
+        return `Table.of([${inner}])`;
       }
 
       return String(value);
