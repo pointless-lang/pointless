@@ -457,7 +457,7 @@ class Parser {
       const keyName = this.get("name").value;
       this.addLocal(keyName);
       this.get(",");
-      
+
       const valName = this.get("name").value;
       this.addLocal(valName);
       this.get("in");
@@ -552,7 +552,7 @@ class Parser {
       const name = base.value;
       this.addLocal(name);
       const { loc, isCompound, rhs } = this.getAssign(def);
-      return new Node("def", loc, {name, keys, isCompound, rhs });
+      return new Node("def", loc, { name, keys, isCompound, rhs });
     }
 
     return lhs;
@@ -767,7 +767,12 @@ class Parser {
     const loc = this.implicits.pop();
 
     const rhs = loc
-      ? new Node("fn", loc, { name: "fn", params: ["arg"], body: [result], locals: new Set() })
+      ? new Node("fn", loc, {
+          name: "fn",
+          params: ["arg"],
+          body: [result],
+          locals: new Set(),
+        })
       : result;
 
     if (rhs.type === "call") {

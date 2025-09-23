@@ -119,13 +119,13 @@ export class Env {
       }
 
       if (env.locals.has(name)) {
-        throw new Panic("local name is not yet defined", { $name: name });
+        throw new Panic("variable has not been defined yet", { $name: name });
       }
 
       env = env.parent;
     }
 
-    throw new Panic("name is not defined", { $name: name });
+    throw new Panic("variable is not defined", { $name: name });
   }
 
   async dispatch(node) {
