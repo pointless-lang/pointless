@@ -74,7 +74,7 @@ async function showDocs(modName, name, value, consts) {
 
   return await renderMarkdown(
     modName,
-    `${consts[name] ?? ""}\n\`\`\`ptls --hide\n${modName}.${name}\n\`\`\``,
+    `${consts?.[name] ?? ""}\n\`\`\`ptls --hide\n${modName}.${name}\n\`\`\``,
   );
 }
 
