@@ -17,6 +17,8 @@ export function of(values) {
   return im.OrderedSet(values);
 }
 
+export const empty = im.OrderedSet();
+
 export function len(set) {
   // Return the number of elements in `set`.
   //
