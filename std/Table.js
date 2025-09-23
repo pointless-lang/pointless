@@ -890,43 +890,13 @@ export function bottom(table, columns, count) {
 }
 
 function listExtremum(table, columns, desc) {
-  checkType(table, "table");
-  table.checkNonEmpty();
-  columns = flattenCols(table, columns);
-
   return im.List([...table]).maxBy(
     (row) => selectValues(row, columns),
     (a, b) => compareAll(a, b, desc),
   );
 }
 
-export function max(table, columns) {
-  // Get the row with the largest values in `columns` where `columns` may be a
-  // string (single column) or a list of strings (multiple columns). In other
-  // words, get the row that would come first if `table` were sorted by
-  // `columns` in descending order.
-  //
-  // See the docs for [Table.sortBy](#sortBy) for details on the sorting
-  // process.
-  //
-  // ```ptls
-  // cities = Table.of([
-  //   { city: "Houston", state: "TX", population: 2390125 },
-  //   { city: "Phoenix", state: "AZ", population: 1673164 },
-  //   { city: "Philadelphia", state: "PA", population: 1573916 },
-  //   { city: "San Antonio", state: "TX", population: 1526656 },
-  //   { city: "San Diego", state: "CA", population: 1404452 },
-  //   { city: "Dallas", state: "TX", population: 1326087 },
-  // ])
-  //
-  // Table.max(cities, "population")
-  // Table.max(cities, ["state", "city"])
-  // ```
-
-  return listExtremum(table, columns, false);
-}
-
-export function min(table, columns) {
+export function minBy(table, columns) {
   // Get the row with the smallest values in `columns` where `columns` may be a
   // string (single column) or a list of strings (multiple columns). In other
   // words, get the row that would come first if `table` were sorted by
@@ -945,11 +915,107 @@ export function min(table, columns) {
   //   { city: "Dallas", state: "TX", population: 1326087 },
   // ])
   //
-  // Table.min(cities, "population")
-  // Table.min(cities, ["state", "city"])
+  // Table.minBy(cities, "population")
+  // Table.minBy(cities, ["state", "city"])
   // ```
 
-  return listExtremum(table, columns, true);
+  checkType(table, "table");
+  table.checkNonEmpty();
+  return listExtremum(table, flattenCols(table, columns), true);
+}
+
+export function maxBy(table, columns) {
+  // Get the row with the largest values in `columns` where `columns` may be a
+  // string (single column) or a list of strings (multiple columns). In other
+  // words, get the row that would come first if `table` were sorted by
+  // `columns` in descending order.
+  //
+  // See the docs for [Table.sortBy](#sortBy) for details on the sorting
+  // process.
+  //
+  // ```ptls
+  // cities = Table.of([
+  //   { city: "Houston", state: "TX", population: 2390125 },
+  //   { city: "Phoenix", state: "AZ", population: 1673164 },
+  //   { city: "Philadelphia", state: "PA", population: 1573916 },
+  //   { city: "San Antonio", state: "TX", population: 1526656 },
+  //   { city: "San Diego", state: "CA", population: 1404452 },
+  //   { city: "Dallas", state: "TX", population: 1326087 },
+  // ])
+  //
+  // Table.maxBy(cities, "population")
+  // Table.maxBy(cities, ["state", "city"])
+  // ```
+
+  checkType(table, "table");
+  table.checkNonEmpty();
+  return listExtremum(table, flattenCols(table, columns), false);
+}
+
+function listExtremumAll(table, columns, desc) {
+  table.checkNonEmpty();
+  columns = flattenCols(table, columns);
+
+  const pairs = [];
+
+  for (const row of table) {
+    const rank = selectValues(row, columns);
+    pairs.push({ row, rank });
+  }
+
+  const ranked = im.List(pairs);
+
+  const limitRank = ranked
+    .map(({ rank }) => rank)
+    .max((a, b) => compareAll(a, b, desc));
+
+  return of(
+    ranked.filter(({ rank }) => im.is(rank, limitRank)).map(({ row }) => row),
+  );
+}
+
+export function minAll(table, columns) {
+  // Get a table containing all the rows in `table` for which
+  // `select(table, columns)` is minimized. See the docs for
+  // [Table.sortBy](#sortBy) for details on the ranking process.
+  //
+  // ```ptls
+  // cities = Table.of([
+  //   { city: "Houston", state: "TX", population: 2390125 },
+  //   { city: "Phoenix", state: "AZ", population: 1673164 },
+  //   { city: "Philadelphia", state: "PA", population: 1573916 },
+  //   { city: "San Antonio", state: "TX", population: 1526656 },
+  //   { city: "San Diego", state: "CA", population: 1404452 },
+  //   { city: "Dallas", state: "TX", population: 1326087 },
+  // ])
+  //
+  // Table.minAll(cities, "state")
+  // ```
+
+  checkType(table, "table");
+  return isEmpty(table) ? table : listExtremumAll(table, columns, true);
+}
+
+export function maxAll(table, columns) {
+  // Get a table containing all the rows in `table` for which
+  // `select(table, columns)` is maximized. See the docs for
+  // [Table.sortBy](#sortBy) for details on the ranking process.
+  //
+  // ```ptls
+  // cities = Table.of([
+  //   { city: "Houston", state: "TX", population: 2390125 },
+  //   { city: "Phoenix", state: "AZ", population: 1673164 },
+  //   { city: "Philadelphia", state: "PA", population: 1573916 },
+  //   { city: "San Antonio", state: "TX", population: 1526656 },
+  //   { city: "San Diego", state: "CA", population: 1404452 },
+  //   { city: "Dallas", state: "TX", population: 1326087 },
+  // ])
+  //
+  // Table.maxAll(cities, "state")
+  // ```
+
+  checkType(table, "table");
+  return isEmpty(table) ? table : listExtremumAll(table, columns, false);
 }
 
 export function group(table, columns) {
@@ -1020,7 +1086,7 @@ export async function summarize(table, columns, reducer) {
   //
   // fn calcStateStats(group)
   //   totalPop = sum(group.population)
-  //   biggestCity = Table.max(group, "population").city
+  //   biggestCity = Table.maxBy(group, "population").city
   //   numCities = len(group)
   //   { totalPop, biggestCity, numCities }
   // end

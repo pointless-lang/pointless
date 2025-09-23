@@ -534,62 +534,155 @@ export function bottom(list, count) {
   return take(sort(list), count);
 }
 
-function listExtremum(numbers, handler) {
-  checkType(numbers, "list");
-  checkNonEmpty(numbers);
+async function getRanked(list, desc, func) {
+  const pairs = [];
 
-  let result = numbers.first();
-
-  for (const n of numbers) {
-    checkType(n, "number");
-    result = handler(result, n);
+  for (const value of list) {
+    const rank = func ? await func.call(value) : value;
+    checkType(rank, "number", "string", "boolean", "none");
+    pairs.push({ value, rank });
   }
 
-  return result;
+  const ranked = im.List(pairs);
+
+  const limit = ranked.maxBy(
+    ({ rank }) => rank,
+    (a, b) => compare(a, b, desc),
+  );
+
+  return { ranked, limit };
 }
 
-export function min(numbers) {
-  // Get the minimum of `numbers`.
+export async function min(list) {
+  // Get the minimum of `list`. See the docs for [sort](#sort) for requirements
+  // for `list` and details on the ranking process.
   //
   // ```ptls
   // List.min([-7, 1, 50])
   // ```
 
-  return listExtremum(numbers, Math.min);
+  checkType(list, "list");
+  checkNonEmpty(list);
+  return (await getRanked(list, true, null)).limit.rank;
 }
 
-export function max(numbers) {
-  // Get the maximum of `numbers`.
+export async function max(list) {
+  // Get the maximum of `list`. See the docs for [sort](#sort) for requirements
+  // for `list` and details on the ranking process.
   //
   // ```ptls
   // List.max([-7, 1, 50])
   // ```
 
-  return listExtremum(numbers, Math.max);
+  checkType(list, "list");
+  checkNonEmpty(list);
+  return (await getRanked(list, false, null)).limit.rank;
 }
 
-export function minNone(numbers) {
-  // Get the minimum of `numbers` or `none` if `numbers` is empty.
+export async function minBy(list, func) {
+  // Get the first item of a non-empty `list` for which `func(item)` is
+  // minimized. See the docs for [sortBy](#sortBy) for requirements for `func`
+  // and details on the ranking process.
+  //
+  // ```ptls
+  // List.minBy(
+  //   ["apple", "pear", "peach", "banana", "plum", "apricot", "orange"],
+  //   len
+  // )
+  // ```
+
+  checkType(list, "list");
+  checkType(func, "function");
+  checkNonEmpty(list);
+  return (await getRanked(list, true, func)).limit.value;
+}
+
+export async function maxBy(list, func) {
+  // Get the first item of a non-empty `list` for which `func(item)` is
+  // maximized. See the docs for [sortBy](#sortBy) for requirements for `func`
+  // and details on the ranking process.
+  //
+  // ```ptls
+  // List.maxBy(
+  //   ["apple", "pear", "peach", "banana", "plum", "apricot", "orange"],
+  //   len
+  // )
+  // ```
+
+  checkType(list, "list");
+  checkType(func, "function");
+  checkNonEmpty(list);
+  return (await getRanked(list, false, func)).limit.value;
+}
+
+async function listExtremumAll(list, desc, func) {
+  const { ranked, limit } = await getRanked(list, desc, func);
+
+  return ranked
+    .filter(({ rank }) => rank == limit.rank)
+    .map(({ value }) => value);
+}
+
+export async function minAll(list, func) {
+  // Get all the items in `list` for which `func(item)` is minimized. See the
+  // docs for [sortBy](#sortBy) for requirements for `func` and details on the
+  // ranking process.
+  //
+  // ```ptls
+  // List.minAll(
+  //   ["apple", "pear", "peach", "banana", "plum", "apricot", "orange"],
+  //   len
+  // )
+  // ```
+
+  checkType(list, "list");
+  checkType(func, "function");
+  return isEmpty(list) ? list : await listExtremumAll(list, true, func);
+}
+
+export async function maxAll(list, func) {
+  // Get all the items in `list` for which `func(item)` is maximized. See the
+  // docs for [sortBy](#sortBy) for requirements for `func` and details on the
+  // ranking process.
+  //
+  // ```ptls
+  // List.maxAll(
+  //   ["apple", "pear", "peach", "banana", "plum", "apricot", "orange"],
+  //   len
+  // )
+  // ```
+
+  checkType(list, "list");
+  checkType(func, "function");
+  return isEmpty(list) ? list : await listExtremumAll(list, false, func);
+}
+
+export async function minNone(list) {
+  // Get the minimum of `list` or `none` if `list` is empty. See the docs for
+  // [sort](#sort) for requirements for `list` and details on the ranking
+  // process.
   //
   // ```ptls
   // List.minNone([-7, 1, 50])
   // List.minNone([])
   // ```
 
-  checkType(numbers, "list");
-  return isEmpty(numbers) ? null : listExtremum(numbers, Math.min);
+  checkType(list, "list");
+  return isEmpty(list) ? null : (await getRanked(list, true, null)).limit.rank;
 }
 
-export function maxNone(numbers) {
-  // Get the maximum of `numbers` or `none` if `numbers` is empty.
+export async function maxNone(list) {
+  // Get the maximum of `list` or `none` if `list` is empty. See the docs for
+  // [sort](#sort) for requirements for `list` and details on the ranking
+  // process.
   //
   // ```ptls
   // List.maxNone([-7, 1, 50])
   // List.maxNone([])
   // ```
 
-  checkType(numbers, "list");
-  return isEmpty(numbers) ? null : listExtremum(numbers, Math.max);
+  checkType(list, "list");
+  return isEmpty(list) ? null : (await getRanked(list, false, null)).limit.rank;
 }
 
 export function sum(numbers) {
