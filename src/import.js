@@ -8,6 +8,7 @@ import { readFile, realpath } from "node:fs/promises";
 import { resolve } from "node:path";
 import im from "immutable";
 
+export const stubs = new Map();
 const cache = new Map();
 const prefixChars = /^(?:([a-z]+):)?/;
 
@@ -16,6 +17,10 @@ async function evalProgram(statements) {
 }
 
 export async function getImport(root, path) {
+  if (stubs.has(path)) {
+    return stubs.get(path);
+  }
+
   let prefix = path.match(prefixChars)[1];
 
   if (prefix) {

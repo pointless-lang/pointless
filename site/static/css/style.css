@@ -416,6 +416,12 @@ pre.wrap code {
   padding: 10px 10px 14px;
 }
 
+.file-name {
+  font-size: 0.9rem;
+  font-family: var(--font-mono);
+  margin: 4px;
+}
+
 .panic {
   background-color: #fee4e4;
   border-color: #f1c1c1;

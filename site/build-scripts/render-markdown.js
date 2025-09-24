@@ -2,6 +2,7 @@ import { highlight } from "./highlight.js";
 import { h } from "./escape.js";
 import { spawnDocStd, shimConsole } from "./doc-std.js";
 import { tokenize } from "../../src/tokenizer.js";
+import { stubs } from "../../src/import.js";
 import { parse } from "../../src/parser.js";
 import { repr, show } from "../../src/repr.js";
 import { Marked } from "marked";
@@ -45,9 +46,13 @@ async function renderCode(code, config, filePath, env) {
     panic = h`<pre class="result panic"><code>${err}</code></pre>`;
   }
 
+  const fileName =
+    config["file-name"] &&
+    h`<div class="file-name">${config["file-name"]}:</div>`;
+
   const source =
     !config["hide"] &&
-    h`<pre><code class="ptls">$${highlight(tokens)}</code></pre>`;
+    h`$${fileName}<pre><code class="ptls">$${highlight(tokens)}</code></pre>`;
 
   let resultLines = "";
   let finalDef = "";
@@ -83,6 +88,10 @@ async function renderCode(code, config, filePath, env) {
       try {
         const result = await env.eval(statement);
         finalDef = "";
+
+        if (config["file-name"]) {
+          stubs.set(config["file-name"], result);
+        }
 
         if (shimConsole.output.length) {
           results.push(shimConsole.getOutput());
@@ -135,16 +144,17 @@ async function renderCode(code, config, filePath, env) {
 }
 
 const options = [
-  { name: "no-echo", type: Boolean },
-  { name: "no-eval", type: Boolean },
-  { name: "compact", type: Boolean },
-  { name: "wrap", type: Boolean },
-  { name: "raw", type: Boolean },
-  { name: "hide", type: Boolean },
-  { name: "panics", type: Boolean },
   { name: "class", type: String },
+  { name: "compact", type: Boolean },
+  { name: "file-name", type: String },
+  { name: "hide", type: Boolean },
   { name: "input", type: String, multiple: true },
   { name: "max-height", type: Number },
+  { name: "no-echo", type: Boolean },
+  { name: "no-eval", type: Boolean },
+  { name: "panics", type: Boolean },
+  { name: "raw", type: Boolean },
+  { name: "wrap", type: Boolean },
 ];
 
 export function headerId(title) {
