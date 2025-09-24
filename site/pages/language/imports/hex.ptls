@@ -1,9 +1,3 @@
----
-title: "Language Reference: Imports and Exports"
-subtitle:
----
-
-```ptls --no-echo
 hexDigits = chars("0123456789abcdef")
 
 fn parse(string)
@@ -39,12 +33,3 @@ fn toHex(n)
 end
 
 { parse, toHex }
-```
-
-```ptls
-hex = import "hex.ptls"
-```
-
-- imports
-- import specifiers
-- exports
