@@ -118,16 +118,3 @@ export async function throws(func, payload) {
     return im.OrderedMap({ status: "fail", panic: String(err) });
   }
 }
-
-export function panic(message) {
-  checkType(message, "string");
-  throw new Panic(message);
-}
-
-export function unreachable() {
-  throw new Panic("encountered unreachable code");
-}
-
-export function unimplemented() {
-  throw new Panic("not implemented");
-}
