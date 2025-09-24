@@ -3,6 +3,48 @@ title: "Language Reference: Imports and Exports"
 subtitle:
 ---
 
+```ptls --no-echo --file-name hex.ptls
+hexDigits = chars("0123456789abcdef")
+
+fn parse(string)
+  assert(len(string) > 0)
+
+  digits = string
+    | Str.toLower
+    | reverse
+    | chars
+
+  result = 0
+
+  for digit in digits do
+    result *= 16
+    result += List.indexOf(hexDigits, digit)
+  end
+
+  result
+end
+
+fn toHex(n)
+  assert(n >= 0)
+  assert(Math.isInt(n))
+
+  result = ""
+
+  while n > 0 or result == "" do
+    result = hexDigits[n % 16] + result
+    n = Math.floor(n / 16)
+  end
+
+  result
+end
+
+{ parse, toHex }
+```
+
+```ptls
+hex = import "hex.ptls"
+```
+
 - imports
 - import specifiers
 - exports

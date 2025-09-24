@@ -17,9 +17,9 @@ links:
   - equality
   - immutability
   - conditionals
-  - loops
   - functions
   - pipelines
+  - loops
   - async
   - imports
   - best-practices
