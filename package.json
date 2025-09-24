@@ -31,7 +31,10 @@
     "parserOptions": {
       "sourceType": "module"
     },
-    "rules": {}
+    "rules": {},
+    "ignorePatterns": [
+      "immutable/"
+    ]
   },
   "stylelint": {
     "extends": "stylelint-config-standard",
