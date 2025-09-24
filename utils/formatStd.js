@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import prettier from "@prettier/sync";
 
-const comment = /(?:  \/\/.*\n)+/g;
+const comment = /(?: {2}\/\/.*\n)+/g;
 
 function stripSlashes(line) {
   return line.startsWith("  // ") ? line.slice(5) : line.slice(4);
