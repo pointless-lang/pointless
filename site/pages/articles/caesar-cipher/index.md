@@ -140,8 +140,9 @@ end
 
 Like before, we're using the `chars(string)` function to transform a string
 (`message`) into a list of characters; however, this time we're calling it using
-"pipeline" syntax. In this syntax, the pipe `|` operator calls the function that
-comes after it with the argument value that comes before it.
+[pipeline syntax](/language/pipelines). In this syntax, the pipe `|` operator
+calls the function that comes after it with the argument value that comes before
+it.
 
 ```ptls
 "cat" | chars

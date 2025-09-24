@@ -94,8 +94,8 @@ chars(Str.of(cities.population[0]))[0]
 
 ## Calculating Frequencies
 
-Let's take a moment and refactor our code into pipeline syntax using the `|`
-operator and `arg` keyword.
+Let's take a moment and refactor our code using the pipe `|` operator and `arg`
+keyword.
 
 ```ptls --no-eval
 cities.population[0] | chars(Str.of(arg))[0]

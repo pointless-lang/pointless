@@ -84,16 +84,15 @@ chars(Str.of(cities.population[0]))[0]
 
 ## Calculating Frequencies
 
-Let's take a moment and refactor our code into pipeline syntax using the `|`
-operator and `arg` keyword.
+Let's take a moment and refactor our code using the pipe `|` operator and `arg`
+keyword.
 
 ```ptls --no-eval
 cities.population[0] | chars(Str.of(arg))[0]
 ```
 
-We'll tweak this code to use the mapping pipeline operator `$` to get the first
-digit for every population value in the list, rather than just the first
-population.
+We'll tweak this code to use the map operator `$` to get the first digit for
+every population value in the list, rather than just the first population.
 
 ```ptls --max-height 200
 cities.population $ chars(Str.of(arg))[0]
