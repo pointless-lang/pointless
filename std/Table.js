@@ -1163,7 +1163,7 @@ export function counts(table) {
   const rows = im
     .List(counts.values())
     .map(({ row, count }) =>
-      row.set("count", count).set("share", count / table.size),
+      row.set("count", count).set("share", count / table.size)
     );
 
   const result = of(rows);

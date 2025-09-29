@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "fmt": "deno fmt ptls.js && prettier --write '**/*.{html,css}' && deno run -A utils/formatStd.js",
+    "fmt": "deno fmt . && prettier --write '**/*.{html,css}' && deno run -A utils/formatStd.js",
     "lint": "deno lint && stylelint site/static/css/* notebook/*.css",
     "build": "deno run -A --watch=src,std,site/build-scripts,site/pages site/build-scripts/build.js",
     "serve": "serve --config site/serve.json"

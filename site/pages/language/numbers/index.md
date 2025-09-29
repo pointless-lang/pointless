@@ -19,7 +19,7 @@ Important numerical functions include:
 | [Math.min](/stdlib/Math#min)         | Get the minimum of two numbers      |
 | [Math.round](/stdlib/Math#round)     | Round a number                      |
 | [Math.roundTo](/stdlib/Math#roundTo) | Round a number to a given precision |
-| [Math.sqrt ](/stdlib/Math#sqrt)      | Get the square root of a number     |
+| [Math.sqrt](/stdlib/Math#sqrt)       | Get the square root of a number     |
 
 See the standard library [Math module](/stdlib/Math) for more built-in functions
 for working with numbers.

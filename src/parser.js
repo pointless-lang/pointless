@@ -565,7 +565,8 @@ class Parser {
       if (!topLevel) {
         const { name, rhs } = fnDef.value;
         const paramStr = rhs.value.params.join(", ");
-        const $solution = `use anon function syntax here instead: ${name} = fn(${paramStr}) ... end`;
+        const $solution =
+          `use anon function syntax here instead: ${name} = fn(${paramStr}) ... end`;
 
         throw new Panic(
           "function declarations can only occur at top level",
@@ -768,11 +769,11 @@ class Parser {
 
     const rhs = loc
       ? new Node("fn", loc, {
-          name: "fn",
-          params: ["arg"],
-          body: [result],
-          locals: new Set(),
-        })
+        name: "fn",
+        params: ["arg"],
+        body: [result],
+        locals: new Set(),
+      })
       : result;
 
     if (rhs.type === "call") {

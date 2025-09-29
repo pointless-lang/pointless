@@ -17,9 +17,8 @@
       </p>
       <div class="snippet">
         <pre><code class="ptls">purchases <span class="operator">=</span> <span class="keyword">import</span> <span class="string">&quot;csv:purchases.csv&quot;</span></code></pre>
-        <pre
-          class="result"
-        ><code><div class="var-name">purchases</div>┌───────────┬────────┬──────────┐
+        <pre class="result">
+<code><div class="var-name">purchases</div>┌───────────┬────────┬──────────┐
 │ country   │ amount │ discount │ x 32
 ├───────────┼────────┼──────────┤
 │ USA       │   2000 │       10 │
@@ -61,12 +60,14 @@
         <pre class="result"><code>17210</code></pre>
       </div>
       <div class="snippet">
-        <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">calcTotal</span>(<span class="argument">group</span>)
+        <pre>
+<code class="ptls"><span class="keyword">fn</span> <span class="function">calcTotal</span>(<span class="argument">group</span>)
   { total: <span class="call">sum</span>(group.amount) }
 <span class="keyword">end</span>
 
 <span class="std">table</span>.<span class="call">summarize</span>(purchases, <span class="string">&quot;country&quot;</span>, calcTotal)</code></pre>
-        <pre class="result"><code>┌───────────┬───────┐
+        <pre class="result">
+<code>┌───────────┬───────┐
 │ country   │ total │ x 11
 ├───────────┼───────┤
 │ USA       │  8500 │
@@ -83,7 +84,8 @@
 └───────────┴───────┘</code></pre>
       </div>
       <div class="snippet">
-        <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">calcTotal</span>(<span class="argument">group</span>)
+        <pre>
+<code class="ptls"><span class="keyword">fn</span> <span class="function">calcTotal</span>(<span class="argument">group</span>)
   <span class="argument">total</span> <span class="operator">=</span> group
     <span class="operator">$</span> <span class="keyword">arg</span>.amount <span class="operator">-</span> <span class="keyword">arg</span>.discount
     <span class="operator">|</span> <span class="call">sum</span>
@@ -92,7 +94,8 @@
 <span class="keyword">end</span>
 
 <span class="std">table</span>.<span class="call">summarize</span>(purchases, <span class="string">&quot;country&quot;</span>, calcTotal)</code></pre>
-        <pre class="result"><code>┌───────────┬───────┐
+        <pre class="result">
+<code>┌───────────┬───────┐
 │ country   │ total │ x 11
 ├───────────┼───────┤
 │ USA       │  8455 │
@@ -109,12 +112,14 @@
 └───────────┴───────┘</code></pre>
       </div>
       <div class="snippet">
-        <pre><code class="ptls">median <span class="operator">=</span> <span class="std">list</span>.<span class="call">median</span>(purchases.amount)
+        <pre>
+<code class="ptls">median <span class="operator">=</span> <span class="std">list</span>.<span class="call">median</span>(purchases.amount)
 
 purchases
   <span class="operator">?</span> <span class="keyword">arg</span>.amount <span class="operator">&lt;=</span> median <span class="operator">*</span> <span class="number">10</span>
   <span class="operator">|</span> <span class="std">table</span>.<span class="call">summarize</span>(<span class="string">&quot;country&quot;</span>, calcTotal)</code></pre>
-        <pre class="result"><code>┌───────────┬───────┐
+        <pre class="result">
+<code>┌───────────┬───────┐
 │ country   │ total │ x 10
 ├───────────┼───────┤
 │ Canada    │   270 │
@@ -130,7 +135,8 @@ purchases
 └───────────┴───────┘</code></pre>
       </div>
       <div class="snippet">
-        <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">calcTotal</span>(<span class="argument">group</span>)
+        <pre>
+<code class="ptls"><span class="keyword">fn</span> <span class="function">calcTotal</span>(<span class="argument">group</span>)
   <span class="argument">threshold</span> <span class="operator">=</span> <span class="std">list</span>.<span class="call">median</span>(group.amount) <span class="operator">*</span> <span class="number">10</span>
 
   total <span class="operator">=</span> group
@@ -142,7 +148,8 @@ purchases
 <span class="keyword">end</span>
 
 <span class="std">table</span>.<span class="call">summarize</span>(purchases, <span class="string">&quot;country&quot;</span>, calcTotal)</code></pre>
-        <pre class="result"><code>┌───────────┬───────┐
+        <pre class="result">
+<code>┌───────────┬───────┐
 │ country   │ total │ x 11
 ├───────────┼───────┤
 │ USA       │  8455 │

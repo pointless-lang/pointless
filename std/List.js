@@ -1,5 +1,5 @@
 import * as tableMod from "./Table.js";
-import { checkWhole, checkPositive, checkNumResult } from "../src/num.js";
+import { checkNumResult, checkPositive, checkWhole } from "../src/num.js";
 import { checkIndex, checkNonEmpty } from "../src/list.js";
 import { checkType, compare } from "../src/values.js";
 import { Table } from "../src/table.js";

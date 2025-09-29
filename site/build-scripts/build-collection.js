@@ -9,7 +9,8 @@ export function collectionSidebar(node) {
 
 export function genCollection(node) {
   const main = node.children.map(
-    (child) => h`
+    (child) =>
+      h`
       <li>
         <a href="/${child.path}/"><strong>${child.label}</strong></a>
         ${child.subtitle}

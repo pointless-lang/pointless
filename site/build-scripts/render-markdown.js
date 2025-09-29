@@ -1,6 +1,6 @@
 import { highlight } from "./highlight.js";
 import { h } from "./escape.js";
-import { spawnDocStd, shimConsole } from "./doc-std.js";
+import { shimConsole, spawnDocStd } from "./doc-std.js";
 import { tokenize } from "../../src/tokenizer.js";
 import { parse } from "../../src/parser.js";
 import { repr, show } from "../../src/repr.js";
@@ -45,8 +45,7 @@ async function renderCode(code, config, filePath, env) {
     panic = h`<pre class="result panic"><code>${err}</code></pre>`;
   }
 
-  const source =
-    !config["hide"] &&
+  const source = !config["hide"] &&
     h`<pre><code class="ptls">$${highlight(tokens)}</code></pre>`;
 
   let resultLines = "";
@@ -62,8 +61,8 @@ async function renderCode(code, config, filePath, env) {
 
     const echo = !config["no-echo"];
 
-    const maxHeight =
-      config["max-height"] && `max-height: ${config["max-height"]}px;`;
+    const maxHeight = config["max-height"] &&
+      `max-height: ${config["max-height"]}px;`;
 
     const wrap = config["wrap"] ? "wrap" : "";
     const attrs = h`class="result ${wrap}" style="${maxHeight}"`;
@@ -101,7 +100,9 @@ async function renderCode(code, config, filePath, env) {
               const value = env.lookup(name);
 
               finalDef = h`
-                <pre $${attrs}><code><div class="var-name">${name}</div>${display(value)}</code></pre>
+                <pre $${attrs}><code><div class="var-name">${name}</div>${
+                display(value)
+              }</code></pre>
               `;
             }
 

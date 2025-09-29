@@ -1,4 +1,4 @@
-import { getType, checkType } from "./values.js";
+import { checkType, getType } from "./values.js";
 import { Func } from "./func.js";
 import { checkIndex } from "./list.js";
 import { checkKey } from "./obj.js";

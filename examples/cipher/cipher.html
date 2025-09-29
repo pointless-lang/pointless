@@ -24,7 +24,8 @@
             decode a message using a simple cipher.
           </p>
           <div class="snippet">
-            <pre><code class="ptls">alphabet <span class="operator">=</span> <span class="call">chars</span>(<span class="string">&quot;abcdefghijklmnopqrstuvwxyz&quot;</span>)
+            <pre>
+<code class="ptls">alphabet <span class="operator">=</span> <span class="call">chars</span>(<span class="string">&quot;abcdefghijklmnopqrstuvwxyz&quot;</span>)
 
 <span class="comment">-- Shift a single letter 13 places</span>
 
@@ -66,7 +67,8 @@
             replaced with the 13th letter after it in the English alphabet,
             wrapping around to the start if needed.
           </p>
-          <pre><code>before encoding: a b c d e f g h i j k l m n o p q r s t u v w x y z
+          <pre>
+<code>before encoding: a b c d e f g h i j k l m n o p q r s t u v w x y z
 after encoding:  n o p q r s t u v w x y z a b c d e f g h i j k l m</code></pre>
           <p>
             For example, the ROT13 encoding of the word
@@ -169,7 +171,8 @@ after encoding:  n o p q r s t u v w x y z a b c d e f g h i j k l m</code></pre
           </ul>
           <p>We can write a few lines of code that do just that.</p>
           <div class="snippet">
-            <pre><code class="ptls">letter <span class="operator">=</span> <span class="string">&quot;i&quot;</span>
+            <pre>
+<code class="ptls">letter <span class="operator">=</span> <span class="string">&quot;i&quot;</span>
 index <span class="operator">=</span> <span class="std">list</span>.<span class="call">indexOf</span>(alphabet, letter)
 shifted <span class="operator">=</span> alphabet[(index <span class="operator">+</span> <span class="number">13</span>) <span class="operator">%</span> <span class="number">26</span>]</code></pre>
             <pre
@@ -192,7 +195,8 @@ shifted <span class="operator">=</span> alphabet[(index <span class="operator">+
             <code>fn</code> keyword to define a new function.
           </p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">shift</span>(<span class="argument">letter</span>)
+            <pre>
+<code class="ptls"><span class="keyword">fn</span> <span class="function">shift</span>(<span class="argument">letter</span>)
   index <span class="operator">=</span> <span class="std">list</span>.<span class="call">indexOf</span>(alphabet, letter)
   shifted <span class="operator">=</span> alphabet[(index <span class="operator">+</span> <span class="number">13</span>) <span class="operator">%</span> <span class="number">26</span>]
   shifted
@@ -218,10 +222,12 @@ shifted <span class="operator">=</span> alphabet[(index <span class="operator">+
             properly.
           </p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="call">shift</span>(<span class="string">&quot;c&quot;</span>)
+            <pre>
+<code class="ptls"><span class="call">shift</span>(<span class="string">&quot;c&quot;</span>)
 <span class="call">shift</span>(<span class="string">&quot;a&quot;</span>)
 <span class="call">shift</span>(<span class="string">&quot;t&quot;</span>)</code></pre>
-            <pre class="result" style=""><code>&quot;p&quot;
+            <pre class="result" style="">
+<code>&quot;p&quot;
 &quot;n&quot;
 &quot;g&quot;</code></pre>
           </div>
@@ -239,7 +245,8 @@ shifted <span class="operator">=</span> alphabet[(index <span class="operator">+
             returns the resulting encoded string.
           </p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">cipher</span>(<span class="argument">message</span>)
+            <pre>
+<code class="ptls"><span class="keyword">fn</span> <span class="function">cipher</span>(<span class="argument">message</span>)
   message
     <span class="operator">|</span> <span class="call">chars</span>
     <span class="operator">$</span> <span class="call">shift</span>
@@ -263,7 +270,8 @@ shifted <span class="operator">=</span> alphabet[(index <span class="operator">+
           </div>
           <p>In Pointless, the following two forms are equivalent.</p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="call">chars</span>(message)
+            <pre>
+<code class="ptls"><span class="call">chars</span>(message)
 message <span class="operator">|</span> <span class="call">chars</span></code></pre>
           </div>
           <p>
@@ -311,7 +319,8 @@ message <span class="operator">|</span> <span class="call">chars</span></code></
           </p>
           <p>In Pointless, the following two forms are equivalent.</p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="call">join</span>(shifted, <span class="string">&quot;&quot;</span>)
+            <pre>
+<code class="ptls"><span class="call">join</span>(shifted, <span class="string">&quot;&quot;</span>)
 shifted <span class="operator">|</span> <span class="call">join</span>(<span class="string">&quot;&quot;</span>)</code></pre>
           </div>
           <blockquote>
@@ -325,7 +334,8 @@ shifted <span class="operator">|</span> <span class="call">join</span>(<span cla
               <code>cipher</code>. We could have written it like this instead.
             </p>
             <div class="snippet">
-              <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">cipher</span>(<span class="argument">message</span>)
+              <pre>
+<code class="ptls"><span class="keyword">fn</span> <span class="function">cipher</span>(<span class="argument">message</span>)
   <span class="call">join</span>(<span class="std">list</span>.<span class="call">map</span>(<span class="call">chars</span>(message), shift), <span class="string">&quot;&quot;</span>)
 <span class="keyword">end</span></code></pre>
             </div>
@@ -345,7 +355,8 @@ shifted <span class="operator">|</span> <span class="call">join</span>(<span cla
             </div>
             <p>I write this.</p>
             <div class="snippet">
-              <pre><code class="ptls"><span class="string">&quot;cat&quot;</span>
+              <pre>
+<code class="ptls"><span class="string">&quot;cat&quot;</span>
   <span class="operator">|</span> <span class="call">chars</span>
   <span class="operator">$</span> <span class="call">shift</span>
   <span class="operator">|</span> <span class="call">join</span>(<span class="string">&quot;&quot;</span>)</code></pre>
@@ -362,9 +373,11 @@ shifted <span class="operator">|</span> <span class="call">join</span>(<span cla
             properly.
           </p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="call">cipher</span>(<span class="string">&quot;cat&quot;</span>)
+            <pre>
+<code class="ptls"><span class="call">cipher</span>(<span class="string">&quot;cat&quot;</span>)
 <span class="call">cipher</span>(<span class="string">&quot;png&quot;</span>)</code></pre>
-            <pre class="result" style=""><code>&quot;png&quot;
+            <pre class="result" style="">
+<code>&quot;png&quot;
 &quot;cat&quot;</code></pre>
           </div>
           <p>
@@ -398,7 +411,8 @@ shifted <span class="operator">|</span> <span class="call">join</span>(<span cla
           </h2>
           <p>Currently, our code looks like this.</p>
           <div class="snippet">
-            <pre><code class="ptls">alphabet <span class="operator">=</span> <span class="call">chars</span>(<span class="string">&quot;abcdefghijklmnopqrstuvwxyz&quot;</span>)
+            <pre>
+<code class="ptls">alphabet <span class="operator">=</span> <span class="call">chars</span>(<span class="string">&quot;abcdefghijklmnopqrstuvwxyz&quot;</span>)
 
 <span class="keyword">fn</span> <span class="function">shift</span>(<span class="argument">letter</span>)
   index <span class="operator">=</span> <span class="std">list</span>.<span class="call">indexOf</span>(alphabet, letter)
@@ -422,7 +436,8 @@ shifted <span class="operator">|</span> <span class="call">join</span>(<span cla
             finding its index.
           </p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">shift</span>(<span class="argument">letter</span>)
+            <pre>
+<code class="ptls"><span class="keyword">fn</span> <span class="function">shift</span>(<span class="argument">letter</span>)
   index <span class="operator">=</span> <span class="std">list</span>.<span class="call">indexOf</span>(alphabet, <span class="std">str</span>.<span class="call">toLower</span>(letter))
   shifted <span class="operator">=</span> alphabet[(index <span class="operator">+</span> <span class="number">13</span>) <span class="operator">%</span> <span class="number">26</span>]
   shifted
@@ -434,9 +449,11 @@ shifted <span class="operator">|</span> <span class="call">join</span>(<span cla
             capitalized in the original message.
           </p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="call">cipher</span>(<span class="string">&quot;Cat&quot;</span>)
+            <pre>
+<code class="ptls"><span class="call">cipher</span>(<span class="string">&quot;Cat&quot;</span>)
 <span class="call">cipher</span>(<span class="call">cipher</span>(<span class="string">&quot;Cat&quot;</span>))</code></pre>
-            <pre class="result" style=""><code>&quot;png&quot;
+            <pre class="result" style="">
+<code>&quot;png&quot;
 &quot;cat&quot;</code></pre>
           </div>
           <p>
@@ -444,7 +461,8 @@ shifted <span class="operator">|</span> <span class="call">join</span>(<span cla
             letters in <code>message</code> get translated to uppercase letters
             in the final encoded string.
           </p>
-          <pre><code>before encoding: a b c d e f g h i j k l m n o p q r s t u v w x y z
+          <pre>
+<code>before encoding: a b c d e f g h i j k l m n o p q r s t u v w x y z
 after encoded:   n o p q r s t u v w x y z a b c d e f g h i j k l m
 
 before encoding: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
@@ -458,7 +476,8 @@ after encoded:   N O P Q R S T U V W X Y Z A B C D E F G H I J K L M</code></pre
             necessary.
           </p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">shift</span>(<span class="argument">letter</span>)
+            <pre>
+<code class="ptls"><span class="keyword">fn</span> <span class="function">shift</span>(<span class="argument">letter</span>)
   index <span class="operator">=</span> <span class="std">list</span>.<span class="call">indexOf</span>(alphabet, <span class="std">str</span>.<span class="call">toLower</span>(letter))
   shifted <span class="operator">=</span> alphabet[(index <span class="operator">+</span> <span class="number">13</span>) <span class="operator">%</span> <span class="number">26</span>]
 
@@ -471,9 +490,11 @@ after encoded:   N O P Q R S T U V W X Y Z A B C D E F G H I J K L M</code></pre
           </div>
           <p>Our <code>cipher</code> function now preserves letter case.</p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="call">cipher</span>(<span class="string">&quot;Cat&quot;</span>)
+            <pre>
+<code class="ptls"><span class="call">cipher</span>(<span class="string">&quot;Cat&quot;</span>)
 <span class="call">cipher</span>(<span class="call">cipher</span>(<span class="string">&quot;Cat&quot;</span>))</code></pre>
-            <pre class="result" style=""><code>&quot;Png&quot;
+            <pre class="result" style="">
+<code>&quot;Png&quot;
 &quot;Cat&quot;</code></pre>
           </div>
           <blockquote>
@@ -491,7 +512,8 @@ after encoded:   N O P Q R S T U V W X Y Z A B C D E F G H I J K L M</code></pre
               and return expressions.
             </p>
             <div class="snippet">
-              <pre><code class="ptls">a <span class="operator">=</span> <span class="number">7</span>
+              <pre>
+<code class="ptls">a <span class="operator">=</span> <span class="number">7</span>
 b <span class="operator">=</span> <span class="number">8</span>
 maximum <span class="operator">=</span> <span class="keyword">if</span> a <span class="operator">&gt;</span> b <span class="keyword">then</span> a <span class="keyword">else</span> b <span class="keyword">end</span></code></pre>
               <pre
@@ -518,7 +540,8 @@ maximum <span class="operator">=</span> <span class="keyword">if</span> a <span 
             <code>letter</code> unmodified if it did.
           </p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="keyword">fn</span> <span class="function">shift</span>(<span class="argument">letter</span>)
+            <pre>
+<code class="ptls"><span class="keyword">fn</span> <span class="function">shift</span>(<span class="argument">letter</span>)
   index <span class="operator">=</span> <span class="std">list</span>.<span class="call">indexOf</span>(alphabet, <span class="std">str</span>.<span class="call">toLower</span>(letter))
 
   <span class="keyword">if</span> index <span class="operator">==</span> <span class="constant">none</span> <span class="keyword">then</span>
@@ -555,9 +578,11 @@ maximum <span class="operator">=</span> <span class="keyword">if</span> a <span 
             unmodified.
           </p>
           <div class="snippet">
-            <pre><code class="ptls"><span class="call">cipher</span>(<span class="string">&quot;Cat!&quot;</span>)
+            <pre>
+<code class="ptls"><span class="call">cipher</span>(<span class="string">&quot;Cat!&quot;</span>)
 <span class="call">cipher</span>(<span class="call">cipher</span>(<span class="string">&quot;Cat!&quot;</span>))</code></pre>
-            <pre class="result" style=""><code>&quot;Png!&quot;
+            <pre class="result" style="">
+<code>&quot;Png!&quot;
 &quot;Cat!&quot;</code></pre>
           </div>
           <p>Our code is now complete!</p>

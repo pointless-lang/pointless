@@ -1,5 +1,5 @@
 import { checkType } from "../src/values.js";
-import { checkPositive, checkNumResult, checkWhole } from "../src/num.js";
+import { checkNumResult, checkPositive, checkWhole } from "../src/num.js";
 import { Panic } from "../src/panic.js";
 
 export const pi = Math.PI;

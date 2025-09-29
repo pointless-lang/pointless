@@ -1,5 +1,5 @@
 import { checkType } from "../src/values.js";
-import { checkWhole, checkPositive } from "../src/num.js";
+import { checkPositive, checkWhole } from "../src/num.js";
 import { checkIndex } from "../src/list.js";
 import { show } from "../src/repr.js";
 import { Panic } from "../src/panic.js";

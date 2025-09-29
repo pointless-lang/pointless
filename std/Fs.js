@@ -100,7 +100,7 @@ export async function ls(path) {
     const entries = await readdir(fullPath, { withFileTypes: true });
     return im.List(
       entries.map((entry) =>
-        entry.isDirectory() ? `${entry.name}/` : entry.name,
+        entry.isDirectory() ? `${entry.name}/` : entry.name
       ),
     );
   } catch (_) {

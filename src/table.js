@@ -395,8 +395,12 @@ export class Table {
     }
 
     addLine("┌", "┐", "┬", "─", (_, { length }) => "─".repeat(length));
-    addLine("│", `│ x ${this.size}`, "│", " ", (column, fmt) =>
-      format(column, fmt),
+    addLine(
+      "│",
+      `│ x ${this.size}`,
+      "│",
+      " ",
+      (column, fmt) => format(column, fmt),
     );
 
     if (this.size > 0) {
@@ -404,8 +408,12 @@ export class Table {
     }
 
     for (let i = 0; i < this.size; i++) {
-      addLine("│", "│", "│", " ", (column, fmt) =>
-        format(this.data.get(column).get(i), fmt),
+      addLine(
+        "│",
+        "│",
+        "│",
+        " ",
+        (column, fmt) => format(this.data.get(column).get(i), fmt),
       );
     }
 
@@ -440,10 +448,9 @@ function formatInner(value, length, decimals) {
     let numStr = String(value);
 
     if (decimals) {
-      numStr +=
-        numStr % 1
-          ? "0".repeat(decimals - decLength(numStr))
-          : ".0".padEnd(decimals, "0");
+      numStr += numStr % 1
+        ? "0".repeat(decimals - decLength(numStr))
+        : ".0".padEnd(decimals, "0");
     }
 
     return numStr.padStart(length);

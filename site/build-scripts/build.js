@@ -1,8 +1,8 @@
 import { collectionSidebar, genCollection } from "./build-collection.js";
-import { moduleSidebar, genModule } from "./build-module.js";
+import { genModule, moduleSidebar } from "./build-module.js";
 import { headerId, renderMarkdown } from "./render-markdown.js";
 import { h, serialize } from "./escape.js";
-import { readdir, readFile, cp, rm, mkdir, writeFile } from "node:fs/promises";
+import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import matter from "gray-matter";
 import { format } from "prettier";
 
@@ -100,15 +100,13 @@ async function buildIndex(node) {
     $${generated}
   `;
 
-  const backlink =
-    node.depth >= 2 &&
+  const backlink = node.depth >= 2 &&
     `<a id="back" href="..">< Back to ${node.parent.title}</a>`;
 
   let sequencer;
 
   if (node.depth >= 2) {
-    const prev =
-      node.prev &&
+    const prev = node.prev &&
       h`
         <a href="/${node.prev.path}">
           <div>< Previous</div>
@@ -116,8 +114,7 @@ async function buildIndex(node) {
         </a>
       `;
 
-    const next =
-      node.next &&
+    const next = node.next &&
       h`
         <a class="next" href="/${node.next.path}">
           <div>Next ></div>

@@ -111,7 +111,8 @@
             data in the file <a href="pa-cities.csv">pa-cities.csv</a>.
           </p>
           <div class="snippet">
-            <pre class="result" style="max-height: 400px"><code>city,population
+            <pre class="result" style="max-height: 400px">
+<code>city,population
 Philadelphia,1550542
 Pittsburgh,303255
 Allentown,124880
@@ -2695,10 +2696,8 @@ Valley-Hi,5
           </p>
           <div class="snippet">
             <pre><code class="ptls">cities <span class="operator">=</span> <span class="keyword">import</span> <span class="string">&quot;csv:pa-cities.csv&quot;</span></code></pre>
-            <pre
-              class="result"
-              style="max-height: 400px"
-            ><code><div class="var-name">cities</div>┌───────────────────────────┬────────────┐
+            <pre class="result" style="max-height: 400px">
+<code><div class="var-name">cities</div>┌───────────────────────────┬────────────┐
 │ city                      │ population │ x 2570
 ├───────────────────────────┼────────────┤
 │ Philadelphia              │    1550542 │
@@ -5280,7 +5279,8 @@ Valley-Hi,5
           </p>
           <div class="snippet">
             <pre><code class="ptls">cities.population</code></pre>
-            <pre class="result" style="max-height: 200px"><code>[
+            <pre class="result" style="max-height: 200px">
+<code>[
   1550542,
   303255,
   124880,
@@ -7905,7 +7905,8 @@ Valley-Hi,5
           </p>
           <div class="snippet">
             <pre><code class="ptls">cities.population <span class="operator">$</span> <span class="call">chars</span>(<span class="std">str</span>.<span class="call">of</span>(<span class="keyword">arg</span>))[<span class="number">0</span>]</code></pre>
-            <pre class="result" style="max-height: 200px"><code>[
+            <pre class="result" style="max-height: 200px">
+<code>[
   &quot;1&quot;,
   &quot;3&quot;,
   &quot;1&quot;,
@@ -10483,13 +10484,12 @@ Valley-Hi,5
             occurrence count and share for each value.
           </p>
           <div class="snippet">
-            <pre><code class="ptls">cities.population
+            <pre>
+<code class="ptls">cities.population
   <span class="operator">$</span> <span class="call">chars</span>(<span class="std">str</span>.<span class="call">of</span>(<span class="keyword">arg</span>))[<span class="number">0</span>]
   <span class="operator">|</span> <span class="std">list</span>.<span class="call">counts</span></code></pre>
-            <pre
-              class="result"
-              style=""
-            ><code>┌───────┬───────┬─────────────────────┐
+            <pre class="result" style="">
+<code>┌───────┬───────┬─────────────────────┐
 │ value │ count │ share               │ x 9
 ├───────┼───────┼─────────────────────┤
 │ &quot;1&quot;   │   802 │ 0.31206225680933850 │
@@ -10518,7 +10518,8 @@ Valley-Hi,5
             variable.
           </p>
           <div class="snippet">
-            <pre><code class="ptls">digitStats <span class="operator">=</span> cities.population
+            <pre>
+<code class="ptls">digitStats <span class="operator">=</span> cities.population
   <span class="operator">$</span> <span class="call">chars</span>(<span class="std">str</span>.<span class="call">of</span>(<span class="keyword">arg</span>))[<span class="number">0</span>]
   <span class="operator">|</span> <span class="std">list</span>.<span class="call">counts</span></code></pre>
           </div>
@@ -10528,7 +10529,8 @@ Valley-Hi,5
           </p>
           <div class="snippet">
             <pre><code class="ptls">digitStats.share</code></pre>
-            <pre class="result" style=""><code>[
+            <pre class="result" style="">
+<code>[
   0.3120622568093385,
   0.1801556420233463,
   0.11828793774319066,
@@ -10557,10 +10559,8 @@ Valley-Hi,5
           </p>
           <div class="snippet">
             <pre><code class="ptls">digitStats.share <span class="operator">$=</span> <span class="call">roundTo</span>(<span class="keyword">arg</span> <span class="operator">*</span> <span class="number">100</span>, <span class="number">1</span>)</code></pre>
-            <pre
-              class="result"
-              style=""
-            ><code><div class="var-name">digitStats</div>┌───────┬───────┬───────┐
+            <pre class="result" style="">
+<code><div class="var-name">digitStats</div>┌───────┬───────┬───────┐
 │ value │ count │ share │ x 9
 ├───────┼───────┼───────┤
 │ &quot;1&quot;   │   802 │  31.2 │
@@ -10651,7 +10651,8 @@ Valley-Hi,5
           </h2>
           <p>Here&#39;s the complete code.</p>
           <div class="snippet">
-            <pre><code class="ptls">cities <span class="operator">=</span> <span class="keyword">import</span> <span class="string">&quot;csv:pa-cities.csv&quot;</span>
+            <pre>
+<code class="ptls">cities <span class="operator">=</span> <span class="keyword">import</span> <span class="string">&quot;csv:pa-cities.csv&quot;</span>
 
 digitStats <span class="operator">=</span> cities.population
   <span class="operator">$</span> <span class="call">chars</span>(<span class="std">str</span>.<span class="call">of</span>(<span class="keyword">arg</span>))[<span class="number">0</span>]

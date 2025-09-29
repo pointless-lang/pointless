@@ -8,8 +8,9 @@ function escapeHtml(string) {
 }
 
 export function serialize(value, raw) {
-  const flattened =
-    typeof value?.[Symbol.iterator] === "function" ? [...value] : [value];
+  const flattened = typeof value?.[Symbol.iterator] === "function"
+    ? [...value]
+    : [value];
 
   return raw
     ? flattened.map((val) => (val ? val : "")).join("")

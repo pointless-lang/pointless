@@ -21,7 +21,7 @@ Important list-related functions include:
 See the standard library [List module](/stdlib/List) for more built-in functions
 for working with lists.
 
-##
+## 
 
 - lists
 - list merge

@@ -21,7 +21,8 @@ export function moduleSidebar(node) {
   const modName = node.path.split("/").at(-1);
 
   const links = Object.entries(meta.modules[modName]).map(
-    ([name, value]) => h`
+    ([name, value]) =>
+      h`
       <li>
         <a href="#${name}">${name}</a>
         $${showTags(name, value)}
@@ -61,15 +62,17 @@ async function showDocs(modName, name, value, consts) {
   }
 
   if (getType(value) === "function") {
-    const overloader =
-      meta.variants[name] &&
+    const overloader = meta.variants[name] &&
       h`
         <p class="overloads">
           (Accessible as a global through <a href="../Overloads/#${name}">Overloads.${name}</a>)
         </p>
       `;
 
-    return h`$${await renderMarkdown(modName, getDocStr(value))} $${overloader}`;
+    return h`$${await renderMarkdown(
+      modName,
+      getDocStr(value),
+    )} $${overloader}`;
   }
 
   return await renderMarkdown(
