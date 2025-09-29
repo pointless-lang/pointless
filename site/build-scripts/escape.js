@@ -19,7 +19,7 @@ export function serialize(value, raw) {
 export function h(strings, ...values) {
   let result = "";
 
-  for (let [index, value] of values.entries()) {
+  for (const [index, value] of values.entries()) {
     const str = strings[index];
 
     result += str.endsWith("$")

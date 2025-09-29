@@ -67,7 +67,7 @@ async function makeSidebar(node) {
     case "module":
       return await moduleSidebar(node);
     case "collection":
-      return await collectionSidebar(node);
+      return collectionSidebar(node);
     case undefined:
       return defaultSidebar(node);
   }
@@ -78,7 +78,7 @@ export async function makeGenerated(node) {
     case "module":
       return await genModule(node);
     case "collection":
-      return await genCollection(node);
+      return genCollection(node);
     case undefined:
       return "";
   }

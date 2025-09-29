@@ -221,7 +221,7 @@ export function reverse(string) {
   return [...string].reverse().join("");
 }
 
-export async function replace(string, subString, replacement) {
+export function replace(string, subString, replacement) {
   // Replace all occurrences of `subString` in `string` with `replacement`.
   //
   // ```ptls
@@ -235,7 +235,7 @@ export async function replace(string, subString, replacement) {
   return string.replaceAll(subString, () => replacement);
 }
 
-export async function replaceFirst(string, subString, replacement) {
+export function replaceFirst(string, subString, replacement) {
   // Replace the first occurrence of `subString` in `string` with `replacement`.
   //
   // ```ptls

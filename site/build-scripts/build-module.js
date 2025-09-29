@@ -3,7 +3,7 @@ import { h } from "./escape.js";
 import { getType } from "../../src/values.js";
 import { loadMeta } from "../../src/std.js";
 
-const meta = await loadMeta();
+const meta = loadMeta();
 
 export function showTags(name, value) {
   if (meta.globals[name] === value || meta.variants[name]) {

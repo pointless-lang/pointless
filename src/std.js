@@ -1,7 +1,6 @@
 import { checkType, getType } from "./values.js";
 import { Func } from "./func.js";
 import { Env } from "./env.js";
-import { readdir } from "node:fs/promises";
 import im from "immutable";
 
 let std;
@@ -9,19 +8,35 @@ let modules;
 let globals;
 let variants;
 
-async function makeModules() {
+const natives = {
+  Async: await import("../std/Async.js"),
+  Bool: await import("../std/Bool.js"),
+  Char: await import("../std/Char.js"),
+  Console: await import("../std/Console.js"),
+  Err: await import("../std/Err.js"),
+  Fs: await import("../std/Fs.js"),
+  List: await import("../std/List.js"),
+  Math: await import("../std/Math.js"),
+  None: await import("../std/None.js"),
+  Obj: await import("../std/Obj.js"),
+  Panic: await import("../std/Panic.js"),
+  Rand: await import("../std/Rand.js"),
+  Ref: await import("../std/Ref.js"),
+  Re: await import("../std/Re.js"),
+  Set: await import("../std/Set.js"),
+  Str: await import("../std/Str.js"),
+  Table: await import("../std/Table.js"),
+  Test: await import("../std/Test.js"),
+};
+
+function makeModules() {
   modules = {};
 
   // wrapped functions shouldn't destructure arguments
   // or use spread syntax or default param values
   const paramChars = /\(([$\w\s,]*)\)/;
-  const fileNames = await readdir(import.meta.dirname + "/../std");
 
-  // Remove .js file extension
-  const modNames = fileNames.map((fileName) => fileName.slice(0, -3));
-
-  for (const modName of modNames) {
-    const native = await import(`../std/${modName}.js`);
+  for (const [modName, native] of Object.entries(natives)) {
     const mod = {};
 
     for (let [name, value] of Object.entries(native)) {
@@ -142,7 +157,7 @@ function makeStd() {
   const defs = {};
 
   // Need to sort cause overloads was added later
-  for (let name of Object.keys(modules).toSorted()) {
+  for (const name of Object.keys(modules).toSorted()) {
     // Convert modules to ptls objects
     defs[name] = im.OrderedMap(modules[name]);
   }
@@ -151,9 +166,9 @@ function makeStd() {
   std = new Env(null, new Map(Object.entries(defs)));
 }
 
-export async function spawnStd() {
+export function spawnStd() {
   if (!std) {
-    await makeModules();
+    makeModules();
     makeGlobals();
     makeOverloads();
     makeStd();
@@ -162,7 +177,7 @@ export async function spawnStd() {
   return std.spawn();
 }
 
-export async function loadMeta() {
-  await spawnStd();
+export function loadMeta() {
+  spawnStd();
   return { modules, globals, variants };
 }

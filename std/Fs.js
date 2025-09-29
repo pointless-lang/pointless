@@ -103,7 +103,7 @@ export async function ls(path) {
         entry.isDirectory() ? `${entry.name}/` : entry.name,
       ),
     );
-  } catch (err) {
+  } catch (_) {
     throw new Panic("cannot access", { path: fullPath });
   }
 }

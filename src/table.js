@@ -15,7 +15,7 @@ export class Table {
     this.width = 0;
     this.size = undefined;
 
-    for (let [column, values] of data) {
+    for (const [column, values] of data) {
       checkType(column, "string");
       this.width++;
 

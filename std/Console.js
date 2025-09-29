@@ -84,7 +84,7 @@ export async function prompt(message) {
   return await getLine(message);
 }
 
-export async function rawKey() {
+export function rawKey() {
   // Read a single keypress from the terminal in raw mode. Return an object with
   // the following keypress event details:
   //
@@ -180,7 +180,8 @@ export async function rawKey() {
 }
 
 export function pauseStdin() {
-  // *Temporary workaround for lack of JS promise cancellation.*
+  // Temporary workaround for lack of JS promise cancellation.
 
   stdin.pause();
+  return null;
 }

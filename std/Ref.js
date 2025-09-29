@@ -23,7 +23,7 @@ export function get(ref) {
   return ref.value;
 }
 
-export async function set(ref, value) {
+export function set(ref, value) {
   // Update `ref` to store `value`. Return `ref`.
   //
   // ```ptls
@@ -37,7 +37,7 @@ export async function set(ref, value) {
   return ref;
 }
 
-export async function put(value, ref) {
+export function put(value, ref) {
   // Update `ref` to store `value`. Return `value`.
   //
   // ```ptls

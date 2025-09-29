@@ -87,8 +87,8 @@ export function shuffle(values) {
   const items = [...values];
 
   for (let i = items.length - 1; i > 0; i--) {
-    let j = span(0, i);
-    let tmp = items[i];
+    const j = span(0, i);
+    const tmp = items[i];
     items[i] = items[j];
     items[j] = tmp;
   }

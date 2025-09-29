@@ -44,7 +44,7 @@ export async function runs(func) {
   }
 }
 
-export async function equals(actual, expected) {
+export function equals(actual, expected) {
   // Check that `actual` equals `expected`.
   //
   // ```ptls

@@ -40,6 +40,7 @@ export class Env {
     // Also fixes issue of closing over loop variables in for loops.
 
     const allDefs = [];
+    // deno-lint-ignore no-this-alias
     let env = this;
 
     while (env) {
@@ -111,6 +112,7 @@ export class Env {
   }
 
   lookup(name) {
+    // deno-lint-ignore no-this-alias
     let env = this;
 
     while (env) {
@@ -601,7 +603,7 @@ export class Env {
     // closure which will make the issue irrelevant
 
     const { name, range: rangeNode, body } = node.value;
-    let range = await this.eval(rangeNode, "list", "table", "object", "set");
+    const range = await this.eval(rangeNode, "list", "table", "object", "set");
 
     if (getType(range) === "object") {
       for (const key of range.keys()) {
@@ -620,7 +622,7 @@ export class Env {
 
   async evalTandemFor(node) {
     const { keyName, valName, range: rangeNode, body } = node.value;
-    let range = await this.eval(rangeNode, "list", "object", "table");
+    const range = await this.eval(rangeNode, "list", "object", "table");
 
     if (getType(range) === "object") {
       for (const [key, value] of range) {

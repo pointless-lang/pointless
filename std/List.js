@@ -336,7 +336,7 @@ export async function filter(list, condition) {
   return im.List(elems);
 }
 
-export async function remove(list, value) {
+export function remove(list, value) {
   // Remove all occurences of `value` from `list`.
   //
   // ```ptls
@@ -347,7 +347,7 @@ export async function remove(list, value) {
   return list.filter((elem) => !im.is(elem, value));
 }
 
-export async function removeAll(list, values) {
+export function removeAll(list, values) {
   // Remove all occurences of each value in `values` from `list`, where `values`
   // is a list, set, or table.
   //
@@ -380,7 +380,7 @@ export async function find(list, condition) {
   return null;
 }
 
-export async function indexOf(list, value) {
+export function indexOf(list, value) {
   // Get the index of the first occurence of `value` in `list`, or `none` if
   // `value` does not appear in `list`.
   //
@@ -394,7 +394,7 @@ export async function indexOf(list, value) {
   return index >= 0 ? index : null;
 }
 
-export async function count(list, value) {
+export function count(list, value) {
   // Count the number of times `value` appears in `list`.
   //
   // ```ptls

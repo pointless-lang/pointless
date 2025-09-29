@@ -81,7 +81,7 @@ export function split(string, pattern) {
   return im.List(string.split(lookup(pattern)));
 }
 
-export async function replace(string, pattern, replacement) {
+export function replace(string, pattern, replacement) {
   // Replace all matches of `pattern` in `string` with `replacement`.
   //
   // ```ptls
