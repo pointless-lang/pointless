@@ -5,7 +5,6 @@ fn parse(string)
 
   digits = string
     | Str.toLower
-    | reverse
     | chars
 
   result = 0

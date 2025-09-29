@@ -8,6 +8,6 @@ hex = import "hex.ptls"
   | hex.toHex
   | print
 
-"2d4"
+"4d2"
   | hex.parse
   | print
