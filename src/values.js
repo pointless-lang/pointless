@@ -37,7 +37,7 @@ export function getType(value) {
     return "list";
   }
 
-  console.error("native value", value);
+  console.error("native value: ", value);
   return `<native ${value?.constructor?.name}>`;
 }
 
