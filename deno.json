@@ -4,7 +4,7 @@
     "lint": "deno lint && stylelint site/static/css/* notebook/*.css",
     "build-site": "deno run -A --watch=src,std,site/build-scripts,site/pages site/build-scripts/build.js",
     "serve": "serve --config site/serve.json",
-    "compile": "deno compile --allow-all ptls.js -o dist/ptls",
+    "compile": "deno compile --allow-all -o dist/ptls ptls.js",
     "ptls": "deno run -A ptls.js"
   },
 

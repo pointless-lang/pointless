@@ -3,7 +3,7 @@ import { createInterface } from "node:readline";
 import { stdin, stdout } from "node:process";
 import { readFile, writeFile } from "node:fs/promises";
 
-const historyPath = import.meta.dirname + "/repl-history";
+const historyPath = "/tmp/repl-history";
 
 async function loadHistory() {
   try {
