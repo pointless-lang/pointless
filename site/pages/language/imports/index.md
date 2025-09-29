@@ -3,48 +3,57 @@ title: "Language Reference: Imports and Exports"
 subtitle:
 ---
 
+## Exports
+
+**binary.ptls:**
+
 ```ptls --no-echo
-hexDigits = chars("0123456789abcdef")
+-- Parse a binary string as a number
 
 fn parse(string)
-  assert(len(string) > 0)
-
-  digits = string
-    | Str.toLower
-    | reverse
-    | chars
-
   result = 0
 
-  for digit in digits do
-    result *= 16
-    result += List.indexOf(hexDigits, digit)
+  for bit in chars(string) do
+    result *= 2
+    result += Bool.toNum(bit == "1")
   end
 
   result
 end
 
-fn toHex(n)
-  assert(n >= 0)
-  assert(Math.isInt(n))
+-- Convert a positive integer to a binary string
 
-  result = ""
+fn of(n)
+  digits = []
 
-  while n > 0 or result == "" do
-    result = hexDigits[n % 16] + result
-    n = Math.floor(n / 16)
+  while n > 0 or digits == "" do
+    digits |= push(n % 2)
+    n = Math.floor(n / 2)
   end
 
-  result
+  digits
+    | reverse
+    | join("")
 end
 
-{ parse, toHex }
+{ parse, of }
+```
+
+## Imports
+
+```ptls
+bin = import "binary.ptls"
+
+bin.parse("1101")
+bin.of(13)
+```
+
+## Import Specifiers
+
+```ptls
+import "text:lyrics.txt"
 ```
 
 ```ptls
-hex = import "hex.ptls"
+import "lines:lyrics.txt"
 ```
-
-- imports
-- import specifiers
-- exports
