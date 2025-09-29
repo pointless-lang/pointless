@@ -1,5 +1,6 @@
 {
   "name": "immutable",
+  "type": "module",
   "version": "5.1.3",
   "description": "Immutable Data Collections",
   "license": "MIT",
@@ -15,7 +16,5 @@
   "bugs": {
     "url": "https://github.com/immutable-js/immutable-js/issues"
   },
-  "main": "dist/immutable.js",
-  "module": "dist/immutable.es.js",
-  "types": "dist/immutable.d.ts"
+  "main": "dist/immutable-wrapper.js"
 }
