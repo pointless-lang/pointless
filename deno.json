@@ -4,7 +4,7 @@
     "lint": "deno lint && stylelint site/static/css/* notebook/*.css",
     "build-site": "deno run -A --watch=src,std,site/build-scripts,site/pages site/build-scripts/build.js",
     "serve": "serve --config site/serve.json",
-    "compile": "deno compile --allow-all -o dist/ptls ptls.js",
+    "compile": "deno compile --allow-all --target x86_64-pc-windows-msvc -o dist/windows_x86_64/ptls ptls.js && deno compile --allow-all --target x86_64-apple-darwin -o dist/macos_x86_64/ptls ptls.js && deno compile --allow-all --target aarch64-apple-darwin -o dist/macos_ARM64/ptls ptls.js && deno compile --allow-all --target x86_64-unknown-linux-gnu -o dist/linux_x86_64/ptls ptls.js && deno compile --allow-all --target aarch64-unknown-linux-gnu -o dist/linux_ARM64/ptls ptls.js",
     "ptls": "deno run -A ptls.js"
   },
 
