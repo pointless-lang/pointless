@@ -6,17 +6,6 @@ fn newGoal()
   { x, y }
 end
 
-game = {
-  size,
-  fps: 8,
-  playing: true,
-  growing: false,
-  head: { x: 1, y: 1 },
-  body: Table.new(["x", "y"]),
-  goal: newGoal(),
-  score: 0,
-}
-
 deltaRef = Ref.of({ x: 1, y: 0 })
 
 fn printBoard(board)
@@ -73,8 +62,6 @@ end
 fn checkCollision(game)
   if game.head in game.body then
     game.playing = false
-    -- Temporary workaround for lack of JS promise cancellation
-    Console.pauseStdin()
     render(game)
   end
 
@@ -109,12 +96,22 @@ deltas = {
 fn getInput()
   while true do
     key = Console.rawKey().name
-    delta = deltas[key]
-    Ref.set(deltaRef, delta)
+    Ref.set(deltaRef, deltas[key])
   end
 end
 
 fn update()
+  game = {
+    size,
+    fps: 8,
+    playing: true,
+    growing: false,
+    head: { x: 1, y: 1 },
+    body: Table.new(["x", "y"]),
+    goal: newGoal(),
+    score: 0,
+  }
+
   while game.playing do
     game |= arg
       | moveHead
@@ -124,6 +121,9 @@ fn update()
     render(game)
     sleep(1000 / game.fps)
   end
+
+  -- Temporary workaround for lack of JS promise cancellation
+  Console.pauseStdin()
 end
 
 Async.getFirst([getInput, update])
