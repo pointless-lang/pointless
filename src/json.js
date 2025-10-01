@@ -1,4 +1,4 @@
-import im from "immutable";
+import im from "../immutable/immutable.js";
 
 export function loadJson(string) {
   // needs improvements, better error reporting

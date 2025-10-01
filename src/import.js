@@ -6,7 +6,7 @@ import { loadJson } from "./json.js";
 import { spawnStd } from "./std.js";
 import { readFile, realpath } from "node:fs/promises";
 import { resolve } from "node:path";
-import im from "immutable";
+import im from "../immutable/immutable.js";
 
 const cache = new Map();
 const prefixChars = /^(?:([a-z]+):)?/;

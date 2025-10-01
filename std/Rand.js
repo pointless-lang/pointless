@@ -2,7 +2,7 @@ import { checkType, getType } from "../src/values.js";
 import { checkWhole } from "../src/num.js";
 import { checkNonEmpty } from "../src/list.js";
 import { Table } from "../src/table.js";
-import im from "immutable";
+import im from "../immutable/immutable.js";
 
 export function random() {
   // Get a random fractional number between `0` and `1`.

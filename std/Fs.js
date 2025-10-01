@@ -5,7 +5,7 @@ import { Panic } from "../src/panic.js";
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { Buffer } from "node:buffer";
-import im from "immutable";
+import im from "../immutable/immutable.js";
 
 export async function read(path) {
   // Read the text file at `path`.

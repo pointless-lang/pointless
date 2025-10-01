@@ -2,7 +2,7 @@ import { Panic } from "./panic.js";
 import { Table } from "./table.js";
 import { Func } from "./func.js";
 import { Ref } from "./ref.js";
-import im from "immutable";
+import im from "../immutable/immutable.js";
 
 export function getType(value) {
   if (value === null) {

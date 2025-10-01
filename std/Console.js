@@ -4,7 +4,7 @@ import { Panic } from "../src/panic.js";
 import { getLine } from "../repl/prompt.js";
 import { emitKeypressEvents } from "node:readline";
 import { stdin, stdout } from "node:process";
-import im from "immutable";
+import im from "../immutable/immutable.js";
 
 export function print(value) {
   // Print the string representation of `value` to stdout, followed by a

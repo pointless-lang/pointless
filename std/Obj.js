@@ -1,6 +1,6 @@
 import { checkType, getType } from "../src/values.js";
 import { checkKey, isMatch } from "../src/obj.js";
-import im from "immutable";
+import im from "../immutable/immutable.js";
 
 export function of(value) {
   // Convert `value` to an object, where `value` is either a table or an object.

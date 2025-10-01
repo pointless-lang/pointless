@@ -5,7 +5,7 @@ import { invisible } from "./repr.js";
 import { Panic } from "./panic.js";
 import { parseData } from "./csv.js";
 import { repr } from "./repr.js";
-import im from "immutable";
+import im from "../immutable/immutable.js";
 
 export class Table {
   constructor(data = im.OrderedMap()) {

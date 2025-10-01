@@ -1,6 +1,6 @@
 import { checkType, getType } from "./values.js";
 import { Panic } from "./panic.js";
-import im from "immutable";
+import im from "../immutable/immutable.js";
 
 export function checkKey(object, key) {
   checkType(object, "object");

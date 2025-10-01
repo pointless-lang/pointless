@@ -3,7 +3,7 @@ import { checkPositive, checkWhole } from "../src/num.js";
 import { checkIndex } from "../src/list.js";
 import { show } from "../src/repr.js";
 import { Panic } from "../src/panic.js";
-import im from "immutable";
+import im from "../immutable/immutable.js";
 
 export function of(value) {
   // Get the string representation of `value`.

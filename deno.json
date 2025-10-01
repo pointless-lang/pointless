@@ -1,36 +1,22 @@
 {
   "tasks": {
     "fmt": "deno fmt . && prettier --write '**/*.{html,css}' && deno run -A utils/formatStd.js",
-    "lint": "deno lint && stylelint site/static/css/* notebook/*.css",
+    "lint": "deno lint",
     "build-site": "deno run -A --watch=src,std,site/build-scripts,site/pages site/build-scripts/build.js",
     "serve": "serve --config site/serve.json",
-    "compile": "deno compile --allow-all --target x86_64-pc-windows-msvc -o dist/windows_x86_64/ptls ptls.js && deno compile --allow-all --target x86_64-apple-darwin -o dist/macos_x86_64/ptls ptls.js && deno compile --allow-all --target aarch64-apple-darwin -o dist/macos_ARM64/ptls ptls.js && deno compile --allow-all --target x86_64-unknown-linux-gnu -o dist/linux_x86_64/ptls ptls.js && deno compile --allow-all --target aarch64-unknown-linux-gnu -o dist/linux_ARM64/ptls ptls.js",
+    "bundle": "deno bundle --outdir dist ptls.js",
     "ptls": "deno run -A ptls.js"
   },
-
-  "nodeModulesDir": "auto",
 
   "imports": {
     "@prettier/sync": "npm:@prettier/sync@^0.6.1",
     "command-line-args": "npm:command-line-args@^6.0.1",
-    "csv-parse": "npm:csv-parse@^5.6.0",
     "gray-matter": "npm:gray-matter@^4.0.3",
-    "immutable": "./immutable/immutable.js",
     "marked": "npm:marked@^15.0.0",
     "marked-highlight": "npm:marked-highlight@^2.2.1",
     "open": "npm:open@^10.2.0",
     "prettier": "npm:prettier@^3.4.2",
     "serve": "npm:serve@^14.2.4",
-    "stylelint": "npm:stylelint@^16.23.0",
-    "stylelint-config-standard": "npm:stylelint-config-standard@^39.0.0",
     "ws": "npm:ws@^8.18.3"
   },
-
-  "stylelint": {
-    "extends": "stylelint-config-standard",
-    "rules": {
-      "font-family-name-quotes": null,
-      "no-descending-specificity": null
-    }
-  }
 }

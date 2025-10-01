@@ -1,7 +1,7 @@
 import { checkType, getType } from "./values.js";
 import { Func } from "./func.js";
 import { Env } from "./env.js";
-import im from "immutable";
+import im from "../immutable/immutable.js";
 
 let std;
 let modules;

@@ -7,7 +7,7 @@ import { show } from "./repr.js";
 import { getImport } from "./import.js";
 import { Panic } from "./panic.js";
 import { dirname } from "node:path";
-import im from "immutable";
+import im from "../immutable/immutable.js";
 
 export class Returner {
   constructor(value) {

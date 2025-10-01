@@ -1,5 +1,5 @@
-import { parse as csvParse } from "csv-parse/sync";
-import im from "immutable";
+import { parse as csvParse } from "csv-parse@^5.6.0/sync";
+import im from "../immutable/immutable.js";
 
 export function parseData(source) {
   // sketchy, doesn't parse quoted strings

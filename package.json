@@ -1,9 +1,0 @@
-{
-  "stylelint": {
-    "extends": "stylelint-config-standard",
-    "rules": {
-      "font-family-name-quotes": null,
-      "no-descending-specificity": null
-    }
-  }
-}

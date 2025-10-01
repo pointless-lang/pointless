@@ -1,5 +1,5 @@
 import { checkType } from "../src/values.js";
-import im from "immutable";
+import im from "../immutable/immutable.js";
 
 export function of(values) {
   // Get a set containing each value in `values`. `values` may be a list, table,

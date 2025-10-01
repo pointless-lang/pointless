@@ -4,7 +4,7 @@ import { checkIndex, checkNonEmpty } from "../src/list.js";
 import { checkType, compare } from "../src/values.js";
 import { Table } from "../src/table.js";
 import { Panic } from "../src/panic.js";
-import im from "immutable";
+import im from "../immutable/immutable.js";
 
 export function of(values) {
   // Get a list containing each value in `values`. `values` may be a set, table,

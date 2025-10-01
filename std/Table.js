@@ -5,7 +5,7 @@ import * as List from "./List.js";
 import { Table } from "../src/table.js";
 import { repr } from "../src/repr.js";
 import { Panic } from "../src/panic.js";
-import im from "immutable";
+import im from "../immutable/immutable.js";
 
 function flattenCols(table, columns) {
   checkType(columns, "string", "list");
