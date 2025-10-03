@@ -1,4 +1,4 @@
-import { parse as csvParse } from "csv-parse@^5.6.0/sync";
+import { parse as csvParse } from "csv-parse/sync";
 import im from "../immutable/immutable.js";
 
 export function parseData(source) {

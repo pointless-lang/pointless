@@ -3,31 +3,52 @@ import { Func } from "./func.js";
 import { Env } from "./env.js";
 import im from "../immutable/immutable.js";
 
+// Rollup can't handle import expressions withing an object literal
+// so we have to put them in the natives object separately
+import * as Async from "../std/Async.js";
+import * as Bool from "../std/Bool.js";
+import * as Char from "../std/Char.js";
+import * as Console from "../std/Console.js";
+import * as Err from "../std/Err.js";
+import * as Fs from "../std/Fs.js";
+import * as List from "../std/List.js";
+import * as Math from "../std/Math.js";
+import * as None from "../std/None.js";
+import * as Obj from "../std/Obj.js";
+import * as Panic from "../std/Panic.js";
+import * as Rand from "../std/Rand.js";
+import * as Ref from "../std/Ref.js";
+import * as Re from "../std/Re.js";
+import * as Set from "../std/Set.js";
+import * as Str from "../std/Str.js";
+import * as Table from "../std/Table.js";
+import * as Test from "../std/Test.js";
+
+const natives = {
+  Async,
+  Bool,
+  Char,
+  Console,
+  Err,
+  Fs,
+  List,
+  Math,
+  None,
+  Obj,
+  Panic,
+  Rand,
+  Ref,
+  Re,
+  Set,
+  Str,
+  Table,
+  Test,
+};
+
 let std;
 let modules;
 let globals;
 let variants;
-
-const natives = {
-  Async: await import("../std/Async.js"),
-  Bool: await import("../std/Bool.js"),
-  Char: await import("../std/Char.js"),
-  Console: await import("../std/Console.js"),
-  Err: await import("../std/Err.js"),
-  Fs: await import("../std/Fs.js"),
-  List: await import("../std/List.js"),
-  Math: await import("../std/Math.js"),
-  None: await import("../std/None.js"),
-  Obj: await import("../std/Obj.js"),
-  Panic: await import("../std/Panic.js"),
-  Rand: await import("../std/Rand.js"),
-  Ref: await import("../std/Ref.js"),
-  Re: await import("../std/Re.js"),
-  Set: await import("../std/Set.js"),
-  Str: await import("../std/Str.js"),
-  Table: await import("../std/Table.js"),
-  Test: await import("../std/Test.js"),
-};
 
 function makeModules() {
   modules = {};

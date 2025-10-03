@@ -1,0 +1,37 @@
+{
+  "type": "module",
+  "scripts": {
+    "fmt": "deno fmt --ignore=dist; node utils/formatStd.js",
+    "lint": "deno lint --ignore=dist; stylelint site/static/css/* notebook/*.css",
+    "build": "node --watch-path=. site/build-scripts/build.js",
+    "serve": "serve --config site/serve.json",
+    "bundle": "rollup -c"
+  },
+  "devDependencies": {
+    "@prettier/sync": "^0.6.1",
+    "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
+    "command-line-args": "^6.0.1",
+    "csv-parse": "^5.6.0",
+    "gray-matter": "^4.0.3",
+    "marked": ">=15",
+    "marked-highlight": "^2.2.1",
+    "rollup": "^2.79.2",
+    "serve": "^14.2.4",
+    "stylelint": "^16.23.0",
+    "stylelint-config-standard": "^39.0.0"
+  },
+  "stylelint": {
+    "extends": "stylelint-config-standard",
+    "rules": {
+      "font-family-name-quotes": null,
+      "no-descending-specificity": null
+    }
+  },
+  "dependencies": {
+    "immutable": "file:./immutable/immutable.js",
+    "open": "^10.2.0",
+    "ws": "^8.18.3"
+  }
+}
