@@ -1,0 +1,34 @@
+---- --hide
+
+alphabet = chars("abcdefghijklmnopqrstuvwxyz")
+
+----
+
+-- Shift a single letter 13 places
+
+fn shift(letter)
+  index = List.indexOf(alphabet, Str.toLower(letter))
+
+  shifted =
+    if index == none then
+      letter
+    else
+      alphabet[(index + 13) % 26]
+    end
+
+  if Str.isUpper(letter) then
+    Str.toUpper(shifted)
+  else
+    shifted
+  end
+end
+
+-- Encode or decode a message with the ROT13 cipher
+-- https://en.wikipedia.org/wiki/ROT13
+
+-- Prints "Hello world!"
+
+"Uryyb jbeyq!"
+  | chars
+  $ shift
+  | join("")

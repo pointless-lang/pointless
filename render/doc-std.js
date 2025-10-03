@@ -1,9 +1,9 @@
-import { checkType, getType } from "../../src/values.js";
-import { Func } from "../../src/func.js";
-import { spawnStd } from "../../src/std.js";
-import { Panic } from "../../src/panic.js";
-import { Env } from "../../src/env.js";
-import { repr, show } from "../../src/repr.js";
+import { checkType, getType } from "../src/values.js";
+import { Func } from "../src/func.js";
+import { spawnStd } from "../src/std.js";
+import { Panic } from "../src/panic.js";
+import { Env } from "../src/env.js";
+import { repr, show } from "../src/repr.js";
 
 function handleUnavailable() {
   throw new Panic("not available in notebook mode");

@@ -1,5 +1,5 @@
-import { renderMarkdown } from "./render-markdown.js";
-import { h } from "./escape.js";
+import { renderMarkdown } from "../../render/render-markdown.js";
+import { h } from "../../render/escape.js";
 import { getType } from "../../src/values.js";
 import { loadMeta } from "../../src/std.js";
 

@@ -1,7 +1,7 @@
 import { collectionSidebar, genCollection } from "./build-collection.js";
 import { genModule, moduleSidebar } from "./build-module.js";
-import { headerId, renderMarkdown } from "./render-markdown.js";
-import { h, serialize } from "./escape.js";
+import { headerId, renderMarkdown } from "../../render/render-markdown.js";
+import { h, serialize } from "../../render/escape.js";
 import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import matter from "gray-matter";
 import { format } from "prettier";

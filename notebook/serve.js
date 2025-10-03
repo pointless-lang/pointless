@@ -1,9 +1,12 @@
-import { renderMarkdown } from "../site/build-scripts/render-markdown.js";
+import { renderMarkdown } from "../render/render-markdown.js";
 import { watch } from "node:fs";
 import { readFile } from "node:fs/promises";
 import http from "node:http";
 import { WebSocketServer } from "ws";
 import open from "open";
+import { argv } from "node:process";
+
+const template = await readFile(import.meta.dirname + "/template.html", "utf8");
 
 async function makePage(filePath) {
   const source = "----\n" + (await readFile(filePath, "utf-8"));
@@ -21,37 +24,13 @@ async function makePage(filePath) {
   }
 
   const inner = await renderMarkdown(filePath, embeds.join("\n\n"));
-
-  return `
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" type="text/css" href="style.css">
-        <title>Ptls notebook: ${filePath}</title>
-      </head>
-
-      <body>
-        <article>
-          ${inner}
-        </article>
-
-        <script>
-          const ws = new WebSocket("ws://" + location.host);
-
-          ws.onmessage = (msg) => {
-            document.documentElement.innerHTML = msg.data;
-          };
-        </script>
-      </body>
-    </html>
-  `;
+  return template.replace("$$filePath", filePath).replace("$$inner", inner);
 }
+
+const css = await readFile(import.meta.dirname + "/style.css", "utf8");
 
 async function respond(req, res, filePath) {
   if (req.url === "/style.css") {
-    const css = await readFile(import.meta.dirname + "/style.css");
     res.writeHead(200, { "Content-Type": "text/css; charset=utf-8" });
     res.end(css);
     return;
@@ -78,5 +57,5 @@ export async function serve(filePath) {
   const wss = new WebSocketServer({ server });
   watch(filePath, (eventType) => forwardChange(wss, eventType, filePath));
   server.listen(4000);
-  await open("http://localhost:4000");
+  console.log(`Notebook running at http://localhost:${server.address().port}`);
 }

@@ -2,17 +2,21 @@ import { getImport } from "./src/import.js";
 import { Panic } from "./src/panic.js";
 import { repl } from "./repl/repl.js";
 import { serve } from "./notebook/serve.js";
-import { argv } from "node:process";
+import commandLineArgs from "command-line-args";
 
-async function run() {
+async function run(config) {
   try {
-    if (argv.length > 3) {
-      await serve(argv[3]);
-    } else if (argv.length > 2) {
-      await getImport(argv[2], "./");
-    } else {
-      await repl();
+    if (config.notebook) {
+      await serve(config.file);
+      return;
     }
+
+    if (config.file) {
+      await getImport(config.file, "./");
+      return;
+    }
+
+    await repl();
   } catch (err) {
     if (err instanceof Panic) {
       console.log(String(err));
@@ -22,4 +26,9 @@ async function run() {
   }
 }
 
-run();
+const options = [
+  { name: "file", defaultOption: true },
+  { name: "notebook", type: Boolean },
+];
+
+run(commandLineArgs(options));
