@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -12,12 +12,13 @@
       <p>
         <a
           href="https://www.sumsar.net/blog/pandas-feels-clunky-when-coming-from-r/"
-          >https://www.sumsar.net/blog/pandas-feels-clunky-when-coming-from-r/</a
-        >
+        >https://www.sumsar.net/blog/pandas-feels-clunky-when-coming-from-r/</a>
       </p>
       <div class="snippet">
         <pre><code class="ptls">purchases <span class="operator">=</span> <span class="keyword">import</span> <span class="string">&quot;csv:purchases.csv&quot;</span></code></pre>
-        <pre class="result">
+        <pre
+          class="result"
+        >
 <code><div class="var-name">purchases</div>┌───────────┬────────┬──────────┐
 │ country   │ amount │ discount │ x 32
 ├───────────┼────────┼──────────┤
@@ -66,7 +67,9 @@
 <span class="keyword">end</span>
 
 <span class="std">table</span>.<span class="call">summarize</span>(purchases, <span class="string">&quot;country&quot;</span>, calcTotal)</code></pre>
-        <pre class="result">
+        <pre
+          class="result"
+        >
 <code>┌───────────┬───────┐
 │ country   │ total │ x 11
 ├───────────┼───────┤
@@ -94,7 +97,9 @@
 <span class="keyword">end</span>
 
 <span class="std">table</span>.<span class="call">summarize</span>(purchases, <span class="string">&quot;country&quot;</span>, calcTotal)</code></pre>
-        <pre class="result">
+        <pre
+          class="result"
+        >
 <code>┌───────────┬───────┐
 │ country   │ total │ x 11
 ├───────────┼───────┤
@@ -118,7 +123,9 @@
 purchases
   <span class="operator">?</span> <span class="keyword">arg</span>.amount <span class="operator">&lt;=</span> median <span class="operator">*</span> <span class="number">10</span>
   <span class="operator">|</span> <span class="std">table</span>.<span class="call">summarize</span>(<span class="string">&quot;country&quot;</span>, calcTotal)</code></pre>
-        <pre class="result">
+        <pre
+          class="result"
+        >
 <code>┌───────────┬───────┐
 │ country   │ total │ x 10
 ├───────────┼───────┤
@@ -148,7 +155,9 @@ purchases
 <span class="keyword">end</span>
 
 <span class="std">table</span>.<span class="call">summarize</span>(purchases, <span class="string">&quot;country&quot;</span>, calcTotal)</code></pre>
-        <pre class="result">
+        <pre
+          class="result"
+        >
 <code>┌───────────┬───────┐
 │ country   │ total │ x 11
 ├───────────┼───────┤

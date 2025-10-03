@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -13,8 +13,7 @@
         <div>
           <h1>
             <a name="-first-digit-law-" href="#-first-digit-law-"
-              >First-Digit Law</a
-            >
+            >First-Digit Law</a>
           </h1>
           <blockquote>
             <p>
@@ -29,12 +28,9 @@
               <code>11.1%</code> of the time.&quot;
             </p>
             <p>
-              <em
-                >--
+              <em>--
                 <a href="https://en.wikipedia.org/wiki/Benford's_law"
-                  >https://en.wikipedia.org/wiki/Benford&#39;s_law</a
-                ></em
-              >
+                >https://en.wikipedia.org/wiki/Benford&#39;s_law</a></em>
             </p>
           </blockquote>
           <p>
@@ -95,9 +91,8 @@
             Let&#39;s see if we can observe the pattern in
             <a
               href="https://en.wikipedia.org/wiki/List_of_municipalities_in_Pennsylvania"
-              >real-world dataset</a
-            >: the populations of the cities, boroughs, and townships in
-            Pennsylvania.
+            >real-world dataset</a>: the populations of the cities, boroughs,
+            and townships in Pennsylvania.
           </p>
           <p>
             Wikipedia doesn&#39;t give us a way to export table data, but I
@@ -105,13 +100,15 @@
             <a href="https://wikitable2csv.ggor.de/">third-party tool</a> that
             will generate
             <a href="https://en.wikipedia.org/wiki/Comma-separated_values"
-              >CSV files</a
-            >
+            >CSV files</a>
             from a Wikipedia article. I used this tool to extract and save the
             data in the file <a href="pa-cities.csv">pa-cities.csv</a>.
           </p>
           <div class="snippet">
-            <pre class="result" style="max-height: 400px">
+            <pre
+              class="result"
+              style="max-height: 400px"
+            >
 <code>city,population
 Philadelphia,1550542
 Pittsburgh,303255
@@ -2687,8 +2684,7 @@ Valley-Hi,5
           </div>
           <h2>
             <a name="-reading-digits-" href="#-reading-digits-"
-              >Reading digits</a
-            >
+            >Reading digits</a>
           </h2>
           <p>
             We can use the <code>csv:</code> import scheme to import the
@@ -2696,7 +2692,10 @@ Valley-Hi,5
           </p>
           <div class="snippet">
             <pre><code class="ptls">cities <span class="operator">=</span> <span class="keyword">import</span> <span class="string">&quot;csv:pa-cities.csv&quot;</span></code></pre>
-            <pre class="result" style="max-height: 400px">
+            <pre
+              class="result"
+              style="max-height: 400px"
+            >
 <code><div class="var-name">cities</div>┌───────────────────────────┬────────────┐
 │ city                      │ population │ x 2570
 ├───────────────────────────┼────────────┤
@@ -5279,7 +5278,10 @@ Valley-Hi,5
           </p>
           <div class="snippet">
             <pre><code class="ptls">cities.population</code></pre>
-            <pre class="result" style="max-height: 200px">
+            <pre
+              class="result"
+              style="max-height: 200px"
+            >
 <code>[
   1550542,
   303255,
@@ -7888,8 +7890,7 @@ Valley-Hi,5
             <a
               name="-calculating-frequencies-"
               href="#-calculating-frequencies-"
-              >Calculating Frequencies</a
-            >
+            >Calculating Frequencies</a>
           </h2>
           <p>
             Let&#39;s take a moment and refactor our code into pipeline syntax
@@ -7905,7 +7906,10 @@ Valley-Hi,5
           </p>
           <div class="snippet">
             <pre><code class="ptls">cities.population <span class="operator">$</span> <span class="call">chars</span>(<span class="std">str</span>.<span class="call">of</span>(<span class="keyword">arg</span>))[<span class="number">0</span>]</code></pre>
-            <pre class="result" style="max-height: 200px">
+            <pre
+              class="result"
+              style="max-height: 200px"
+            >
 <code>[
   &quot;1&quot;,
   &quot;3&quot;,
@@ -10488,7 +10492,10 @@ Valley-Hi,5
 <code class="ptls">cities.population
   <span class="operator">$</span> <span class="call">chars</span>(<span class="std">str</span>.<span class="call">of</span>(<span class="keyword">arg</span>))[<span class="number">0</span>]
   <span class="operator">|</span> <span class="std">list</span>.<span class="call">counts</span></code></pre>
-            <pre class="result" style="">
+            <pre
+              class="result"
+              style=""
+            >
 <code>┌───────┬───────┬─────────────────────┐
 │ value │ count │ share               │ x 9
 ├───────┼───────┼─────────────────────┤
@@ -10529,7 +10536,10 @@ Valley-Hi,5
           </p>
           <div class="snippet">
             <pre><code class="ptls">digitStats.share</code></pre>
-            <pre class="result" style="">
+            <pre
+              class="result"
+              style=""
+            >
 <code>[
   0.3120622568093385,
   0.1801556420233463,
@@ -10559,7 +10569,10 @@ Valley-Hi,5
           </p>
           <div class="snippet">
             <pre><code class="ptls">digitStats.share <span class="operator">$=</span> <span class="call">roundTo</span>(<span class="keyword">arg</span> <span class="operator">*</span> <span class="number">100</span>, <span class="number">1</span>)</code></pre>
-            <pre class="result" style="">
+            <pre
+              class="result"
+              style=""
+            >
 <code><div class="var-name">digitStats</div>┌───────┬───────┬───────┐
 │ value │ count │ share │ x 9
 ├───────┼───────┼───────┤

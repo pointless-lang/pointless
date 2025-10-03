@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -15,8 +15,7 @@
             <a
               name="pointless-learning-by-example"
               href="#pointless-learning-by-example"
-              >Pointless: Learning by Example</a
-            >
+            >Pointless: Learning by Example</a>
           </h1>
           <p>
             Let&#39;s see an example to get a feel for the language. I&#39;ll
@@ -77,8 +76,7 @@ after encoding:  n o p q r s t u v w x y z a b c d e f g h i j k l m</code></pre
 
           <h2>
             <a name="shifting-letters" href="#shifting-letters"
-              >Shifting Letters</a
-            >
+            >Shifting Letters</a>
           </h2>
           <p>
             To implement the cipher, we start by defining the variable
@@ -97,8 +95,7 @@ after encoding:  n o p q r s t u v w x y z a b c d e f g h i j k l m</code></pre
           <blockquote>
             <h3>
               <a name="displaying-results" href="#displaying-results"
-                >Displaying Results</a
-              >
+              >Displaying Results</a>
             </h3>
             <p>
               In this tutorial, the values produced by each piece of code are
@@ -122,8 +119,7 @@ after encoding:  n o p q r s t u v w x y z a b c d e f g h i j k l m</code></pre
               <a
                 name="standard-library-functions"
                 href="#standard-library-functions"
-                >Standard Library Functions</a
-              >
+              >Standard Library Functions</a>
             </h3>
             <p>
               The Pointless standard library is divided into modules like
@@ -205,8 +201,7 @@ shifted <span class="operator">=</span> alphabet[(index <span class="operator">+
           <blockquote>
             <h3>
               <a name="implicit-return" href="#implicit-return"
-                >Implicit Return</a
-              >
+              >Implicit Return</a>
             </h3>
             <p>
               Pointless has a <code>return</code> keyword that can be used to
@@ -226,15 +221,17 @@ shifted <span class="operator">=</span> alphabet[(index <span class="operator">+
 <code class="ptls"><span class="call">shift</span>(<span class="string">&quot;c&quot;</span>)
 <span class="call">shift</span>(<span class="string">&quot;a&quot;</span>)
 <span class="call">shift</span>(<span class="string">&quot;t&quot;</span>)</code></pre>
-            <pre class="result" style="">
+            <pre
+              class="result"
+              style=""
+            >
 <code>&quot;p&quot;
 &quot;n&quot;
 &quot;g&quot;</code></pre>
           </div>
           <h2>
             <a name="shifting-whole-strings" href="#shifting-whole-strings"
-              >Shifting Whole Strings</a
-            >
+            >Shifting Whole Strings</a>
           </h2>
           <p>
             Ultimately we want to be able to encode an entire string at once,
@@ -326,8 +323,7 @@ shifted <span class="operator">|</span> <span class="call">join</span>(<span cla
           <blockquote>
             <h3>
               <a name="why-use-pipeline-syntax" href="#why-use-pipeline-syntax"
-                >Why Use Pipeline Syntax?</a
-              >
+              >Why Use Pipeline Syntax?</a>
             </h3>
             <p>
               We didn&#39;t have to use pipeline operators to write
@@ -365,8 +361,7 @@ shifted <span class="operator">|</span> <span class="call">join</span>(<span cla
 
           <h2>
             <a name="encoding-and-decoding" href="#encoding-and-decoding"
-              >Encoding and Decoding</a
-            >
+            >Encoding and Decoding</a>
           </h2>
           <p>
             Now let&#39;s call <code>cipher</code> to make sure it&#39;s working
@@ -376,7 +371,10 @@ shifted <span class="operator">|</span> <span class="call">join</span>(<span cla
             <pre>
 <code class="ptls"><span class="call">cipher</span>(<span class="string">&quot;cat&quot;</span>)
 <span class="call">cipher</span>(<span class="string">&quot;png&quot;</span>)</code></pre>
-            <pre class="result" style="">
+            <pre
+              class="result"
+              style=""
+            >
 <code>&quot;png&quot;
 &quot;cat&quot;</code></pre>
           </div>
@@ -391,10 +389,8 @@ shifted <span class="operator">|</span> <span class="call">join</span>(<span cla
             total shift amount to <code>26</code>. Since our alphabet is
             <code>26</code> letters long, this process wraps each letter back to
             its original value.
-            <strong
-              >This means that we can use <code>cipher</code> for both encoding
-              and decoding!</strong
-            >
+            <strong>This means that we can use <code>cipher</code> for both
+              encoding and decoding!</strong>
           </p>
           <p>
             We can verify this by calling <code>cipher</code> twice on the same
@@ -406,8 +402,7 @@ shifted <span class="operator">|</span> <span class="call">join</span>(<span cla
           </div>
           <h2>
             <a name="uppercase-letters" href="#uppercase-letters"
-              >Uppercase Letters</a
-            >
+            >Uppercase Letters</a>
           </h2>
           <p>Currently, our code looks like this.</p>
           <div class="snippet">
@@ -452,7 +447,10 @@ shifted <span class="operator">|</span> <span class="call">join</span>(<span cla
             <pre>
 <code class="ptls"><span class="call">cipher</span>(<span class="string">&quot;Cat&quot;</span>)
 <span class="call">cipher</span>(<span class="call">cipher</span>(<span class="string">&quot;Cat&quot;</span>))</code></pre>
-            <pre class="result" style="">
+            <pre
+              class="result"
+              style=""
+            >
 <code>&quot;png&quot;
 &quot;cat&quot;</code></pre>
           </div>
@@ -493,7 +491,10 @@ after encoded:   N O P Q R S T U V W X Y Z A B C D E F G H I J K L M</code></pre
             <pre>
 <code class="ptls"><span class="call">cipher</span>(<span class="string">&quot;Cat&quot;</span>)
 <span class="call">cipher</span>(<span class="call">cipher</span>(<span class="string">&quot;Cat&quot;</span>))</code></pre>
-            <pre class="result" style="">
+            <pre
+              class="result"
+              style=""
+            >
 <code>&quot;Png&quot;
 &quot;Cat&quot;</code></pre>
           </div>
@@ -502,8 +503,7 @@ after encoded:   N O P Q R S T U V W X Y Z A B C D E F G H I J K L M</code></pre
               <a
                 name="conditionals-are-expressions"
                 href="#conditionals-are-expressions"
-                >Conditionals Are Expressions</a
-              >
+              >Conditionals Are Expressions</a>
             </h3>
             <p>
               In Pointless, as in many other functional languages,
@@ -525,8 +525,7 @@ maximum <span class="operator">=</span> <span class="keyword">if</span> a <span 
 
           <h2>
             <a name="nonalphabetic-characters" href="#nonalphabetic-characters"
-              >Non-Alphabetic Characters</a
-            >
+            >Non-Alphabetic Characters</a>
           </h2>
           <p>
             The final piece to consider is non-alphabetic characters. Currently,
@@ -562,8 +561,7 @@ maximum <span class="operator">=</span> <span class="keyword">if</span> a <span 
               <a
                 name="conditionals-with-multiple-statements"
                 href="#conditionals-with-multiple-statements"
-                >Conditionals with Multiple Statements</a
-              >
+              >Conditionals with Multiple Statements</a>
             </h3>
             <p>
               As this new code demonstrates, the <code>then</code> and
@@ -581,7 +579,10 @@ maximum <span class="operator">=</span> <span class="keyword">if</span> a <span 
             <pre>
 <code class="ptls"><span class="call">cipher</span>(<span class="string">&quot;Cat!&quot;</span>)
 <span class="call">cipher</span>(<span class="call">cipher</span>(<span class="string">&quot;Cat!&quot;</span>))</code></pre>
-            <pre class="result" style="">
+            <pre
+              class="result"
+              style=""
+            >
 <code>&quot;Png!&quot;
 &quot;Cat!&quot;</code></pre>
           </div>

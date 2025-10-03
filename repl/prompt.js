@@ -2,7 +2,7 @@ import { Panic } from "../src/panic.js";
 import { createInterface } from "node:readline";
 import { stdin, stdout } from "node:process";
 import { readFile, writeFile } from "node:fs/promises";
-import  { tmpdir } from "node:os"
+import { tmpdir } from "node:os";
 
 const historyPath = tmpdir() + "/repl-history";
 
