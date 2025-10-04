@@ -1,12 +1,13 @@
 words = Set.of(import "lines:words.txt")
-answer = Rand.sample(words)
+answer = chars(Rand.sample(words))
 
 fn getScore(guess)
-  if not has(words, guess) then
+  if not (guess in words) then
     return
   end
 
   score = chars("⬜⬜⬜⬜⬜")
+  guess |= chars
   counts = {}
 
   for i in range(5) do
@@ -35,7 +36,7 @@ score = none
 
 while score != "🟩🟩🟩🟩🟩" do
   guess = prompt("Enter a guess: ")
-  Console.write("\u001b[1A\u001b[2K")
+  Console.write("\u{1b}[1A\u{1b}[2K")
   score = getScore(guess)
   print("$guess $score")
 end
