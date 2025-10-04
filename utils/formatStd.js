@@ -32,10 +32,8 @@ for (const file of fs.readdirSync("std/")) {
 
   fs.writeFileSync(`std/${file}`, result, "utf8");
 
-  // Should be itempotent
+  // Should be idempotent
   if (result !== source) {
     console.log(`Formatted doc comments in std/${file}`);
-  } else {
-    console.log(`Checked doc comments in std/${file}`);
   }
 }
