@@ -77,15 +77,35 @@ export function has(list, value) {
 
 export function hasAll(list, values) {
   // Check whether `list` contains every value in `values`, where `values` is a
-  // list, set, or table.
+  // list, set, or table. Duplicate items must appear at least as many times in
+  // `list` as they do in `values`.
   //
   // ```ptls
   // List.hasAll(["a", "b", "c"], ["b", "c"])
   // List.hasAll(["a", "b", "c"], ["d", "c"])
+  //
+  // List.hasAll(["a", "a", "a"], ["a", "a"])
+  // List.hasAll(["a"], ["a", "a"])
   // ```
 
   checkType(list, "list");
-  return list.toSet().isSuperset(of(values));
+  values = of(values);
+
+  let counts = im.Map();
+
+  for (const value of list) {
+    counts = counts.set(value, counts.get(value, 0) + 1);
+  }
+
+  for (const value of values) {
+    if (counts.get(value, 0) === 0) {
+      return false;
+    }
+
+    counts = counts.set(value, counts.get(value) - 1);
+  }
+
+  return true;
 }
 
 export function get(list, index) {
