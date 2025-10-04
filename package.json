@@ -31,7 +31,6 @@
   },
   "dependencies": {
     "immutable": "file:./immutable/immutable.js",
-    "open": "^10.2.0",
     "ws": "^8.18.3"
   }
 }
