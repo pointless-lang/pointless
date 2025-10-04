@@ -7,7 +7,7 @@ import commandLineArgs from "command-line-args";
 async function run(config) {
   try {
     if (config.notebook) {
-      await serve(config.file);
+      serve(config.file, config.port);
       return;
     }
 
@@ -29,6 +29,7 @@ async function run(config) {
 const options = [
   { name: "file", defaultOption: true },
   { name: "notebook", type: Boolean },
+  { name: "port", type: Number, defaultValue: 4000 },
 ];
 
 run(commandLineArgs(options));
