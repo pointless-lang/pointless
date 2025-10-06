@@ -1,6 +1,6 @@
 import { getImport } from "./src/import.js";
 import { Panic } from "./src/panic.js";
-import { repl } from "./repl/repl.js";
+import { repl } from "./src/repl.js";
 import { serve } from "./notebook/serve.js";
 import commandLineArgs from "command-line-args";
 
