@@ -1,7 +1,4 @@
 import { Panic } from "./panic.js";
-import { Table } from "./table.js";
-import { Func } from "./func.js";
-import { Ref } from "./ref.js";
 import im from "../immutable/immutable.js";
 
 export function getType(value) {
@@ -17,12 +14,10 @@ export function getType(value) {
       return "number";
     case String:
       return "string";
-    case Table:
-      return "table";
-    case Func:
-      return "function";
-    case Ref:
-      return "reference";
+  }
+
+  if (value?.constructor?.ptlsName) {
+    return (value.constructor.ptlsName);
   }
 
   if (im.isOrderedMap(value)) {
@@ -37,7 +32,6 @@ export function getType(value) {
     return "list";
   }
 
-  console.error("native value: ", value);
   return `<native ${value?.constructor?.name}>`;
 }
 

@@ -8,6 +8,8 @@ import { repr } from "./repr.js";
 import im from "../immutable/immutable.js";
 
 export class Table {
+  static ptlsName = "table";
+
   constructor(data = im.OrderedMap()) {
     checkType(data, "object");
 

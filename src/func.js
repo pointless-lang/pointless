@@ -2,6 +2,8 @@ import { getType } from "./values.js";
 import { Panic } from "./panic.js";
 
 export class Func {
+  static ptlsName = "function";
+
   constructor(handler, name, params) {
     this.params = params;
     this.name = name;
