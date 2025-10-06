@@ -1,4 +1,4 @@
-symbols = chars("BEOec<+::~~~-----       ")
+symbols = chars("BEOec<+:~~--'```    ")
 
 fn render(x0, y0)
   iters = 0

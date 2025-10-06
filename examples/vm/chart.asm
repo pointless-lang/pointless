@@ -1,9 +1,4 @@
--- Display the numbers in memory as a bar chart.
--- You can hard-code the length of the memory into the program.
--- If you need to find the maximum value in memory you should
--- do so programatically (not hard-coded).
--- 
--- For the numbers 1 4 2 7 3 1the output should be:
+-- Display the numbers [1, 4, 2, 7, 3, 1] as a bar chart
 --
 --    X
 --    X

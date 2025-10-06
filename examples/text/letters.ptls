@@ -1,7 +1,0 @@
-import "text:avoid.txt"
-  | Str.toLower
-  | chars
-  ? Str.isAlpha
-  | List.counts
-  | sortBy("value")
-  | print

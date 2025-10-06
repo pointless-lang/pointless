@@ -31,4 +31,6 @@ fn toHex(n)
   reverse(result)
 end
 
-{ parse, toHex }
+print(toHex(0))
+print(toHex(1234))
+print(parse("4d2"))

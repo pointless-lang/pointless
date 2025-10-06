@@ -1,0 +1,29 @@
+-- Given a list of integers each greater than zero, generate a vertical bar
+-- chart where each number `n` is shown as a bottom-aligned column of `X`
+-- characters of height `n`.
+--
+-- For the numbers [1, 4, 2, 7, 3, 1] the output should be:
+--
+--    X
+--    X
+--    X
+--  X X
+--  X XX
+--  XXXX
+-- XXXXXX
+
+fn chart(numbers)
+  span(max(numbers), 1)
+    $ getLine(numbers)
+    | join("\n")
+end
+
+fn getLine(threshold, numbers)
+  numbers
+    $ if arg >= threshold then "X" else " " end
+    | join("")
+end
+
+[1, 4, 2, 7, 3, 1]
+  | chart
+  | print

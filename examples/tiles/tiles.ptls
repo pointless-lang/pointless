@@ -1,8 +1,9 @@
 fn getMid(tile, next)
-  if next then
-    if tile then "│" else "┤" end
-  else
-    if tile then "├" else "┼" end
+  match [tile, next]
+    case [true, true]   then "│"
+    case [true, false]  then "├"
+    case [false, true]  then "┤"
+    case [false, false] then "┼"
   end
 end
 

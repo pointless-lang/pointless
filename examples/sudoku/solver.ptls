@@ -1,23 +1,4 @@
-board = import "easy-puzzle.ptls"
-
-rows = [[false] * 9] * 9
-cols = [[false] * 9] * 9
-blocks = [[[false] * 9] * 3] * 3
-
-for r, row in board do
-  for c, n in row do
-    if n > 0 then
-      i = n - 1
-      rows[r][i] = true
-      cols[c][i] = true
-      br = Math.floor(r / 3)
-      bc = Math.floor(c / 3)
-      blocks[br][bc][i] = true
-    end
-  end
-end
-
-fn solve(solver, r, c)
+fn runSolver(solver, r, c)
   if c == 9 then
     c = 0
     r += 1
@@ -29,7 +10,7 @@ fn solve(solver, r, c)
   end
 
   if solver.board[r][c] > 0 then
-    return solve(solver, r, c + 1)
+    return runSolver(solver, r, c + 1)
   end
 
   br = Math.floor(r / 3)
@@ -49,7 +30,7 @@ fn solve(solver, r, c)
       solver.cols[c][i] = true
       solver.blocks[br][bc][i] = true
 
-      solver |= solve(r, c + 1)
+      solver |= runSolver(r, c + 1)
 
       if solver.solved then
         return solver
@@ -63,6 +44,27 @@ fn solve(solver, r, c)
   end
 
   solver
+end
+
+fn solve(board)
+  rows = [[false] * 9] * 9
+  cols = [[false] * 9] * 9
+  blocks = [[[false] * 9] * 3] * 3
+
+  for r, row in board do
+    for c, n in row do
+      if n > 0 then
+        i = n - 1
+        rows[r][i] = true
+        cols[c][i] = true
+        br = Math.floor(r / 3)
+        bc = Math.floor(c / 3)
+        blocks[br][bc][i] = true
+      end
+    end
+  end
+
+  runSolver({ board, rows, cols, blocks, solved: false }, 0, 0)
 end
 
 fn showRow(row)
@@ -81,7 +83,19 @@ fn show(solver)
     | join("\n------+-------+------\n")
 end
 
-{ board, rows, cols, blocks, solved: false }
-  | solve(0, 0)
+board = [
+  [5, 3, 0, 0, 7, 0, 0, 0, 0],
+  [6, 0, 0, 1, 9, 5, 0, 0, 0],
+  [0, 9, 8, 0, 0, 0, 0, 6, 0],
+  [8, 0, 0, 0, 6, 0, 0, 0, 3],
+  [4, 0, 0, 8, 0, 3, 0, 0, 1],
+  [7, 0, 0, 0, 2, 0, 0, 0, 6],
+  [0, 6, 0, 0, 0, 0, 2, 8, 0],
+  [0, 0, 0, 4, 1, 9, 0, 0, 5],
+  [0, 0, 0, 0, 8, 0, 0, 7, 9],
+]
+
+board
+  | solve
   | show
   | print

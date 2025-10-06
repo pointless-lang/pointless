@@ -2,7 +2,7 @@ words = Set.of(import "lines:words.txt")
 answer = chars(Rand.sample(words))
 
 fn getScore(guess)
-  if not (guess in words) then
+  if not guess in words then
     return
   end
 

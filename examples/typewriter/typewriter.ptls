@@ -1,0 +1,10 @@
+fn display(message)
+  for c in chars(message) do
+    sleep(Rand.span(50, 250))
+    Console.write(c)
+  end
+
+  print("")
+end
+
+display("Hello world! Lorem ipsum dolor sit amet, consectetur adipisicing elit")

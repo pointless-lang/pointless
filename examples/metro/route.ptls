@@ -5,7 +5,7 @@ fn advance(state, network)
   state.queue |= drop(1)
 
   for child in network[station] do
-    if not (child in state.paths) then
+    if not child in state.paths then
       state.queue |= push(child)
       state.paths[child] = push(state.paths[station], child)
     end

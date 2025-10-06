@@ -1,0 +1,17 @@
+fn calcChange(cents)
+  coins = Table.of({
+    name: ["dollar", "quarter", "dime", "nickle", "penny"],
+    value: [100, 25, 10, 5, 1],
+    count: 0,
+  })
+
+  for coin in coins do
+    count = Math.floor(cents / coin.value)
+    coins[coin].count = count
+    cents -= count * coin.value
+  end
+
+  coins
+end
+
+print(calcChange(468))

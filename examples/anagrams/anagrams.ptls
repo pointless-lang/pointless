@@ -9,10 +9,6 @@ groups = import "lines:unixdict.txt"
   | List.groupBy(getChars)
   | Obj.values
 
-maxLen = groups
-  $ len
-  | max
-
 groups
-  ? len(arg) == maxLen
+  | List.maxAll(len)
   | print

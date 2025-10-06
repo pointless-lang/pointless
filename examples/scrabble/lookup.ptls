@@ -1,0 +1,20 @@
+points = import "json:points.json"
+words = import "lines:words.txt"
+
+fn wordInfo(word)
+  score = word
+    | chars
+    $ points[arg]
+    | sum
+
+  { word, score }
+end
+
+letters = prompt("Enter letters: ")
+
+words
+  ? List.hasAll(chars(arg), chars(letters))
+  $ wordInfo
+  | Table.of
+  | Table.maxBy("score")
+  | print

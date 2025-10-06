@@ -34,6 +34,6 @@ fn chart(values)
     | join("")
 end
 
-hailstone(7)
+hailstone(17)
   | chart
   | print

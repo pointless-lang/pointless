@@ -1,19 +1,17 @@
 cities = import "csv:cities.csv"
 
-cities
-  | select("state")
-  | Table.counts
-  | take(10)
-  | print
-
 cities.change = cities $ roundTo(arg.pop2024 / arg.pop2020 * 100 - 100, 2)
 
 cities.density = cities $ roundTo(arg.pop2024 / arg.area, 2)
+
+print("Biggest gain:")
 
 cities
   | Table.top("change", 10)
   | print
 
+print("Biggest loss:")
+
 cities
-  | Table.top("density", 10)
+  | Table.bottom("change", 10)
   | print

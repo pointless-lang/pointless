@@ -8,8 +8,8 @@ fn gcd(a, b)
 end
 
 fn new(n, d)
-  assert(num.isInt(n))
-  assert(num.isInt(d))
+  assert(Math.isInt(n))
+  assert(Math.isInt(d))
   assert(d != 0)
 
   factor = gcd(n, d)

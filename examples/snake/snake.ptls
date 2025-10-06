@@ -1,12 +1,11 @@
 size = 10
+deltaRef = Ref.of({ x: 1, y: 0 })
 
 fn newGoal()
   x = Rand.range(size)
   y = Rand.range(size)
   { x, y }
 end
-
-deltaRef = Ref.of({ x: 1, y: 0 })
 
 fn printBoard(board)
   border = "──" * size
@@ -40,7 +39,7 @@ fn render(game)
   printBoard(board)
 end
 
-fn moveHead(game)
+fn update(game)
   game.body |= push(game.head)
 
   if not game.growing then
@@ -53,37 +52,32 @@ fn moveHead(game)
 
   game.head.x += delta.x
   game.head.y += delta.y
-  game.head.x %= size
-  game.head.y %= size
-  
-  game
-end
 
-fn checkCollision(game)
-  if game.head in game.body then
+  if game.head in game.body or not inBounds(game.head) then
     game.playing = false
-    render(game)
+    return game
   end
-
-  game
-end
-
-fn atGoal(game)
-  game.goal == game.head or game.goal in game.body
-end
-
-fn checkGoal(game)
+  
   if atGoal(game) then
     game.growing = true
+    game.score += 1
 
     while atGoal(game) do
       game.goal = newGoal()
     end
-
-    game.score += 1
   end
 
+  render(game)
   game
+end
+
+fn inBounds(head)
+  head.x >= 0 and head.x < size and
+  head.y >= 0 and head.y < size
+end
+
+fn atGoal(game)
+  game.goal == game.head or game.goal in game.body
 end
 
 deltas = {
@@ -100,7 +94,7 @@ fn getInput()
   end
 end
 
-fn update()
+fn tick()
   game = {
     size,
     fps: 8,
@@ -113,12 +107,7 @@ fn update()
   }
 
   while game.playing do
-    game |= arg
-      | moveHead
-      | checkGoal
-      | checkCollision
-    
-    render(game)
+    game |= update
     sleep(1000 / game.fps)
   end
 
@@ -126,4 +115,4 @@ fn update()
   Console.pauseStdin()
 end
 
-Async.getFirst([getInput, update])
+Async.getFirst([getInput, tick])

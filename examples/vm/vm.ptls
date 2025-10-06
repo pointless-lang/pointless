@@ -32,10 +32,6 @@ binOps = Set.of([
   "add", "sub", "mul", "div", "mod", "eq", "gt", "lt", "and", "or"
 ])
 
-fn boolToNum(boolean)
-  if boolean then 1 else 0 end
-end
-
 fn binOp(op, a, b)
   match op
     case "add" then a + b
@@ -43,11 +39,11 @@ fn binOp(op, a, b)
     case "mul" then a * b
     case "div" then floor(a / b)
     case "mod" then a % b
-    case "eq"  then boolToNum(a == b)
-    case "gt"  then boolToNum(a > b)
-    case "lt"  then boolToNum(a < b)
-    case "and" then boolToNum(a != 0 and b != 0)
-    case "or"  then boolToNum(a != 0 or b != 0)
+    case "eq"  then Bool.toNum(a == b)
+    case "gt"  then Bool.toNum(a > b)
+    case "lt"  then Bool.toNum(a < b)
+    case "and" then Bool.toNum(a != 0 and b != 0)
+    case "or"  then Bool.toNum(a != 0 or b != 0)
   end
 end
 
@@ -64,7 +60,7 @@ fn runInst(vm, inst)
     | drop(1)
     $ evalArg(vm)
 
-  if has(binOps, op) then
+  if op in binOps then
     vm |= setReg(binOp(op, args[0], args[1]))
     vm.ip += 1
     return vm
@@ -74,7 +70,7 @@ fn runInst(vm, inst)
 
   match op
     case "not" then
-      vm |= setReg(boolToNum(args[0] == 0))
+      vm |= setReg(Bool.toNum(args[0] == 0))
     case "set" then
       vm |= setReg(args[1])
     case "jmp" then

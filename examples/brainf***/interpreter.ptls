@@ -1,4 +1,4 @@
-ops = chars(",>,[-<+>]<.")
+ops = chars(import "text:hello.bf")
 
 stack = []
 jumps = {}
@@ -15,7 +15,6 @@ end
 
 vm = {
   ops,
-  input: [7, 8],
   ip: 0,
   dp: 0,
   data: [0, 0, 0, 0, 0, 0, 0, 0],
@@ -31,10 +30,8 @@ fn runOp(vm)
     case "<" then vm.dp -= 1
     case "+" then vm.data[vm.dp] += 1
     case "-" then vm.data[vm.dp] -= 1
-    case "." then print(byte)
-    case "," then
-      vm.data[vm.dp] = vm.input[0]
-      vm.input |= drop(1)
+    case "." then Console.write(Char.of(byte))
+    case "," then Panic.unimplemented()
   end
 
   if op == "[" and byte == 0 or op == "]" and byte != 0 then

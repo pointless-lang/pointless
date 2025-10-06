@@ -17,6 +17,5 @@ end
 
 "abcd"
   | chars
-  | Set.of
   | subsets
   | print

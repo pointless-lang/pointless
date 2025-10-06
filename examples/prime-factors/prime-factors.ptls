@@ -1,8 +1,11 @@
 fn factors(num)
+  assert(Math.isInt(num))
+  assert(num > 1)
+
   div = 2
   result = []
 
-  while num > 1 do
+  while div <= Math.sqrt(num) do
     if num % div == 0 then
       result |= push(div)
       num /= div
@@ -11,7 +14,7 @@ fn factors(num)
     end
   end
 
-  result
+  push(result, num)
 end
 
 print(factors(60))
