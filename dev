@@ -1,0 +1,4 @@
+npm run build &
+npm run serve &
+sleep 2
+jobs
