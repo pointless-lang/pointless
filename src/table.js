@@ -379,6 +379,15 @@ export class Table {
     return new Table(data.map(im.List));
   }
 
+  repr(compact) {
+    if (compact) {
+      const inner = this.rows().map((row) => repr(row, true)).join(", ");
+      return `Table.of([${inner}])`;
+    }
+
+    return this.toString();
+  }
+
   toString() {
     const fmts = new Map();
 

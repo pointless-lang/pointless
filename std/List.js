@@ -425,11 +425,11 @@ export function count(list, value) {
   return list.count((elem) => im.is(elem, value));
 }
 
-export async function group(list, func) {
+export async function groupBy(list, func) {
   // Group each `value` in `list` according to `func(value)`.
   //
   // ```ptls
-  // List.group(
+  // List.groupBy(
   //   ["apple", "pear", "peach", "banana", "plum", "apricot", "orange"],
   //   fn(word) take(word, 1) end
   // )

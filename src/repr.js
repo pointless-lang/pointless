@@ -100,16 +100,8 @@ export function repr(value, compact = false) {
       return formatElems("{ ", " }", entryStrs, compact);
     }
 
-    case "table":
-      if (compact) {
-        const inner = [...value].map((row) => repr(row, true)).join(", ");
-        return `Table.of([${inner}])`;
-      }
-
-      return String(value);
-
     default:
-      return String(value);
+      return value?.repr ? value.repr(compact) : String(value);
   }
 }
 
