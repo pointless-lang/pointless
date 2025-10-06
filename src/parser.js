@@ -11,13 +11,20 @@ const identifier = ["name", ...keywords];
 // definition operators
 const def = ["=", "|=", "$=", "?=", "+=", "-=", "*=", "/=", "**=", "%="];
 
-// left-associative binary operators from lowest to highest precedence
+// operators from lowest to highest precedence
 const ops = [
-  ["or"],
-  ["and"],
-  ["in", "==", "!=", "<", "<=", ">", ">="],
-  ["+", "-"],
-  ["*", "/", "%"],
+  { type: "binary", assoc: "left", symbols: ["or"] },
+  { type: "binary", assoc: "left", symbols: ["and"] },
+  { type: "unary", symbols: ["not"] },
+  {
+    type: "binary",
+    assoc: "left",
+    symbols: ["in", "==", "!=", "<", "<=", ">", ">="],
+  },
+  { type: "binary", assoc: "left", symbols: ["+", "-"] },
+  { type: "binary", assoc: "left", symbols: ["*", "/", "%"] },
+  { type: "binary", assoc: "right", symbols: ["**"] },
+  { type: "unary", symbols: ["-"] },
 ];
 
 const escapeSeq = /\\["\\nrt]|\\u{([\dA-Fa-f]{1,6})}/g;
@@ -683,16 +690,6 @@ class Parser {
     return new Node("import", loc, path);
   }
 
-  getUnary() {
-    if (this.has("-", "not")) {
-      const { type, loc } = this.get("-", "not");
-      const rhs = this.getSuffix();
-      return new Node("unaryOp", loc, { op: type, rhs });
-    }
-
-    return this.getSuffix();
-  }
-
   getPrefix() {
     switch (this.peek().type) {
       case "fn":
@@ -704,46 +701,45 @@ class Parser {
       case "import":
         return this.getImport();
       default:
-        return this.getUnary();
+        return this.getSuffix();
     }
   }
 
-  getPow() {
-    // get initial operand
-    const hasParen = this.has("(");
-    let lhs = this.getPrefix();
-
-    while (this.has("**")) {
-      const { loc } = this.get("**");
-      // right-associative operator uses direct recursive call
-      const rhs = this.getPow();
-
-      if (lhs.value.op === "-" && !hasParen) {
-        throw new Panic(
-          "exponentiation of negated operand requires parentheses",
-          {},
-          lhs.loc,
-        );
-      }
-
-      lhs = new Node("binaryOp", loc, { op: "**", lhs, rhs });
-    }
-
-    return lhs;
-  }
-
-  getLeftAssoc(precedence = 0) {
+  getOp(precedence = 0) {
     // https://en.wikipedia.org/wiki/Operator-precedence_parser#Pratt_parsing
     if (precedence === ops.length) {
       // base case
-      return this.getPow();
+      return this.getPrefix();
     }
 
-    // get initial operand
-    let lhs = this.getLeftAssoc(precedence + 1);
-    const types = ops[precedence];
+    const { type, assoc, symbols } = ops[precedence];
 
-    while (this.has(...types)) {
+    if (type === "unary") {
+      if (this.has(...symbols)) {
+        const { type: op, loc } = this.get(...symbols);
+        const rhs = this.getOp(precedence + 1);
+        return new Node("unaryOp", loc, { op, rhs });
+      }
+
+      return this.getOp(precedence + 1);
+    }
+
+    const hasParen = this.has("(");
+
+    // get initial operand
+    let lhs = this.getOp(precedence + 1);
+
+    if (this.has("**") && lhs.value.op === "-" && !hasParen) {
+      throw new Panic(
+        "exponentiation of negated operand requires parentheses",
+        {},
+        lhs.loc,
+      );
+    }
+
+    while (this.has(...symbols)) {
+      // Subtraction needs whitespace before second operand to differentiate
+      // from negation
       if (
         this.has("-") &&
         !(this.hasMulti("-", "whitespace") || this.hasMulti("-", "newline"))
@@ -751,9 +747,13 @@ class Parser {
         break;
       }
 
-      const { type: op, loc } = this.get(...types);
-      // left-associative operator gets +1 precedence
-      const rhs = this.getLeftAssoc(precedence + 1);
+      const { type: op, loc } = this.get(...symbols);
+
+      // left-associative operators and unary gets +1 precedence
+      const rhs = assoc === "left"
+        ? this.getOp(precedence + 1)
+        : this.getOp(precedence);
+
       lhs = new Node("binaryOp", loc, { op, lhs, rhs });
     }
 
@@ -789,11 +789,11 @@ class Parser {
 
   getExpression() {
     // get initial operand
-    let lhs = this.getLeftAssoc();
+    let lhs = this.getOp();
 
     while (this.has("|", "$", "?")) {
       const op = this.get("|", "$", "?");
-      lhs = this.getChain(lhs, this.getLeftAssoc, op);
+      lhs = this.getChain(lhs, this.getOp, op);
     }
 
     return lhs;
