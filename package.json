@@ -2,8 +2,8 @@
   "type": "module",
   "scripts": {
     "build": "node --watch-path=. site/build-scripts/build.js",
-    "fmt": "deno fmt --ignore=dist; node utils/formatStd.js",
-    "lint": "deno lint --ignore=dist; stylelint site/static/css/* notebook/*.css",
+    "fmt": "deno fmt; node utils/formatStd.js",
+    "lint": "deno lint; stylelint site/static/css/* notebook/*.css",
     "serve": "serve --config site/serve.json"
   },
   "devDependencies": {
