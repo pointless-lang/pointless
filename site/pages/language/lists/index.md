@@ -21,15 +21,50 @@ Important list-related functions include:
 See the standard library [List module](/stdlib/List) for more built-in functions
 for working with lists.
 
-## 
+## Lists
 
-- lists
-- list merge
-- list repeat
-- map list
-- filter list
-- update index
+```ptls
+states = ["CT", "MA", "ME", "NH", "RI", "VT"]
+```
 
-- index
-- negative indices
-- field access
+```ptls
+states[0]
+states[1]
+```
+
+```ptls
+states[-1]
+states[-2]
+```
+
+```ptls
+states[1] = "Massocheichei"
+states[-1] += "!"
+```
+
+## Map Operator
+
+```ptls
+["Jan", "Feb", "Mar", "Apr", "May", "June"] $ Str.toUpper
+span(0, 10) $ 2 ** arg
+```
+
+## Filter Operator
+
+```ptls
+["Jan", "Feb", "Mar", "Apr", "May", "June"] ? Str.startsWith("J")
+span(0, 10) ? Math.isOdd
+```
+
+## Concatenation
+
+```ptls
+["Jan", "Feb", "Mar"] + ["Apr", "May", "June"]
+```
+
+## Repetition
+
+```ptls
+[0] * 5
+["do", "re", "mi"] * 2
+```
