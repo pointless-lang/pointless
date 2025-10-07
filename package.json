@@ -1,5 +1,8 @@
 {
+  "name": "pointless",
+  "version": "0.2.0",
   "type": "module",
+  "main": "ptls.js",
   "scripts": {
     "build": "node --watch-path=. site/build-scripts/build.js",
     "fmt": "deno fmt; node utils/formatStd.js",
