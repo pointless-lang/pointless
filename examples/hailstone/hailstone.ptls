@@ -1,9 +1,5 @@
 fn step(n)
-  if n % 2 == 0 then
-    n / 2
-  else
-    n * 3 + 1
-  end
+  if n % 2 == 0 then n / 2 else n * 3 + 1 end
 end
 
 fn hailstone(n)
@@ -19,21 +15,17 @@ end
 
 bars = chars("▁▂▃▄▅▆▇█")
 
-fn scale(n, maxVal)
-  8 * (n - 1) / (maxVal - 1)
-end
-
-fn getBar(scaled)
+fn getBar(n, maxVal)
+  scaled = 8 * (n - 1) / (maxVal - 1)
   bars[Math.min(Math.floor(scaled), 7)]
 end
 
 fn chart(values)
   values
-    $ scale(max(values))
-    $ getBar
+    $ getBar(max(values))
     | join("")
 end
 
-hailstone(17)
+hailstone(78)
   | chart
   | print

@@ -10,11 +10,11 @@ fn wordInfo(word)
   { word, score }
 end
 
-letters = prompt("Enter letters: ")
+letters = "pointlesslanguage"
 
 words
-  ? List.hasAll(chars(arg), chars(letters))
+  ? List.hasAll(chars(letters), chars(arg))
   $ wordInfo
   | Table.of
-  | Table.maxBy("score")
+  | Table.top("score", 5)
   | print
