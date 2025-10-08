@@ -5,7 +5,7 @@ fn render(x0, y0)
   x = x0
   y = y0
 
-  while x ** 2 + y ** 2 < 4 and iters < len(symbols) - 1 do
+  while x ** 2 + y ** 2 <= 4 and iters < len(symbols) - 1 do
     xTmp = x ** 2 - y ** 2 + x0
     y = 2 * x * y + y0
     x = xTmp
