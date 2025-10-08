@@ -7,25 +7,14 @@
     "serve": "serve --config site/serve.json"
   },
   "devDependencies": {
-    "@prettier/sync": "^0.6.1",
-    "command-line-args": "^6.0.1",
-    "csv-parse": "^5.6.0",
-    "gray-matter": "^4.0.3",
-    "marked": ">=15",
-    "marked-highlight": "^2.2.1",
-    "serve": "^14.2.4",
-    "stylelint": "^16.23.0",
-    "stylelint-config-standard": "^39.0.0"
-  },
-  "stylelint": {
-    "extends": "stylelint-config-standard",
-    "rules": {
-      "font-family-name-quotes": null,
-      "no-descending-specificity": null
-    }
+    "@prettier/sync": "^0.6.1"
   },
   "dependencies": {
+    "command-line-args": "^6.0.1",
+    "csv-parse": "^5.6.0",
     "immutable": "file:./immutable/immutable.js",
+    "marked": ">=15",
+    "marked-highlight": "^2.2.1",
     "sharp": "^0.34.4",
     "ws": "^8.18.3"
   }
