@@ -2,10 +2,6 @@
 
 **A Language for Learning**
 
-<a href="https://github.com/pointless-lang/pointless/blob/main/examples/hailstone/hailstone.ptls">
-  <img src="demo.png" alt="Hailstone sequence demo code">
-</a>
-
 ```ptls
 fn step(n)
   if n % 2 == 0 then n / 2 else n * 3 + 1 end
@@ -42,4 +38,12 @@ hailstone(78)
 
 ```
 ▃▂▄▂▅▃█▄▂▆▃█▄▂▁▁▂▁▃▂▁▁▁▁▂▁▁▂▁▁▁▁▁▁▁▁
+```
+
+## Installing
+
+Using [Node.js with npm](https://nodejs.org/en/download):
+
+```
+npm install --global https://github.com/pointless-lang/pointless/
 ```
