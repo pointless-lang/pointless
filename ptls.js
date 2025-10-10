@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { getImport } from "./src/import.js";
 import { Panic } from "./src/panic.js";
 import { repl } from "./src/repl.js";

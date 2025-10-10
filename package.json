@@ -2,7 +2,9 @@
   "name": "pointless",
   "version": "0.2.0",
   "type": "module",
-  "main": "ptls.js",
+  "bin": {
+    "ptls": "ptls.js"
+  },
   "scripts": {
     "fmt": "deno fmt; node utils/formatStd.js",
     "lint": "deno lint"
