@@ -34,15 +34,7 @@ pre.wrap code {
   margin-top: 8px;
 }
 
-.result .var-name {
-  font-size: 0.9rem;
-  color: #777;
-  font-weight: bold;
-  margin: -10px;
-  padding: 10px 10px 14px;
-}
-
-.panic {
+.snippet .panic {
   background-color: #fee4e4;
   border-color: #f1c1c1;
 }

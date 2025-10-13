@@ -100,7 +100,7 @@ async function renderCode(code, config, filePath, env) {
               const value = env.lookup(name);
 
               finalDef = h`
-                <pre $${attrs}><code><div class="var-name">${name}</div>${
+                <pre $${attrs}><code></div>${name} = ${
                 display(value)
               }</code></pre>
               `;
