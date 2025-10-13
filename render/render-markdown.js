@@ -99,9 +99,9 @@ async function renderCode(code, config, filePath, env) {
               const name = statement.value.name;
               const value = env.lookup(name);
 
-              finalDef = h`
-                <pre $${attrs}><code>${name} = ${display(value)}</code></pre>
-              `;
+              finalDef = h`<pre $${attrs}><code>${name} =\n${
+                display(value)
+              }</code></pre>`;
             }
 
             break;
