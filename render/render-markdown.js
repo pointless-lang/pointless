@@ -62,11 +62,11 @@ async function renderCode(code, config, filePath, env) {
 
     const echo = !config["no-echo"] && config["spoof"] === undefined;
 
-    const maxHeight = config["max-height"] &&
-      `max-height: ${config["max-height"]}px;`;
+    const style = config["max-height"] &&
+      `style="max-height: ${config["max-height"]}px;"`;
 
     const wrap = config["wrap"] ? "wrap" : "";
-    const attrs = h`class="result ${wrap}" style="${maxHeight}"`;
+    const attrs = h`class="result ${wrap}" $${style}`;
     const results = [];
 
     let statements;
