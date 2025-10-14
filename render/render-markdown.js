@@ -59,7 +59,7 @@ async function renderCode(code, config, filePath, env) {
       ? (value) => show(value, config["compact"])
       : (value) => repr(value, config["compact"]);
 
-    const echo = !config["no-echo"];
+    const echo = !config["no-echo"] && config["spoof"] === undefined;
 
     const maxHeight = config["max-height"] &&
       `max-height: ${config["max-height"]}px;`;
@@ -121,6 +121,8 @@ async function renderCode(code, config, filePath, env) {
 
     if (results.length) {
       resultLines = h`<pre $${attrs}><code>${results.join("")}</code></pre>`;
+    } else if (config["spoof"]) {
+      resultLines = h`<pre $${attrs}><code>${config["spoof"]}</code></pre>`;
     }
   }
 
@@ -143,6 +145,7 @@ const options = [
   { name: "no-eval", type: Boolean },
   { name: "panics", type: Boolean },
   { name: "raw", type: Boolean },
+  { name: "spoof", type: String },
   { name: "wrap", type: Boolean },
 ];
 

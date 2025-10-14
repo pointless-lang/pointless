@@ -7,7 +7,7 @@ import im from "../immutable/immutable.js";
 export function random() {
   // Get a random fractional number between `0` and `1`.
   //
-  // ```ptls
+  // ```ptls --spoof 0.3742091256146767
   // Rand.random()
   // ```
 
@@ -17,7 +17,7 @@ export function random() {
 export function bool() {
   // Get `true` or `false`, chosen at random.
   //
-  // ```ptls
+  // ```ptls --spoof true
   // Rand.bool()
   // ```
 
@@ -28,7 +28,7 @@ export function sample(values) {
   // Return a random element from `values`, where `values` is a list, table, or
   // set.
   //
-  // ```ptls
+  // ```ptls --spoof spades
   // Rand.sample(["hearts", "diamonds", "clubs", "spades"])
   // ```
 
@@ -51,7 +51,7 @@ export function sample(values) {
 export function span(from, to) {
   // Return a random integer between `from` and `to`, inclusive.
   //
-  // ```ptls
+  // ```ptls --spoof 5
   // Rand.span(1, 10)
   // ```
 
@@ -67,7 +67,7 @@ export function span(from, to) {
 export function range(limit) {
   // Return a random integer between `0` and `limit - 1`, inclusive.
   //
-  // ```ptls
+  // ```ptls --spoof 8
   // Rand.range(10)
   // ```
 
