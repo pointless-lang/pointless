@@ -79,7 +79,7 @@ export function range(limit) {
 export function shuffle(values) {
   // Shuffles `values`, where values is a list or table.
   //
-  // ```ptls
+  // ```ptls --spoof [3, 2, 4, 1]
   // Rand.shuffle([1, 2, 3, 4])
   // ```
 
