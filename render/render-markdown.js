@@ -7,6 +7,7 @@ import { repr, show } from "../src/repr.js";
 import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
 import commandLineArgs from "command-line-args";
+import { parseArgsStringToArgv } from 'string-argv';
 
 function logErr(err, config) {
   if (!config["panics"]) {
@@ -198,7 +199,7 @@ export async function renderMarkdown(filePath, source) {
     async: true,
     async highlight(code, lang, info) {
       const config = commandLineArgs(options, {
-        argv: info.split(" ").slice(1),
+        argv: parseArgsStringToArgv(info).slice(1),
       });
 
       if (lang === "ptls") {
