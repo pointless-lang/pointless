@@ -49,7 +49,7 @@ async function renderCode(code, config, filePath, env) {
   const source = !config["hide"] &&
     h`<pre><code class="ptls">$${highlight(tokens)}</code></pre>`;
 
-  let resultLines = "";
+  let resultStr = "";
   let finalDef = "";
   let panic = "";
 
@@ -116,17 +116,27 @@ async function renderCode(code, config, filePath, env) {
       }
     }
 
-    if (results.length || finalDef !== undefined) {
-      resultLines = h`<pre $${attrs}><code>${results.join("")}${finalDef}</code></pre>`;
+    resultStr = results.join("");
+
+    if (finalDef !== undefined) {
+      if (resultStr && !resultStr.endsWith("\n")) {
+        resultStr += "\n";
+      }
+
+      resultStr += display(finalDef);
+    }
+
+    if (resultStr) {
+      resultStr = h`<pre $${attrs}><code>${resultStr}</code></pre>`;
     } else if (config["spoof"]) {
-      resultLines = h`<pre $${attrs}><code>${config["spoof"]}</code></pre>`;
+      resultStr = h`<pre $${attrs}><code>${config["spoof"]}</code></pre>`;
     }
   }
 
   return h`
     <div class="snippet ${config.class}">
       $${source}
-      $${resultLines}
+      $${resultStr}
       $${panic}
     </div>`;
 }
