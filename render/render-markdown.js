@@ -82,7 +82,7 @@ async function renderCode(code, config, filePath, env) {
     for (const statement of statements) {
       try {
         const result = await env.eval(statement);
-        finalDef = "";
+        finalDef = undefined;
 
         if (shimConsole.output.length) {
           results.push(shimConsole.getOutput());
@@ -98,11 +98,7 @@ async function renderCode(code, config, filePath, env) {
           case "def":
             if (echo && statement.value.rhs.type !== "fn") {
               const name = statement.value.name;
-              const value = env.lookup(name);
-
-              finalDef = h`<pre $${attrs}><code>${name} =\n${
-                display(value)
-              }</code></pre>`;
+              finalDef = env.lookup(name);
             }
 
             break;
@@ -115,13 +111,13 @@ async function renderCode(code, config, filePath, env) {
       } catch (err) {
         logErr(err, config);
         panic = h`<pre class="result panic"><code>${err}</code></pre>`;
-        finalDef = "";
+        finalDef = undefined;
         break;
       }
     }
 
-    if (results.length) {
-      resultLines = h`<pre $${attrs}><code>${results.join("")}</code></pre>`;
+    if (results.length || finalDef !== undefined) {
+      resultLines = h`<pre $${attrs}><code>${results.join("")}${finalDef}</code></pre>`;
     } else if (config["spoof"]) {
       resultLines = h`<pre $${attrs}><code>${config["spoof"]}</code></pre>`;
     }
@@ -131,7 +127,6 @@ async function renderCode(code, config, filePath, env) {
     <div class="snippet ${config.class}">
       $${source}
       $${resultLines}
-      $${finalDef}
       $${panic}
     </div>`;
 }
