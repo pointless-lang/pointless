@@ -7,7 +7,7 @@ import { repr, show } from "../src/repr.js";
 import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
 import commandLineArgs from "command-line-args";
-import { parseArgsStringToArgv } from 'string-argv';
+import { parseArgsStringToArgv } from "string-argv";
 
 function logErr(err, config) {
   if (!config["panics"]) {
@@ -82,7 +82,7 @@ async function renderCode(code, config, filePath, env) {
     for (const statement of statements) {
       try {
         const result = await env.eval(statement);
-        finalDef = undefined;
+        finalDef = "";
 
         if (shimConsole.output.length) {
           results.push(shimConsole.getOutput());
@@ -98,7 +98,13 @@ async function renderCode(code, config, filePath, env) {
           case "def":
             if (echo && statement.value.rhs.type !== "fn") {
               const name = statement.value.name;
-              finalDef = env.lookup(name);
+              const value = env.lookup(name);
+
+              finalDef = h`
+                <pre $${attrs}><div class="var-name">${name} =</div><code>${
+                display(value)
+              }</code></pre>
+              `;
             }
 
             break;
@@ -111,23 +117,13 @@ async function renderCode(code, config, filePath, env) {
       } catch (err) {
         logErr(err, config);
         panic = h`<pre class="result panic"><code>${err}</code></pre>`;
-        finalDef = undefined;
+        finalDef = "";
         break;
       }
     }
 
-    resultStr = results.join("");
-
-    if (finalDef !== undefined) {
-      if (resultStr && !resultStr.endsWith("\n")) {
-        resultStr += "\n";
-      }
-
-      resultStr += display(finalDef);
-    }
-
-    if (resultStr) {
-      resultStr = h`<pre $${attrs}><code>${resultStr}</code></pre>`;
+    if (results.length) {
+      resultStr = h`<pre $${attrs}><code>${results.join("")}</code></pre>`;
     } else if (config["spoof"]) {
       resultStr = h`<pre $${attrs}><code>${config["spoof"]}</code></pre>`;
     }
@@ -137,6 +133,7 @@ async function renderCode(code, config, filePath, env) {
     <div class="snippet ${config.class}">
       $${source}
       $${resultStr}
+      $${finalDef}
       $${panic}
     </div>`;
 }

@@ -1118,7 +1118,7 @@ export async function summarize(table, columns, reducer) {
 
 export function counts(table) {
   // Return a table containing deduplicated rows of `table`. Each row will have
-  // two additional entries `count` and `share`, which will contain the number
+  // two additional entries, `count` and `share`, which will contain the number
   // of copies of each row in the original table, and the fraction of the total
   // rows that this count represents. The original table may not contain columns
   // named `count` or `share`.
