@@ -4,9 +4,7 @@ import { checkIndex } from "./list.js";
 import { checkKey } from "./obj.js";
 import { checkNumResult, checkWhole } from "./num.js";
 import { show } from "./repr.js";
-import { getImport } from "./import.js";
 import { Panic } from "./panic.js";
-import { dirname } from "node:path";
 import im from "../immutable/immutable.js";
 
 export class Returner {
@@ -16,9 +14,10 @@ export class Returner {
 }
 
 export class Env {
-  constructor(parent, defs, locals = new Set()) {
+  constructor(parent, defs, runtime, locals = new Set()) {
     this.parent = parent;
     this.defs = defs;
+    this.runtime = runtime;
     this.locals = locals;
     // used to evaluate compound assignments
     // for example: `x += 1` gets transformed into `x = prev + 1`
@@ -28,7 +27,7 @@ export class Env {
   }
 
   spawn(defs = new Map(), locals = new Set()) {
-    return new Env(this, defs, locals);
+    return new Env(this, defs, this.runtime, locals);
   }
 
   snapshot() {
@@ -53,7 +52,7 @@ export class Env {
       .map((defs) => [...defs])
       .flat();
 
-    return new Env(undefined, new Map(entries));
+    return new Env(null, new Map(entries), this.runtime);
   }
 
   setBlame(loc) {
@@ -182,7 +181,7 @@ export class Env {
       case "access":
         return this.evalAccess(node);
       case "import":
-        return await getImport(dirname(node.loc.path), node.value);
+        return await this.runtime.importer.get(node.loc.path, node.value);
       default:
         throw new Error("node.type: " + node.type);
     }

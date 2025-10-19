@@ -1,7 +1,7 @@
-import { show } from "../src/repr.js";
-import { checkType } from "../src/values.js";
-import { checkWhole } from "../src/num.js";
-import { Panic } from "../src/panic.js";
+import { show } from "../lang/repr.js";
+import { checkType } from "../lang/values.js";
+import { checkWhole } from "../lang/num.js";
+import { Panic } from "../lang/panic.js";
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { Buffer } from "node:buffer";

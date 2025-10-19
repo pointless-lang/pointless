@@ -1,10 +1,10 @@
-import { checkType, compareAll, getType } from "../src/values.js";
-import { checkWhole } from "../src/num.js";
+import { checkType, compareAll, getType } from "../lang/values.js";
+import { checkWhole } from "../lang/num.js";
 import * as obj from "./Obj.js";
 import * as List from "./List.js";
-import { Table } from "../src/table.js";
-import { repr } from "../src/repr.js";
-import { Panic } from "../src/panic.js";
+import { Table } from "../lang/table.js";
+import { repr } from "../lang/repr.js";
+import { Panic } from "../lang/panic.js";
 import im from "../immutable/immutable.js";
 
 function flattenCols(table, columns) {

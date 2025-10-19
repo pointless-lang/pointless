@@ -1,5 +1,5 @@
-import { checkType } from "../src/values.js";
-import { Panic } from "../src/panic.js";
+import { checkType } from "../lang/values.js";
+import { Panic } from "../lang/panic.js";
 
 export function raise(message) {
   // Raise a panic with the given `message` string.

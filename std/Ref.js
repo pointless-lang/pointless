@@ -1,5 +1,5 @@
-import { Ref } from "../src/ref.js";
-import { checkType } from "../src/values.js";
+import { Ref } from "../lang/ref.js";
+import { checkType } from "../lang/values.js";
 
 export function of(value) {
   // Create a mutable reference containing `value`.

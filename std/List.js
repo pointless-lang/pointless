@@ -1,9 +1,9 @@
 import * as tableMod from "./Table.js";
-import { checkNumResult, checkPositive, checkWhole } from "../src/num.js";
-import { checkIndex, checkNonEmpty } from "../src/list.js";
-import { checkType, compare } from "../src/values.js";
-import { Table } from "../src/table.js";
-import { Panic } from "../src/panic.js";
+import { checkNumResult, checkPositive, checkWhole } from "../lang/num.js";
+import { checkIndex, checkNonEmpty } from "../lang/list.js";
+import { checkType, compare } from "../lang/values.js";
+import { Table } from "../lang/table.js";
+import { Panic } from "../lang/panic.js";
 import im from "../immutable/immutable.js";
 
 export function of(values) {

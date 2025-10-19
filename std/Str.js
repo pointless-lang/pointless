@@ -1,8 +1,8 @@
-import { checkType } from "../src/values.js";
-import { checkPositive, checkWhole } from "../src/num.js";
-import { checkIndex } from "../src/list.js";
-import { show } from "../src/repr.js";
-import { Panic } from "../src/panic.js";
+import { checkType } from "../lang/values.js";
+import { checkPositive, checkWhole } from "../lang/num.js";
+import { checkIndex } from "../lang/list.js";
+import { show } from "../lang/repr.js";
+import { Panic } from "../lang/panic.js";
 import im from "../immutable/immutable.js";
 
 export function of(value) {

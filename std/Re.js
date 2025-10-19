@@ -1,6 +1,6 @@
-import { checkType } from "../src/values.js";
-import { show } from "../src/repr.js";
-import { Table } from "../src/table.js";
+import { checkType } from "../lang/values.js";
+import { show } from "../lang/repr.js";
+import { Table } from "../lang/table.js";
 import im from "../immutable/immutable.js";
 
 const cache = new Map();

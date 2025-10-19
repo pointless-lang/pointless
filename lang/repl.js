@@ -1,9 +1,8 @@
 import { getLine } from "./prompt.js";
-import { parse } from "../src/parser.js";
-import { tokenize } from "../src/tokenizer.js";
-import { repr } from "../src/repr.js";
-import { Panic } from "../src/panic.js";
-import { spawnStd } from "../src/std.js";
+import { parse } from "../lang/parser.js";
+import { tokenize } from "../lang/tokenizer.js";
+import { repr } from "../lang/repr.js";
+import { Panic } from "../lang/panic.js";
 
 // This repl doesn't support multi line statements or expressions.
 // It should but it's limited by the behavior of node's readline functionality.
@@ -61,16 +60,16 @@ import { spawnStd } from "../src/std.js";
 
 // To Do: add commands: exit, run, ls, cd
 
-const env = await spawnStd();
+export async function repl(runtime) {
+  const env = runtime.std.spawn();
 
-export async function repl() {
   // very silly default behavior from eslint here imo
   // https://github.com/eslint/eslint/issues/5477
   // eslint-disable-next-line no-constant-condition
   while (true) {
     try {
       const input = await getLine(">> ");
-      await runInput(input);
+      await runInput(env, input);
     } catch (err) {
       if (err instanceof Panic) {
         if (err.message === "EOF interrupt") {
@@ -85,7 +84,7 @@ export async function repl() {
   }
 }
 
-async function runInput(input) {
+async function runInput(env, input) {
   const statements = parse(tokenize("repl", input));
 
   // mimic Python repl behavior of handling multiple

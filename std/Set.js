@@ -1,4 +1,4 @@
-import { checkType } from "../src/values.js";
+import { checkType } from "../lang/values.js";
 import im from "../immutable/immutable.js";
 
 export function of(values) {

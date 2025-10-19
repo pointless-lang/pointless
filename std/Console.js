@@ -1,7 +1,7 @@
-import { repr, show } from "../src/repr.js";
-import { checkType } from "../src/values.js";
-import { Panic } from "../src/panic.js";
-import { getLine } from "../src/prompt.js";
+import { repr, show } from "../lang/repr.js";
+import { checkType } from "../lang/values.js";
+import { Panic } from "../lang/panic.js";
+import { getLine } from "../lang/prompt.js";
 import { emitKeypressEvents } from "node:readline";
 import { stdin, stdout } from "node:process";
 import im from "../immutable/immutable.js";

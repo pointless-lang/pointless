@@ -1,4 +1,4 @@
-import { Panic } from "../src/panic.js";
+import { Panic } from "../lang/panic.js";
 import { createInterface } from "node:readline";
 import { stdin, stdout } from "node:process";
 import { readFile, writeFile } from "node:fs/promises";

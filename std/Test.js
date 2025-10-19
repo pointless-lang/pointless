@@ -1,6 +1,6 @@
-import { checkType } from "../src/values.js";
-import { Panic } from "../src/panic.js";
-import { Err } from "../src/err.js";
+import { checkType } from "../lang/values.js";
+import { Panic } from "../lang/panic.js";
+import { Err } from "../lang/err.js";
 import im from "../immutable/immutable.js";
 
 export function assert(predicate) {

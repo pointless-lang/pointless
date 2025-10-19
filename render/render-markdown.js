@@ -1,9 +1,11 @@
 import { highlight } from "./highlight.js";
 import { h } from "./escape.js";
-import { shimConsole, spawnDocStd } from "./doc-std.js";
-import { tokenize } from "../src/tokenizer.js";
-import { parse } from "../src/parser.js";
-import { repr, show } from "../src/repr.js";
+import { impl, shimConsole } from "./doc-impl.js";
+import { loader } from "../runtime/loader.js";
+import { Runtime } from "../runtime/runtime.js";
+import { tokenize } from "../lang/tokenizer.js";
+import { parse } from "../lang/parser.js";
+import { repr, show } from "../lang/repr.js";
 import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
 import commandLineArgs from "command-line-args";
@@ -193,7 +195,7 @@ export async function renderMarkdown(filePath, source) {
     return queue;
   }
 
-  const env = await spawnDocStd();
+  const env = new Runtime(impl, loader).std.spawn();
   const marked = new Marked();
 
   const highlighter = markedHighlight({

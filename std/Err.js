@@ -1,5 +1,5 @@
-import { checkType } from "../src/values.js";
-import { Err } from "../src/err.js";
+import { checkType } from "../lang/values.js";
+import { Err } from "../lang/err.js";
 
 // In Pointless, errors are normal values which are raised and handled using a
 // special control flow.

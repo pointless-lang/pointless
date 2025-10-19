@@ -1,12 +1,16 @@
 #!/usr/bin/env node
 
-import { getImport } from "./src/import.js";
-import { Panic } from "./src/panic.js";
-import { repl } from "./src/repl.js";
+import { impl } from "./runtime/impl.js";
+import { loader } from "./runtime/loader.js";
+import { Runtime } from "./runtime/runtime.js";
+import { Panic } from "./lang/panic.js";
+import { repl } from "./lang/repl.js";
 import { serve } from "./notebook/serve.js";
 import commandLineArgs from "command-line-args";
 
 async function run(config) {
+  const runtime = new Runtime(impl, loader);
+
   try {
     if (config.notebook) {
       serve(config.file, config.port);
@@ -14,11 +18,11 @@ async function run(config) {
     }
 
     if (config.file) {
-      await getImport(config.file, "./");
+      await runtime.importer.get("./", config.file);
       return;
     }
 
-    await repl();
+    await repl(runtime);
   } catch (err) {
     if (err instanceof Panic) {
       console.log(String(err));

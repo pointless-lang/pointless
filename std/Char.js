@@ -1,7 +1,7 @@
-import { checkType } from "../src/values.js";
-import { checkPositive, checkWhole } from "../src/num.js";
+import { checkType } from "../lang/values.js";
+import { checkPositive, checkWhole } from "../lang/num.js";
 import * as List from "./List.js";
-import { Panic } from "../src/panic.js";
+import { Panic } from "../lang/panic.js";
 
 // Pointless does not have a dedicated character type; single-character strings
 // are used instead. The \`Char\` module provides functions for working with

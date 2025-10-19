@@ -1,6 +1,6 @@
-import { checkType } from "../src/values.js";
-import { checkNumResult, checkPositive, checkWhole } from "../src/num.js";
-import { Panic } from "../src/panic.js";
+import { checkType } from "../lang/values.js";
+import { checkNumResult, checkPositive, checkWhole } from "../lang/num.js";
+import { Panic } from "../lang/panic.js";
 
 export const pi = Math.PI;
 export const tau = pi * 2;

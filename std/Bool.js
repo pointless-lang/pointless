@@ -1,4 +1,4 @@
-import { checkType } from "../src/values.js";
+import { checkType } from "../lang/values.js";
 
 export function toNum(boolean) {
   // Convert `true` to `1` and `false` to `0`.

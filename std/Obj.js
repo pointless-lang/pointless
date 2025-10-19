@@ -1,5 +1,5 @@
-import { checkType, getType } from "../src/values.js";
-import { checkKey, isMatch } from "../src/obj.js";
+import { checkType, getType } from "../lang/values.js";
+import { checkKey, isMatch } from "../lang/obj.js";
 import im from "../immutable/immutable.js";
 
 export function of(value) {

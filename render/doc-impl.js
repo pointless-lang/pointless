@@ -1,0 +1,70 @@
+import { checkType, getType } from "../lang/values.js";
+import { Func } from "../lang/func.js";
+import { Panic } from "../lang/panic.js";
+import { repr, show } from "../lang/repr.js";
+import { impl as baseImpl } from "../runtime/impl.js";
+
+function handleUnavailable() {
+  throw new Panic("not available in docs mode");
+}
+
+function exclude(mod) {
+  for (const [name, value] of Object.entries(mod)) {
+    if (getType(value) === "function") {
+      mod[name] = new Func(handleUnavailable, value.name, value.params);
+    }
+  }
+}
+
+export const impl = {};
+
+for (const [modName, mod] of Object.entries(baseImpl)) {
+  impl[modName] = { ...mod };
+}
+
+exclude(impl.Async);
+exclude(impl.Console);
+exclude(impl.Fs);
+
+export const shimConsole = {
+  output: [],
+  inputs: [],
+
+  print(string, end = "\n") {
+    this.output.push(string + end);
+  },
+
+  getOutput() {
+    const result = this.output.join("");
+    this.output = [];
+    return result;
+  },
+};
+
+impl.Console.write = (value) => {
+  checkType(value, "string");
+  shimConsole.print(value, "");
+  return value;
+};
+
+impl.Console.error = (value) => {
+  shimConsole.print(show(value));
+  return value;
+};
+
+impl.Console.print = (value) => {
+  shimConsole.print(show(value));
+  return value;
+};
+
+impl.Console.debug = (value) => {
+  shimConsole.print(repr(value));
+  return value;
+};
+
+impl.Console.prompt = (message) => {
+  checkType(message, "string");
+  const input = shimConsole.inputs.shift() ?? "";
+  shimConsole.output.push(`${message}${input}\n`);
+  return input;
+};
