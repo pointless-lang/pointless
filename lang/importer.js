@@ -8,7 +8,8 @@ import im from "../immutable/immutable.js";
 const prefixChars = /^(?:([a-z]+):)?/;
 
 export class Importer {
-  constructor(runtime) {
+  constructor(loader, runtime) {
+    this.loader = loader;
     this.runtime = runtime;
     this.cache = new Map();
   }
@@ -23,8 +24,8 @@ export class Importer {
       prefix = "";
     }
 
-    const absPath = this.runtime.loader.resolve(root, path);
-    const realPath = await this.runtime.loader.realPath(absPath);
+    const absPath = this.loader.resolve(root, path);
+    const realPath = await this.loader.realPath(absPath);
     const key = `${prefix}:${realPath}`;
 
     if (this.cache.has(key)) {
@@ -47,10 +48,10 @@ export class Importer {
 
   async dispatch(prefix, absPath) {
     if (prefix === "raw") {
-      return im.List(await this.runtime.loader.readRaw(absPath));
+      return im.List(await this.loader.readRaw(absPath));
     }
 
-    const source = await this.runtime.loader.readTxt(absPath);
+    const source = await this.loader.readTxt(absPath);
 
     switch (prefix) {
       case "text":
@@ -63,7 +64,7 @@ export class Importer {
         return loadJson(source);
       case "": {
         const statements = parse(tokenize(absPath, source));
-        return await this.runtime.std.spawn().eval(statements);
+        return await this.runtime.spawnEnv().eval(statements);
       }
       default:
         throw new Panic("invalid import prefix", { prefix });

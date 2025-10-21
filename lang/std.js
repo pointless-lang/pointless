@@ -1,37 +1,21 @@
 import { checkType, getType } from "./values.js";
 import { Func } from "./func.js";
-import { Env } from "./env.js";
-import im from "../immutable/immutable.js";
 
 export class Std {
-  constructor(runtime) {
-    this.runtime = runtime;
-    this.makeModules();
+  constructor(impl) {
+    this.makeModules(impl);
     this.makeGlobals();
     this.makeOverloads();
-    this.makeEnv();
   }
 
-  spawn() {
-    return this.env.spawn();
-  }
-
-  meta() {
-    return {
-      modules: this.modules,
-      globals: this.globals,
-      variants: this.variants,
-    };
-  }
-
-  makeModules() {
+  makeModules(impl) {
     this.modules = {};
 
     // wrapped functions shouldn't destructure arguments
     // or use spread syntax or default param values
     const paramChars = /\(([$\w\s,]*)\)/;
 
-    for (const [modName, native] of Object.entries(this.runtime.impl)) {
+    for (const [modName, native] of Object.entries(impl)) {
       const mod = {};
 
       for (let [name, value] of Object.entries(native)) {
@@ -146,18 +130,5 @@ export class Std {
       this.globals[name] = overload;
       this.modules.Overloads[name] = overload;
     }
-  }
-
-  makeEnv() {
-    const defs = {};
-
-    // Need to sort cause overloads was added later
-    for (const name of Object.keys(this.modules).toSorted()) {
-      // Convert modules to ptls objects
-      defs[name] = im.OrderedMap(this.modules[name]);
-    }
-
-    Object.assign(defs, this.globals);
-    this.env = new Env(null, new Map(Object.entries(defs)), this.runtime);
   }
 }

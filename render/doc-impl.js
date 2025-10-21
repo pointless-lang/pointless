@@ -19,6 +19,7 @@ function exclude(mod) {
 export const impl = {};
 
 for (const [modName, mod] of Object.entries(baseImpl)) {
+  // Copy to avoid mutating original impl object
   impl[modName] = { ...mod };
 }
 

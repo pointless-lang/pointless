@@ -1,18 +1,17 @@
-import { parse as csvParse } from "csv-parse/sync";
+import Papa from "papaparse";
 import im from "../immutable/immutable.js";
 
-export function parseData(source) {
-  // sketchy, doesn't parse quoted strings
-  // lots of improvements to make
+export function parseCSV(source) {
+  // Could be improved to align more with Ptls token syntax
 
-  const rows = csvParse(source);
+  const { data } = Papa.parse(source);
   const columns = new Map();
 
-  for (const key of rows[0]) {
+  for (const key of data[0]) {
     columns.set(key, []);
   }
 
-  for (const row of rows.slice(1)) {
+  for (const row of data.slice(1)) {
     let index = 0;
     for (const column of columns.values()) {
       column.push(convert(row[index]));

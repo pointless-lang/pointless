@@ -61,7 +61,7 @@ import { Panic } from "../lang/panic.js";
 // To Do: add commands: exit, run, ls, cd
 
 export async function repl(runtime) {
-  const env = runtime.std.spawn();
+  const env = runtime.spawnEnv();
 
   // very silly default behavior from eslint here imo
   // https://github.com/eslint/eslint/issues/5477

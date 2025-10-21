@@ -3,7 +3,7 @@ import { checkWhole } from "./num.js";
 import { isMatch } from "./obj.js";
 import { invisible } from "./repr.js";
 import { Panic } from "./panic.js";
-import { parseData } from "./csv.js";
+import { parseCSV } from "./csv.js";
 import { repr } from "./repr.js";
 import im from "../immutable/immutable.js";
 
@@ -40,7 +40,7 @@ export class Table {
   }
 
   static fromCsv(source) {
-    return new Table(parseData(source));
+    return new Table(parseCSV(source));
   }
 
   static fromRows(rows, columns) {

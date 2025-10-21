@@ -132,7 +132,7 @@ async function renderCode(code, config, filePath, env) {
   }
 
   return h`
-    <div class="snippet ${config.class}">
+    <div class="snippet $${config.class}">
       $${source}
       $${resultStr}
       $${finalDef}
@@ -195,7 +195,7 @@ export async function renderMarkdown(filePath, source) {
     return queue;
   }
 
-  const env = new Runtime(impl, loader).std.spawn();
+  const env = new Runtime(impl, loader).spawnEnv();
   const marked = new Marked();
 
   const highlighter = markedHighlight({

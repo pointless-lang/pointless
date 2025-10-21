@@ -14,10 +14,10 @@
   },
   "dependencies": {
     "command-line-args": "^6.0.1",
-    "csv-parse": "^5.6.0",
     "immutable": "file:./immutable/immutable.js",
     "marked": ">=15",
     "marked-highlight": "^2.2.1",
+    "papaparse": "^5.5.3",
     "sharp": "^0.34.4",
     "string-argv": "^0.3.2",
     "ws": "^8.18.3"
