@@ -16,8 +16,6 @@ board = maze
   | Str.lines
   $ chars
 
-print(board)
-
 fn update(board, r, c, marker)
   board[r][c] = marker  
   clear()
