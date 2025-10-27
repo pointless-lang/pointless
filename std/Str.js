@@ -235,18 +235,25 @@ export function replace(string, subString, replacement) {
   return string.replaceAll(subString, () => replacement);
 }
 
-export function replaceFirst(string, subString, replacement) {
-  // Replace the first occurrence of `subString` in `string` with `replacement`.
+export function replaceN(string, subString, replacement, count) {
+  // Replace the first `count` occurrence of `subString` in `string` with
+  // `replacement`.
   //
   // ```ptls
-  // Str.replaceFirst("A catalog of cats", "cat", "dog")
+  // Str.replaceN("mississippi", "i", "I", 2)
   // ```
 
   checkType(string, "string");
   checkType(subString, "string");
   checkType(replacement, "string");
-  // use anon func to avoid "$" special behavior
-  return string.replace(subString, () => replacement);
+  checkType(count, "number");
+  checkPositive(count);
+  checkWhole(count);
+
+  return string.replace(
+    subString,
+    (original) => count-- > 0 ? replacement : original,
+  );
 }
 
 export function startsWith(string, prefix) {
