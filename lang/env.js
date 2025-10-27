@@ -3,7 +3,7 @@ import { Func } from "./func.js";
 import { checkIndex } from "./list.js";
 import { checkKey } from "./obj.js";
 import { checkNumResult, checkWhole } from "./num.js";
-import { show } from "./repr.js";
+import { repr } from "./repr.js";
 import { Panic } from "./panic.js";
 import im from "../immutable/immutable.js";
 
@@ -198,7 +198,7 @@ export class Env {
 
     for (const [index, fragment] of fragments.slice(1).entries()) {
       const fmtValue = await this.eval(fmtNodes[index]);
-      result += show(fmtValue) + fragment;
+      result += repr(fmtValue, { rawStr: true }) + fragment;
     }
 
     return result;

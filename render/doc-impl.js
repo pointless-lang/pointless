@@ -1,7 +1,7 @@
 import { checkType, getType } from "../lang/values.js";
 import { Func } from "../lang/func.js";
 import { Panic } from "../lang/panic.js";
-import { repr, show } from "../lang/repr.js";
+import { repr } from "../lang/repr.js";
 import { impl as baseImpl } from "../runtime/impl.js";
 
 function handleUnavailable() {
@@ -49,12 +49,12 @@ impl.Console.write = (value) => {
 };
 
 impl.Console.error = (value) => {
-  shimConsole.print(show(value));
+  shimConsole.print(repr(value, { rawStr: true }));
   return value;
 };
 
 impl.Console.print = (value) => {
-  shimConsole.print(show(value));
+  shimConsole.print(repr(value, { rawStr: true }));
   return value;
 };
 

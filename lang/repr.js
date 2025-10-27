@@ -8,12 +8,24 @@ function escapeInvisible(char) {
   return `\\u{${char.codePointAt(0).toString(16)}}`;
 }
 
-export function show(value, compact = false) {
-  // leave out quotes and escapes
-  return getType(value) === "string" ? value : repr(value, compact);
+export function reprEach(values, options = {}) {
+  const result = [];
+
+  for (const value of values) {
+    result.push(repr(value, compact, rawStr));
+  }
+
+  return result;
 }
 
-export function repr(value, compact = false) {
+export function repr(value, options = {}) {
+  const { rawStr = false, compact = false } = options;
+
+  if (rawStr && getType(value) === "string") {
+    // leave out quotes and escapes
+    return value;
+  }
+
   switch (getType(value)) {
     case "boolean":
     case "number":
@@ -49,7 +61,7 @@ export function repr(value, compact = false) {
       return formatElems(
         "[",
         "]",
-        [...value].map((elem) => repr(elem, compact)),
+        reprEach(values, options),
         compact,
       );
 
@@ -57,18 +69,23 @@ export function repr(value, compact = false) {
       return formatElems(
         "Set.of([",
         "])",
-        [...value].map((elem) => repr(elem, compact)),
+        reprEach(values, options),
         compact,
       );
 
     case "object": {
+      // if (value.has("show")) {
+      //   const func = value.get("show");
+      //   return await func.call(value);
+      // }
+
       const entryStrs = [];
       const isRecord = value
         .keySeq()
         .every((key) => getType(key) === "string" && plainKey.test(key));
 
       for (const [key, val] of value) {
-        let valStr = repr(val, compact);
+        let valStr = repr(val, options);
 
         if (valStr.includes("\n")) {
           switch (getType(val)) {
@@ -89,10 +106,10 @@ export function repr(value, compact = false) {
           switch (getType(key)) {
             case "none":
             case "boolean":
-              entryStrs.push(`(${repr(key, compact)}):${valStr}`);
+              entryStrs.push(`(${repr(key, options)}):${valStr}`);
               break;
             default:
-              entryStrs.push(`${repr(key, compact)}:${valStr}`);
+              entryStrs.push(`${repr(key, options)}:${valStr}`);
           }
         }
       }
@@ -101,7 +118,7 @@ export function repr(value, compact = false) {
     }
 
     default:
-      return value?.repr ? value.repr(compact) : String(value);
+      return value?.repr ? value.repr(options) : String(value);
   }
 }
 

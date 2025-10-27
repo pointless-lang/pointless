@@ -1,4 +1,4 @@
-import { show } from "../lang/repr.js";
+import { repr } from "../lang/repr.js";
 import { checkType } from "../lang/values.js";
 import { checkWhole } from "../lang/num.js";
 import { Panic } from "../lang/panic.js";
@@ -48,7 +48,7 @@ export async function write(value, path) {
   checkType(path, "string");
 
   try {
-    const string = show(value);
+    const string = repr(value, { rawStr: true });
     await writeFile(path, string);
     return string;
   } catch (err) {

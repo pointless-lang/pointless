@@ -1,4 +1,4 @@
-import { repr, show } from "../lang/repr.js";
+import { repr } from "../lang/repr.js";
 import { checkType } from "../lang/values.js";
 import { Panic } from "../lang/panic.js";
 import { getLine } from "../lang/prompt.js";
@@ -16,7 +16,7 @@ export function print(value) {
   // print("world")
   // ```
 
-  console.log(show(value));
+  console.log(repr(value, { rawStr: true }));
   return value;
 }
 
@@ -56,7 +56,7 @@ export function error(value) {
   // Console.error("world")
   // ```
 
-  console.error(show(value));
+  console.error(repr(value, { rawStr: true }));
   return value;
 }
 

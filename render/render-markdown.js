@@ -5,7 +5,7 @@ import { loader } from "../runtime/loader.js";
 import { Runtime } from "../runtime/runtime.js";
 import { tokenize } from "../lang/tokenizer.js";
 import { parse } from "../lang/parser.js";
-import { repr, show } from "../lang/repr.js";
+import { repr } from "../lang/repr.js";
 import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
 import commandLineArgs from "command-line-args";
@@ -58,9 +58,10 @@ async function renderCode(code, config, filePath, env) {
   shimConsole.inputs = config.input ?? [];
 
   if (!config["no-eval"]) {
+    const compact = config["compact"];
     const display = config["raw"]
-      ? (value) => show(value, config["compact"])
-      : (value) => repr(value, config["compact"]);
+      ? (value) => repr(value, { compact, rawStr: true })
+      : (value) => repr(value, { compact });
 
     const echo = !config["no-echo"] && config["spoof"] === undefined;
 

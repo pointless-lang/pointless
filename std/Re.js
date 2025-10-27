@@ -1,5 +1,5 @@
 import { checkType } from "../lang/values.js";
-import { show } from "../lang/repr.js";
+import { repr } from "../lang/repr.js";
 import { Table } from "../lang/table.js";
 import im from "../immutable/immutable.js";
 
@@ -108,7 +108,7 @@ export async function replaceBy(string, pattern, replacer) {
   const replacements = [];
 
   for (const match of string.matchAll(lookup(pattern))) {
-    replacements.push(show(await replacer.call(match[0])));
+    replacements.push(repr(await replacer.call(match[0]), { rawStr: true }));
   }
 
   replacements.reverse();

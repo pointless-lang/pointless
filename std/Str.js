@@ -1,7 +1,7 @@
 import { checkType } from "../lang/values.js";
 import { checkPositive, checkWhole } from "../lang/num.js";
 import { checkIndex } from "../lang/list.js";
-import { show } from "../lang/repr.js";
+import { repr } from "../lang/repr.js";
 import { Panic } from "../lang/panic.js";
 import im from "../immutable/immutable.js";
 
@@ -12,7 +12,7 @@ export function of(value) {
   // Str.of([100, false, "foo", print])
   // ```
 
-  return show(value);
+  return repr(value, { rawStr: true });
 }
 
 export function len(string) {
@@ -188,7 +188,7 @@ export function join(list, separator) {
 
   checkType(list, "list");
   checkType(separator, "string");
-  return list.map(show).join(separator);
+  return list.map((value) => repr(value, { rawStr: true })).join(separator);
 }
 
 export function repeat(string, count) {
@@ -314,7 +314,7 @@ export function padLeft(value, n) {
   checkType(n, "number");
   checkWhole(n);
   checkPositive(n);
-  return show(value).padStart(n);
+  return repr(value, { rawStr: true }).padStart(n);
 }
 
 export function padRight(value, n) {
@@ -329,7 +329,7 @@ export function padRight(value, n) {
   checkType(n, "number");
   checkWhole(n);
   checkPositive(n);
-  return show(value).padEnd(n);
+  return repr(value, { rawStr: true }).padEnd(n);
 }
 
 export function trim(string) {

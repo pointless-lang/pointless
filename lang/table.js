@@ -379,9 +379,9 @@ export class Table {
     return new Table(data.map(im.List));
   }
 
-  repr(compact) {
-    if (compact) {
-      const inner = this.rows().map((row) => repr(row, true)).join(", ");
+  repr(options) {
+    if (options.compact) {
+      const inner = this.rows().map((row) => repr(row, options)).join(", ");
       return `Table.of([${inner}])`;
     }
 
@@ -448,7 +448,7 @@ function showValue(value) {
     escaped.test(value) ||
     invisible.test(value)
   ) {
-    return repr(value, true);
+    return repr(value, { compact: true });
   }
 
   return value;
