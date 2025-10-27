@@ -62,6 +62,10 @@ export class Env {
   // evaluate each node and return the value of the last one,
   // checking type if specified
   async evalLoc(nodes, loc, ...types) {
+    if (this.runtime.halted) {
+      throw new Panic("halted");
+    }
+
     if (!(nodes instanceof Array)) {
       nodes = [nodes];
     }
