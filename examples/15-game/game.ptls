@@ -48,7 +48,7 @@ fn show(board)
 
   for cell in board do
     padded = Str.padLeft(cell, 2)
-    template |= Str.replaceFirst("..", padded)
+    template |= Str.replaceN("..", padded, 1)
   end
 
   clear()
