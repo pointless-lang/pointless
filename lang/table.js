@@ -182,13 +182,20 @@ export class Table {
 
   async map(func) {
     checkType(func, "function");
+
+    if (!this.size) {
+      return new Table();
+    }
+
     const rows = [];
 
     for (const row of this) {
       rows.push(await func.call(row));
     }
 
-    return Table.fromRows(im.List(rows), this.columns());
+    checkType(rows[0], "object");
+    const columns = rows[0].keySeq().toList();
+    return Table.fromRows(im.List(rows), columns);
   }
 
   async filter(func, args = []) {
