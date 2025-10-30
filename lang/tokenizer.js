@@ -106,8 +106,6 @@ class Token {
 // this lets us use the tokenizer for syntax highlighting
 
 export function tokenize(path, source) {
-  source = source.trimEnd();
-
   const tokens = [];
   let index = 0;
   // line and column are 1 indexed
