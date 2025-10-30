@@ -3,7 +3,6 @@ import { checkWhole } from "../lang/num.js";
 import * as obj from "./Obj.js";
 import * as List from "./List.js";
 import { Table } from "../lang/table.js";
-import { repr } from "../lang/repr.js";
 import { Panic } from "../lang/panic.js";
 import im from "../immutable/immutable.js";
 
@@ -1148,24 +1147,19 @@ export function counts(table) {
     throw new Panic("table already contains column 'share'");
   }
 
-  const counts = new Map();
+  let counts = im.Map();
 
   for (const row of table) {
-    const column = repr(row);
-
-    if (counts.has(column)) {
-      counts.get(column).count += 1;
+    if (counts.has(row)) {
+      counts = counts.set(row, counts.get(row) + 1);
     } else {
-      counts.set(column, { row, count: 1 });
+      counts = counts.set(row, 1);
     }
   }
 
-  const rows = im
-    .List(counts.values())
-    .map(({ row, count }) =>
-      row.set("count", count).set("share", count / table.size)
-    );
+  const rows = counts.entrySeq().map(([row, count]) =>
+    row.set("count", count).set("share", count / table.size)
+  );
 
-  const result = of(rows);
-  return sortDescBy(result, "count");
+  return sortDescBy(of(rows.toList()), "count");
 }

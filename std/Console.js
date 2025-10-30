@@ -6,7 +6,7 @@ import { emitKeypressEvents } from "node:readline";
 import { stdin, stdout } from "node:process";
 import im from "../immutable/immutable.js";
 
-export function print(value) {
+export async function print(value) {
   // Print the string representation of `value` to stdout, followed by a
   // newline, and return `value`. Does not include quotes if `value` is a
   // string. Useful for general-purpose printing.
@@ -16,11 +16,11 @@ export function print(value) {
   // print("world")
   // ```
 
-  console.log(repr(value, { rawStr: true }));
+  console.log(await repr(value, { rawStr: true }));
   return value;
 }
 
-export function debug(value) {
+export async function debug(value) {
   // Print the string representation of `value` to stdout, followed by a
   // newline, and return `value`. Include quotes if `value` is a string. Useful
   // for debugging and logging.
@@ -30,7 +30,7 @@ export function debug(value) {
   // Console.debug("world")
   // ```
 
-  console.log(repr(value));
+  console.log(await repr(value));
   return value;
 }
 
@@ -47,7 +47,7 @@ export function write(string) {
   return string;
 }
 
-export function error(value) {
+export async function error(value) {
   // Identical to `debug`, except that the result is sent to stderr rather than
   // stdout.
   //
@@ -56,7 +56,7 @@ export function error(value) {
   // Console.error("world")
   // ```
 
-  console.error(repr(value, { rawStr: true }));
+  console.error(await repr(value, { rawStr: true }));
   return value;
 }
 

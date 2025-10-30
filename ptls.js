@@ -25,7 +25,7 @@ async function run(config) {
     await repl(runtime);
   } catch (err) {
     if (err instanceof Panic) {
-      console.log(String(err));
+      console.log(await err.repr());
     }
 
     throw err;

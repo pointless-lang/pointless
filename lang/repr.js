@@ -8,17 +8,17 @@ function escapeInvisible(char) {
   return `\\u{${char.codePointAt(0).toString(16)}}`;
 }
 
-export function reprEach(values, options = {}) {
+export async function reprEach(values, options = {}) {
   const result = [];
 
   for (const value of values) {
-    result.push(repr(value, compact, rawStr));
+    result.push(await repr(value, options));
   }
 
   return result;
 }
 
-export function repr(value, options = {}) {
+export async function repr(value, options = {}) {
   const { rawStr = false, compact = false } = options;
 
   if (rawStr && getType(value) === "string") {
@@ -58,18 +58,13 @@ export function repr(value, options = {}) {
     }
 
     case "list":
-      return formatElems(
-        "[",
-        "]",
-        reprEach(values, options),
-        compact,
-      );
+      return formatElems("[", "]", await reprEach(value, options), compact);
 
     case "set":
       return formatElems(
         "Set.of([",
         "])",
-        reprEach(values, options),
+        await reprEach(value, options),
         compact,
       );
 
@@ -85,7 +80,7 @@ export function repr(value, options = {}) {
         .every((key) => getType(key) === "string" && plainKey.test(key));
 
       for (const [key, val] of value) {
-        let valStr = repr(val, options);
+        let valStr = await repr(val, options);
 
         if (valStr.includes("\n")) {
           switch (getType(val)) {
@@ -106,10 +101,10 @@ export function repr(value, options = {}) {
           switch (getType(key)) {
             case "none":
             case "boolean":
-              entryStrs.push(`(${repr(key, options)}):${valStr}`);
+              entryStrs.push(`(${await repr(key, options)}):${valStr}`);
               break;
             default:
-              entryStrs.push(`${repr(key, options)}:${valStr}`);
+              entryStrs.push(`${await repr(key, options)}:${valStr}`);
           }
         }
       }
@@ -118,7 +113,7 @@ export function repr(value, options = {}) {
     }
 
     default:
-      return value?.repr ? value.repr(options) : String(value);
+      return value?.repr ? await value.repr(options) : String(value);
   }
 }
 

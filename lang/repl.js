@@ -93,7 +93,7 @@ async function runInput(env, input) {
     const ans = await env.eval(statement);
 
     if (statement.type !== "def") {
-      console.log(repr(ans));
+      console.log(await repr(ans));
       env.defs.set("ans", ans);
     }
   }

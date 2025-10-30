@@ -37,19 +37,19 @@ export class Panic extends Error {
     return result;
   }
 
-  toString() {
-    return (
-      Object.entries(this.details).map(showDetail).join("\n") + this.showTrace()
-    );
-  }
-}
+  async repr(options = {}) {
+    const entryStrs = [];
 
-function showDetail([key, value]) {
-  // "$" prefix means don't use `repr`
-  if (key.startsWith("$")) {
-    // remove "$" character
-    return `${key.slice(1)}: ${value}`;
-  }
+    for (const [key, value] of Object.entries(this.details)) {
+      // "$" prefix means don't use `repr`
+      if (key.startsWith("$")) {
+        // remove "$" character
+        entryStrs.push(`${key.slice(1)}: ${value}`);
+      }
 
-  return `${key}: ${repr(value)}`;
+      entryStrs.push(`${key}: ${await repr(value, options)}`);
+    }
+
+    return entryStrs.join("\n") + this.showTrace();
+  }
 }

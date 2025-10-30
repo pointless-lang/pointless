@@ -108,7 +108,8 @@ export async function replaceBy(string, pattern, replacer) {
   const replacements = [];
 
   for (const match of string.matchAll(lookup(pattern))) {
-    replacements.push(repr(await replacer.call(match[0]), { rawStr: true }));
+    const value = await replacer.call(match[0]);
+    replacements.push(await repr(value, { rawStr: true }));
   }
 
   replacements.reverse();

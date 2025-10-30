@@ -198,7 +198,7 @@ export class Env {
 
     for (const [index, fragment] of fragments.slice(1).entries()) {
       const fmtValue = await this.eval(fmtNodes[index]);
-      result += repr(fmtValue, { rawStr: true }) + fragment;
+      result += await repr(fmtValue, { rawStr: true }) + fragment;
     }
 
     return result;

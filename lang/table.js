@@ -1,10 +1,9 @@
 import { checkType, getType } from "./values.js";
 import { checkWhole } from "./num.js";
 import { isMatch } from "./obj.js";
-import { invisible } from "./repr.js";
 import { Panic } from "./panic.js";
 import { parseCSV } from "./csv.js";
-import { repr } from "./repr.js";
+import { invisible, repr, reprEach } from "./repr.js";
 import im from "../immutable/immutable.js";
 
 export class Table {
@@ -386,34 +385,32 @@ export class Table {
     return new Table(data.map(im.List));
   }
 
-  repr(options) {
+  async repr(options = {}) {
     if (options.compact) {
-      const inner = this.rows().map((row) => repr(row, options)).join(", ");
+      const inner = (await reprEach(this.rows(), options)).join(", ");
       return `Table.of([${inner}])`;
     }
 
-    return this.toString();
-  }
-
-  toString() {
     const fmts = new Map();
 
     for (const [column, values] of this.data) {
-      fmts.set(column, getFmt(column, values));
+      fmts.set(column, await getFmt(column, values));
     }
 
     const lines = [];
 
-    function addLine(start, end, sep, pad, handler) {
-      const inner = [...fmts]
-        .map(([column, fmt]) => handler(column, fmt))
-        .join(pad + sep + pad);
+    async function addLine(start, end, sep, pad, handler) {
+      const innerStrs = [];
 
-      lines.push([start, inner, end].join(pad));
+      for (const [column, fmt] of fmts) {
+        innerStrs.push(await handler(column, fmt));
+      }
+
+      lines.push([start, innerStrs.join(pad + sep + pad), end].join(pad));
     }
 
-    addLine("┌", "┐", "┬", "─", (_, { length }) => "─".repeat(length));
-    addLine(
+    await addLine("┌", "┐", "┬", "─", (_, { length }) => "─".repeat(length));
+    await addLine(
       "│",
       `│ x ${this.size}`,
       "│",
@@ -422,11 +419,11 @@ export class Table {
     );
 
     if (this.size > 0) {
-      addLine("├", "┤", "┼", "─", (_, { length }) => "─".repeat(length));
+      await addLine("├", "┤", "┼", "─", (_, { length }) => "─".repeat(length));
     }
 
     for (let i = 0; i < this.size; i++) {
-      addLine(
+      await addLine(
         "│",
         "│",
         "│",
@@ -435,7 +432,7 @@ export class Table {
       );
     }
 
-    addLine("└", "┘", "┴", "─", (_, { length }) => "─".repeat(length));
+    await addLine("└", "┘", "┴", "─", (_, { length }) => "─".repeat(length));
     return lines.join("\n");
   }
 }
@@ -444,7 +441,7 @@ const numeric = /^-?\.?[0-9]/;
 const padded = /^\s|\s$/;
 const escaped = /[\\"\n\r\t]/;
 
-function showValue(value) {
+async function showValue(value) {
   if (
     getType(value) !== "string" ||
     value === "none" ||
@@ -455,13 +452,13 @@ function showValue(value) {
     escaped.test(value) ||
     invisible.test(value)
   ) {
-    return repr(value, { compact: true });
+    return await repr(value, { compact: true });
   }
 
   return value;
 }
 
-function formatInner(value, length, decimals) {
+async function formatInner(value, length, decimals) {
   if (getType(value) === "number") {
     let numStr = String(value);
 
@@ -478,20 +475,20 @@ function formatInner(value, length, decimals) {
     return "";
   }
 
-  return showValue(value);
+  return await showValue(value);
 }
 
-function format(value, fmt = {}) {
+async function format(value, fmt = {}) {
   const { length = 0 } = fmt;
   const { decimals = 0 } = fmt;
-  return formatInner(value, length, decimals).padEnd(length);
+  return (await formatInner(value, length, decimals)).padEnd(length);
 }
 
 function decLength(numStr) {
   return numStr.includes(".") ? numStr.length - numStr.indexOf(".") : 0;
 }
 
-function getFmt(column, values) {
+async function getFmt(column, values) {
   let decimals = 0;
 
   for (const value of values) {
@@ -500,7 +497,7 @@ function getFmt(column, values) {
     }
   }
 
-  let length = format(column).length;
+  let length = (await format(column)).length;
 
   for (const value of values) {
     switch (getType(value)) {
@@ -512,7 +509,7 @@ function getFmt(column, values) {
       case "none":
         break;
       default:
-        length = Math.max(length, showValue(value).length);
+        length = Math.max(length, (await showValue(value)).length);
     }
   }
 

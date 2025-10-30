@@ -104,9 +104,9 @@ async function renderCode(code, config, filePath, env) {
               const value = env.lookup(name);
 
               finalDef = h`
-                <pre $${attrs}><div class="var-name">${name} =</div><code>${
-                display(value)
-              }</code></pre>
+                <pre $${attrs}><div class="var-name">${name} =</div><code>${await display(
+                value,
+              )}</code></pre>
               `;
             }
 
@@ -114,7 +114,7 @@ async function renderCode(code, config, filePath, env) {
 
           default:
             if (echo && !isConsole(statement)) {
-              results.push(display(result) + "\n");
+              results.push(await display(result) + "\n");
             }
         }
       } catch (err) {

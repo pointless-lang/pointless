@@ -7,7 +7,7 @@ export class Ref {
     this.value = value;
   }
 
-  toString() {
-    return `Ref.of(${repr(this.value)})`;
+  async repr(options = {}) {
+    return `Ref.of(${await repr(this.value, options)})`;
   }
 }
