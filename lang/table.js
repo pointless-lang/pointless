@@ -442,6 +442,10 @@ const padded = /^\s|\s$/;
 const escaped = /[\\"\n\r\t]/;
 
 async function showValue(value) {
+  if (value === null) {
+    return "";
+  }
+
   if (
     getType(value) !== "string" ||
     value === "none" ||
@@ -458,30 +462,20 @@ async function showValue(value) {
   return value;
 }
 
-async function formatInner(value, length, decimals) {
+async function format(value, fmt = { length: 0, decimals: 0 }) {
   if (getType(value) === "number") {
     let numStr = String(value);
 
-    if (decimals) {
+    if (fmt.decimals) {
       numStr += numStr % 1
-        ? "0".repeat(decimals - decLength(numStr))
-        : ".0".padEnd(decimals, "0");
+        ? "0".repeat(fmt.decimals - decLength(numStr))
+        : ".0".padEnd(fmt.decimals, "0");
     }
 
-    return numStr.padStart(length);
+    return numStr.padStart(fmt.length);
   }
 
-  if (value === null) {
-    return "";
-  }
-
-  return await showValue(value);
-}
-
-async function format(value, fmt = {}) {
-  const { length = 0 } = fmt;
-  const { decimals = 0 } = fmt;
-  return (await formatInner(value, length, decimals)).padEnd(length);
+  return (await showValue(value)).padEnd(fmt.length);
 }
 
 function decLength(numStr) {
