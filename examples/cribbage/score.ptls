@@ -25,7 +25,6 @@ fn subsets(cards)
   cards
     | Set.powerset
     | remove(Set.empty)
-    $ List.of
     $ Table.of
 end
 

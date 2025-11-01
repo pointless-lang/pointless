@@ -305,9 +305,9 @@ export function product(object) {
   //
   // ```
   //
-  // This is equivalent to
+  // _Note that this is equivalent to:_
   //
-  // ```ptls
+  // ```ptls --no-echo
   // Table.product([
   //   Table.of({ rank: ["A", "2", "3", "4" ] }),
   //   Table.of({ symbol: ["♣", "♦", "♥", "♠"] }),

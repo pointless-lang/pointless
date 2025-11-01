@@ -19,8 +19,8 @@ function flattenCols(table, columns) {
 }
 
 export function of(value) {
-  // Create a table from `value`, where `value` may be an object, list of
-  // objects, or table.
+  // Create a table from `value`, where `value` may be an object, a list or set
+  // of objects, or a table.
   //
   // - If `value` is an object, the keys become column names, and the values
   //   become the data for each column.
@@ -28,8 +28,8 @@ export function of(value) {
   //     be the same length.
   //   - Non-list values are repeated across all rows.
   //
-  // - If `value` is a list of objects, these objects become the rows of the
-  //   table. The objects must have the same keys, which become the column
+  // - If `value` is a list or set of objects, these objects become the rows of
+  //   the table. The objects must have the same keys, which become the column
   //   names. Note that a table with no columns will always have zero rows.
   //
   // - If `value` is a table, return it.
@@ -49,7 +49,7 @@ export function of(value) {
   // ])
   // ```
 
-  checkType(value, "object", "list", "table");
+  checkType(value, "object", "list", "set", "table");
 
   switch (getType(value)) {
     case "table":
@@ -62,6 +62,7 @@ export function of(value) {
     return new Table();
   }
 
+  value = im.List(value);
   checkType(value.first(), "object");
   const columns = value.first().keySeq().toList();
   return Table.fromRows(value, columns);
