@@ -1,16 +1,5 @@
-rankInfo = Table.of({
-  rank: ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"],
-  value: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10],
-  index: range(13),
-})
-
-fn getValue(card)
-  rankInfo[{ rank: card.rank }].value
-end
-
-fn getIndex(card)
-  rankInfo[{ rank: card.rank }].index
-end
+values = { "A": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "10": 10, "J": 10, "Q": 10, "K": 10 }
+ranks = Obj.keys(values)
 
 symbols = {
   h: "♥",
@@ -21,7 +10,7 @@ symbols = {
 
 deck = Table.new(["rank", "suit"])
 
-for rank in rankInfo.rank do
+for rank in ranks do
   for suit in symbols do
     deck |= push({ rank, suit })
   end
@@ -49,7 +38,7 @@ end
 
 fn is15(cards)
   cards
-    $ getValue
+    $ values[arg.rank]
     | sum
     | arg == 15
 end
@@ -66,7 +55,7 @@ fn isRun(cards)
   end
 
   indices = cards
-    $ getIndex
+    $ List.indexOf(arg.rank, ranks)
     | List.unique
 
   len(indices) == n and max(indices) - min(indices) + 1 == n
