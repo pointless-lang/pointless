@@ -1,3 +1,4 @@
+import * as tableMod from "./Table.js";
 import { checkType, getType } from "../lang/values.js";
 import { checkKey, isMatch } from "../lang/obj.js";
 import im from "../immutable/immutable.js";
@@ -286,4 +287,56 @@ export function rename(object, old, $new) {
   }
 
   return im.OrderedMap(map);
+}
+
+export function product(object) {
+  // Get the cartesian product of the entries in `object`.
+  //
+  // Given an `object`, convert each non-list value to a list of length `1`.
+  // Then create a table containing a row for each possible combination of items
+  // from the lists of values. The keys of `objects` must be strings.
+  //
+  // ```ptls
+  // Obj.product({
+  //   rank: ["A", "2", "3", "4" ],
+  //   symbol: ["♣", "♦", "♥", "♠"],
+  //   count: 1,
+  // })
+  //
+  // ```
+  //
+  // This is equivalent to
+  //
+  // ```ptls
+  // Table.product([
+  //   Table.of({ rank: ["A", "2", "3", "4" ] }),
+  //   Table.of({ symbol: ["♣", "♦", "♥", "♠"] }),
+  //   Table.of({ count: 1 }),
+  // ])
+  //
+  // ```
+
+  checkType(object, "object");
+
+  let rows = [im.OrderedMap()];
+
+  for (let [column, values] of object) {
+    checkType(column, "string");
+
+    if (getType(values) !== "list") {
+      values = [values];
+    }
+
+    const newRows = [];
+
+    for (const row of rows) {
+      for (const value of values) {
+        newRows.push(row.set(column, value));
+      }
+    }
+
+    rows = newRows;
+  }
+
+  return tableMod.of(im.List(rows));
 }

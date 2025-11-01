@@ -1163,3 +1163,42 @@ export function counts(table) {
 
   return sortDescBy(of(rows.toList()), "count");
 }
+
+export function product(tables) {
+  // Get the cartesian product of a list of `tables`. The result of
+  // `product([tableA, tableB, tableC, ...])` will be a table containing a row
+  // `rowA + rowB + rowC + ...` for each combination of rows from the tables.
+  // The input tables should all have different keys.
+  //
+  // ```ptls
+  // ranks = Table.of({ rank: ["A", "2", "3", "4" ] })
+  //
+  // suits = Table.of({
+  //   name: ["Clubs", "Diamonds", "Hearts", "Spades"],
+  //   symbol: ["♣", "♦", "♥", "♠"]
+  // })
+  //
+  // ranks
+  // suits
+  // Table.product([ranks, suits])
+  // ```
+
+  checkType(tables, "list");
+
+  let rows = [im.OrderedMap()];
+
+  for (const table of tables) {
+    checkType(table, "table");
+    const newRows = [];
+
+    for (const row of rows) {
+      for (const newRow of table) {
+        newRows.push(row.concat(newRow));
+      }
+    }
+
+    rows = newRows;
+  }
+
+  return of(im.List(rows));
+}

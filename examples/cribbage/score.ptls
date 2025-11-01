@@ -8,13 +8,7 @@ symbols = {
   s: "♠",
 }
 
-deck = Table.new(["rank", "suit"])
-
-for rank in ranks do
-  for suit in symbols do
-    deck |= push({ rank, suit })
-  end
-end
+deck = Obj.product({ ranks, symbols })
 
 fn show(card)
   symbol = symbols[card.suit]
