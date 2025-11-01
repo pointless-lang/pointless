@@ -23,7 +23,6 @@ end
 
 fn subsets(cards)
   cards
-    | Set.of
     | Set.powerset
     | remove(Set.empty)
     $ List.of

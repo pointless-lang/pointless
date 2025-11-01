@@ -162,14 +162,15 @@ function subsets(elems) {
   return [...suffixes.map((subset) => [elems[0], ...subset]), ...suffixes];
 }
 
-export function powerset(set) {
-  // Get a list of all of the subsets of `set` (the powerset of `set`).
+export function powerset(values) {
+  // Get a list of all of the subsets of `values` (the powerset of `values`),
+  // where `values` is a set, list, or table. If `values` is a list or table,
+  // then `values` is converted to a set prior to calculating the powerset.
   //
   // ```ptls
-  // Set.powerset(Set.of(["a", "b", "c"]))
+  // Set.powerset(["a", "b", "c"])
   // ```
 
-  checkType(set, "set");
-  const sets = subsets([...set]).map((elems) => im.OrderedSet(elems));
+  const sets = subsets([...of(values)]).map((elems) => im.OrderedSet(elems));
   return im.List(sets);
 }
