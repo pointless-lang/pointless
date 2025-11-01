@@ -323,6 +323,13 @@ class Parser {
   }
 
   getEntry() {
+    if (this.has("methodName")) {
+      const { value, loc } = this.get("methodName");
+      // de-sugar method name
+      const key = new Node("string", loc, value);
+      return { key, value: new Node("name", loc, value.slice(1)) };
+    }
+
     if (this.has(...identifier)) {
       const { value: name, loc } = this.get(...identifier);
       // de-sugar raw key name as string

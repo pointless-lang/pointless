@@ -69,10 +69,10 @@ export async function repr(value, options = {}) {
       );
 
     case "object": {
-      // if (value.has("show")) {
-      //   const func = value.get("show");
-      //   return await func.call(value);
-      // }
+      if (value.has("@show")) {
+        const func = value.get("@show");
+        return await func.call(value);
+      }
 
       const entryStrs = [];
       const isRecord = value
