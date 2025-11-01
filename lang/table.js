@@ -491,19 +491,14 @@ async function getFmt(column, values) {
     }
   }
 
-  let length = (await format(column)).length;
+  let { length } = column;
 
   for (const value of values) {
-    switch (getType(value)) {
-      case "number": {
-        const numStr = String(value);
-        length = Math.max(length, numStr.length + decimals - decLength(numStr));
-        break;
-      }
-      case "none":
-        break;
-      default:
-        length = Math.max(length, (await showValue(value)).length);
+    if (getType(value) === "number") {
+      const numStr = String(value);
+      length = Math.max(length, numStr.length - decLength(numStr) + decimals);
+    } else {
+      length = Math.max(length, (await showValue(value)).length);
     }
   }
 
