@@ -45,9 +45,9 @@ export class Panic extends Error {
       if (key.startsWith("$")) {
         // remove "$" character
         entryStrs.push(`${key.slice(1)}: ${value}`);
+      } else {
+        entryStrs.push(`${key}: ${await repr(value, options)}`);
       }
-
-      entryStrs.push(`${key}: ${await repr(value, options)}`);
     }
 
     return entryStrs.join("\n") + this.showTrace();
