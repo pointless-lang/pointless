@@ -11,9 +11,10 @@ import { markedHighlight } from "marked-highlight";
 import commandLineArgs from "command-line-args";
 import { parseArgsStringToArgv } from "string-argv";
 
-function logErr(err, config) {
+async function logErr(err, config) {
   if (!config["panics"]) {
-    console.error(String(err), err);
+    console.error(await err.repr());
+    console.error(err);
   }
 }
 
@@ -43,7 +44,7 @@ async function renderCode(code, config, filePath, env) {
   try {
     tokens = tokenize(`${filePath}:embedded`, code);
   } catch (err) {
-    logErr(err, config);
+    await logErr(err, config);
     tokens = [];
     panic = h`<pre class="result panic"><code>${err}</code></pre>`;
   }
@@ -77,7 +78,7 @@ async function renderCode(code, config, filePath, env) {
     try {
       statements = parse(tokens);
     } catch (err) {
-      logErr(err, config);
+      await logErr(err, config);
       statements = [];
       panic = h`<pre class="result panic"><code>${err}</code></pre>`;
     }
@@ -118,7 +119,7 @@ async function renderCode(code, config, filePath, env) {
             }
         }
       } catch (err) {
-        logErr(err, config);
+        await logErr(err, config);
         panic = h`<pre class="result panic"><code>${err}</code></pre>`;
         finalDef = "";
         break;
