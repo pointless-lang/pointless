@@ -391,48 +391,63 @@ export class Table {
       return `Table.of([${inner}])`;
     }
 
-    const fmts = new Map();
+    const tableInfo = [];
 
     for (const [column, values] of this.data) {
-      fmts.set(column, await getFmt(column, values));
+      const cells = [];
+
+      for (const value of values) {
+        cells.push({
+          type: getType(value),
+          string: await reprCell(value),
+          decimals: 0,
+        });
+      }
+
+      const columnInfo = {
+        column,
+        cells,
+        decimals: 0,
+        quotes: false,
+        length: 0,
+      };
+
+      addNumInfo(columnInfo);
+      addQuotesInfo(columnInfo);
+      addLenInfo(columnInfo);
+      formatCol(columnInfo);
+      tableInfo.push(columnInfo);
     }
 
     const lines = [];
 
-    async function addLine(start, end, sep, pad, handler) {
-      const innerStrs = [];
-
-      for (const [column, fmt] of fmts) {
-        innerStrs.push(await handler(column, fmt));
-      }
-
-      lines.push([start, innerStrs.join(pad + sep + pad), end].join(pad));
+    function addLine(start, end, sep, pad, contents) {
+      const inner = contents.join(pad + sep + pad);
+      lines.push([start, inner, end].join(pad));
     }
 
-    await addLine("┌", "┐", "┬", "─", (_, { length }) => "─".repeat(length));
+    const dividers = tableInfo.map(({ length }) => "─".repeat(length));
+
+    await addLine("┌", "┐", "┬", "─", dividers);
+
     await addLine(
       "│",
       `│ x ${this.size}`,
       "│",
       " ",
-      (column, fmt) => format(column, fmt),
+      tableInfo.map(({ column }) => column),
     );
 
     if (this.size > 0) {
-      await addLine("├", "┤", "┼", "─", (_, { length }) => "─".repeat(length));
+      await addLine("├", "┤", "┼", "─", dividers);
     }
 
-    for (let i = 0; i < this.size; i++) {
-      await addLine(
-        "│",
-        "│",
-        "│",
-        " ",
-        (column, fmt) => format(this.data.get(column).get(i), fmt),
-      );
+    for (let index = 0; index < this.size; index++) {
+      const contents = tableInfo.map(({ cells }) => cells[index].string);
+      await addLine("│", "│", "│", " ", contents);
     }
 
-    await addLine("└", "┘", "┴", "─", (_, { length }) => "─".repeat(length));
+    await addLine("└", "┘", "┴", "─", dividers);
     return lines.join("\n");
   }
 }
@@ -441,7 +456,7 @@ const numeric = /^-?\.?[0-9]/;
 const padded = /^\s|\s$/;
 const escaped = /[\\"\n\r\t]/;
 
-async function showValue(value) {
+async function reprCell(value) {
   if (value === null) {
     return "";
   }
@@ -462,45 +477,61 @@ async function showValue(value) {
   return value;
 }
 
-async function format(value, fmt = { length: 0, decimals: 0 }) {
-  if (getType(value) === "number") {
-    let numStr = String(value);
-
-    if (fmt.decimals) {
-      numStr += numStr % 1
-        ? "0".repeat(fmt.decimals - decLength(numStr))
-        : ".0".padEnd(fmt.decimals, "0");
-    }
-
-    return numStr.padStart(fmt.length);
-  }
-
-  return (await showValue(value)).padEnd(fmt.length);
-}
-
-function decLength(numStr) {
-  return numStr.includes(".") ? numStr.length - numStr.indexOf(".") : 0;
-}
-
-async function getFmt(column, values) {
-  let decimals = 0;
-
-  for (const value of values) {
-    if (getType(value) === "number" && value % 1) {
-      decimals = Math.max(decimals, decLength(String(value)));
+function addNumInfo(columnInfo) {
+  for (const cell of columnInfo.cells) {
+    if (cell.type === "number" && cell.string.includes(".")) {
+      cell.decimals = cell.string.length - cell.string.indexOf(".");
+      columnInfo.decimals = Math.max(columnInfo.decimals, cell.decimals);
     }
   }
+}
 
-  let { length } = column;
+function addQuotesInfo(columnInfo) {
+  columnInfo.quotes = columnInfo.cells.every(({ type, string }) =>
+    type === "string" && string.startsWith('"')
+  );
+}
 
-  for (const value of values) {
-    if (getType(value) === "number") {
-      const numStr = String(value);
-      length = Math.max(length, numStr.length - decLength(numStr) + decimals);
+function addLenInfo(columnInfo) {
+  columnInfo.length = columnInfo.column.length;
+
+  for (const { type, string, decimals } of columnInfo.cells) {
+    let length;
+
+    if (type === "number") {
+      length = string.length - decimals + columnInfo.decimals;
+    } else if (
+      type === "string" && columnInfo.quotes && !string.startsWith('"')
+    ) {
+      length = string.length + 2;
     } else {
-      length = Math.max(length, (await showValue(value)).length);
+      length = string.length;
     }
+
+    columnInfo.length = Math.max(columnInfo.length, length);
+  }
+}
+
+function format(columnInfo, cell) {
+  if (cell.type === "number") {
+    let { string } = cell;
+
+    if (columnInfo.decimals) {
+      string += string.includes(".")
+        ? "0".repeat(columnInfo.decimals - cell.decimals)
+        : ".0".padEnd(columnInfo.decimals, "0");
+    }
+
+    return string.padStart(columnInfo.length);
   }
 
-  return { length, decimals };
+  return cell.string.padEnd(columnInfo.length);
+}
+
+function formatCol(columnInfo) {
+  columnInfo.column = columnInfo.column.padEnd(columnInfo.length);
+
+  for (const cell of columnInfo.cells) {
+    cell.string = format(columnInfo, cell);
+  }
 }
