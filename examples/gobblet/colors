@@ -1,0 +1,88 @@
+fn addColor(code, string)
+  "\u{1b}[$(code)m$string\u{1b}[0m"
+end
+
+fn black(string)
+  addColor(30, string)
+end
+
+fn red(string)
+  addColor(31, string)
+end
+
+fn green(string)
+  addColor(32, string)
+end
+
+fn yellow(string)
+  addColor(33, string)
+end
+
+fn blue(string)
+  addColor(34, string)
+end
+
+fn magenta(string)
+  addColor(35, string)
+end
+
+fn cyan(string)
+  addColor(36, string)
+end
+
+fn white(string)
+  addColor(37, string)
+end
+
+fn brightBlack(string)
+  addColor(90, string)
+end
+
+fn brightRed(string)
+  addColor(91, string)
+end
+
+fn brightGreen(string)
+  addColor(92, string)
+end
+
+fn brightYellow(string)
+  addColor(93, string)
+end
+
+fn brightBlue(string)
+  addColor(94, string)
+end
+
+fn brightMagenta(string)
+  addColor(95, string)
+end
+
+fn brightCyan(string)
+  addColor(96, string)
+end
+
+fn brightWhite(string)
+  addColor(97, string)
+end
+
+{
+  black,
+  red,
+  green,
+  yellow,
+  blue,
+  magenta,
+  cyan,
+  white,
+  bright: {
+    black: brightBlack,
+    red: brightRed,
+    green: brightGreen,
+    yellow: brightYellow,
+    blue: brightBlue,
+    magenta: brightMagenta,
+    cyan: brightCyan,
+    white: brightWhite,
+  },
+}

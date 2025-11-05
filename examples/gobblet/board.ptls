@@ -1,0 +1,30 @@
+Stack = import "stack.ptls"
+
+fn new()
+  { rows: [[[]] * 4] * 4, @show }
+end
+
+fn show(board)
+  boardStr = "
+     ┌───┬───┬───┬───┐
+   4 │ . │ . │ . │ . │
+     ├───┼───┼───┼───┤
+   3 │ . │ . │ . │ . │
+     ├───┼───┼───┼───┤
+   2 │ . │ . │ . │ . │
+     ├───┼───┼───┼───┤
+   1 │ . │ . │ . │ . │
+     └───┴───┴───┴───┘
+       a   b   c   d
+  "
+
+  for row in board.rows do
+    for stack in row do
+      boardStr |= Str.replaceN(".", Stack.show(stack), 1)
+    end
+  end
+
+  boardStr
+end
+
+{ new, show }

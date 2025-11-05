@@ -1,0 +1,14 @@
+Colors = import "colors"
+
+fn new(n, player)
+  { n, player, @show }
+end
+
+fn show(piece)
+  match piece.player
+    case "p1" then Colors.yellow(piece.n) 
+    case "p2" then Colors.blue(piece.n)
+  end
+end
+
+{ new, show }

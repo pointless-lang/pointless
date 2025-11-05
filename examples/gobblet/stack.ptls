@@ -1,0 +1,15 @@
+Piece = import "piece.ptls"
+
+fn new(player)
+  span(1, 4) $ Piece.new(arg, player)
+end
+
+fn show(stack)
+  if isEmpty(stack) then
+    " "
+  else
+    stack[-1]
+  end
+end
+
+{ new, show }

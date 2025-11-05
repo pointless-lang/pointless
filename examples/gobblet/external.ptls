@@ -1,0 +1,15 @@
+Stack = import "stack.ptls"
+
+fn new(player)
+  { player, stacks: [Stack.new(player)] * 3 }
+end
+
+fn show(ext)
+  inner = ext.stacks
+    $ Stack.show
+    | join(" ")
+
+  "[ $inner ]"
+end
+
+{ new, show }
