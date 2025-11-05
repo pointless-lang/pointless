@@ -449,15 +449,9 @@ class Cell {
   static async fromValue(value, colInfo) {
     const type = getType(value);
 
-    let baseStr;
-
-    if (value === null) {
-      baseStr = "";
-    } else if (type === "string") {
-      baseStr = await repr(value, { ...colInfo.reprOpts, soft: true });
-    } else {
-      baseStr = await repr(value, { ...colInfo.reprOpts, compact: true });
-    }
+    const baseStr = (value === null)
+      ? ""
+      : await repr(value, { ...colInfo.reprOpts, soft: true, compact: true });
 
     return new Cell(type, baseStr, colInfo);
   }
