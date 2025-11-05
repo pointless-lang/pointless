@@ -20,17 +20,18 @@ export async function print(value) {
   return value;
 }
 
-export async function debug(value) {
-  // Print the string representation of `value` to stdout, followed by a
-  // newline, and return `value`. Include quotes if `value` is a string. Useful
-  // for debugging and logging.
+export async function inspect(value) {
+  // Print the string representation of `value` to stdout, ignoring custom
+  // `@show` [methods](/language/methods), followed by a newline, and return
+  // `value`. Include quotes if `value` is a string. Useful for debugging and
+  // logging.
   //
   // ```ptls
-  // Console.debug("Hello")
-  // Console.debug("world")
+  // Console.inspect("Hello")
+  // Console.inspect("world")
   // ```
 
-  console.log(await repr(value));
+  console.log(await repr(value, { show: false }));
   return value;
 }
 
@@ -48,8 +49,8 @@ export function write(string) {
 }
 
 export async function error(value) {
-  // Identical to `debug`, except that the result is sent to stderr rather than
-  // stdout.
+  // Identical to `inspect`, except that the result is sent to stderr rather
+  // than stdout.
   //
   // ```ptls
   // Console.error("Hello")
