@@ -3,7 +3,7 @@ import { checkWhole } from "./num.js";
 import { isMatch } from "./obj.js";
 import { Panic } from "./panic.js";
 import { parseCSV } from "./csv.js";
-import { invisible, repr, reprEach } from "./repr.js";
+import { repr, reprEach } from "./repr.js";
 import im from "../immutable/immutable.js";
 
 export class Table {
@@ -394,29 +394,16 @@ export class Table {
     const tableInfo = [];
 
     for (const [column, values] of this.data) {
-      const cells = [];
+      const colInfo = await ColInfo.fromName(column, options);
 
       for (const value of values) {
-        cells.push({
-          type: getType(value),
-          string: await reprCell(value),
-          decimals: 0,
-        });
+        await colInfo.addCell(value);
       }
 
-      const columnInfo = {
-        column,
-        cells,
-        decimals: 0,
-        quotes: false,
-        length: 0,
-      };
-
-      addNumInfo(columnInfo);
-      addQuotesInfo(columnInfo);
-      addLenInfo(columnInfo);
-      formatCol(columnInfo);
-      tableInfo.push(columnInfo);
+      colInfo.calcDecimals();
+      colInfo.calcQuotes();
+      colInfo.calcLength();
+      tableInfo.push(colInfo);
     }
 
     const lines = [];
@@ -427,23 +414,17 @@ export class Table {
     }
 
     const dividers = tableInfo.map(({ length }) => "─".repeat(length));
+    const headers = tableInfo.map((colInfo) => colInfo.formatName());
 
     await addLine("┌", "┐", "┬", "─", dividers);
-
-    await addLine(
-      "│",
-      `│ x ${this.size}`,
-      "│",
-      " ",
-      tableInfo.map(({ column }) => column),
-    );
+    await addLine("│", `│ x ${this.size}`, "│", " ", headers);
 
     if (this.size > 0) {
       await addLine("├", "┤", "┼", "─", dividers);
     }
 
     for (let index = 0; index < this.size; index++) {
-      const contents = tableInfo.map(({ cells }) => cells[index].string);
+      const contents = tableInfo.map(({ cells }) => cells[index].toString());
       await addLine("│", "│", "│", " ", contents);
     }
 
@@ -452,86 +433,103 @@ export class Table {
   }
 }
 
-const numeric = /^-?\.?[0-9]/;
-const padded = /^\s|\s$/;
-const escaped = /[\\"\n\r\t]/;
+class Cell {
+  constructor(type, baseStr, colInfo) {
+    this.type = type;
+    this.baseStr = baseStr;
+    this.colInfo = colInfo;
 
-async function reprCell(value) {
-  if (value === null) {
-    return "";
+    this.decimals = (type === "number" && baseStr.includes("."))
+      ? baseStr.length - baseStr.indexOf(".")
+      : 0;
+
+    this.quotes = baseStr.startsWith('"');
   }
 
-  if (
-    getType(value) !== "string" ||
-    value === "none" ||
-    value === "true" ||
-    value === "false" ||
-    numeric.test(value) ||
-    padded.test(value) ||
-    escaped.test(value) ||
-    invisible.test(value)
-  ) {
-    return await repr(value, { compact: true });
-  }
+  static async fromValue(value, colInfo) {
+    const type = getType(value);
 
-  return value;
-}
+    let baseStr;
 
-function addNumInfo(columnInfo) {
-  for (const cell of columnInfo.cells) {
-    if (cell.type === "number" && cell.string.includes(".")) {
-      cell.decimals = cell.string.length - cell.string.indexOf(".");
-      columnInfo.decimals = Math.max(columnInfo.decimals, cell.decimals);
-    }
-  }
-}
-
-function addQuotesInfo(columnInfo) {
-  columnInfo.quotes = columnInfo.cells.every(({ type, string }) =>
-    type === "string" && string.startsWith('"')
-  );
-}
-
-function addLenInfo(columnInfo) {
-  columnInfo.length = columnInfo.column.length;
-
-  for (const { type, string, decimals } of columnInfo.cells) {
-    let length;
-
-    if (type === "number") {
-      length = string.length - decimals + columnInfo.decimals;
-    } else if (
-      type === "string" && columnInfo.quotes && !string.startsWith('"')
-    ) {
-      length = string.length + 2;
+    if (value === null) {
+      baseStr = "";
+    } else if (type === "string") {
+      baseStr = await repr(value, { ...colInfo.reprOpts, soft: true });
     } else {
-      length = string.length;
+      baseStr = await repr(value, { ...colInfo.reprOpts, compact: true });
     }
 
-    columnInfo.length = Math.max(columnInfo.length, length);
+    return new Cell(type, baseStr, colInfo);
+  }
+
+  getLength() {
+    if (this.type === "number") {
+      return this.baseStr.length + this.colInfo.decimals - this.decimals;
+    }
+
+    if (this.type === "string" && this.colInfo.quotes && !this.quotes) {
+      return this.baseStr.length + 2;
+    }
+
+    return this.baseStr.length;
+  }
+
+  toString() {
+    if (!this.string) {
+      if (this.type === "number") {
+        let result = this.baseStr;
+
+        if (this.colInfo.decimals) {
+          result += result.includes(".")
+            ? "0".repeat(this.colInfo.decimals - this.decimals)
+            : ".0".padEnd(this.colInfo.decimals, "0");
+        }
+
+        this.string = result.padStart(this.colInfo.length);
+      } else if (
+        this.type === "string" && this.colInfo.quotes && !this.quotes
+      ) {
+        this.string = `"${this.baseStr}"`.padEnd(this.colInfo.length);
+      } else {
+        this.string = this.baseStr.padEnd(this.colInfo.length);
+      }
+    }
+
+    return this.string;
   }
 }
 
-function format(columnInfo, cell) {
-  if (cell.type === "number") {
-    let { string } = cell;
-
-    if (columnInfo.decimals) {
-      string += string.includes(".")
-        ? "0".repeat(columnInfo.decimals - cell.decimals)
-        : ".0".padEnd(columnInfo.decimals, "0");
-    }
-
-    return string.padStart(columnInfo.length);
+class ColInfo {
+  constructor(name, reprOpts) {
+    this.name = name;
+    this.reprOpts = reprOpts;
+    this.cells = [];
   }
 
-  return cell.string.padEnd(columnInfo.length);
-}
+  static async fromName(name, reprOpts) {
+    return new ColInfo(await repr(name, { ...reprOpts, soft: true }));
+  }
 
-function formatCol(columnInfo) {
-  columnInfo.column = columnInfo.column.padEnd(columnInfo.length);
+  async addCell(value) {
+    this.cells.push(await Cell.fromValue(value, this));
+  }
 
-  for (const cell of columnInfo.cells) {
-    cell.string = format(columnInfo, cell);
+  calcDecimals() {
+    this.decimals = Math.max(...this.cells.map((cell) => cell.decimals));
+  }
+
+  calcQuotes() {
+    this.quotes = this.cells.some((cell) => cell.quotes);
+  }
+
+  calcLength() {
+    this.length = Math.max(
+      this.name.length,
+      ...this.cells.map((cell) => cell.getLength()),
+    );
+  }
+
+  formatName() {
+    return this.name.padEnd(this.length);
   }
 }

@@ -1,7 +1,9 @@
 import { getType } from "./values.js";
 
 const plainKey = /^[a-zA-Z][a-zA-Z0-9]*$/;
-export const invisible = /(?! )[\p{C}\p{Z}]/gu;
+const numeric = /^-?\.?[0-9]/;
+const padded = /^\s|\s$/;
+const invisible = /(?! )[\p{C}\p{Z}]/gu;
 
 function escapeInvisible(char) {
   // Use unicode escapes for weird chars like '\v' instead of JS hex escapes
@@ -19,12 +21,41 @@ export async function reprEach(values, options = {}) {
 }
 
 export async function repr(value, options = {}) {
-  const { rawStr = false, compact = false } = options;
+  const { rawStr = false, compact = false, show = true, soft = false } =
+    options;
 
-  if (rawStr && getType(value) === "string") {
-    // leave out quotes and escapes
+  if (getType(value) === "string") {
+    if (rawStr) {
+      // leave out quotes and escapes
+      return value;
+    }
+
+    const escaped = value
+      .replaceAll("\\", "\\\\")
+      .replaceAll('"', '\\"')
+      .replaceAll("\n", "\\n")
+      .replaceAll("\r", "\\r")
+      .replaceAll("\t", "\\t")
+      .replaceAll(invisible, escapeInvisible);
+
+    if (
+      !soft ||
+      escaped !== value ||
+      escaped === "none" ||
+      escaped === "true" ||
+      escaped === "false" ||
+      escaped.includes("\\") ||
+      numeric.test(escaped) ||
+      padded.test(escaped) ||
+      invisible.test(escaped)
+    ) {
+      return `"${escaped}"`;
+    }
+
     return value;
   }
+
+  options = { ...options, rawStr: false, soft: false };
 
   switch (getType(value)) {
     case "boolean":
@@ -45,18 +76,6 @@ export async function repr(value, options = {}) {
     case "none":
       return "none";
 
-    case "string": {
-      const escaped = value
-        .replaceAll("\\", "\\\\")
-        .replaceAll('"', '\\"')
-        .replaceAll("\n", "\\n")
-        .replaceAll("\r", "\\r")
-        .replaceAll("\t", "\\t")
-        .replaceAll(invisible, escapeInvisible);
-
-      return `"${escaped}"`;
-    }
-
     case "list":
       return formatElems("[", "]", await reprEach(value, options), compact);
 
@@ -69,7 +88,7 @@ export async function repr(value, options = {}) {
       );
 
     case "object": {
-      if (value.has("@show")) {
+      if (show && value.has("@show")) {
         const func = value.get("@show");
         return await func.call(value);
       }
