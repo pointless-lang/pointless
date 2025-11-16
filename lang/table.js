@@ -3,7 +3,7 @@ import { checkWhole } from "./num.js";
 import { isMatch } from "./obj.js";
 import { Panic } from "./panic.js";
 import { parseCSV } from "./csv.js";
-import { repr, reprEach } from "./repr.js";
+import { repr } from "./repr.js";
 import im from "../immutable/immutable.js";
 
 export class Table {
@@ -385,26 +385,31 @@ export class Table {
     return new Table(data.map(im.List));
   }
 
-  async repr(options = {}) {
-    if (options.compact) {
-      const inner = (await reprEach(this.rows(), options)).join(", ");
-      return `Table.of([${inner}])`;
-    }
+  compact() {
+    const headers = this.columns().map(name => `"${name}"`).join(", ");
 
-    const tableInfo = [];
+    let inner = "";
 
-    for (const [column, values] of this.data) {
-      const colInfo = await ColInfo.fromName(column, options);
+    for (let index = 0; index < this.size; index++) {
+      let rowStr = "";
 
-      for (const value of values) {
-        await colInfo.addCell(value);
+      for (const values of this.data.values()) {
+        if (rowStr.length) {
+          rowStr += ", "
+        }
+          rowStr += repr(values.get(index));
       }
 
-      colInfo.calcDecimals();
-      colInfo.calcQuotes();
-      colInfo.calcLength();
-      tableInfo.push(colInfo);
+      inner += `, [${rowStr}]`;
     }
+
+    return `Table.ofLists([[${headers}]${inner}])`;
+  }
+
+  toString() {
+    const tableInfo = this.data.map(
+      (values, column) => new ColInfo(column, values),
+    );
 
     const lines = [];
 
@@ -414,46 +419,39 @@ export class Table {
     }
 
     const dividers = tableInfo.map(({ length }) => "─".repeat(length));
-    const headers = tableInfo.map((colInfo) => colInfo.formatName());
+    const headers = tableInfo.map(({ name }) => name);
 
-    await addLine("┌", "┐", "┬", "─", dividers);
-    await addLine("│", `│ x ${this.size}`, "│", " ", headers);
+    addLine("┌", "┐", "┬", "─", dividers);
+    addLine("│", `│ x ${this.size}`, "│", " ", headers);
 
     if (this.size > 0) {
-      await addLine("├", "┤", "┼", "─", dividers);
+      addLine("├", "┤", "┼", "─", dividers);
     }
 
     for (let index = 0; index < this.size; index++) {
       const contents = tableInfo.map(({ cells }) => cells[index].toString());
-      await addLine("│", "│", "│", " ", contents);
+      addLine("│", "│", "│", " ", contents);
     }
 
-    await addLine("└", "┘", "┴", "─", dividers);
+    addLine("└", "┘", "┴", "─", dividers);
     return lines.join("\n");
   }
 }
 
 class Cell {
-  constructor(type, baseStr, colInfo) {
-    this.type = type;
-    this.baseStr = baseStr;
+  constructor(value, colInfo) {
+    this.type = getType(value);
     this.colInfo = colInfo;
 
-    this.decimals = (type === "number" && baseStr.includes("."))
-      ? baseStr.length - baseStr.indexOf(".")
+    this.baseStr = value === null
+      ? ""
+      : repr(value, { soft: true, compact: true });
+
+    this.decimals = this.type === "number" && this.baseStr.includes(".")
+      ? this.baseStr.length - this.baseStr.indexOf(".")
       : 0;
 
-    this.quotes = baseStr.startsWith('"');
-  }
-
-  static async fromValue(value, colInfo) {
-    const type = getType(value);
-
-    const baseStr = (value === null)
-      ? ""
-      : await repr(value, { ...colInfo.reprOpts, soft: true, compact: true });
-
-    return new Cell(type, baseStr, colInfo);
+    this.quotes = this.baseStr.startsWith('"');
   }
 
   getLength() {
@@ -481,7 +479,9 @@ class Cell {
 
         this.string = result.padStart(this.colInfo.length);
       } else if (
-        this.type === "string" && this.colInfo.quotes && !this.quotes
+        this.type === "string" &&
+        this.colInfo.quotes &&
+        !this.quotes
       ) {
         this.string = `"${this.baseStr}"`.padEnd(this.colInfo.length);
       } else {
@@ -494,36 +494,16 @@ class Cell {
 }
 
 class ColInfo {
-  constructor(name, reprOpts) {
-    this.name = name;
-    this.reprOpts = reprOpts;
-    this.cells = [];
-  }
-
-  static async fromName(name, reprOpts) {
-    return new ColInfo(await repr(name, { ...reprOpts, soft: true }));
-  }
-
-  async addCell(value) {
-    this.cells.push(await Cell.fromValue(value, this));
-  }
-
-  calcDecimals() {
+  constructor(name, values) {
+    this.cells = values.map((v) => new Cell(v, this)).toArray();
     this.decimals = Math.max(...this.cells.map((cell) => cell.decimals));
-  }
-
-  calcQuotes() {
     this.quotes = this.cells.some((cell) => cell.quotes);
-  }
 
-  calcLength() {
     this.length = Math.max(
-      this.name.length,
+      name.length,
       ...this.cells.map((cell) => cell.getLength()),
     );
-  }
 
-  formatName() {
-    return this.name.padEnd(this.length);
+    this.name = name.padEnd(this.length);
   }
 }
