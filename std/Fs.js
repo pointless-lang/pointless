@@ -48,7 +48,7 @@ export async function write(value, path) {
   checkType(path, "string");
 
   try {
-    const string = await repr(value, { rawStr: true });
+    const string = repr(value, { rawStr: true });
     await writeFile(path, string);
     return string;
   } catch (err) {

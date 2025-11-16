@@ -115,7 +115,7 @@ async function renderCode(code, config, filePath, env) {
 
           default:
             if (echo && !isConsole(statement)) {
-              results.push(await display(result) + "\n");
+              results.push((await display(result)) + "\n");
             }
         }
       } catch (err) {

@@ -17,7 +17,7 @@ export function getType(value) {
   }
 
   if (value?.constructor?.ptlsName) {
-    return (value.constructor.ptlsName);
+    return value.constructor.ptlsName;
   }
 
   if (im.isOrderedMap(value)) {

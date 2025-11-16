@@ -48,18 +48,18 @@ impl.Console.write = (value) => {
   return value;
 };
 
-impl.Console.error = async (value) => {
-  shimConsole.print(await repr(value, { rawStr: true }));
+impl.Console.error = (value) => {
+  shimConsole.print(repr(value, { rawStr: true }));
   return value;
 };
 
-impl.Console.print = async (value) => {
-  shimConsole.print(await repr(value, { rawStr: true }));
+impl.Console.print = (value) => {
+  shimConsole.print(repr(value, { rawStr: true }));
   return value;
 };
 
-impl.Console.debug = async (value) => {
-  shimConsole.print(await repr(value));
+impl.Console.debug = (value) => {
+  shimConsole.print(repr(value));
   return value;
 };
 

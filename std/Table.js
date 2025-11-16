@@ -1158,9 +1158,11 @@ export function counts(table) {
     }
   }
 
-  const rows = counts.entrySeq().map(([row, count]) =>
-    row.set("count", count).set("share", count / table.size)
-  );
+  const rows = counts
+    .entrySeq()
+    .map(([row, count]) =>
+      row.set("count", count).set("share", count / table.size)
+    );
 
   return sortDescBy(of(rows.toList()), "count");
 }

@@ -10,19 +10,8 @@ function escapeInvisible(char) {
   return `\\u{${char.codePointAt(0).toString(16)}}`;
 }
 
-export async function reprEach(values, options = {}) {
-  const result = [];
-
-  for (const value of values) {
-    result.push(await repr(value, options));
-  }
-
-  return result;
-}
-
-export async function repr(value, options = {}) {
-  const { rawStr = false, compact = false, show = true, soft = false } =
-    options;
+export function repr(value, options = {}) {
+  const { compact = false, rawStr = false, soft = false } = options;
 
   if (getType(value) === "string") {
     if (rawStr) {
@@ -55,7 +44,7 @@ export async function repr(value, options = {}) {
     return value;
   }
 
-  options = { ...options, rawStr: false, soft: false };
+  options = { compact, rawStr: false, soft: false };
 
   switch (getType(value)) {
     case "boolean":
@@ -77,29 +66,29 @@ export async function repr(value, options = {}) {
       return "none";
 
     case "list":
-      return formatElems("[", "]", await reprEach(value, options), compact);
+      return formatElems(
+        "[",
+        "]",
+        value.map((v) => repr(v, options)),
+        compact,
+      );
 
     case "set":
       return formatElems(
         "Set.of([",
         "])",
-        await reprEach(value, options),
+        value.map((v) => repr(v, options)),
         compact,
       );
 
     case "object": {
-      if (show && value.has("@show")) {
-        const func = value.get("@show");
-        return await func.call(value);
-      }
-
       const entryStrs = [];
       const isRecord = value
         .keySeq()
         .every((key) => getType(key) === "string" && plainKey.test(key));
 
       for (const [key, val] of value) {
-        let valStr = await repr(val, options);
+        let valStr = repr(val, options);
 
         if (valStr.includes("\n")) {
           switch (getType(val)) {
@@ -120,10 +109,10 @@ export async function repr(value, options = {}) {
           switch (getType(key)) {
             case "none":
             case "boolean":
-              entryStrs.push(`(${await repr(key, options)}):${valStr}`);
+              entryStrs.push(`(${repr(key, options)}):${valStr}`);
               break;
             default:
-              entryStrs.push(`${await repr(key, options)}:${valStr}`);
+              entryStrs.push(`${repr(key, options)}:${valStr}`);
           }
         }
       }
@@ -131,8 +120,11 @@ export async function repr(value, options = {}) {
       return formatElems("{ ", " }", entryStrs, compact);
     }
 
+    case "table":
+      return options.compact ? value.compact() : value.toString();
+
     default:
-      return value?.repr ? await value.repr(options) : String(value);
+      return String(value);
   }
 }
 

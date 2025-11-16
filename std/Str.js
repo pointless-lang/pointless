@@ -1,18 +1,18 @@
 import { checkType } from "../lang/values.js";
 import { checkPositive, checkWhole } from "../lang/num.js";
 import { checkIndex } from "../lang/list.js";
-import { repr, reprEach } from "../lang/repr.js";
+import { repr } from "../lang/repr.js";
 import { Panic } from "../lang/panic.js";
 import im from "../immutable/immutable.js";
 
-export async function of(value) {
+export function of(value) {
   // Get the string representation of `value`.
   //
   // ```ptls
   // Str.of([100, false, "foo", print])
   // ```
 
-  return await repr(value, { rawStr: true });
+  return repr(value, { rawStr: true });
 }
 
 export function len(string) {
@@ -177,7 +177,7 @@ export function split(string, separator) {
   return im.List(string.split(separator));
 }
 
-export async function join(list, separator) {
+export function join(list, separator) {
   // Join the values in `list` into a single string, inserting `separator`
   // between them. Each value is converted to a string using `Str.of`.
   //
@@ -188,7 +188,7 @@ export async function join(list, separator) {
 
   checkType(list, "list");
   checkType(separator, "string");
-  return (await reprEach(list, { rawStr: true })).join(separator);
+  return list.map((value) => repr(value, { rawStr: true })).join(separator);
 }
 
 export function repeat(string, count) {
@@ -309,7 +309,7 @@ export function indexOf(string, subString) {
   return index >= 0 ? index : null;
 }
 
-export async function padLeft(value, n) {
+export function padLeft(value, n) {
   // Convert `value` to a string and pad it on the left with spaces so that the
   // total length is at least `n` characters.
   //
@@ -321,10 +321,10 @@ export async function padLeft(value, n) {
   checkType(n, "number");
   checkWhole(n);
   checkPositive(n);
-  return (await repr(value, { rawStr: true })).padStart(n);
+  return repr(value, { rawStr: true }).padStart(n);
 }
 
-export async function padRight(value, n) {
+export function padRight(value, n) {
   // Convert `value` to a string and pad it on the right with spaces so that the
   // total length is at least `n` characters.
   //
@@ -336,7 +336,7 @@ export async function padRight(value, n) {
   checkType(n, "number");
   checkWhole(n);
   checkPositive(n);
-  return (await repr(value, { rawStr: true })).padEnd(n);
+  return repr(value, { rawStr: true }).padEnd(n);
 }
 
 export function trim(string) {

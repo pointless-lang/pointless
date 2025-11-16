@@ -37,7 +37,7 @@ export class Panic extends Error {
     return result;
   }
 
-  async repr(options = {}) {
+  toString() {
     const entryStrs = [];
 
     for (const [key, value] of Object.entries(this.details)) {
@@ -46,7 +46,7 @@ export class Panic extends Error {
         // remove "$" character
         entryStrs.push(`${key.slice(1)}: ${value}`);
       } else {
-        entryStrs.push(`${key}: ${await repr(value, options)}`);
+        entryStrs.push(`${key}: ${repr(value, { compact: true })}`);
       }
     }
 
