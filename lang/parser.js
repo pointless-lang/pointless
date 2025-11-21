@@ -337,7 +337,7 @@ class Parser {
       return { key, value: this.getExpression() };
     }
 
-    const key = this.getExpression();
+    const key = this.getBase();
     this.get(":");
     const value = this.getExpression();
     return { key, value };
