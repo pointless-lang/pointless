@@ -322,7 +322,13 @@ class Parser {
     return new Node("list", loc, elems);
   }
 
+  getSet() {
+    const { loc } = this.peek();
+    const elems = this.seq("#[", "]", ",", this.getExpression);
+    return new Node("set", loc, elems);
+  }
 
+  getEntry() {
     if (this.has(...identifier)) {
       const { value: name, loc } = this.get(...identifier);
       // de-sugar raw key name as string
@@ -347,6 +353,58 @@ class Parser {
     const { loc } = this.peek();
     const entries = this.seq("{", "}", ",", this.getEntry);
     return new Node("object", loc, entries);
+  }
+
+  getHeader() {
+    if (this.has(...identifier)) {
+      const { value, loc } = this.get(...identifier);
+      // de-sugar raw header name as string
+      return new Node("string", loc, value);
+    }
+
+    return this.getBase();
+  }
+
+  getRow(handler) {
+    if (this.has("}")) {
+      return [];
+    }
+
+    const row = [handler.call(this)];
+
+    while (this.has(",")) {
+      this.get(",");
+      row.push(handler.call(this));
+    }
+
+    if (!this.has("}")) {
+      this.get("newline", ";");
+    }
+
+    return row;
+  }
+
+  getTable() {
+    const { loc } = this.get("#{");
+    const headers = this.getRow(this.getHeader);
+    const rows = [];
+
+    while (!this.has("}")) {
+      const { loc } = this.peek();
+      const row = this.getRow(this.getExpression);
+
+      if (row.length !== headers.length) {
+        throw new Panic("mismatched row length", {
+          expected: headers.length,
+          got: row.length,
+        }, loc);
+      }
+
+      rows.push(row);
+    }
+
+    this.get("}");
+    return new Node("table", loc, { headers, rows });
   }
 
   getParens() {
@@ -376,8 +434,12 @@ class Parser {
         return this.getNone();
       case "[":
         return this.getList();
+      case "#[":
+        return this.getSet();
       case "{":
         return this.getObject();
+      case "#{":
+        return this.getTable();
       case "(":
         return this.getParens();
       default:

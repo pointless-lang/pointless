@@ -2,6 +2,7 @@ import { checkType, getType } from "./values.js";
 import { Func } from "./func.js";
 import { checkIndex } from "./list.js";
 import { checkKey } from "./obj.js";
+import { Table } from "./table.js";
 import { checkNumResult, checkWhole } from "./num.js";
 import { repr } from "./repr.js";
 import { Panic } from "./panic.js";
@@ -182,6 +183,8 @@ export class Env {
         return im.OrderedSet(await this.evalEach(node.value));
       case "object":
         return this.evalObject(node);
+      case "table":
+        return this.evalTable(node);
       case "access":
         return this.evalAccess(node);
       case "import":
@@ -676,6 +679,25 @@ export class Env {
     }
 
     return im.OrderedMap(map);
+  }
+
+  async evalTable(node) {
+    const { headers, rows } = node.value;
+    const columns = [];
+
+    for (const header of headers) {
+      const name = await this.eval(header, "string");
+      columns.push({ name, values: [] });
+    }
+
+    for (const row of rows) {
+      for (const [index, cell] of row.entries()) {
+        columns[index].values.push(await this.eval(cell));
+      }
+    }
+
+    const entries = columns.map(({ name, values }) => [name, im.List(values)]);
+    return new Table(im.OrderedMap(entries));
   }
 
   async evalAccess(node) {

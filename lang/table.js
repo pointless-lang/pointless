@@ -26,6 +26,7 @@ export class Table {
       }
     }
 
+    // Set size to 1 if there were entries but all were non-lists
     this.size ??= this.width ? 1 : 0;
 
     // can't expand data until we know final size
