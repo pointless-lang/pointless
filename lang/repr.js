@@ -83,6 +83,7 @@ export function repr(value, options = {}) {
 
     case "object": {
       const entryStrs = [];
+
       const isRecord = value
         .keySeq()
         .every((key) => getType(key) === "string" && plainKey.test(key));

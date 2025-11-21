@@ -494,7 +494,7 @@ class Parser {
     const { loc } = this.get("return");
 
     if (!this.fnDepth) {
-      throw new Panic("Cannot use `return` outside of function", loc);
+      throw new Panic("Cannot use `return` outside of function", {}, loc);
     }
 
     const value = this.has("elif", "else", "end")
