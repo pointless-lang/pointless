@@ -40,7 +40,6 @@ const rules = [
   rule("whitespace", /[ \t]+/),
   // name rule must come after keyword and raw string rules
   rule("name", /[a-zA-Z][a-zA-Z0-9]*/),
-  rule("methodName", /@[a-zA-Z][a-zA-Z0-9]*/),
   // comment rule must come before '-' symbol rule
   rule("comment", /--.*/),
   ...symbolRules,
