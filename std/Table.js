@@ -20,7 +20,7 @@ function flattenCols(table, columns) {
 
 export function of(value) {
   // Create a table from `value`, where `value` may be an object, a list or set
-  // of objects, or a table.
+  // of objects, a string in [CSV](/language/misc#csv) format, or a table.
   //
   // - If `value` is an object, the keys become column names, and the values
   //   become the data for each column.
@@ -31,6 +31,9 @@ export function of(value) {
   // - If `value` is a list or set of objects, these objects become the rows of
   //   the table. The objects must have the same keys, which become the column
   //   names. Note that a table with no columns will always have zero rows.
+  //
+  // - If `value` is a [CSV](/language/misc#csv) string, parse the strings and
+  //   return the resulting table.
   //
   // - If `value` is a table, return it.
   //
@@ -47,15 +50,23 @@ export function of(value) {
   //   { name: "Lamar", pos: "qb", yards: 4172, tds: 41, ints: 4 },
   //   { name: "Josh", pos: "qb", yards: 3731, tds: 28, ints: 6 }
   // ])
+  //
+  // Table.of("
+  // name  , pos , yards , tds , ints
+  // Lamar , qb  ,  4172 ,  41 ,    4
+  // Josh  , qb  ,  3731 ,  28 ,    6
+  // ")
   // ```
 
-  checkType(value, "object", "list", "set", "table");
+  checkType(value, "object", "list", "set", "table", "string");
 
   switch (getType(value)) {
     case "table":
       return value;
     case "object":
       return new Table(value);
+    case "string":
+      return Table.fromCsv(value);
   }
 
   if (!value.size) {
@@ -1124,16 +1135,17 @@ export function counts(table) {
   // named `count` or `share`.
   //
   // ```ptls
-  // locations = Table.of([
-  //   { city: "New York", state: "NY" },
-  //   { city: "New York", state: "NY" },
-  //   { city: "Los Angeles", state: "CA" },
-  //   { city: "New York", state: "NY" },
-  //   { city: "Houston", state: "TX" },
-  //   { city: "Houston", state: "TX" },
-  //   { city: "Los Angeles", state: "CA" },
-  //   { city: "Chicago", state: "IL" },
-  // ])
+  // locations = #{
+  //   city,          state
+  //   "New York",    "NY"
+  //   "New York",    "NY"
+  //   "Los Angeles", "CA"
+  //   "New York",    "NY"
+  //   "Houston",     "TX"
+  //   "Houston",     "TX"
+  //   "Los Angeles", "CA"
+  //   "Chicago",     "IL"
+  // }
   //
   // Table.counts(locations)
   // ```
