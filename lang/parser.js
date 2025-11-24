@@ -6,7 +6,7 @@ import { Panic } from "./panic.js";
 const skip = ["whitespace", "newline", "comment"];
 
 // keywords can be used as object key names
-const identifier = ["name", ...keywords];
+const identifiers = ["name", ...keywords];
 
 // definition operators
 const def = ["=", "|=", "$=", "?=", "+=", "-=", "*=", "/=", "**=", "%="];
@@ -329,8 +329,8 @@ class Parser {
   }
 
   getEntry() {
-    if (this.has(...identifier)) {
-      const { value: name, loc } = this.get(...identifier);
+    if (this.has(...identifiers)) {
+      const { value: name, loc } = this.get(...identifiers);
       // de-sugar raw key name as string
       const key = new Node("string", loc, name);
 
@@ -356,8 +356,8 @@ class Parser {
   }
 
   getHeader() {
-    if (this.has(...identifier)) {
-      const { value, loc } = this.get(...identifier);
+    if (this.has(...identifiers)) {
+      const { value, loc } = this.get(...identifiers);
       // de-sugar raw header name as string
       return new Node("string", loc, value);
     }
