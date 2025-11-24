@@ -278,6 +278,7 @@ class Highlighter {
             ";",
             "?",
             "]",
+            "}",
             "|",
             "newline",
             "comment",
