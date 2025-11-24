@@ -1,4 +1,4 @@
-Colors = import "colors"
+Colors = import "colors.ptls"
 
 fn new(n, player)
   { n, player, @show }

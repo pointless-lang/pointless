@@ -1,7 +1,7 @@
 Stack = import "stack.ptls"
 
 fn new(player)
-  { player, stacks: [Stack.new(player)] * 3 }
+  { player, stacks: [Stack.new(player)] * 3, @show }
 end
 
 fn show(ext)

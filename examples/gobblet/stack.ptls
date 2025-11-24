@@ -8,7 +8,8 @@ fn show(stack)
   if isEmpty(stack) then
     " "
   else
-    stack[-1]
+    s = stack[-1]
+    "$s"
   end
 end
 

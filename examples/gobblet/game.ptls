@@ -5,10 +5,6 @@ board = Board.new()
 ext1 = External.new("p1")
 ext2 = External.new("p2")
 
-fn show(board, ext1, ext2)
-  ext1 |= External.show
-  ext2 |= External.show
-
   "
 
            1 2 3
@@ -19,7 +15,4 @@ fn show(board, ext1, ext2)
        e $ext1
            1 2 3
 
-  "
-end
-
-Console.debug(board)
+  " | print
