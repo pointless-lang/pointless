@@ -3,7 +3,8 @@ import { checkWhole } from "./num.js";
 import { isMatch } from "./obj.js";
 import { Panic } from "./panic.js";
 import { parseCSV } from "./csv.js";
-import { repr } from "./repr.js";
+import { indent, repr } from "./repr.js";
+import { ident } from "./tokenizer.js";
 import im from "../immutable/immutable.js";
 
 export class Table {
@@ -386,67 +387,102 @@ export class Table {
     return new Table(data.map(im.List));
   }
 
-  compact() {
-    const headers = this.columns().map(name => `"${name}"`).join(", ");
-
-    let inner = "";
-
-    for (let index = 0; index < this.size; index++) {
-      let rowStr = "";
-
-      for (const values of this.data.values()) {
-        if (rowStr.length) {
-          rowStr += ", "
-        }
-          rowStr += repr(values.get(index));
+  repr(mode) {
+    if (mode === "compact") {
+      if (!this.width) {
+        return "#{}";
       }
 
-      inner += `, [${rowStr}]`;
+      const header = this.columns().map((name) =>
+        ident.test(name) ? name : `"${name}"`
+      ).join(", ");
+
+      const rows = [...this].map((row) =>
+        row.valueSeq().map((cell) => repr(cell, "compact")).join(", ")
+      );
+
+      const inner = [header, ...rows].join("; ");
+      return `#{ ${inner} }`;
     }
 
-    return `Table.ofLists([[${headers}]${inner}])`;
-  }
-
-  toString() {
     const tableInfo = this.data.map(
       (values, column) => new ColInfo(column, values),
     );
 
     const lines = [];
 
-    function addLine(start, end, sep, pad, contents) {
-      const inner = contents.join(pad + sep + pad);
-      lines.push([start, inner, end].join(pad));
+    function addLine(start, end, sep, contents) {
+      const inner = contents.join(sep);
+      lines.push(`${start}${inner}${end}`);
     }
 
     const dividers = tableInfo.map(({ length }) => "─".repeat(length));
     const headers = tableInfo.map(({ name }) => name);
 
-    addLine("┌", "┐", "┬", "─", dividers);
-    addLine("│", `│ x ${this.size}`, "│", " ", headers);
+    if (mode === "normal") {
+      if (!this.width) {
+        return "#{}";
+      }
+
+      addLine("", "", " , ", headers);
+
+      for (let index = 0; index < this.size; index++) {
+        const contents = tableInfo.map(({ cells }) => cells[index].toString());
+        addLine("", "", " , ", contents);
+      }
+
+      return `#{\n${indent(lines.join("\n"))}\n}`;
+    }
+
+    addLine("┌─", "─┐", "─┬─", dividers);
+    addLine("│ ", ` │ x ${this.size}`, " │ ", headers);
 
     if (this.size > 0) {
-      addLine("├", "┤", "┼", "─", dividers);
+      addLine("├─", "─┤", "─┼─", dividers);
     }
 
     for (let index = 0; index < this.size; index++) {
       const contents = tableInfo.map(({ cells }) => cells[index].toString());
-      addLine("│", "│", "│", " ", contents);
+      addLine("│ ", " │", " │ ", contents);
     }
 
-    addLine("└", "┘", "┴", "─", dividers);
+    addLine("└─", "─┘", "─┴─", dividers);
     return lines.join("\n");
   }
+}
+
+const numeric = /^-?\.?[0-9]/;
+const padded = /^\s|\s$/;
+
+function reprCell(value) {
+  if (value === null) {
+    return "";
+  }
+
+  if (getType(value) === "string") {
+    switch (value) {
+      case "none":
+      case "false":
+      case "true":
+        return `"${value}"`;
+    }
+
+    if (numeric.test(value) || padded.test(value)) {
+      return `"${value}"`;
+    }
+
+    const escaped = repr(value, "compact");
+    return escaped.includes("\\") ? escaped : value;
+  }
+
+  return repr(value, "compact");
 }
 
 class Cell {
   constructor(value, colInfo) {
     this.type = getType(value);
     this.colInfo = colInfo;
-
-    this.baseStr = value === null
-      ? ""
-      : repr(value, { soft: true, compact: true });
+    this.baseStr = reprCell(value);
 
     this.decimals = this.type === "number" && this.baseStr.includes(".")
       ? this.baseStr.length - this.baseStr.indexOf(".")

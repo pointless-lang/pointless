@@ -12,7 +12,7 @@ export function of(value) {
   // Str.of([100, false, "foo", print])
   // ```
 
-  return repr(value, { rawStr: true });
+  return repr(value, "normal", true);
 }
 
 export function len(string) {
@@ -188,7 +188,7 @@ export function join(list, separator) {
 
   checkType(list, "list");
   checkType(separator, "string");
-  return list.map((value) => repr(value, { rawStr: true })).join(separator);
+  return list.map((value) => repr(value, "normal", true)).join(separator);
 }
 
 export function repeat(string, count) {
@@ -321,7 +321,7 @@ export function padLeft(value, n) {
   checkType(n, "number");
   checkWhole(n);
   checkPositive(n);
-  return repr(value, { rawStr: true }).padStart(n);
+  return repr(value, "compact", true).padStart(n);
 }
 
 export function padRight(value, n) {
@@ -336,7 +336,7 @@ export function padRight(value, n) {
   checkType(n, "number");
   checkWhole(n);
   checkPositive(n);
-  return repr(value, { rawStr: true }).padEnd(n);
+  return repr(value, "compact", true).padEnd(n);
 }
 
 export function trim(string) {

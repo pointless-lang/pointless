@@ -1,8 +1,6 @@
 import { getType } from "./values.js";
+import { ident } from "./tokenizer.js";
 
-const plainKey = /^[a-zA-Z][a-zA-Z0-9]*$/;
-const numeric = /^-?\.?[0-9]/;
-const padded = /^\s|\s$/;
 const invisible = /(?! )[\p{C}\p{Z}]/gu;
 
 function escapeInvisible(char) {
@@ -10,11 +8,11 @@ function escapeInvisible(char) {
   return `\\u{${char.codePointAt(0).toString(16)}}`;
 }
 
-export function repr(value, options = {}) {
-  const { compact = false, rawStr = false, soft = false } = options;
+// Modes: compact, compact-raw, normal, normal-raw, pretty, pretty-raw
 
+export function repr(value, mode = "normal", raw = false) {
   if (getType(value) === "string") {
-    if (rawStr) {
+    if (raw) {
       // leave out quotes and escapes
       return value;
     }
@@ -27,24 +25,8 @@ export function repr(value, options = {}) {
       .replaceAll("\t", "\\t")
       .replaceAll(invisible, escapeInvisible);
 
-    if (
-      !soft ||
-      escaped !== value ||
-      escaped === "none" ||
-      escaped === "true" ||
-      escaped === "false" ||
-      escaped.includes("\\") ||
-      numeric.test(escaped) ||
-      padded.test(escaped) ||
-      invisible.test(escaped)
-    ) {
-      return `"${escaped}"`;
-    }
-
-    return value;
+    return `"${escaped}"`;
   }
-
-  options = { compact, rawStr: false, soft: false };
 
   switch (getType(value)) {
     case "boolean":
@@ -69,16 +51,16 @@ export function repr(value, options = {}) {
       return formatElems(
         "[",
         "]",
-        value.map((v) => repr(v, options)),
-        compact,
+        value.map((v) => repr(v, mode)),
+        mode,
       );
 
     case "set":
       return formatElems(
-        "Set.of([",
-        "])",
-        value.map((v) => repr(v, options)),
-        compact,
+        "#[",
+        "]",
+        value.map((v) => repr(v, mode)),
+        mode,
       );
 
     case "object": {
@@ -86,10 +68,10 @@ export function repr(value, options = {}) {
 
       const isRecord = value
         .keySeq()
-        .every((key) => getType(key) === "string" && plainKey.test(key));
+        .every((key) => getType(key) === "string" && ident.test(key));
 
       for (const [key, val] of value) {
-        let valStr = repr(val, options);
+        let valStr = repr(val, mode);
 
         if (valStr.includes("\n")) {
           switch (getType(val)) {
@@ -110,26 +92,23 @@ export function repr(value, options = {}) {
           switch (getType(key)) {
             case "none":
             case "boolean":
-              entryStrs.push(`(${repr(key, options)}):${valStr}`);
+              entryStrs.push(`(${repr(key, mode)}):${valStr}`);
               break;
             default:
-              entryStrs.push(`${repr(key, options)}:${valStr}`);
+              entryStrs.push(`${repr(key, mode)}:${valStr}`);
           }
         }
       }
 
-      return formatElems("{ ", " }", entryStrs, compact);
+      return formatElems("{ ", " }", entryStrs, mode);
     }
 
-    case "table":
-      return options.compact ? value.compact() : value.toString();
-
     default:
-      return String(value);
+      return value.repr?.(mode) ?? String(value);
   }
 }
 
-function indent(string) {
+export function indent(string) {
   return string
     .split("\n")
     .map((line) => `  ${line}`)
@@ -137,16 +116,16 @@ function indent(string) {
 }
 
 function calcLength(strings) {
-  // Rough estimate, dosen't factor in spacing or grouping symbols
+  // Rough estimate, doesn't factor in spacing or grouping symbols
   return strings.map((s) => s.length).reduce((a, b) => a + b, 0);
 }
 
-function formatElems(start, end, strings, compact) {
+function formatElems(start, end, strings, mode) {
   if (strings.length === 0) {
     return start.trim() + end.trim();
   }
 
-  if (compact || calcLength(strings) < 70) {
+  if (mode === "compact" || calcLength(strings) < 70) {
     return `${start}${strings.join(", ")}${end}`;
   }
 

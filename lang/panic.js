@@ -46,7 +46,7 @@ export class Panic extends Error {
         // remove "$" character
         entryStrs.push(`${key.slice(1)}: ${value}`);
       } else {
-        entryStrs.push(`${key}: ${repr(value, { compact: true })}`);
+        entryStrs.push(`${key}: ${repr(value, "compact")}`);
       }
     }
 

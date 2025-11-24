@@ -91,7 +91,10 @@ export function replace(string, pattern, replacement) {
   checkType(string, "string");
   checkType(pattern, "string");
   checkType(replacement, "string");
-  return string.replaceAll(lookup(pattern), () => replacement);
+  return string.replaceAll(
+    lookup(pattern),
+    () => repr(replacement, "normal", true),
+  );
 }
 
 export async function replaceBy(string, pattern, replacer) {
@@ -109,7 +112,7 @@ export async function replaceBy(string, pattern, replacer) {
 
   for (const match of string.matchAll(lookup(pattern))) {
     const value = await replacer.call(match[0]);
-    replacements.push(repr(value, { rawStr: true }));
+    replacements.push(repr(value, "normal", true));
   }
 
   replacements.reverse();

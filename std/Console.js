@@ -16,7 +16,7 @@ export function print(value) {
   // print("world")
   // ```
 
-  console.log(repr(value, { rawStr: true }));
+  console.log(repr(value, "pretty", true));
   return value;
 }
 
@@ -31,7 +31,7 @@ export function inspect(value) {
   // Console.inspect("world")
   // ```
 
-  console.log(repr(value, { show: false }));
+  console.log(repr(value));
   return value;
 }
 
@@ -57,7 +57,7 @@ export function error(value) {
   // Console.error("world")
   // ```
 
-  console.error(repr(value, { rawStr: true }));
+  console.error(repr(value, "pretty", true));
   return value;
 }
 

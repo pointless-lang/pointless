@@ -3,6 +3,8 @@ import { Loc } from "./loc.js";
 import { keywords } from "./keywords.js";
 import { symbols } from "./symbols.js";
 
+export const ident = /^[a-zA-Z][a-zA-Z0-9]*$/;
+
 function rule(name, pattern) {
   // "y" for sticky regex
   return { name, pattern: new RegExp(pattern.source, "y") };

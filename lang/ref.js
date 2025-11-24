@@ -7,7 +7,7 @@ export class Ref {
     this.value = value;
   }
 
-  toString() {
-    return `Ref.of(${repr(this.value, { compact: true })})`;
+  repr(mode) {
+    return `Ref.of(${repr(this.value, mode)})`;
   }
 }

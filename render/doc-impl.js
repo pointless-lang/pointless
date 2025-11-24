@@ -49,16 +49,16 @@ impl.Console.write = (value) => {
 };
 
 impl.Console.error = (value) => {
-  shimConsole.print(repr(value, { rawStr: true }));
+  shimConsole.print(repr(value, "pretty", true));
   return value;
 };
 
 impl.Console.print = (value) => {
-  shimConsole.print(repr(value, { rawStr: true }));
+  shimConsole.print(repr(value, "pretty", true));
   return value;
 };
 
-impl.Console.debug = (value) => {
+impl.Console.inspect = (value) => {
   shimConsole.print(repr(value));
   return value;
 };

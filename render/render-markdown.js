@@ -11,9 +11,9 @@ import { markedHighlight } from "marked-highlight";
 import commandLineArgs from "command-line-args";
 import { parseArgsStringToArgv } from "string-argv";
 
-async function logErr(err, config) {
+function logErr(err, config) {
   if (!config["panics"]) {
-    console.error(await err.repr());
+    console.error(String(err));
     console.error(err);
   }
 }
@@ -44,7 +44,7 @@ async function renderCode(code, config, filePath, env) {
   try {
     tokens = tokenize(`${filePath}:embedded`, code);
   } catch (err) {
-    await logErr(err, config);
+    logErr(err, config);
     tokens = [];
     panic = h`<pre class="result panic"><code>${err}</code></pre>`;
   }
@@ -59,11 +59,6 @@ async function renderCode(code, config, filePath, env) {
   shimConsole.inputs = config.input ?? [];
 
   if (!config["no-eval"]) {
-    const compact = config["compact"];
-    const display = config["raw"]
-      ? (value) => repr(value, { compact, rawStr: true })
-      : (value) => repr(value, { compact });
-
     const echo = !config["no-echo"] && config["spoof"] === undefined;
 
     const style = config["max-height"] &&
@@ -78,7 +73,7 @@ async function renderCode(code, config, filePath, env) {
     try {
       statements = parse(tokens);
     } catch (err) {
-      await logErr(err, config);
+      logErr(err, config);
       statements = [];
       panic = h`<pre class="result panic"><code>${err}</code></pre>`;
     }
@@ -105,9 +100,9 @@ async function renderCode(code, config, filePath, env) {
               const value = env.lookup(name);
 
               finalDef = h`
-                <pre $${attrs}><div class="var-name">${name} =</div><code>${await display(
-                value,
-              )}</code></pre>
+                <pre $${attrs}><div class="var-name">${name} =</div><code>${
+                repr(value, config["mode"])
+              }</code></pre>
               `;
             }
 
@@ -115,11 +110,11 @@ async function renderCode(code, config, filePath, env) {
 
           default:
             if (echo && !isConsole(statement)) {
-              results.push((await display(result)) + "\n");
+              results.push((repr(result, config["mode"])) + "\n");
             }
         }
       } catch (err) {
-        await logErr(err, config);
+        logErr(err, config);
         panic = h`<pre class="result panic"><code>${err}</code></pre>`;
         finalDef = "";
         break;
@@ -144,14 +139,13 @@ async function renderCode(code, config, filePath, env) {
 
 const options = [
   { name: "class", type: String },
-  { name: "compact", type: Boolean },
+  { name: "mode", type: String, defaultValue: "pretty" },
   { name: "hide", type: Boolean },
   { name: "input", type: String, multiple: true },
   { name: "max-height", type: Number },
   { name: "no-echo", type: Boolean },
   { name: "no-eval", type: Boolean },
   { name: "panics", type: Boolean },
-  { name: "raw", type: Boolean },
   { name: "spoof", type: String },
   { name: "wrap", type: Boolean },
 ];
