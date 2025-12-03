@@ -59,6 +59,8 @@ async function renderCode(code, config, filePath, env) {
   shimConsole.inputs = config.input ?? [];
 
   if (!config["no-eval"]) {
+    const mode = config["mode"];
+    const raw = config["raw"];
     const echo = !config["no-echo"] && config["spoof"] === undefined;
 
     const style = config["max-height"] &&
@@ -101,7 +103,7 @@ async function renderCode(code, config, filePath, env) {
 
               finalDef = h`
                 <pre $${attrs}><div class="var-name">${name} =</div><code>${
-                repr(value, config["mode"])
+                repr(value, mode, raw)
               }</code></pre>
               `;
             }
@@ -110,7 +112,7 @@ async function renderCode(code, config, filePath, env) {
 
           default:
             if (echo && !isConsole(statement)) {
-              results.push((repr(result, config["mode"])) + "\n");
+              results.push((repr(result, mode, raw)) + "\n");
             }
         }
       } catch (err) {
@@ -140,6 +142,7 @@ async function renderCode(code, config, filePath, env) {
 const options = [
   { name: "class", type: String },
   { name: "mode", type: String, defaultValue: "pretty" },
+  { name: "raw", type: Boolean },
   { name: "hide", type: Boolean },
   { name: "input", type: String, multiple: true },
   { name: "max-height", type: Number },

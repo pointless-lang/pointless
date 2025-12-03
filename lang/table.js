@@ -124,7 +124,7 @@ export class Table {
     checkWhole(index);
 
     if (index < -this.size || index >= this.size) {
-      throw new Panic("index out of range");
+      throw new Panic("table index out of range");
     }
 
     return index;
@@ -406,7 +406,7 @@ export class Table {
     }
 
     const tableInfo = this.data.map(
-      (values, column) => new ColInfo(column, values),
+      (values, column) => new ColInfo(column, values, mode),
     );
 
     const lines = [];
@@ -454,7 +454,7 @@ export class Table {
 const numeric = /^-?\.?[0-9]/;
 const padded = /^\s|\s$/;
 
-function reprCell(value) {
+function prettyCell(value) {
   if (value === null) {
     return "";
   }
@@ -467,7 +467,7 @@ function reprCell(value) {
         return `"${value}"`;
     }
 
-    if (numeric.test(value) || padded.test(value)) {
+    if (!value || numeric.test(value) || padded.test(value)) {
       return `"${value}"`;
     }
 
@@ -479,10 +479,13 @@ function reprCell(value) {
 }
 
 class Cell {
-  constructor(value, colInfo) {
+  constructor(value, colInfo, mode) {
     this.type = getType(value);
     this.colInfo = colInfo;
-    this.baseStr = reprCell(value);
+
+    this.baseStr = mode === "pretty"
+      ? prettyCell(value)
+      : repr(value, "compact");
 
     this.decimals = this.type === "number" && this.baseStr.includes(".")
       ? this.baseStr.length - this.baseStr.indexOf(".")
@@ -531,8 +534,8 @@ class Cell {
 }
 
 class ColInfo {
-  constructor(name, values) {
-    this.cells = values.map((v) => new Cell(v, this)).toArray();
+  constructor(name, values, mode) {
+    this.cells = values.map((v) => new Cell(v, this, mode)).toArray();
     this.decimals = Math.max(...this.cells.map((cell) => cell.decimals));
     this.quotes = this.cells.some((cell) => cell.quotes);
 

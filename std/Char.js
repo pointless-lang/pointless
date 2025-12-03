@@ -45,7 +45,7 @@ function checkChar(string) {
 export function span(from, to) {
   // Return the list of characters between `from` to `to`, inclusive.
   //
-  // ```ptls --compact
+  // ```ptls
   // Char.span("a", "e")
   // Char.span("α", "ε")
   // ```
