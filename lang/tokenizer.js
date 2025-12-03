@@ -39,6 +39,7 @@ const rules = [
   rule("rawString", /r(#*)"[^]*?"\1/),
   // unmatchedQuote rule must come after string rule
   rule("unmatchedQuote", /(r#*)?"/),
+  rule("dateTime", /\^[+.0-9:\-TZ]+/),
   rule("whitespace", /[ \t]+/),
   // name rule must come after keyword and raw string rules
   rule("name", /[a-zA-Z][a-zA-Z0-9]*/),
@@ -46,7 +47,7 @@ const rules = [
   rule("comment", /--.*/),
   ...symbolRules,
   // unexpectedCharacter rule must come last
-  rule("unexpectedCharacter", /./),
+  rule("unexpectedCharacter", /[^]/),
 ];
 
 const invalidEscape =

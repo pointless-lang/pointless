@@ -316,6 +316,12 @@ class Parser {
     return new Node("string", loc, aligned);
   }
 
+  getDateTime() {
+    const { value, loc } = this.get("dateTime");
+    const inner = value.slice(1, -1);
+    return new Node("dateTime", loc, inner);
+  }
+
   getList() {
     const { loc } = this.peek();
     const elems = this.seq("[", "]", ",", this.getExpression);
@@ -427,6 +433,8 @@ class Parser {
         return this.getString();
       case "rawString":
         return this.getRawString();
+      case "dateTime":
+        return this.getDateTime();
       case "true":
       case "false":
         return this.getBool();

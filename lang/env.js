@@ -143,6 +143,8 @@ export class Env {
         return node.value;
       case "fmtString":
         return this.evalFmtString(node);
+      case "dateTime":
+        return this.evalDateTime(node);
       case "unaryOp":
         return this.evalUnaryOp(node);
       case "binaryOp":
@@ -205,6 +207,11 @@ export class Env {
     }
 
     return result;
+  }
+
+  async evalDateTime(node) {
+    const inner = node.value;
+    throw new Panic("unimplemented");
   }
 
   async evalUnaryOp(node) {
@@ -423,13 +430,6 @@ export class Env {
     }
 
     checkType(container, "list", "object", "table");
-
-    // try {
-    //
-    // } catch (err) {
-    //   err.setLoc?.(keys[0].loc);
-    //   throw err;
-    // }
 
     // since we evaluate the keys outside of the normal syntax tree
     // traversal we need to manually specify the loc for error traces
