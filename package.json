@@ -7,7 +7,6 @@
   },
   "scripts": {
     "fmt": "deno fmt; node utils/formatStd.js",
-    "install": "npm ci --ignore-scripts",
     "lint": "deno lint"
   },
   "devDependencies": {
