@@ -1,6 +1,6 @@
 import { checkType, getType } from "../lang/values.js";
 import { checkWhole } from "../lang/num.js";
-import { checkNonEmpty } from "../lang/list.js";
+import { checkNonEmpty } from "../lang/indexed.js";
 import { Table } from "../lang/table.js";
 import im from "../immutable/immutable.js";
 

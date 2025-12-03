@@ -1,6 +1,6 @@
 import { checkType } from "../lang/values.js";
 import { checkPositive, checkWhole } from "../lang/num.js";
-import { checkIndex } from "../lang/list.js";
+import { checkIndex } from "../lang/indexed.js";
 import { repr } from "../lang/repr.js";
 import { Panic } from "../lang/panic.js";
 import im from "../immutable/immutable.js";
