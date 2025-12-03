@@ -146,21 +146,6 @@ export function set(list, index, value) {
   return list.set(index, value);
 }
 
-export function put(value, list, index) {
-  // Replace the element at `index` in `list` with `value`.
-  //
-  // ```ptls
-  // List.put("c", ["a", "b", "d", "d"], 2)
-  // ```
-  //
-  // _Note that if you want to update an existing variable, you could also use
-  // variable assignment_:
-
-  checkType(list, "list");
-  checkIndex(list, index);
-  return list.set(index, value);
-}
-
 export function push(list, value) {
   // Add `value` to the end of `list`.
   //

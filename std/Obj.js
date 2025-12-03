@@ -104,18 +104,6 @@ export function set(object, key, value) {
   return object.set(key, value);
 }
 
-export function put(value, object, key) {
-  // Assign `key` to `value` in `object`.
-  //
-  // ```ptls
-  // phrases = { "Hello": "Ola", "Good afternoon": "Boa tarde" }
-  // Obj.put("Good night", phrases, "Boa noite")
-  // ```
-
-  checkType(object, "object");
-  return object.set(key, value);
-}
-
 export function setDefault(object, key, value) {
   // Assign `key` to `value` in `object` only if `key` is not already present.
   //

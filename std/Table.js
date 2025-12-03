@@ -50,23 +50,24 @@ export function of(value) {
   //   { name: "Lamar", pos: "qb", yards: 4172, tds: 41, ints: 4 },
   //   { name: "Josh", pos: "qb", yards: 3731, tds: 28, ints: 6 }
   // ])
-  //
+  // ```
+
   // Table.of("
   // name  , pos , yards , tds , ints
   // Lamar , qb  ,  4172 ,  41 ,    4
   // Josh  , qb  ,  3731 ,  28 ,    6
   // ")
-  // ```
 
-  checkType(value, "object", "list", "set", "table", "string");
+  checkType(value, "object", "list", "set", "table");
+  // checkType(value, "object", "list", "set", "table", "string");
 
   switch (getType(value)) {
     case "table":
       return value;
     case "object":
       return new Table(value);
-    case "string":
-      return Table.fromCsv(value);
+      // case "string":
+      //   return Table.fromCsv(value);
   }
 
   if (!value.size) {
@@ -317,32 +318,6 @@ export function set(table, selector, value) {
   return table.set(selector, value);
 }
 
-export function put(value, table, selector) {
-  // Update the row or column in `table` that corresponds to `selector` with
-  // `value`. `selector` may be a number, string, or object. See the docs for
-  // [Table.set](#set) for details on the update process.
-  //
-  // ```ptls
-  // cities = Table.of([
-  //   { city: "New York", state: "NY" },
-  //   { city: "Los Angeles", state: "CA" },
-  //   { city: "Chicago", state: "IL" },
-  //   { city: "Houston", state: "TX" },
-  // ])
-  //
-  // Table.put({ city: "Big Apple", state: "Empire" }, cities, 0)
-  // Table.put(["New York", "Cali", "Illinois", "Texas"], cities, "state")
-  // Table.put("TX", cities, "state")
-  // Table.put({ city: "Phoenix", state: "AZ" }, cities, { state: "TX" })
-  // ```
-  //
-  // _Note that if you want to update an existing variable, you could also use
-  // variable assignment. See the docs for [Table.set](#set) for more details._
-
-  checkType(table, "table");
-  return table.set(selector, value);
-}
-
 export function has(table, selector) {
   // Check whether `table` contains a column or row that matches `selector`,
   // which may be either a string or an object.
@@ -383,12 +358,13 @@ export function columns(table) {
   // Get the column names in `table` as a list.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "New York", state: "NY" },
-  //   { city: "Los Angeles", state: "CA" },
-  //   { city: "Chicago", state: "IL" },
-  //   { city: "Houston", state: "TX" },
-  // ])
+  // cities = #{
+  //   city          , state
+  //   "New York"    , "NY"
+  //   "Los Angeles" , "CA"
+  //   "Chicago"     , "IL"
+  //   "Houston"     , "TX"
+  // }
   //
   // Table.columns(cities)
   // ```
@@ -1136,15 +1112,15 @@ export function counts(table) {
   //
   // ```ptls
   // locations = #{
-  //   city,          state
-  //   "New York",    "NY"
-  //   "New York",    "NY"
-  //   "Los Angeles", "CA"
-  //   "New York",    "NY"
-  //   "Houston",     "TX"
-  //   "Houston",     "TX"
-  //   "Los Angeles", "CA"
-  //   "Chicago",     "IL"
+  //   city          , state
+  //   "New York"    , "NY"
+  //   "New York"    , "NY"
+  //   "Los Angeles" , "CA"
+  //   "New York"    , "NY"
+  //   "Houston"     , "TX"
+  //   "Houston"     , "TX"
+  //   "Los Angeles" , "CA"
+  //   "Chicago"     , "IL"
   // }
   //
   // Table.counts(locations)
