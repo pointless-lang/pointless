@@ -75,7 +75,7 @@ function unexpectedToken(token, details = {}) {
 
   return new Panic(
     "unexpected token",
-    { $token: token.value, ...details },
+    { $type: token.type, $token: token.value, ...details },
     token.loc,
   );
 }
