@@ -116,6 +116,7 @@ deal = Table.of([
 fn makeHand(cards)
   scoreItems = getScoreItems(cards)
   {
+  
     cards,
     scoreItems,
     str: showCards(cards),
@@ -127,7 +128,7 @@ deal
   | subsets
   ? len(arg) == 4
   $ makeHand
-  | List.maxAll(fn(hand) hand.score end)
   | Table.of
+  | Table.maxAll("score")
   | select(["str", "score"])
   | print

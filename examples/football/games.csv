@@ -1,273 +1,195 @@
-date,awayTeam,awayScore,homeTeam,homeScore
-09/05/2024,Baltimore Ravens,20,Kansas City Chiefs,27
-09/06/2024,Green Bay Packers,29,Philadelphia Eagles,34
-09/08/2024,Carolina Panthers,10,New Orleans Saints,47
-09/08/2024,Tennessee Titans,17,Chicago Bears,24
-09/08/2024,New England Patriots,16,Cincinnati Bengals,10
-09/08/2024,Pittsburgh Steelers,18,Atlanta Falcons,10
-09/08/2024,Arizona Cardinals,28,Buffalo Bills,34
-09/08/2024,Minnesota Vikings,28,New York Giants,6
-09/08/2024,Jacksonville Jaguars,17,Miami Dolphins,20
-09/08/2024,Houston Texans,29,Indianapolis Colts,27
-09/08/2024,Las Vegas Raiders,10,Los Angeles Chargers,22
-09/08/2024,Denver Broncos,20,Seattle Seahawks,26
-09/08/2024,Washington Commanders,20,Tampa Bay Buccaneers,37
-09/08/2024,Dallas Cowboys,33,Cleveland Browns,17
-09/08/2024,Los Angeles Rams,20,Detroit Lions,26
-09/09/2024,New York Jets,19,San Francisco 49ers,32
-09/12/2024,Buffalo Bills,31,Miami Dolphins,10
-09/15/2024,San Francisco 49ers,17,Minnesota Vikings,23
-09/15/2024,New Orleans Saints,44,Dallas Cowboys,19
-09/15/2024,Indianapolis Colts,10,Green Bay Packers,16
-09/15/2024,New York Jets,24,Tennessee Titans,17
-09/15/2024,New York Giants,18,Washington Commanders,21
-09/15/2024,Los Angeles Chargers,26,Carolina Panthers,3
-09/15/2024,Cleveland Browns,18,Jacksonville Jaguars,13
-09/15/2024,Las Vegas Raiders,26,Baltimore Ravens,23
-09/15/2024,Tampa Bay Buccaneers,20,Detroit Lions,16
-09/15/2024,Seattle Seahawks,23,New England Patriots,20
-09/15/2024,Los Angeles Rams,10,Arizona Cardinals,41
-09/15/2024,Pittsburgh Steelers,13,Denver Broncos,6
-09/15/2024,Cincinnati Bengals,25,Kansas City Chiefs,26
-09/15/2024,Chicago Bears,13,Houston Texans,19
-09/16/2024,Atlanta Falcons,22,Philadelphia Eagles,21
-09/19/2024,New England Patriots,3,New York Jets,24
-09/22/2024,Green Bay Packers,30,Tennessee Titans,14
-09/22/2024,Houston Texans,7,Minnesota Vikings,34
-09/22/2024,Philadelphia Eagles,15,New Orleans Saints,12
-09/22/2024,Chicago Bears,16,Indianapolis Colts,21
-09/22/2024,Los Angeles Chargers,10,Pittsburgh Steelers,20
-09/22/2024,Denver Broncos,26,Tampa Bay Buccaneers,7
-09/22/2024,New York Giants,21,Cleveland Browns,15
-09/22/2024,Miami Dolphins,3,Seattle Seahawks,24
-09/22/2024,Carolina Panthers,36,Las Vegas Raiders,22
-09/22/2024,San Francisco 49ers,24,Los Angeles Rams,27
-09/22/2024,Detroit Lions,20,Arizona Cardinals,13
-09/22/2024,Baltimore Ravens,28,Dallas Cowboys,25
-09/22/2024,Kansas City Chiefs,22,Atlanta Falcons,17
-09/23/2024,Jacksonville Jaguars,10,Buffalo Bills,47
-09/23/2024,Washington Commanders,38,Cincinnati Bengals,33
-09/26/2024,Dallas Cowboys,20,New York Giants,15
-09/29/2024,Minnesota Vikings,31,Green Bay Packers,29
-09/29/2024,Los Angeles Rams,18,Chicago Bears,24
-09/29/2024,Jacksonville Jaguars,20,Houston Texans,24
-09/29/2024,Philadelphia Eagles,16,Tampa Bay Buccaneers,33
-09/29/2024,Cincinnati Bengals,34,Carolina Panthers,24
-09/29/2024,New Orleans Saints,24,Atlanta Falcons,26
-09/29/2024,Pittsburgh Steelers,24,Indianapolis Colts,27
-09/29/2024,Denver Broncos,10,New York Jets,9
-09/29/2024,Washington Commanders,42,Arizona Cardinals,14
-09/29/2024,New England Patriots,13,San Francisco 49ers,30
-09/29/2024,Kansas City Chiefs,17,Los Angeles Chargers,10
-09/29/2024,Cleveland Browns,16,Las Vegas Raiders,20
-09/29/2024,Buffalo Bills,10,Baltimore Ravens,35
-09/30/2024,Tennessee Titans,31,Miami Dolphins,12
-09/30/2024,Seattle Seahawks,29,Detroit Lions,42
-10/03/2024,Tampa Bay Buccaneers,30,Atlanta Falcons,36
-10/06/2024,New York Jets,17,Minnesota Vikings,23
-10/06/2024,Carolina Panthers,10,Chicago Bears,36
-10/06/2024,Buffalo Bills,20,Houston Texans,23
-10/06/2024,Cleveland Browns,13,Washington Commanders,34
-10/06/2024,Indianapolis Colts,34,Jacksonville Jaguars,37
-10/06/2024,Baltimore Ravens,41,Cincinnati Bengals,38
-10/06/2024,Miami Dolphins,15,New England Patriots,10
-10/06/2024,Arizona Cardinals,24,San Francisco 49ers,23
-10/06/2024,Las Vegas Raiders,18,Denver Broncos,34
-10/06/2024,New York Giants,29,Seattle Seahawks,20
-10/06/2024,Green Bay Packers,24,Los Angeles Rams,19
-10/06/2024,Dallas Cowboys,20,Pittsburgh Steelers,17
-10/07/2024,New Orleans Saints,13,Kansas City Chiefs,26
-10/10/2024,San Francisco 49ers,36,Seattle Seahawks,24
-10/13/2024,Jacksonville Jaguars,16,Chicago Bears,35
-10/13/2024,Arizona Cardinals,13,Green Bay Packers,34
-10/13/2024,Indianapolis Colts,20,Tennessee Titans,17
-10/13/2024,Tampa Bay Buccaneers,51,New Orleans Saints,27
-10/13/2024,Washington Commanders,23,Baltimore Ravens,30
-10/13/2024,Houston Texans,41,New England Patriots,21
-10/13/2024,Cleveland Browns,16,Philadelphia Eagles,20
-10/13/2024,Pittsburgh Steelers,32,Las Vegas Raiders,13
-10/13/2024,Los Angeles Chargers,23,Denver Broncos,16
-10/13/2024,Detroit Lions,47,Dallas Cowboys,9
-10/13/2024,Atlanta Falcons,38,Carolina Panthers,20
-10/13/2024,Cincinnati Bengals,17,New York Giants,7
-10/14/2024,Buffalo Bills,23,New York Jets,20
-10/17/2024,Denver Broncos,33,New Orleans Saints,10
-10/20/2024,New England Patriots,16,Jacksonville Jaguars,32
-10/20/2024,Detroit Lions,31,Minnesota Vikings,29
-10/20/2024,Houston Texans,22,Green Bay Packers,24
-10/20/2024,Miami Dolphins,10,Indianapolis Colts,16
-10/20/2024,Seattle Seahawks,34,Atlanta Falcons,14
-10/20/2024,Tennessee Titans,10,Buffalo Bills,34
-10/20/2024,Philadelphia Eagles,28,New York Giants,3
-10/20/2024,Cincinnati Bengals,21,Cleveland Browns,14
-10/20/2024,Las Vegas Raiders,15,Los Angeles Rams,20
-10/20/2024,Carolina Panthers,7,Washington Commanders,40
-10/20/2024,Kansas City Chiefs,28,San Francisco 49ers,18
-10/20/2024,New York Jets,15,Pittsburgh Steelers,37
-10/21/2024,Baltimore Ravens,41,Tampa Bay Buccaneers,31
-10/21/2024,Los Angeles Chargers,15,Arizona Cardinals,17
-10/24/2024,Minnesota Vikings,20,Los Angeles Rams,30
-10/27/2024,Indianapolis Colts,20,Houston Texans,23
-10/27/2024,Atlanta Falcons,31,Tampa Bay Buccaneers,26
-10/27/2024,Green Bay Packers,30,Jacksonville Jaguars,27
-10/27/2024,Baltimore Ravens,24,Cleveland Browns,29
-10/27/2024,Arizona Cardinals,28,Miami Dolphins,27
-10/27/2024,New York Jets,22,New England Patriots,25
-10/27/2024,Tennessee Titans,14,Detroit Lions,52
-10/27/2024,Philadelphia Eagles,37,Cincinnati Bengals,17
-10/27/2024,Buffalo Bills,31,Seattle Seahawks,10
-10/27/2024,New Orleans Saints,8,Los Angeles Chargers,26
-10/27/2024,Chicago Bears,15,Washington Commanders,18
-10/27/2024,Kansas City Chiefs,27,Las Vegas Raiders,20
-10/27/2024,Carolina Panthers,14,Denver Broncos,28
-10/27/2024,Dallas Cowboys,24,San Francisco 49ers,30
-10/28/2024,New York Giants,18,Pittsburgh Steelers,26
-10/31/2024,Houston Texans,13,New York Jets,21
-11/03/2024,New England Patriots,17,Tennessee Titans,20
-11/03/2024,Washington Commanders,27,New York Giants,22
-11/03/2024,Dallas Cowboys,21,Atlanta Falcons,27
-11/03/2024,Miami Dolphins,27,Buffalo Bills,30
-11/03/2024,Las Vegas Raiders,24,Cincinnati Bengals,41
-11/03/2024,Denver Broncos,10,Baltimore Ravens,41
-11/03/2024,New Orleans Saints,22,Carolina Panthers,23
-11/03/2024,Los Angeles Chargers,27,Cleveland Browns,10
-11/03/2024,Chicago Bears,9,Arizona Cardinals,29
-11/03/2024,Jacksonville Jaguars,23,Philadelphia Eagles,28
-11/03/2024,Los Angeles Rams,26,Seattle Seahawks,20
-11/03/2024,Detroit Lions,24,Green Bay Packers,14
-11/03/2024,Indianapolis Colts,13,Minnesota Vikings,21
-11/04/2024,Tampa Bay Buccaneers,24,Kansas City Chiefs,30
-11/07/2024,Cincinnati Bengals,34,Baltimore Ravens,35
-11/10/2024,New York Giants,17,Carolina Panthers,20
-11/10/2024,New England Patriots,19,Chicago Bears,3
-11/10/2024,Denver Broncos,14,Kansas City Chiefs,16
-11/10/2024,Atlanta Falcons,17,New Orleans Saints,20
-11/10/2024,Buffalo Bills,30,Indianapolis Colts,20
-11/10/2024,San Francisco 49ers,23,Tampa Bay Buccaneers,20
-11/10/2024,Pittsburgh Steelers,28,Washington Commanders,27
-11/10/2024,Minnesota Vikings,12,Jacksonville Jaguars,7
-11/10/2024,Tennessee Titans,17,Los Angeles Chargers,27
-11/10/2024,New York Jets,6,Arizona Cardinals,31
-11/10/2024,Philadelphia Eagles,34,Dallas Cowboys,6
-11/10/2024,Detroit Lions,26,Houston Texans,23
-11/11/2024,Miami Dolphins,23,Los Angeles Rams,15
-11/14/2024,Washington Commanders,18,Philadelphia Eagles,26
-11/17/2024,Green Bay Packers,20,Chicago Bears,19
-11/17/2024,Minnesota Vikings,23,Tennessee Titans,13
-11/17/2024,Cleveland Browns,14,New Orleans Saints,35
-11/17/2024,Las Vegas Raiders,19,Miami Dolphins,34
-11/17/2024,Los Angeles Rams,28,New England Patriots,22
-11/17/2024,Baltimore Ravens,16,Pittsburgh Steelers,18
-11/17/2024,Jacksonville Jaguars,6,Detroit Lions,52
-11/17/2024,Indianapolis Colts,28,New York Jets,27
-11/17/2024,Seattle Seahawks,20,San Francisco 49ers,17
-11/17/2024,Atlanta Falcons,6,Denver Broncos,38
-11/17/2024,Kansas City Chiefs,21,Buffalo Bills,30
-11/17/2024,Cincinnati Bengals,27,Los Angeles Chargers,34
-11/18/2024,Houston Texans,34,Dallas Cowboys,10
-11/21/2024,Pittsburgh Steelers,19,Cleveland Browns,24
-11/24/2024,Tennessee Titans,32,Houston Texans,27
-11/24/2024,Minnesota Vikings,30,Chicago Bears,27
-11/24/2024,Detroit Lions,24,Indianapolis Colts,6
-11/24/2024,New England Patriots,15,Miami Dolphins,34
-11/24/2024,Tampa Bay Buccaneers,30,New York Giants,7
-11/24/2024,Dallas Cowboys,34,Washington Commanders,26
-11/24/2024,Kansas City Chiefs,30,Carolina Panthers,27
-11/24/2024,Denver Broncos,29,Las Vegas Raiders,19
-11/24/2024,Arizona Cardinals,6,Seattle Seahawks,16
-11/24/2024,San Francisco 49ers,10,Green Bay Packers,38
-11/24/2024,Philadelphia Eagles,37,Los Angeles Rams,20
-11/25/2024,Baltimore Ravens,30,Los Angeles Chargers,23
-11/28/2024,Chicago Bears,20,Detroit Lions,23
-11/28/2024,New York Giants,20,Dallas Cowboys,27
-11/28/2024,Miami Dolphins,17,Green Bay Packers,30
-11/29/2024,Las Vegas Raiders,17,Kansas City Chiefs,19
-12/01/2024,Arizona Cardinals,22,Minnesota Vikings,23
-12/01/2024,Indianapolis Colts,25,New England Patriots,24
-12/01/2024,Los Angeles Chargers,17,Atlanta Falcons,13
-12/01/2024,Pittsburgh Steelers,44,Cincinnati Bengals,38
-12/01/2024,Seattle Seahawks,26,New York Jets,21
-12/01/2024,Tennessee Titans,19,Washington Commanders,42
-12/01/2024,Houston Texans,23,Jacksonville Jaguars,20
-12/01/2024,Los Angeles Rams,21,New Orleans Saints,14
-12/01/2024,Tampa Bay Buccaneers,26,Carolina Panthers,23
-12/01/2024,Philadelphia Eagles,24,Baltimore Ravens,19
-12/01/2024,San Francisco 49ers,10,Buffalo Bills,35
-12/02/2024,Cleveland Browns,32,Denver Broncos,41
-12/05/2024,Green Bay Packers,31,Detroit Lions,34
-12/08/2024,Jacksonville Jaguars,10,Tennessee Titans,6
-12/08/2024,Atlanta Falcons,21,Minnesota Vikings,42
-12/08/2024,New Orleans Saints,14,New York Giants,11
-12/08/2024,Carolina Panthers,16,Philadelphia Eagles,22
-12/08/2024,Cleveland Browns,14,Pittsburgh Steelers,27
-12/08/2024,New York Jets,26,Miami Dolphins,32
-12/08/2024,Las Vegas Raiders,13,Tampa Bay Buccaneers,28
-12/08/2024,Seattle Seahawks,30,Arizona Cardinals,18
-12/08/2024,Chicago Bears,13,San Francisco 49ers,38
-12/08/2024,Buffalo Bills,42,Los Angeles Rams,44
-12/08/2024,Los Angeles Chargers,17,Kansas City Chiefs,19
-12/09/2024,Cincinnati Bengals,27,Dallas Cowboys,20
-12/12/2024,Los Angeles Rams,12,San Francisco 49ers,6
-12/15/2024,Miami Dolphins,12,Houston Texans,20
-12/15/2024,Cincinnati Bengals,37,Tennessee Titans,27
-12/15/2024,Washington Commanders,20,New Orleans Saints,19
-12/15/2024,Baltimore Ravens,35,New York Giants,14
-12/15/2024,Dallas Cowboys,30,Carolina Panthers,14
-12/15/2024,New York Jets,32,Jacksonville Jaguars,25
-12/15/2024,Kansas City Chiefs,21,Cleveland Browns,7
-12/15/2024,Tampa Bay Buccaneers,40,Los Angeles Chargers,17
-12/15/2024,New England Patriots,17,Arizona Cardinals,30
-12/15/2024,Indianapolis Colts,13,Denver Broncos,31
-12/15/2024,Buffalo Bills,48,Detroit Lions,42
-12/15/2024,Pittsburgh Steelers,13,Philadelphia Eagles,27
-12/15/2024,Green Bay Packers,30,Seattle Seahawks,13
-12/16/2024,Chicago Bears,12,Minnesota Vikings,30
-12/16/2024,Atlanta Falcons,15,Las Vegas Raiders,9
-12/19/2024,Denver Broncos,27,Los Angeles Chargers,34
-12/21/2024,Houston Texans,19,Kansas City Chiefs,27
-12/21/2024,Pittsburgh Steelers,17,Baltimore Ravens,34
-12/22/2024,Cleveland Browns,6,Cincinnati Bengals,24
-12/22/2024,Detroit Lions,34,Chicago Bears,17
-12/22/2024,Tennessee Titans,30,Indianapolis Colts,38
-12/22/2024,New York Giants,7,Atlanta Falcons,34
-12/22/2024,Los Angeles Rams,19,New York Jets,9
-12/22/2024,Philadelphia Eagles,33,Washington Commanders,36
-12/22/2024,Arizona Cardinals,30,Carolina Panthers,36
-12/22/2024,Minnesota Vikings,27,Seattle Seahawks,24
-12/22/2024,New England Patriots,21,Buffalo Bills,24
-12/22/2024,Jacksonville Jaguars,14,Las Vegas Raiders,19
-12/22/2024,San Francisco 49ers,17,Miami Dolphins,29
-12/22/2024,Tampa Bay Buccaneers,24,Dallas Cowboys,26
-12/23/2024,New Orleans Saints,0,Green Bay Packers,34
-12/25/2024,Kansas City Chiefs,29,Pittsburgh Steelers,10
-12/25/2024,Baltimore Ravens,31,Houston Texans,2
-12/26/2024,Seattle Seahawks,6,Chicago Bears,3
-12/28/2024,Los Angeles Chargers,40,New England Patriots,7
-12/28/2024,Denver Broncos,24,Cincinnati Bengals,30
-12/28/2024,Arizona Cardinals,9,Los Angeles Rams,13
-12/29/2024,Indianapolis Colts,33,New York Giants,45
-12/29/2024,Las Vegas Raiders,25,New Orleans Saints,10
-12/29/2024,Tennessee Titans,13,Jacksonville Jaguars,20
-12/29/2024,New York Jets,14,Buffalo Bills,40
-12/29/2024,Carolina Panthers,14,Tampa Bay Buccaneers,48
-12/29/2024,Dallas Cowboys,7,Philadelphia Eagles,41
-12/29/2024,Miami Dolphins,20,Cleveland Browns,3
-12/29/2024,Green Bay Packers,25,Minnesota Vikings,27
-12/29/2024,Atlanta Falcons,24,Washington Commanders,30
-12/30/2024,Detroit Lions,40,San Francisco 49ers,34
-01/04/2025,Cleveland Browns,10,Baltimore Ravens,35
-01/04/2025,Cincinnati Bengals,19,Pittsburgh Steelers,17
-01/05/2025,Chicago Bears,24,Green Bay Packers,22
-01/05/2025,Houston Texans,23,Tennessee Titans,14
-01/05/2025,Washington Commanders,23,Dallas Cowboys,19
-01/05/2025,Jacksonville Jaguars,23,Indianapolis Colts,26
-01/05/2025,New Orleans Saints,19,Tampa Bay Buccaneers,27
-01/05/2025,Carolina Panthers,44,Atlanta Falcons,38
-01/05/2025,Buffalo Bills,16,New England Patriots,23
-01/05/2025,New York Giants,13,Philadelphia Eagles,20
-01/05/2025,Los Angeles Chargers,34,Las Vegas Raiders,20
-01/05/2025,Seattle Seahawks,30,Los Angeles Rams,25
-01/05/2025,Kansas City Chiefs,0,Denver Broncos,38
-01/05/2025,San Francisco 49ers,24,Arizona Cardinals,47
-01/05/2025,Miami Dolphins,20,New York Jets,32
-01/05/2025,Minnesota Vikings,9,Detroit Lions,31
+awayTeam,awayScore,homeTeam,homeScore
+Dallas Cowboys,20,Philadelphia Eagles,24
+Kansas City Chiefs,21,Los Angeles Chargers,27
+Arizona Cardinals,20,New Orleans Saints,13
+Pittsburgh Steelers,34,New York Jets,32
+Miami Dolphins,8,Indianapolis Colts,33
+Tampa Bay Buccaneers,23,Atlanta Falcons,20
+New York Giants,6,Washington Commanders,21
+Carolina Panthers,10,Jacksonville Jaguars,26
+Cincinnati Bengals,17,Cleveland Browns,16
+Las Vegas Raiders,20,New England Patriots,13
+San Francisco 49ers,17,Seattle Seahawks,13
+Tennessee Titans,12,Denver Broncos,20
+Houston Texans,9,Los Angeles Rams,14
+Detroit Lions,13,Green Bay Packers,27
+Baltimore Ravens,40,Buffalo Bills,41
+Minnesota Vikings,27,Chicago Bears,24
+Washington Commanders,18,Green Bay Packers,27
+Los Angeles Rams,33,Tennessee Titans,19
+New York Giants,37,Dallas Cowboys,40
+San Francisco 49ers,26,New Orleans Saints,21
+Buffalo Bills,30,New York Jets,10
+New England Patriots,33,Miami Dolphins,27
+Seattle Seahawks,31,Pittsburgh Steelers,17
+Chicago Bears,21,Detroit Lions,52
+Jacksonville Jaguars,27,Cincinnati Bengals,31
+Cleveland Browns,17,Baltimore Ravens,41
+Carolina Panthers,22,Arizona Cardinals,27
+Denver Broncos,28,Indianapolis Colts,29
+Philadelphia Eagles,20,Kansas City Chiefs,17
+Atlanta Falcons,22,Minnesota Vikings,6
+Tampa Bay Buccaneers,20,Houston Texans,19
+Los Angeles Chargers,20,Las Vegas Raiders,9
+Miami Dolphins,21,Buffalo Bills,31
+Indianapolis Colts,41,Tennessee Titans,20
+Cincinnati Bengals,10,Minnesota Vikings,48
+Pittsburgh Steelers,21,New England Patriots,14
+Los Angeles Rams,26,Philadelphia Eagles,33
+New York Jets,27,Tampa Bay Buccaneers,29
+Las Vegas Raiders,24,Washington Commanders,41
+Atlanta Falcons,0,Carolina Panthers,30
+Houston Texans,10,Jacksonville Jaguars,17
+Green Bay Packers,10,Cleveland Browns,13
+New Orleans Saints,13,Seattle Seahawks,44
+Denver Broncos,20,Los Angeles Chargers,23
+Arizona Cardinals,15,San Francisco 49ers,16
+Dallas Cowboys,14,Chicago Bears,31
+Kansas City Chiefs,22,New York Giants,9
+Detroit Lions,38,Baltimore Ravens,30
+Seattle Seahawks,23,Arizona Cardinals,20
+Minnesota Vikings,21,Pittsburgh Steelers,24
+Tennessee Titans,0,Houston Texans,26
+Philadelphia Eagles,31,Tampa Bay Buccaneers,25
+Carolina Panthers,13,New England Patriots,42
+Los Angeles Chargers,18,New York Giants,21
+Washington Commanders,27,Atlanta Falcons,34
+New Orleans Saints,19,Buffalo Bills,31
+Cleveland Browns,10,Detroit Lions,34
+Indianapolis Colts,20,Los Angeles Rams,27
+Jacksonville Jaguars,26,San Francisco 49ers,21
+Chicago Bears,25,Las Vegas Raiders,24
+Baltimore Ravens,20,Kansas City Chiefs,37
+Green Bay Packers,40,Dallas Cowboys,40
+New York Jets,21,Miami Dolphins,27
+Cincinnati Bengals,3,Denver Broncos,28
+San Francisco 49ers,26,Los Angeles Rams,23
+Minnesota Vikings,21,Cleveland Browns,17
+New York Giants,14,New Orleans Saints,26
+Dallas Cowboys,37,New York Jets,22
+Denver Broncos,21,Philadelphia Eagles,17
+Houston Texans,44,Baltimore Ravens,10
+Las Vegas Raiders,6,Indianapolis Colts,40
+Miami Dolphins,24,Carolina Panthers,27
+Tampa Bay Buccaneers,38,Seattle Seahawks,35
+Tennessee Titans,22,Arizona Cardinals,21
+Washington Commanders,27,Los Angeles Chargers,10
+Detroit Lions,37,Cincinnati Bengals,24
+New England Patriots,23,Buffalo Bills,20
+Kansas City Chiefs,28,Jacksonville Jaguars,31
+Philadelphia Eagles,17,New York Giants,34
+Denver Broncos,13,New York Jets,11
+Cleveland Browns,9,Pittsburgh Steelers,23
+Dallas Cowboys,27,Carolina Panthers,30
+Seattle Seahawks,20,Jacksonville Jaguars,12
+Los Angeles Rams,17,Baltimore Ravens,3
+Arizona Cardinals,27,Indianapolis Colts,31
+Los Angeles Chargers,29,Miami Dolphins,27
+New England Patriots,25,New Orleans Saints,19
+Tennessee Titans,10,Las Vegas Raiders,20
+San Francisco 49ers,19,Tampa Bay Buccaneers,30
+Cincinnati Bengals,18,Green Bay Packers,27
+Detroit Lions,17,Kansas City Chiefs,30
+Buffalo Bills,14,Atlanta Falcons,24
+Chicago Bears,25,Washington Commanders,24
+Pittsburgh Steelers,31,Cincinnati Bengals,33
+Los Angeles Rams,35,Jacksonville Jaguars,7
+New England Patriots,31,Tennessee Titans,13
+Las Vegas Raiders,0,Kansas City Chiefs,31
+Philadelphia Eagles,28,Minnesota Vikings,22
+New Orleans Saints,14,Chicago Bears,26
+Miami Dolphins,6,Cleveland Browns,31
+Carolina Panthers,13,New York Jets,6
+Indianapolis Colts,38,Los Angeles Chargers,24
+New York Giants,32,Denver Broncos,33
+Green Bay Packers,27,Arizona Cardinals,23
+Washington Commanders,22,Dallas Cowboys,44
+Atlanta Falcons,10,San Francisco 49ers,20
+Tampa Bay Buccaneers,9,Detroit Lions,24
+Houston Texans,19,Seattle Seahawks,27
+Minnesota Vikings,10,Los Angeles Chargers,37
+San Francisco 49ers,15,Houston Texans,26
+Buffalo Bills,40,Carolina Panthers,9
+Miami Dolphins,34,Atlanta Falcons,10
+New York Jets,39,Cincinnati Bengals,38
+Chicago Bears,16,Baltimore Ravens,30
+Cleveland Browns,13,New England Patriots,32
+New York Giants,20,Philadelphia Eagles,38
+Tampa Bay Buccaneers,23,New Orleans Saints,3
+Dallas Cowboys,24,Denver Broncos,44
+Tennessee Titans,14,Indianapolis Colts,38
+Green Bay Packers,35,Pittsburgh Steelers,25
+Washington Commanders,7,Kansas City Chiefs,28
+Baltimore Ravens,28,Miami Dolphins,6
+Denver Broncos,18,Houston Texans,15
+Carolina Panthers,16,Green Bay Packers,13
+Los Angeles Chargers,27,Tennessee Titans,20
+Chicago Bears,47,Cincinnati Bengals,42
+Minnesota Vikings,27,Detroit Lions,24
+Atlanta Falcons,23,New England Patriots,24
+San Francisco 49ers,34,New York Giants,24
+Indianapolis Colts,20,Pittsburgh Steelers,27
+Jacksonville Jaguars,30,Las Vegas Raiders,29
+New Orleans Saints,10,Los Angeles Rams,34
+Kansas City Chiefs,21,Buffalo Bills,28
+Seattle Seahawks,38,Washington Commanders,14
+Arizona Cardinals,27,Dallas Cowboys,17
+Las Vegas Raiders,7,Denver Broncos,10
+Atlanta Falcons,25,Indianapolis Colts,31
+New York Giants,20,Chicago Bears,24
+Baltimore Ravens,27,Minnesota Vikings,19
+Jacksonville Jaguars,29,Houston Texans,36
+New England Patriots,28,Tampa Bay Buccaneers,23
+New Orleans Saints,17,Carolina Panthers,7
+Cleveland Browns,20,New York Jets,27
+Buffalo Bills,13,Miami Dolphins,30
+Arizona Cardinals,22,Seattle Seahawks,44
+Los Angeles Rams,42,San Francisco 49ers,26
+Detroit Lions,44,Washington Commanders,22
+Pittsburgh Steelers,10,Los Angeles Chargers,25
+Philadelphia Eagles,10,Green Bay Packers,7
+New York Jets,14,New England Patriots,27
+Washington Commanders,13,Miami Dolphins,16
+Houston Texans,16,Tennessee Titans,13
+Chicago Bears,19,Minnesota Vikings,17
+Cincinnati Bengals,12,Pittsburgh Steelers,34
+Los Angeles Chargers,6,Jacksonville Jaguars,35
+Carolina Panthers,30,Atlanta Falcons,27
+Tampa Bay Buccaneers,32,Buffalo Bills,44
+Green Bay Packers,27,New York Giants,20
+Seattle Seahawks,19,Los Angeles Rams,21
+San Francisco 49ers,41,Arizona Cardinals,22
+Kansas City Chiefs,19,Denver Broncos,22
+Baltimore Ravens,23,Cleveland Browns,16
+Detroit Lions,9,Philadelphia Eagles,16
+Dallas Cowboys,33,Las Vegas Raiders,16
+Buffalo Bills,19,Houston Texans,23
+Pittsburgh Steelers,28,Chicago Bears,31
+Minnesota Vikings,6,Green Bay Packers,23
+Seattle Seahawks,30,Tennessee Titans,24
+Indianapolis Colts,20,Kansas City Chiefs,23
+New England Patriots,26,Cincinnati Bengals,20
+New York Jets,10,Baltimore Ravens,23
+New York Giants,27,Detroit Lions,34
+Cleveland Browns,24,Las Vegas Raiders,10
+Jacksonville Jaguars,27,Arizona Cardinals,24
+Atlanta Falcons,24,New Orleans Saints,10
+Philadelphia Eagles,21,Dallas Cowboys,24
+Tampa Bay Buccaneers,7,Los Angeles Rams,34
+Carolina Panthers,9,San Francisco 49ers,20
+Green Bay Packers,31,Detroit Lions,24
+Kansas City Chiefs,28,Dallas Cowboys,31
+Cincinnati Bengals,32,Baltimore Ravens,14
+Chicago Bears,24,Philadelphia Eagles,15
+Jacksonville Jaguars,25,Tennessee Titans,3
+Houston Texans,20,Indianapolis Colts,16
+New Orleans Saints,17,Miami Dolphins,21
+Atlanta Falcons,24,New York Jets,27
+Arizona Cardinals,17,Tampa Bay Buccaneers,20
+Los Angeles Rams,28,Carolina Panthers,31
+San Francisco 49ers,26,Cleveland Browns,8
+Minnesota Vikings,0,Seattle Seahawks,26
+Las Vegas Raiders,14,Los Angeles Chargers,31
+Buffalo Bills,26,Pittsburgh Steelers,7
+Denver Broncos,27,Washington Commanders,26
+New York Giants,15,New England Patriots,33

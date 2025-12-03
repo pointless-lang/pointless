@@ -1,27 +1,5 @@
 games = import "csv:games.csv"
 
-fn getStats(group)
-  numGames = len(group)
-
-  wins = group
-    ? arg.scored > arg.allowed
-    | len
-
-  scored = sum(group.scored)
-  allowed = sum(group.allowed)
-
-  {
-    wins,
-    losses: numGames - wins,
-    winPct: roundTo(wins / numGames, 3),
-    scored,
-    scoredPG: roundTo(scored / numGames, 1),
-    allowed,
-    allowedPG: roundTo(allowed / numGames, 1),
-    diff: scored - allowed,
-  }
-end
-
 home = Table.of({
   team: games.homeTeam,
   scored: games.homeScore,
@@ -33,6 +11,31 @@ away = Table.of({
   scored: games.awayScore,
   allowed: games.homeScore,
 })
+
+fn getStats(group)
+  numGames = len(group)
+
+  wins = group
+    ? arg.scored > arg.allowed
+    | len
+
+  losses = group
+    ? arg.scored < arg.allowed
+    | len
+
+  ties = group
+    ? arg.scored == arg.allowed
+    | len
+
+  winPct = roundTo(wins / numGames, 3)
+  scored = sum(group.scored)
+  allowed = sum(group.allowed)
+  scoredPG = roundTo(scored / numGames, 1)
+  allowedPG = roundTo(allowed / numGames, 1)
+  diff = scored - allowed
+
+  { wins, losses, ties, winPct, scoredPG, allowedPG, diff }
+end
 
 (home + away)
   | Table.summarize("team", getStats)
