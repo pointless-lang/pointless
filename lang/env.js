@@ -209,8 +209,8 @@ export class Env {
     return result;
   }
 
-  async evalDateTime(node) {
-    const inner = node.value;
+  evalDateTime(node) {
+    // const inner = node.value;
     throw new Panic("unimplemented");
   }
 
