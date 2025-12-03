@@ -1,6 +1,6 @@
 import { checkType, getType } from "./values.js";
 import { Func } from "./func.js";
-import { checkIndex } from "./list.js";
+import { checkIndex } from "./indexed.js";
 import { checkKey } from "./obj.js";
 import { Table } from "./table.js";
 import { checkNumResult, checkWhole } from "./num.js";
@@ -702,22 +702,26 @@ export class Env {
 
   async evalAccess(node) {
     const { lhs: lhsNode, rhs: rhsNode } = node.value;
-    const lhs = await this.eval(lhsNode, "list", "object", "table");
+    const lhs = await this.eval(lhsNode, "list", "object", "table", "string");
     const rhs = await this.eval(rhsNode);
+
+    this.setBlame(rhsNode.loc);
 
     switch (getType(lhs)) {
       case "list":
-        this.setBlame(rhsNode.loc);
         checkIndex(lhs, rhs);
         return lhs.get(rhs);
 
       case "object":
-        this.setBlame(rhsNode.loc);
         checkKey(lhs, rhs);
         return lhs.get(rhs);
 
       case "table":
         return lhs.get(rhs);
+
+      case "string":
+        checkIndex(lhs, rhs);
+        return [...lhs].at(rhs);
     }
   }
 }
