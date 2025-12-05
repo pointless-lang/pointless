@@ -1,13 +1,16 @@
 import fs from "node:fs";
 import prettier from "@prettier/sync";
 
-const comment = /(?: {2}\/\/.*\n)+/g;
+// Look for comments inside functions (one level of indentation)
+const comment = /( {2}\/\/.*\n)+/g;
 
 function stripSlashes(line) {
-  return line.startsWith("  // ") ? line.slice(5) : line.slice(4);
+  // Remove indentation, slashes, and potential trailing space
+  return line.replace(/ {2}\/\/ ?/, "");
 }
 
 function addSlashes(line) {
+  // Add trailing space for non-empty lines
   return line.length ? `  // ${line}` : `  //`;
 }
 
@@ -15,6 +18,7 @@ for (const file of fs.readdirSync("std/")) {
   const source = fs.readFileSync(`std/${file}`, "utf8");
 
   const result = source.replace(comment, (match) => {
+    // Assume comment is a doc comment iff it contains a ptls md code block
     if (!match.includes("```ptls")) {
       return match;
     }
@@ -24,7 +28,7 @@ for (const file of fs.readdirSync("std/")) {
     const formatted = prettier.format(md, {
       parser: "markdown",
       proseWrap: "always",
-      printWidth: 75,
+      printWidth: 75, // 80 minus prefix len
     });
 
     return formatted.trim().split("\n").map(addSlashes).join("\n") + "\n";

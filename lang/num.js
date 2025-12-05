@@ -23,7 +23,8 @@ export function checkWhole(n) {
 }
 
 export function checkNumResult(result, ...args) {
-  // result can only be NaN or infinite if one of the operands was
+  // Result can only be NaN or infinite if one of the operands was
+  // NaN is not finite
   if (args.some((arg) => !Number.isFinite(arg))) {
     return result;
   }
@@ -35,7 +36,7 @@ export function checkNumResult(result, ...args) {
   }
 
   if (Number.isNaN(result)) {
-    throw new Panic("invalid arguments");
+    throw new Panic("invalid numeric result");
   }
 
   return result;

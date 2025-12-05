@@ -15,13 +15,6 @@ export function checkKey(object, key) {
 export function isMatch(object, matcher) {
   checkType(object, "object");
   checkType(matcher, "object");
-  return matchHelper(object, matcher);
-}
-
-function matchHelper(value, goal) {
-  if (getType(value) !== "object" && getType(goal) !== "object") {
-    return im.is(value, goal);
-  }
-
-  return goal.every((v, k) => value.has(k) && matchHelper(value.get(k), v));
+  // OrderedMap isSubset only works for values have to do manually here
+  return matcher.every((v, k) => value.has(k) && im.is(value.get(k), v));
 }

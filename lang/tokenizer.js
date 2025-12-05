@@ -6,7 +6,7 @@ import { symbols } from "./symbols.js";
 export const ident = /^[a-zA-Z][a-zA-Z0-9]*$/;
 
 function rule(name, pattern) {
-  // "y" for sticky regex
+  // Use "y" for sticky regex
   return { name, pattern: new RegExp(pattern.source, "y") };
 }
 
@@ -14,36 +14,37 @@ function escape(chars) {
   return chars.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-// need "\b" to avoid matching names with keyword prefixes, like "note" vs "not"
+// Need "\b" to avoid matching names with keyword prefixes, like "note" vs "not"
 const keywordRules = keywords.map((kwd) => rule(kwd, new RegExp(kwd + "\\b")));
 
-// symbol rules get reverse-sorted to match longest prefix
+// Symbol rules get reverse-sorted to match longest prefix, for example we want
+// to match '==' as '==', not '=' '='
+
 const symbolRules = symbols
   .sort()
   .reverse()
   .map((sym) => rule(sym, new RegExp(escape(sym))));
 
-// rules are checked in order, so the ordering of rules is important
-// for example, the comment rule needs to come before the minus symbol rule
-// otherwise a comment's double dashes would be parsed as two minus signs
+// Rules are checked in order, so the ordering of rules is important.
+// For example, the comment rule needs to come before the minus symbol rule.
+// Otherwise a comment's double dashes would be parsed as two minus signs fmt!!md
 
 const rules = [
   ...keywordRules,
   rule("field", /\.[a-zA-Z][a-zA-Z0-9]*/),
   rule("newline", /\r?\n/),
   rule("number", /\d*\.?\d+([eE][+-]?\d+)?/),
-  // strings can contain newlines
+  // Strings can contain newlines
   rule("string", /"(\\.|[^\\])*?"/),
-  // rust-style raw strings
-  // must come before name rule
+  // Rust-style raw strings, must come before name rule
   rule("rawString", /r(#*)"[^]*?"\1/),
   // unmatchedQuote rule must come after string rule
   rule("unmatchedQuote", /(r#*)?"/),
   rule("dateTime", /\^[+.0-9:\-TZ]+/),
   rule("whitespace", /[ \t]+/),
-  // name rule must come after keyword and raw string rules
+  // Name rule must come after keyword and raw string rules
   rule("name", /[a-zA-Z][a-zA-Z0-9]*/),
-  // comment rule must come before '-' symbol rule
+  // Comment rule must come before '-' symbol rule
   rule("comment", /--.*/),
   ...symbolRules,
   // unexpectedCharacter rule must come last
@@ -104,20 +105,20 @@ class Token {
   }
 }
 
-// tokenize doesn't throw errors when invalid tokens are found
-// instead, the parser validates tokens before parsing
-// this lets us use the tokenizer for syntax highlighting
+// Tokenize doesn't throw errors when invalid tokens are found.
+// Instead, the parser validates tokens before parsing.
+// This lets us use the tokenizer for syntax highlighting
 
 export function tokenize(path, source) {
   const tokens = [];
   let index = 0;
-  // line and column are 1 indexed
+  // Line and column are 1 indexed
   let loc = new Loc(1, 1, path, () => source);
 
   while (index < source.length) {
-    // check rules in order
+    // Check rules in order
     for (const { name, pattern } of rules) {
-      // sticky regex forces match to start at given offset
+      // Sticky regex forces match to start at given offset
       pattern.lastIndex = index;
       const value = pattern.exec(source)?.[0];
 
@@ -132,7 +133,7 @@ export function tokenize(path, source) {
     // unexpectedCharacter rule will match if no other rule does
   }
 
-  // add endOfFile at the end
+  // Add endOfFile at the end
   tokens.push(new Token("endOfFile", loc, ""));
   return tokens;
 }
