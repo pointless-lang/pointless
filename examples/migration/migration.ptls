@@ -1,7 +1,6 @@
 cities = import "csv:cities.csv"
 
 cities.change = cities $ roundTo(arg.pop2024 / arg.pop2020 * 100 - 100, 2)
-
 cities.density = cities $ roundTo(arg.pop2024 / arg.area, 2)
 
 print("Biggest gain:")

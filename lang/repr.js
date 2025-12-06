@@ -8,7 +8,7 @@ function escapeInvisible(char) {
   return `\\u{${char.codePointAt(0).toString(16)}}`;
 }
 
-// Modes: compact, compact-raw, normal, normal-raw, pretty, pretty-raw
+// Modes: compact, normal, pretty
 
 export function repr(value, mode = "normal", raw = false) {
   if (getType(value) === "string") {

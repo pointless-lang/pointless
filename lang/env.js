@@ -14,8 +14,7 @@ export class Returner {
   }
 }
 
-export class Breaker {
-}
+export class Breaker {}
 
 export class Env {
   constructor(parent, defs, runtime, locals = new Set()) {
