@@ -14,6 +14,9 @@ export class Returner {
   }
 }
 
+export class Breaker {
+}
+
 export class Env {
   constructor(parent, defs, runtime, locals = new Set()) {
     this.parent = parent;
@@ -165,6 +168,8 @@ export class Env {
         return this.evalFilter(node);
       case "fn":
         return this.evalFn(node);
+      case "break":
+        throw new Breaker();
       case "return":
         throw new Returner(await this.eval(node.value));
       case "if":
@@ -602,6 +607,20 @@ export class Env {
     return fallback ? await this.eval(fallback) : null;
   }
 
+  async runCheckBreak(body) {
+    try {
+      await this.eval(body);
+    } catch (err) {
+      if (err instanceof Breaker) {
+        return true;
+      }
+
+      throw err;
+    }
+
+    return false;
+  }
+
   async evalFor(node) {
     // for loops suffer from same issue as in JS where loop variable gets
     // which has potential to give weird behavior with closures, but ptls
@@ -610,16 +629,13 @@ export class Env {
 
     const { name, range: rangeNode, body } = node.value;
     const range = await this.eval(rangeNode, "list", "table", "object", "set");
+    const values = getType(range) === "object" ? range.keys() : range;
 
-    if (getType(range) === "object") {
-      for (const key of range.keys()) {
-        this.setDef(name, key);
-        await this.eval(body);
-      }
-    } else {
-      for (const value of range) {
-        this.setDef(name, value);
-        await this.eval(body);
+    for (const value of values) {
+      this.setDef(name, value);
+
+      if (await this.runCheckBreak(body)) {
+        break;
       }
     }
 
@@ -629,18 +645,14 @@ export class Env {
   async evalTandemFor(node) {
     const { keyName, valName, range: rangeNode, body } = node.value;
     const range = await this.eval(rangeNode, "list", "object", "table");
+    const entries = getType(range) === "object" ? range : range.entries();
 
-    if (getType(range) === "object") {
-      for (const [key, value] of range) {
-        this.setDef(keyName, key);
-        this.setDef(valName, value);
-        await this.eval(body);
-      }
-    } else {
-      for (const [index, value] of range.entries()) {
-        this.setDef(keyName, index);
-        this.setDef(valName, value);
-        await this.eval(body);
+    for (const [key, value] of entries) {
+      this.setDef(keyName, key);
+      this.setDef(valName, value);
+
+      if (await this.runCheckBreak(body)) {
+        break;
       }
     }
 
@@ -654,7 +666,9 @@ export class Env {
     checkWhole(range);
 
     for (let n = 0; n < range; n++) {
-      await this.eval(body);
+      if (await this.runCheckBreak(body)) {
+        break;
+      }
     }
 
     return null;
@@ -664,7 +678,9 @@ export class Env {
     const { cond, body } = node.value;
 
     while (await this.eval(cond, "boolean")) {
-      await this.eval(body);
+      if (await this.runCheckBreak(body)) {
+        break;
+      }
     }
 
     return null;

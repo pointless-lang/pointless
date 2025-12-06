@@ -101,6 +101,7 @@ export function parse(tokens) {
 class Parser {
   index = 0;
   fnDepth = 0;
+  inLoop = false;
   implicits = [];
   locals = [];
   deferredPanic = undefined;
@@ -538,11 +539,21 @@ class Parser {
     return new Node("def", loc, { name, keys: [], isCompound: false, rhs });
   }
 
+  getBreak() {
+    const { loc } = this.get("break");
+
+    if (!this.inLoop) {
+      throw new Panic("Cannot use `break` outside of a loop", {}, loc);
+    }
+
+    return new Node("break", loc, null);
+  }
+
   getReturn() {
     const { loc } = this.get("return");
 
     if (!this.fnDepth) {
-      throw new Panic("Cannot use `return` outside of function", {}, loc);
+      throw new Panic("Cannot use `return` outside of a function", {}, loc);
     }
 
     const value = this.has("elif", "else", "end")
@@ -555,7 +566,12 @@ class Parser {
   getRangeBody() {
     const range = this.getExpression();
     this.get("do");
+
+    const wasInLoop = this.inLoop;
+    this.inLoop = true;
     const body = this.getStatements();
+    this.inLoop = wasInLoop;
+
     this.get("end");
     return { range, body };
   }
@@ -593,7 +609,12 @@ class Parser {
     const { loc } = this.get("while");
     const cond = this.getExpression();
     this.get("do");
+
+    const wasInLoop = this.inLoop;
+    this.inLoop = true;
     const body = this.getStatements();
+    this.inLoop = wasInLoop;
+
     this.get("end");
     return new Node("while", loc, { cond, body });
   }
@@ -698,6 +719,8 @@ class Parser {
     const { type } = this.peek();
 
     switch (type) {
+      case "break":
+        return this.getBreak();
       case "return":
         return this.getReturn();
       case "for":
@@ -712,11 +735,16 @@ class Parser {
   getFnInner() {
     const params = this.seq("(", ")", ",", () => this.get("name").value);
 
+    const wasInLoop = this.inLoop;
+    this.inLoop = false;
     this.fnDepth++;
     this.locals.push(new Set());
+
     const body = this.getStatements();
     const locals = this.locals.pop();
+
     this.fnDepth--;
+    this.inLoop = wasInLoop;
 
     this.get("end");
     return { params, body, locals };
