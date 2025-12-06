@@ -1,7 +1,7 @@
 import * as tableMod from "./Table.js";
 import { checkNumResult, checkPositive, checkWhole } from "../lang/num.js";
-import { checkIndex, checkNonEmpty } from "../lang/indexed.js";
-import { checkType, compare } from "../lang/values.js";
+import { checkNonEmpty, checkType, compare } from "../lang/values.js";
+import { checkIndex } from "../lang/list.js";
 import { Table } from "../lang/table.js";
 import { Panic } from "../lang/panic.js";
 import im from "../immutable/immutable.js";

@@ -49,6 +49,18 @@ export function checkType(value, ...types) {
   return value;
 }
 
+export function checkNonEmpty(value) {
+  checkType(value, "list", "string");
+
+  const length = value.size ?? value.length;
+
+  if (length === 0) {
+    throw new Panic(`empty ${value}`);
+  }
+
+  return value;
+}
+
 export function compareAll(a, b, desc) {
   for (let index = 0; index < a.size; index++) {
     const result = compare(a.get(index), b.get(index), desc);

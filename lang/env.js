@@ -1,6 +1,6 @@
 import { checkType, getType } from "./values.js";
 import { Func } from "./func.js";
-import { checkIndex } from "./indexed.js";
+import { checkIndex } from "./list.js";
 import { checkKey } from "./obj.js";
 import { Table } from "./table.js";
 import { checkNumResult, checkWhole } from "./num.js";
