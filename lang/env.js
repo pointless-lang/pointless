@@ -718,7 +718,7 @@ export class Env {
 
   async evalAccess(node) {
     const { lhs: lhsNode, rhs: rhsNode } = node.value;
-    const lhs = await this.eval(lhsNode, "list", "object", "table", "string");
+    const lhs = await this.eval(lhsNode, "list", "object", "table");
     const rhs = await this.eval(rhsNode);
 
     this.setBlame(rhsNode.loc);
@@ -734,10 +734,6 @@ export class Env {
 
       case "table":
         return lhs.get(rhs);
-
-      case "string":
-        checkIndex(lhs, rhs);
-        return [...lhs].at(rhs);
     }
   }
 }
