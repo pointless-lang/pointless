@@ -70,7 +70,9 @@ const identifier = /[a-zA-Z][a-zA-Z0-9]*/;
 const classNames = {
   comment: "comment",
   number: "number",
+  dateTime: "number",
   arg: "keyword",
+  break: "keyword",
   case: "keyword",
   do: "keyword",
   elif: "keyword",
@@ -91,6 +93,8 @@ const classNames = {
   and: "operator",
   or: "operator",
   not: "operator",
+  "??=": "operator",
+  "??": "operator",
   ">=": "operator",
   ">": "operator",
   "==": "operator",
