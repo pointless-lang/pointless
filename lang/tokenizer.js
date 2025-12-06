@@ -5,6 +5,9 @@ import { symbols } from "./symbols.js";
 
 export const ident = /^[a-zA-Z][a-zA-Z0-9]*$/;
 
+export const dateTime =
+  /\^((\d{4}-\d\d-\d\d[T ])?\d\d:\d\d(:\d\d(\.\d+)?)?(Z|[+\-]\d\d:\d\d)?|(\d{4}-\d\d-\d\d))\^/;
+
 function rule(name, pattern) {
   // Use "y" for sticky regex
   return { name, pattern: new RegExp(pattern.source, "y") };
@@ -40,7 +43,8 @@ const rules = [
   rule("rawString", /r(#*)"[^]*?"\1/),
   // unmatchedQuote rule must come after string rule
   rule("unmatchedQuote", /(r#*)?"/),
-  rule("dateTime", /\^[+.0-9:\-TZ]+/),
+  rule("dateTime", dateTime),
+  rule("invalidDateTime", /\^[^\^\n]*\^?/),
   rule("whitespace", /[ \t]+/),
   // Name rule must come after keyword and raw string rules
   rule("name", /[a-zA-Z][a-zA-Z0-9]*/),
@@ -50,9 +54,6 @@ const rules = [
   // unexpectedCharacter rule must come last
   rule("unexpectedCharacter", /[^]/),
 ];
-
-const invalidEscape =
-  /(?:^|[^\\])(?:\\\\)*(\\([^\\"nrtu]|u(?!{[0-9a-fA-F]{1,6}})))/;
 
 class Token {
   constructor(type, loc, value) {
@@ -69,38 +70,18 @@ class Token {
     switch (this.type) {
       case "unmatchedQuote":
         throw new Panic("unmatched quote", {}, this.loc);
+      case "invalidDateTime":
+        throw new Panic(
+          "invalid datetime string",
+          { $datetime: this.value },
+          this.loc,
+        );
       case "unexpectedCharacter":
         throw new Panic(
           "unexpected character",
           { character: this.value },
           this.loc,
         );
-      case "string": {
-        const match = this.value.match(invalidEscape);
-
-        if (match) {
-          // Get loc of invalid char
-          const prefix = this.value.slice(0, match.index + match[0].length - 1);
-          const loc = this.loc.next(prefix);
-
-          if (match[1] == "\\u") {
-            throw new Panic(
-              "invalid unicode escape sequence",
-              {
-                $expected:
-                  "'\\u{...}' where '...' is a sequence of between 1 and 6 hex digits",
-              },
-              loc,
-            );
-          }
-
-          throw new Panic(
-            "invalid escape sequence",
-            { $escape: `'${match[1]}'` },
-            loc,
-          );
-        }
-      }
     }
   }
 }

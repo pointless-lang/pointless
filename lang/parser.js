@@ -1,4 +1,5 @@
 import { keywords } from "./keywords.js";
+import { dateTime } from "./tokenizer.js";
 import { checkNumResult } from "./num.js";
 import { Panic } from "./panic.js";
 
@@ -30,6 +31,9 @@ const ops = [
 const escapeSeq = /\\["\\nrt]|\\u{([\dA-Fa-f]{1,6})}/g;
 const stringInner = /^r?#*"([\s\S]*)"#*$/;
 const indent = /^[ ]*/;
+
+const invalidEscape =
+  /(?:^|[^\\])(?:\\\\)*(\\([^\\"nrtu]|u(?!{[0-9a-fA-F]{1,6}})))/;
 
 const fmtVar =
   /\$(?:[_a-zA-Z]\w*(?:\.[_a-zA-Z]\w*)*|\([_a-zA-Z]\w*(?:\.[_a-zA-Z]\w*)*\))/g;
@@ -299,6 +303,31 @@ class Parser {
 
   getString() {
     const { value, loc } = this.get("string");
+    const match = value.match(invalidEscape);
+
+    if (match) {
+      // Get loc of invalid char
+      const prefix = value.slice(0, match.index + match[0].length - 1);
+      const loc = loc.next(prefix);
+
+      if (match[1] == "\\u") {
+        throw new Panic(
+          "invalid unicode escape sequence",
+          {
+            $expected:
+              "'\\u{...}' where '...' is a sequence of between 1 and 6 hex digits",
+          },
+          loc,
+        );
+      }
+
+      throw new Panic(
+        "invalid escape sequence",
+        { $escape: `'${match[1]}'` },
+        loc,
+      );
+    }
+
     const aligned = this.getAligned(value);
 
     // wait to parse fragments in getFmt so that we can keep
@@ -318,6 +347,11 @@ class Parser {
 
   getDateTime() {
     const { value, loc } = this.get("dateTime");
+
+    if (!dateTime.test(value)) {
+      throw new Panic("invalid datetime string", { $datetime: value }, loc);
+    }
+
     const inner = value.slice(1, -1);
     return new Node("dateTime", loc, inner);
   }
