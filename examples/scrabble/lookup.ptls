@@ -16,5 +16,5 @@ words
   ? List.hasAll(chars(letters), chars(arg))
   $ wordInfo
   | Table.of
-  | Table.top("score", 5)
+  | top("score", 5)
   | print

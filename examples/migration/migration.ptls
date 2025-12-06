@@ -7,11 +7,11 @@ cities.density = cities $ roundTo(arg.pop2024 / arg.area, 2)
 print("Biggest gain:")
 
 cities
-  | Table.top("change", 10)
+  | top("change", 10)
   | print
 
 print("Biggest loss:")
 
 cities
-  | Table.bottom("change", 10)
+  | bottom("change", 10)
   | print

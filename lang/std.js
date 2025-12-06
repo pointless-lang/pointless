@@ -56,6 +56,7 @@ export class Std {
   makeGlobals() {
     this.globals = {
       assert: this.modules.Test.assert,
+      bottom: this.modules.Table.bottom,
       chars: this.modules.Str.chars,
       clear: this.modules.Console.clear,
       join: this.modules.Str.join,
@@ -73,23 +74,21 @@ export class Std {
       span: this.modules.List.span,
       split: this.modules.Str.split,
       sum: this.modules.List.sum,
+      top: this.modules.Table.top,
     };
   }
 
   makeOverloads() {
     const overloads = {
       drop: ["values", "count"],
-      dropLast: ["values", "count"],
       isEmpty: ["values"],
       len: ["values"],
-      push: ["values", "item"],
       remove: ["values", "elem"],
       reverse: ["values"],
       select: ["collection", "keys"],
       sortBy: ["values", "ranker"],
       sortDescBy: ["values", "ranker"],
       take: ["values", "count"],
-      takeLast: ["values", "count"],
     };
 
     const typesMap = {

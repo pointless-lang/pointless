@@ -7,7 +7,7 @@ fn wordInfo(word)
     $ points[arg]
     | sum
 
-  { letter: take(word, 1), word, score }
+  { letter: chars(word)[0], word, score }
 end
 
 text
@@ -16,7 +16,7 @@ text
   $ wordInfo
   | Table.of
   | Table.group("letter")
-  $ Table.top("score", 1)
+  $ top("score", 1)
   | Table.merge
   | sortBy("letter")
   | print
