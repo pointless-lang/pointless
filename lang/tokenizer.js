@@ -30,7 +30,7 @@ const symbolRules = symbols
 
 // Rules are checked in order, so the ordering of rules is important.
 // For example, the comment rule needs to come before the minus symbol rule.
-// Otherwise a comment's double dashes would be parsed as two minus signs fmt!!md
+// Otherwise a comment's double dashes would be parsed as two minus signs
 
 const rules = [
   ...keywordRules,

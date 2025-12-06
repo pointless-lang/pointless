@@ -214,7 +214,7 @@ export class Env {
     return result;
   }
 
-  evalDateTime(node) {
+  evalDateTime(_node) {
     // const inner = node.value;
     throw new Panic("unimplemented");
   }
@@ -534,7 +534,7 @@ export class Env {
       //             ^
       // At repl:1:13
       //
-      // VS
+      // vs
       //
       // >> ["a"] $ Math.abs $ print
       // panic: type error

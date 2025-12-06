@@ -1,4 +1,4 @@
-import { checkType, getType } from "./values.js";
+import { checkType } from "./values.js";
 import { Panic } from "./panic.js";
 import im from "../immutable/immutable.js";
 
@@ -15,6 +15,7 @@ export function checkKey(object, key) {
 export function isMatch(object, matcher) {
   checkType(object, "object");
   checkType(matcher, "object");
-  // OrderedMap isSubset only works for values have to do manually here
+  // OrderedMap isSubset only works for values.
+  // Have to do manually to compare keys and values
   return matcher.every((v, k) => value.has(k) && im.is(value.get(k), v));
 }

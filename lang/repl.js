@@ -63,7 +63,7 @@ import { Panic } from "../lang/panic.js";
 export async function repl(runtime) {
   const env = runtime.spawnEnv();
 
-  // very silly default behavior from eslint here imo
+  // Very silly default behavior from eslint here imo
   // https://github.com/eslint/eslint/issues/5477
   // eslint-disable-next-line no-constant-condition
   while (true) {
@@ -87,7 +87,7 @@ export async function repl(runtime) {
 async function runInput(env, input) {
   const statements = parse(tokenize("repl", input));
 
-  // mimic Python repl behavior of handling multiple
+  // Mimic Python repl behavior of handling multiple
   // inline statements separately
   for (const statement of statements) {
     const ans = await env.eval(statement);

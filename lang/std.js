@@ -11,7 +11,7 @@ export class Std {
   makeModules(impl) {
     this.modules = {};
 
-    // wrapped functions shouldn't destructure arguments
+    // Wrapped functions shouldn't destructure arguments
     // or use spread syntax or default param values
     const paramChars = /\(([$\w\s,]*)\)/;
 
@@ -23,7 +23,7 @@ export class Std {
           continue;
         }
 
-        // module export names and param names can be escaped with '$' prefix
+        // Module export names and param names can be escaped with '$' prefix
         // for js keywords, for example a param '$default' in js would get
         // converted to 'default' in ptls
         name = name.replaceAll("$", "");
@@ -35,7 +35,7 @@ export class Std {
             .replaceAll(" ", "")
             .replaceAll("$", "");
 
-          // wrap js functions
+          // Wrap js functions
           const fullName = `${modName}.${name.replaceAll("$", "")}`;
           const params = paramStr.length ? paramStr.split(",") : [];
           value = new Func(value, fullName, params);
