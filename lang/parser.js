@@ -90,6 +90,11 @@ export function parse(tokens) {
   const parser = new Parser(tokens);
   const statements = parser.getStatements(true);
   parser.get("endOfFile");
+
+  if (parser.deferredPanic) {
+    throw parser.deferredPanic;
+  }
+
   return statements;
 }
 
@@ -98,6 +103,7 @@ class Parser {
   fnDepth = 0;
   implicits = [];
   locals = [];
+  deferredPanic = undefined;
 
   constructor(tokens) {
     this.tokens = tokens;
@@ -679,7 +685,7 @@ class Parser {
         const $solution =
           `use anon function syntax here instead: ${name} = fn(${paramStr}) ... end`;
 
-        throw new Panic(
+        this.deferredPanic = new Panic(
           "function declarations can only occur at top level",
           { $solution },
           fnDef.loc,
