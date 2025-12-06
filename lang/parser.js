@@ -10,10 +10,11 @@ const skip = ["whitespace", "newline", "comment"];
 const identifiers = ["name", ...keywords];
 
 // definition operators
-const def = ["=", "|=", "$=", "?=", "+=", "-=", "*=", "/=", "**=", "%="];
+const def = ["=", "|=", "$=", "?=", "+=", "-=", "*=", "/=", "**=", "%=", "??="];
 
 // operators from lowest to highest precedence
 const ops = [
+  { type: "binary", assoc: "left", symbols: ["??"] },
   { type: "binary", assoc: "left", symbols: ["or"] },
   { type: "binary", assoc: "left", symbols: ["and"] },
   { type: "unary", symbols: ["not"] },

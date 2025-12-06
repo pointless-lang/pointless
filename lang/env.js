@@ -245,6 +245,17 @@ export class Env {
         return (
           (await this.eval(lhs, "boolean")) || (await this.eval(rhs, "boolean"))
         );
+      case "??": {
+        if (lhs.type === "access") {
+          const { lhs: objNode, rhs: keyNode } = lhs.value;
+          const obj = await this.eval(objNode, "object");
+          const key = await this.eval(keyNode);
+          return obj.has(key) ? obj.get(key) : await this.eval(rhs);
+        }
+
+        const maybeNone = await this.eval(lhs);
+        return getType(maybeNone) === "none" ? await this.eval(rhs) : maybeNone;
+      }
     }
 
     const a = await this.eval(lhs);
@@ -380,17 +391,39 @@ export class Env {
   async updateObject(object, keys, isCompound, rhs) {
     const { key, newKeys } = await this.sliceKeys(keys);
 
-    // check that object[key] exists if key is an intermediate key (not the last)
-    // for example, in `foo.bar.baz = 0`, the key `bar` must already exist in
-    // `foo`, but `baz` does not need to exist in `foo.bar` yet, unless this is a
-    // compound assignment in which every key must exist (to get the current value)
-    if (newKeys.length || isCompound) {
+    // Check that object[key] exists if either:
+    //
+    //   A. The key is an intermediate key (not the last):
+    //
+    //      -- The key `bar` must already exist in `foo`, but `baz` does not
+    //      -- need to exist in `foo.bar` yet
+    //
+    //      foo.bar.baz = 0
+    //
+    //   B. This is a non `??` compound assignment, where which every key must
+    //      exist so we can get the current value
+    //
+    //      foo.bar.baz += 1
+    //
+    //      Note that the final key not need exist when the compound operator
+    //      is `??`:
+    //
+    //      -- The key `bar` must already exist in `foo`, but `baz` does not
+    //      -- need to exist in `foo.bar` yet
+    //
+    //      foo.bar.baz ??= 0
+
+    if (newKeys.length || (isCompound && rhs.value.op !== "??")) {
       checkKey(object, key);
     }
 
-    // child will be undefined for the final key when assignment is not compound,
-    // but it's ok in that case since there's no prev node to access it
-    const child = object.get(key);
+    // Child will be undefined for the final key when assignment is not compound
+    // and the key doesn't already exist, but it's ok in that case since there's
+    // no prev node to access it. Child will get default value `null` (none) for
+    // the compound operator `??=` if the key is not yet defined, and will be
+    // replaced by the default value in the `??` expression in `rhs`
+
+    const child = object.get(key, null);
     const updated = await this.update(child, newKeys, isCompound, rhs);
     return object.set(key, updated);
   }
