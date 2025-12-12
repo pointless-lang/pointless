@@ -1,10 +1,10 @@
-function escapeHtml(string) {
+export function escapeHtml(string) {
   return string
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
+    .replaceAll(`&`, "&amp;")
+    .replaceAll(`<`, "&lt;")
+    .replaceAll(`>`, "&gt;")
+    .replaceAll(`"`, "&quot;")
+    .replaceAll(`'`, "&#39;");
 }
 
 export function serialize(value, raw) {

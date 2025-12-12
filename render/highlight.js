@@ -1,3 +1,5 @@
+import { escapeHtml } from "./escape.js";
+
 export function highlight(tokens) {
   return new Highlighter(tokens).annotated.join("");
 }
@@ -156,12 +158,7 @@ class Highlighter {
   }
 
   add(value, className = undefined) {
-    const escaped = value
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
+    const escaped = escapeHtml(value);
 
     if (className) {
       this.annotated.push(`<span class="${className}">${escaped}</span>`);
