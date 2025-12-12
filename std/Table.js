@@ -1,6 +1,6 @@
 import { checkType, compareAll, getType } from "../lang/values.js";
 import { checkWhole } from "../lang/num.js";
-import * as obj from "./Obj.js";
+import * as Obj from "./Obj.js";
 import * as List from "./List.js";
 import { Table } from "../lang/table.js";
 import { Panic } from "../lang/panic.js";
@@ -448,7 +448,7 @@ export function remove(table, selector) {
   }
 
   selector = flattenCols(table, selector);
-  return new Table(obj.removeAll(table.data, selector));
+  return new Table(Obj.removeAll(table.data, selector));
 }
 
 export function push(table, row) {
@@ -716,7 +716,7 @@ export function select(table, columns) {
 
   checkType(table, "table");
   columns = flattenCols(table, columns);
-  return new Table(obj.select(table.data, columns));
+  return new Table(Obj.select(table.data, columns));
 }
 
 export function focus(table, columns) {
@@ -736,13 +736,13 @@ export function focus(table, columns) {
 
   checkType(table, "table");
   columns = flattenCols(table, columns);
-  return new Table(obj.focus(table.data, columns));
+  return new Table(Obj.focus(table.data, columns));
 }
 
 // export function removeColumns(table, columns) {
 //   checkType(table, "table");
 //   columns = flattenCols(table, columns);
-//   return new Table(obj.removeAll(table.data, columns));
+//   return new Table(Obj.removeAll(table.data, columns));
 // }
 
 export function rename(table, old, $new) {
@@ -758,11 +758,11 @@ export function rename(table, old, $new) {
   // ```
 
   checkType(table, "table");
-  return new Table(obj.rename(table.data, old, $new));
+  return new Table(Obj.rename(table.data, old, $new));
 }
 
 function selectValues(object, columns) {
-  return columns.map((column) => obj.get(object, column));
+  return columns.map((column) => Obj.get(object, column));
 }
 
 function doSortBy(table, columns, desc) {
