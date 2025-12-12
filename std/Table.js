@@ -1201,5 +1201,95 @@ export function product(tables) {
     rows = newRows;
   }
 
+  return Table.fromRows(im.List(rows), columns);
+}
+
+function getShared(tableA, tableB) {
+  const shared = im.Set(tableA.columns()).intersect(tableB.columns());
+
+  if (shared.isEmpty()) {
+    throw new Panic("cannot join tables with no shared columns", {
+      columnsA: tableA.columns(),
+      columnsB: tableB.columns(),
+    });
+  }
+
+  const columns = im.List(new Set([...tableA.columns(), ...tableB.columns()]));
+  return { shared: shared.toList(), columns };
+}
+
+export function join(tableA, tableB) {
+  checkType(tableA, "table");
+  checkType(tableB, "table");
+
+  const { shared, columns } = getShared(tableA, tableB);
+  const rows = [];
+
+  // Could be optimized by caching row keys
+
+  for (const rowA of tableA) {
+    for (const rowB of tableB) {
+      if (im.is(Obj.select(rowA, shared), Obj.select(rowB, shared))) {
+        rows.push(rowA.merge(rowB));
+      }
+    }
+  }
+
+  return Table.fromRows(im.List(rows), im.List(columns));
+}
+
+export function joinLeft(tableA, tableB) {
+  checkType(tableA, "table");
+  checkType(tableB, "table");
+
+  const { shared, columns } = getShared(tableA, tableB);
+  const rows = [];
+
+  // Could be optimized by caching selections
+
+  for (let rowA of tableA) {
+    let foundMatch = false;
+
+    for (const rowB of tableB) {
+      if (im.is(Obj.select(rowA, shared), Obj.select(rowB, shared))) {
+        rows.push(rowA.merge(rowB));
+        foundMatch = true;
+      }
+    }
+
+    if (!foundMatch) {
+      for (const column of tableB.columns()) {
+        if (!rowA.has(column)) {
+          rowA = rowA.set(column, null);
+        }
+      }
+
+      rows.push(rowA);
+    }
+  }
+
+  return Table.fromRows(im.List(rows), im.List(columns));
+}
+
+export async function joinGroup(tableA, tableB, reducer) {
+  checkType(tableA, "table");
+  checkType(tableB, "table");
+
+  const { shared } = getShared(tableA, tableB);
+  const empty = $new(tableB.columns());
+  const rows = [];
+
+  // Could be optimized by caching groupings
+
+  for (const rowA of tableA) {
+    const matches = [...tableB].filter((rowB) =>
+      im.is(Obj.select(rowA, shared), Obj.select(rowB, shared))
+    );
+    const matchTable = Table.fromRows(im.List(matches), tableB.columns());
+    const summary = await reducer.call(rowA, matchTable);
+    checkType(summary, "object");
+    rows.push(rowA.concat(summary));
+  }
+
   return of(im.List(rows));
 }
