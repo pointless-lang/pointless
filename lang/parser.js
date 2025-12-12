@@ -102,7 +102,7 @@ export function parse(tokens) {
 class Parser {
   index = 0;
   fnDepth = 0;
-  inLoop = false;
+  inLoop = [false];
   implicits = [];
   locals = [];
   deferredPanic = undefined;
@@ -543,7 +543,7 @@ class Parser {
   getBreak() {
     const { loc } = this.get("break");
 
-    if (!this.inLoop) {
+    if (!this.inLoop.at(-1)) {
       throw new Panic("Cannot use `break` outside of a loop", {}, loc);
     }
 
@@ -568,10 +568,9 @@ class Parser {
     const range = this.getExpression();
     this.get("do");
 
-    const wasInLoop = this.inLoop;
-    this.inLoop = true;
+    this.inLoop.push(true);
     const body = this.getStatements();
-    this.inLoop = wasInLoop;
+    this.inLoop.pop();
 
     this.get("end");
     return { range, body };
@@ -611,10 +610,9 @@ class Parser {
     const cond = this.getExpression();
     this.get("do");
 
-    const wasInLoop = this.inLoop;
-    this.inLoop = true;
+    this.inLoop.push(true);
     const body = this.getStatements();
-    this.inLoop = wasInLoop;
+    this.inLoop.pop();
 
     this.get("end");
     return new Node("while", loc, { cond, body });
@@ -736,8 +734,7 @@ class Parser {
   getFnInner() {
     const params = this.seq("(", ")", ",", () => this.get("name").value);
 
-    const wasInLoop = this.inLoop;
-    this.inLoop = false;
+    this.inLoop.push(false);
     this.fnDepth++;
     this.locals.push(new Set());
 
@@ -745,7 +742,7 @@ class Parser {
     const locals = this.locals.pop();
 
     this.fnDepth--;
-    this.inLoop = wasInLoop;
+    this.inLoop.pop();
 
     this.get("end");
     return { params, body, locals };
