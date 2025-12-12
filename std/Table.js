@@ -772,7 +772,7 @@ function doSortBy(table, columns, desc) {
     (a, b) => compareAll(a, b, desc),
   );
 
-  return of(rows);
+  return Table.fromRows(rows, table.columns());
 }
 
 export function sortBy(table, columns) {
@@ -940,7 +940,6 @@ export function maxBy(table, columns) {
 }
 
 function listExtremumAll(table, columns, desc) {
-  table.checkNonEmpty();
   columns = flattenCols(table, columns);
 
   const pairs = [];
@@ -956,8 +955,9 @@ function listExtremumAll(table, columns, desc) {
     .map(({ rank }) => rank)
     .max((a, b) => compareAll(a, b, desc));
 
-  return of(
+  return Table.fromRows(
     ranked.filter(({ rank }) => im.is(rank, limitRank)).map(({ row }) => row),
+    table.columns(),
   );
 }
 
@@ -980,7 +980,7 @@ export function minAll(table, columns) {
   // ```
 
   checkType(table, "table");
-  return isEmpty(table) ? table : listExtremumAll(table, columns, true);
+  return listExtremumAll(table, columns, true);
 }
 
 export function maxAll(table, columns) {
@@ -1002,7 +1002,7 @@ export function maxAll(table, columns) {
   // ```
 
   checkType(table, "table");
-  return isEmpty(table) ? table : listExtremumAll(table, columns, false);
+  return listExtremumAll(table, columns, false);
 }
 
 export function group(table, columns) {
