@@ -1175,11 +1175,21 @@ export function product(tables) {
   // ```
 
   checkType(tables, "list");
+  const columns = [];
 
   let rows = [im.OrderedMap()];
 
   for (const table of tables) {
     checkType(table, "table");
+
+    for (const column of table.columns()) {
+      if (columns.includes(column)) {
+        throw new Panic("duplicate column name", { column });
+      }
+
+      columns.push(column);
+    }
+
     const newRows = [];
 
     for (const row of rows) {
