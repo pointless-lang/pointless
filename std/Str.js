@@ -109,7 +109,7 @@ export function takeLast(string, count) {
   // `count >= len(string)` then the entire string is returned.
   //
   // ```ptls
-  // takeLast("Hello World!", 5)
+  // Str.takeLast("Hello World!", 5)
   // ```
 
   checkType(string, "string");
@@ -137,7 +137,7 @@ export function dropLast(string, count) {
   // then `""` is returned.
   //
   // ```ptls
-  // dropLast("Hello World!", 5)
+  // Str.dropLast("Hello World!", 5)
   // ```
 
   checkType(string, "string");

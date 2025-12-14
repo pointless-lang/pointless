@@ -210,7 +210,7 @@ export function takeLast(list, count) {
   // Get the last `count` elements from `list`.
   //
   // ```ptls
-  // takeLast(["a", "b", "c", "d", "e"], 3)
+  // List.takeLast(["a", "b", "c", "d", "e"], 3)
   // ```
 
   checkType(list, "list");
@@ -234,7 +234,7 @@ export function dropLast(list, count) {
   // Remove the last `count` elements from `list`.
   //
   // ```ptls
-  // dropLast(["a", "b", "c", "d", "e"], 3)
+  // List.dropLast(["a", "b", "c", "d", "e"], 3)
   // ```
 
   checkType(list, "list");
