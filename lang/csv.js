@@ -37,7 +37,7 @@ function convert(string) {
   }
 
   if (number.test(string)) {
-    return JSON.parse(string);
+    return Number.parseFloat(string);
   }
 
   return string;
