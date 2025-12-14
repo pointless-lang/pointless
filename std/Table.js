@@ -6,15 +6,17 @@ import { Table } from "../lang/table.js";
 import { Panic } from "../lang/panic.js";
 import im from "../immutable/immutable.js";
 
-function flattenCols(table, columns) {
+function flattenCols(columns, ...tables) {
   checkType(columns, "string", "list");
 
   if (getType(columns) === "string") {
-    table.checkColumns(columns);
-    return im.List([columns]);
+    columns = im.List([columns]);
   }
 
-  table.checkColumns(...columns);
+  for (const table of tables) {
+    table.checkColumns(...columns);
+  }
+
   return columns;
 }
 
@@ -95,10 +97,11 @@ export function len(table) {
   // Get the number of rows in `table`.
   //
   // ```ptls
-  // players = Table.of([
-  //   { name: "Lamar", yards: 4172 },
-  //   { name: "Josh", yards: 3731 },
-  // ])
+  // players = #{
+  //   name    , yards
+  //   "Lamar" ,  4172 
+  //   "Josh"  ,  3731
+  // }
   //
   // len(players)
   // ```
@@ -112,14 +115,18 @@ export function isEmpty(table) {
   // still have one or more columns.
   //
   // ```ptls
-  // players = Table.of([
-  //   { name: "Lamar", yards: 4172 },
-  //   { name: "Josh", yards: 3731 },
-  // ])
+  // players = #{
+  //   name    , yards
+  //   "Lamar" ,  4172 
+  //   "Josh"  ,  3731
+  // }
   //
   // isEmpty(players)
   //
-  // players = Table.new(["name", "yards"])
+  // players = #{
+  //   name , yards
+  // }
+  //
   // isEmpty(players)
   // ```
 
@@ -136,14 +143,16 @@ export function defaultCols(table, columns) {
   // correct columns.
   //
   // ```ptls
-  // players = Table.of([
-  //   { name: "Lamar", yards: 4172 },
-  //   { name: "Josh", yards: 3731 },
-  // ])
+  // players = #{
+  //   name    , yards
+  //   "Lamar" ,  4172 
+  //   "Josh"  ,  3731
+  // }
   //
   // Table.defaultCols(players, ["name", "yards"])
   //
-  // players = Table.of([])
+  // players = #{}
+  //
   // Table.defaultCols(players, ["name", "yards"])
   // ```
 
@@ -162,12 +171,11 @@ export function rows(table) {
   // Get a list of the rows in `table`.
   //
   // ```ptls
-  // players = Table.of({
-  //   name: ["Lamar", "Josh"],
-  //   yards: [4172, 3731],
-  //   tds: [41, 28],
-  //   ints: [4, 6],
-  // })
+  // players = #{
+  //   name    , yards , tds, ints
+  //   "Lamar" ,  4172 ,  41,    4
+  //   "Josh"  ,  3731 ,  28,    6
+  // }
   //
   // Table.rows(players)
   // ```
@@ -179,12 +187,13 @@ export function reverse(table) {
   // Reverse the rows in `table`.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "New York", state: "NY" },
-  //   { city: "Los Angeles", state: "CA" },
-  //   { city: "Chicago", state: "IL" },
-  //   { city: "Houston", state: "TX" },
-  // ])
+  // cities = #{
+  //   city         , state
+  //   "New York"    , "NY"
+  //   "Los Angeles" , "CA"
+  //   "Chicago"     , "IL"
+  //   "Houston"     , "TX"
+  // }
   //
   // reverse(cities)
   // ```
@@ -197,14 +206,16 @@ export function unique(table) {
   // Deduplicate rows of `table`, keeping only the first occurrence of each row.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "New York", state: "NY" },
-  //   { city: "Los Angeles", state: "CA" },
-  //   { city: "New York", state: "NY" },
-  //   { city: "Chicago", state: "IL" },
-  //   { city: "New York", state: "NY" },
-  //   { city: "Houston", state: "TX" },
-  // ])
+  // cities = #{
+  //   city         , state
+  //   "New York"    , "NY"
+  //   "New York"    , "NY"
+  //   "Los Angeles" , "CA"
+  //   "Chicago"     , "IL"
+  //   "New York"    , "NY"
+  //   "Houston"     , "TX"
+  //   "Houston"     , "TX"
+  // }
   //
   // Table.unique(cities)
   // ```
@@ -218,23 +229,26 @@ export function get(table, selector) {
   // `selector` may be a number, string, or object.
   //
   // - If `selector` is a number, return the row at index `selector`.
-  // - If `selector` is a string, return the values from the column with name
-  //   `selector` as a list.
+  //
   // - If `selector` is an object, return the first row that
   //   [matches](/language/objects#object-matching) `selector`, with the
   //   requirement that at least one row matches.
   //
+  // - If `selector` is a string, return the values from the column with name
+  //   `selector` as a list.
+  //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "New York", state: "NY" },
-  //   { city: "Los Angeles", state: "CA" },
-  //   { city: "Chicago", state: "IL" },
-  //   { city: "Houston", state: "TX" },
-  // ])
+  // cities = #{
+  //   city         , state
+  //   "New York"    , "NY"
+  //   "Los Angeles" , "CA"
+  //   "Chicago"     , "IL"
+  //   "Houston"     , "TX"
+  // }
   //
   // Table.get(cities, 1)
-  // Table.get(cities, "city")
   // Table.get(cities, { state: "TX" })
+  // Table.get(cities, "city")
   // ```
   //
   // _Note that these operations can also be performed using the index `[]` and
@@ -242,9 +256,9 @@ export function get(table, selector) {
   //
   // ```ptls
   // cities[1]
+  // cities[{ state: "TX" }]
   // cities.city
   // cities["city"]
-  // cities[{ state: "TX" }]
   // ```
 
   checkType(table, "table");
@@ -272,12 +286,13 @@ export function set(table, selector, value) {
   //   `table`.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "New York", state: "NY" },
-  //   { city: "Los Angeles", state: "CA" },
-  //   { city: "Chicago", state: "IL" },
-  //   { city: "Houston", state: "TX" },
-  // ])
+  // cities = #{
+  //   city         , state
+  //   "New York"    , "NY"
+  //   "Los Angeles" , "CA"
+  //   "Chicago"     , "IL"
+  //   "Houston"     , "TX"
+  // }
   //
   // Table.set(cities, 0, { city: "Big Apple", state: "Empire" })
   // Table.set(cities, "state", ["New York", "Cali", "Illinois", "Texas"])
@@ -328,12 +343,13 @@ export function has(table, selector) {
   //   [matches](/language/objects#object-matching) `selector`.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "New York", state: "NY" },
-  //   { city: "Los Angeles", state: "CA" },
-  //   { city: "Chicago", state: "IL" },
-  //   { city: "Houston", state: "TX" },
-  // ])
+  // cities = #{
+  //   city         , state
+  //   "New York"    , "NY"
+  //   "Los Angeles" , "CA"
+  //   "Chicago"     , "IL"
+  //   "Houston"     , "TX"
+  // }
   //
   // Table.has(cities, "city")
   // Table.has(cities, "county")
@@ -341,6 +357,8 @@ export function has(table, selector) {
   // Table.has(cities, { state: "NY" })
   // Table.has(cities, { state: "VT" })
   // ```
+  //
+  // _Note that this can also be accomplished using the `in` operator.
   //
   // ```ptls
   // "city" in cities
@@ -379,12 +397,13 @@ export function indexOf(table, matcher) {
   // `none` if no row matches.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "Houston", state: "TX" },
-  //   { city: "Phoenix", state: "AZ" },
-  //   { city: "Philadelphia", state: "PA" },
-  //   { city: "San Antonio", state: "TX" },
-  // ])
+  // cities = #{
+  //   city           , state
+  //   "Houston"      , "TX"
+  //   "Phoenix"      , "AZ"
+  //   "Philadelphia" , "PA"
+  //   "San Antonio"  , "TX"
+  // }
   //
   // Table.indexOf(cities, { state: "TX" })
   // Table.indexOf(cities, { state: "FL" })
@@ -399,12 +418,13 @@ export function match(table, matcher) {
   // [match](/language/objects#object-matching) the object `matcher`.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "Houston", state: "TX" },
-  //   { city: "Phoenix", state: "AZ" },
-  //   { city: "Philadelphia", state: "PA" },
-  //   { city: "San Antonio", state: "TX" },
-  // ])
+  // cities = #{
+  //   city           , state
+  //   "Houston"      , "TX"
+  //   "Phoenix"      , "AZ"
+  //   "Philadelphia" , "PA"
+  //   "San Antonio"  , "TX"
+  // }
   //
   // Table.match(cities, { state: "TX" })
   // ```
@@ -426,14 +446,15 @@ export function remove(table, selector) {
   //   [match](/language/objects#object-matching) `selector`.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "Houston", state: "TX", population: 2390125 },
-  //   { city: "Phoenix", state: "AZ", population: 1673164 },
-  //   { city: "Philadelphia", state: "PA", population: 1573916 },
-  //   { city: "San Antonio", state: "TX", population: 1526656 },
-  //   { city: "San Diego", state: "CA", population: 1404452 },
-  //   { city: "Dallas", state: "TX", population: 1326087 },
-  // ])
+  // cities = #{
+  //   city           , state , population
+  //   "Houston"      , "TX"  ,    2390125
+  //   "Phoenix"      , "AZ"  ,    1673164
+  //   "Philadelphia" , "PA"  ,    1573916
+  //   "San Antonio"  , "TX"  ,    1526656
+  //   "San Diego"    , "CA"  ,    1404452
+  //   "Dallas"       , "TX"  ,    1326087
+  // }
   //
   // remove(cities, "population")
   // remove(cities, ["city", "population"])
@@ -447,7 +468,7 @@ export function remove(table, selector) {
     return table.remove(selector);
   }
 
-  selector = flattenCols(table, selector);
+  selector = flattenCols(selector, table);
   return new Table(Obj.removeAll(table.data, selector));
 }
 
@@ -456,13 +477,14 @@ export function push(table, row) {
   // in `table`.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "Houston", state: "TX" },
-  //   { city: "Phoenix", state: "AZ" },
-  //   { city: "Philadelphia", state: "PA" },
-  // ])
+  // cities = #{
+  //   city           , state , population
+  //   "Houston"      , "TX"  ,    2390125
+  //   "Phoenix"      , "AZ"  ,    1673164
+  //   "Philadelphia" , "PA"  ,    1573916
+  // }
   //
-  // push(cities, { city: "San Antonio", state: "TX" })
+  // push(cities, { city: "San Antonio", state: "TX", population: 1526656 })
   // ```
 
   return table.addRow(row);
@@ -472,12 +494,13 @@ export function pop(table) {
   // Remove the last row from `table`.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "Houston", state: "TX" },
-  //   { city: "Phoenix", state: "AZ" },
-  //   { city: "Philadelphia", state: "PA" },
-  //   { city: "San Antonio", state: "TX" },
-  // ])
+  // cities = #{
+  //   city           , state , population
+  //   "Houston"      , "TX"  ,    2390125
+  //   "Phoenix"      , "AZ"  ,    1673164
+  //   "Philadelphia" , "PA"  ,    1573916
+  //   "San Antonio"  , "TX"  ,    1526656
+  // }
   //
   // Table.pop(cities)
   // ```
@@ -496,18 +519,20 @@ export function splice(table, index, count, rows) {
   // those in the table `rows`.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "Houston", state: "TX" },
-  //   { city: "Phoenix", state: "AZ" },
-  //   { city: "Philadelphia", state: "PA" },
-  //   { city: "San Antonio", state: "TX" },
-  // ])
+  // cities = #{
+  //   city           , state
+  //   "New York"     , "NY"
+  //   "Philadelphia" , "PA" 
+  //   "San Antonio"  , "TX" 
+  //   "Houston"      , "TX" 
+  //   "Phoenix"      , "AZ" 
+  // }
   //
-  // newRows = Table.of([
-  //   { city: "New York", state: "NY" },
-  //   { city: "Los Angeles", state: "CA" },
-  //   { city: "Chicago", state: "IL" },
-  // ])
+  // newRows = #{
+  //   city          , state
+  //   "Los Angeles" , "CA"
+  //   "Chicago"     , "IL"
+  // }
   //
   // Table.splice(cities, 1, 2, newRows)
   // ```
@@ -525,17 +550,25 @@ export function merge(tables) {
   // Merge (flatten) a list of `tables` into a single table.
   //
   // ```ptls
-  // t1 = Table.of([
-  //   { city: "Houston", state: "TX" },
-  //   { city: "Phoenix", state: "AZ" },
-  // ])
+  // t1 = #{
+  //   city      , state
+  //   "Houston" , "TX" 
+  //   "Phoenix" , "AZ" 
+  // }
   //
-  // t2 = Table.of([
-  //   { city: "Philadelphia", state: "PA" },
-  //   { city: "San Antonio", state: "TX" },
-  // ])
+  // t2 = #{
+  //   city           , state
+  //   "Philadelphia" , "PA" 
+  //   "San Antonio"  , "TX" 
+  // }
   //
   // Table.merge([t1, t2])
+  // ```
+  //
+  // _Note that tables can also be merged using the `+` operator.
+  //
+  // ```ptls
+  // t1 + t2
   // ```
 
   return Table.merge(tables);
@@ -545,13 +578,14 @@ export function take(table, count) {
   // Get the first `count` rows from `table`.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "New York", state: "NY" },
-  //   { city: "Los Angeles", state: "CA" },
-  //   { city: "Chicago", state: "IL" },
-  //   { city: "Houston", state: "TX" },
-  //   { city: "Phoenix", state: "AZ" },
-  // ])
+  // cities = #{
+  //   city         , state
+  //   "New York"    , "NY"
+  //   "Los Angeles" , "CA"
+  //   "Chicago"     , "IL"
+  //   "Houston"     , "TX"
+  //   "Phoenix"     , "AZ"
+  // }
   //
   // take(cities, 3)
   // ```
@@ -571,15 +605,16 @@ export function takeLast(table, count) {
   // Get the last `count` rows from `table`.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "New York", state: "NY" },
-  //   { city: "Los Angeles", state: "CA" },
-  //   { city: "Chicago", state: "IL" },
-  //   { city: "Houston", state: "TX" },
-  //   { city: "Phoenix", state: "AZ" },
-  // ])
+  // cities = #{
+  //   city         , state
+  //   "New York"    , "NY"
+  //   "Los Angeles" , "CA"
+  //   "Chicago"     , "IL"
+  //   "Houston"     , "TX"
+  //   "Phoenix"     , "AZ"
+  // }
   //
-  // takeLast(cities, 3)
+  // Table.takeLast(cities, 3)
   // ```
 
   checkType(table, "table");
@@ -597,13 +632,14 @@ export function drop(table, count) {
   // Remove the first `count` rows from `table`.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "New York", state: "NY" },
-  //   { city: "Los Angeles", state: "CA" },
-  //   { city: "Chicago", state: "IL" },
-  //   { city: "Houston", state: "TX" },
-  //   { city: "Phoenix", state: "AZ" },
-  // ])
+  // cities = #{
+  //   city         , state
+  //   "New York"    , "NY"
+  //   "Los Angeles" , "CA"
+  //   "Chicago"     , "IL"
+  //   "Houston"     , "TX"
+  //   "Phoenix"     , "AZ"
+  // }
   //
   // drop(cities, 3)
   // ```
@@ -623,15 +659,16 @@ export function dropLast(table, count) {
   // Remove the last `count` rows from `table`.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "New York", state: "NY" },
-  //   { city: "Los Angeles", state: "CA" },
-  //   { city: "Chicago", state: "IL" },
-  //   { city: "Houston", state: "TX" },
-  //   { city: "Phoenix", state: "AZ" },
-  // ])
+  // cities = #{
+  //   city         , state
+  //   "New York"    , "NY"
+  //   "Los Angeles" , "CA"
+  //   "Chicago"     , "IL"
+  //   "Houston"     , "TX"
+  //   "Phoenix"     , "AZ"
+  // }
   //
-  // dropLast(cities, 3)
+  // Table.dropLast(cities, 3)
   // ```
 
   checkType(table, "table");
@@ -649,10 +686,11 @@ export async function map(table, func) {
   // Transform each row in `table` using `func`.
   //
   // ```ptls
-  // players = Table.of([
-  //   { name: "Lamar", yards: 4172, tds: 41, ints: 4 },
-  //   { name: "Josh", yards: 3731, tds: 28, ints: 6 }
-  // ])
+  // players = #{
+  //   name    , yards , tds, ints
+  //   "Lamar" ,  4172 ,  41,    4
+  //   "Josh"  ,  3731 ,  28,    6
+  // }
   //
   // fn addTD(player)
   //   player.tds += 1
@@ -677,14 +715,15 @@ export async function filter(table, condition) {
   // Keep the rows in `table` that satisfy `condition`.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "Houston", state: "TX" },
-  //   { city: "Phoenix", state: "AZ" },
-  //   { city: "Philadelphia", state: "PA" },
-  //   { city: "San Antonio", state: "TX" },
-  //   { city: "San Diego", state: "CA" },
-  //   { city: "Dallas", state: "TX" },
-  // ])
+  // cities = #{
+  //   city           , state
+  //   "Houston"      , "TX"
+  //   "Phoenix"      , "AZ"
+  //   "Philadelphia" , "PA"
+  //   "San Antonio"  , "TX"
+  //   "San Diego"    , "CA"
+  //   "Dallas"       , "TX"
+  // }
   //
   // Table.filter(cities, fn(city) city.state == "TX" end)
   // ```
@@ -705,17 +744,18 @@ export function select(table, columns) {
   // strings (for multiple columns).
   //
   // ```ptls
-  // players = Table.of([
-  //   { name: "Lamar", yards: 4172, tds: 41, ints: 4 },
-  //   { name: "Josh", yards: 3731, tds: 28, ints: 6 }
-  // ])
+  // players = #{
+  //   name    , yards , tds, ints
+  //   "Lamar" ,  4172 ,  41,    4
+  //   "Josh"  ,  3731 ,  28,    6
+  // }
   //
   // select(players, ["yards", "name"])
   // select(players, "name")
   // ```
 
   checkType(table, "table");
-  columns = flattenCols(table, columns);
+  columns = flattenCols(columns, table);
   return new Table(Obj.select(table.data, columns));
 }
 
@@ -725,23 +765,24 @@ export function focus(table, columns) {
   // list of strings (for multiple columns).
   //
   // ```ptls
-  // players = Table.of([
-  //   { name: "Lamar", yards: 4172, tds: 41, ints: 4 },
-  //   { name: "Josh", yards: 3731, tds: 28, ints: 6 }
-  // ])
+  // players = #{
+  //   name    , yards , tds, ints
+  //   "Lamar" ,  4172 ,  41,    4
+  //   "Josh"  ,  3731 ,  28,    6
+  // }
   //
   // Table.focus(players, ["yards", "name"])
   // Table.focus(players, "ints")
   // ```
 
   checkType(table, "table");
-  columns = flattenCols(table, columns);
+  columns = flattenCols(columns, table);
   return new Table(Obj.focus(table.data, columns));
 }
 
 // export function removeColumns(table, columns) {
 //   checkType(table, "table");
-//   columns = flattenCols(table, columns);
+//   columns = flattenCols(columns, table);
 //   return new Table(Obj.removeAll(table.data, columns));
 // }
 
@@ -749,10 +790,11 @@ export function rename(table, old, $new) {
   // Rename the column with name `old` to name `new` in `table`.
   //
   // ```ptls
-  // players = Table.of([
-  //   { name: "Lamar", yards: 4172, tds: 41, ints: 4 },
-  //   { name: "Josh", yards: 3731, tds: 28, ints: 6 }
-  // ])
+  // players = #{
+  //   name    , yards , tds, ints
+  //   "Lamar" ,  4172 ,  41,    4
+  //   "Josh"  ,  3731 ,  28,    6
+  // }
   //
   // Table.rename(players, "tds", "touchdowns")
   // ```
@@ -790,22 +832,23 @@ export function sortBy(table, columns) {
   // resulting table, whether sorting in ascending or descending order.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "Houston", state: "TX", population: 2390125 },
-  //   { city: "Phoenix", state: "AZ", population: 1673164 },
-  //   { city: "Philadelphia", state: "PA", population: 1573916 },
-  //   { city: "San Antonio", state: "TX", population: 1526656 },
-  //   { city: "San Diego", state: "CA", population: 1404452 },
-  //   { city: "Dallas", state: "TX", population: 1326087 },
-  //   { city: "DC", state: none, population: 702250 },
-  // ])
+  // cities = #{
+  //   city           , state , population
+  //   "Houston"      , "TX"  ,    2390125
+  //   "Phoenix"      , "AZ"  ,    1673164
+  //   "Philadelphia" , "PA"  ,    1573916
+  //   "San Antonio"  , "TX"  ,    1526656
+  //   "San Diego"    , "CA"  ,    1404452
+  //   "Dallas"       , "TX"  ,    1326087
+  //   "DC"           , none  ,     702250
+  // }
   //
   // sortBy(cities, "population")
   // sortBy(cities, ["state", "city"])
   // ```
 
   checkType(table, "table");
-  columns = flattenCols(table, columns);
+  columns = flattenCols(columns, table);
   return doSortBy(table, columns, false);
 }
 
@@ -814,22 +857,23 @@ export function sortDescBy(table, columns) {
   // the docs for [Table.sortBy](#sortBy) for details on the sorting process.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "Houston", state: "TX", population: 2390125 },
-  //   { city: "Phoenix", state: "AZ", population: 1673164 },
-  //   { city: "Philadelphia", state: "PA", population: 1573916 },
-  //   { city: "San Antonio", state: "TX", population: 1526656 },
-  //   { city: "San Diego", state: "CA", population: 1404452 },
-  //   { city: "Dallas", state: "TX", population: 1326087 },
-  //   { city: "DC", state: none, population: 702250 },
-  // ])
+  // cities = #{
+  //   city           , state , population
+  //   "Houston"      , "TX"  ,    2390125
+  //   "Phoenix"      , "AZ"  ,    1673164
+  //   "Philadelphia" , "PA"  ,    1573916
+  //   "San Antonio"  , "TX"  ,    1526656
+  //   "San Diego"    , "CA"  ,    1404452
+  //   "Dallas"       , "TX"  ,    1326087
+  //   "DC"           , none  ,     702250
+  // }
   //
   // sortDescBy(cities, "population")
   // sortDescBy(cities, ["state", "city"])
   // ```
 
   checkType(table, "table");
-  columns = flattenCols(table, columns);
+  columns = flattenCols(columns, table);
   return doSortBy(table, columns, true);
 }
 
@@ -840,14 +884,15 @@ export function top(table, columns, count) {
   // Equivalent to `take(sortDescBy(table, columns), count)`.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "New York", state: "NY", population: 8478072 },
-  //   { city: "Los Angeles", state: "CA", population: 3878704 },
-  //   { city: "Chicago", state: "IL", population: 2721308 },
-  //   { city: "Houston", state: "TX", population: 2390125 },
-  //   { city: "Phoenix", state: "AZ", population: 1673164 },
-  //   { city: "Philadelphia", state: "PA", population: 1573916 },
-  // ])
+  // cities = #{
+  //   city           , state , population
+  //   "Houston"      , "TX"  ,    2390125
+  //   "Phoenix"      , "AZ"  ,    1673164
+  //   "Philadelphia" , "PA"  ,    1573916
+  //   "San Antonio"  , "TX"  ,    1526656
+  //   "San Diego"    , "CA"  ,    1404452
+  //   "Dallas"       , "TX"  ,    1326087
+  // }
   //
   // Table.top(cities, "population", 4)
   // ```
@@ -861,14 +906,15 @@ export function bottom(table, columns, count) {
   // `take(sortBy(table, columns), count)`.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "New York", state: "NY", population: 8478072 },
-  //   { city: "Los Angeles", state: "CA", population: 3878704 },
-  //   { city: "Chicago", state: "IL", population: 2721308 },
-  //   { city: "Houston", state: "TX", population: 2390125 },
-  //   { city: "Phoenix", state: "AZ", population: 1673164 },
-  //   { city: "Philadelphia", state: "PA", population: 1573916 },
-  // ])
+  // cities = #{
+  //   city           , state , population
+  //   "Houston"      , "TX"  ,    2390125
+  //   "Phoenix"      , "AZ"  ,    1673164
+  //   "Philadelphia" , "PA"  ,    1573916
+  //   "San Antonio"  , "TX"  ,    1526656
+  //   "San Diego"    , "CA"  ,    1404452
+  //   "Dallas"       , "TX"  ,    1326087
+  // }
   //
   // Table.bottom(cities, "population", 4)
   // ```
@@ -893,14 +939,15 @@ export function minBy(table, columns) {
   // process.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "Houston", state: "TX", population: 2390125 },
-  //   { city: "Phoenix", state: "AZ", population: 1673164 },
-  //   { city: "Philadelphia", state: "PA", population: 1573916 },
-  //   { city: "San Antonio", state: "TX", population: 1526656 },
-  //   { city: "San Diego", state: "CA", population: 1404452 },
-  //   { city: "Dallas", state: "TX", population: 1326087 },
-  // ])
+  // cities = #{
+  //   city           , state , population
+  //   "New York"     , "NY"  ,    8478072
+  //   "Los Angeles"  , "CA"  ,    3878704
+  //   "Chicago"      , "IL"  ,    2721308
+  //   "Houston"      , "TX"  ,    2390125
+  //   "Phoenix"      , "AZ"  ,    1673164
+  //   "Philadelphia" , "PA"  ,    1573916
+  // }
   //
   // Table.minBy(cities, "population")
   // Table.minBy(cities, ["state", "city"])
@@ -908,7 +955,7 @@ export function minBy(table, columns) {
 
   checkType(table, "table");
   table.checkNonEmpty();
-  return listExtremum(table, flattenCols(table, columns), true);
+  return listExtremum(table, flattenCols(columns, table), true);
 }
 
 export function maxBy(table, columns) {
@@ -921,14 +968,15 @@ export function maxBy(table, columns) {
   // process.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "Houston", state: "TX", population: 2390125 },
-  //   { city: "Phoenix", state: "AZ", population: 1673164 },
-  //   { city: "Philadelphia", state: "PA", population: 1573916 },
-  //   { city: "San Antonio", state: "TX", population: 1526656 },
-  //   { city: "San Diego", state: "CA", population: 1404452 },
-  //   { city: "Dallas", state: "TX", population: 1326087 },
-  // ])
+  // cities = #{
+  //   city           , state , population
+  //   "New York"     , "NY"  ,    8478072
+  //   "Los Angeles"  , "CA"  ,    3878704
+  //   "Chicago"      , "IL"  ,    2721308
+  //   "Houston"      , "TX"  ,    2390125
+  //   "Phoenix"      , "AZ"  ,    1673164
+  //   "Philadelphia" , "PA"  ,    1573916
+  // }
   //
   // Table.maxBy(cities, "population")
   // Table.maxBy(cities, ["state", "city"])
@@ -936,11 +984,11 @@ export function maxBy(table, columns) {
 
   checkType(table, "table");
   table.checkNonEmpty();
-  return listExtremum(table, flattenCols(table, columns), false);
+  return listExtremum(table, flattenCols(columns, table), false);
 }
 
 function listExtremumAll(table, columns, desc) {
-  columns = flattenCols(table, columns);
+  columns = flattenCols(columns, table);
 
   const pairs = [];
 
@@ -967,14 +1015,15 @@ export function minAll(table, columns) {
   // [Table.sortBy](#sortBy) for details on the ranking process.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "Houston", state: "TX", population: 2390125 },
-  //   { city: "Phoenix", state: "AZ", population: 1673164 },
-  //   { city: "Philadelphia", state: "PA", population: 1573916 },
-  //   { city: "San Antonio", state: "TX", population: 1526656 },
-  //   { city: "San Diego", state: "CA", population: 1404452 },
-  //   { city: "Dallas", state: "TX", population: 1326087 },
-  // ])
+  // cities = #{
+  //   city           , state , population
+  //   "Houston"      , "TX"  ,    2390125
+  //   "Phoenix"      , "AZ"  ,    1673164
+  //   "Philadelphia" , "PA"  ,    1573916
+  //   "San Antonio"  , "TX"  ,    1526656
+  //   "San Diego"    , "CA"  ,    1404452
+  //   "Dallas"       , "TX"  ,    1326087
+  // }
   //
   // Table.minAll(cities, "state")
   // ```
@@ -989,14 +1038,15 @@ export function maxAll(table, columns) {
   // [Table.sortBy](#sortBy) for details on the ranking process.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "Houston", state: "TX", population: 2390125 },
-  //   { city: "Phoenix", state: "AZ", population: 1673164 },
-  //   { city: "Philadelphia", state: "PA", population: 1573916 },
-  //   { city: "San Antonio", state: "TX", population: 1526656 },
-  //   { city: "San Diego", state: "CA", population: 1404452 },
-  //   { city: "Dallas", state: "TX", population: 1326087 },
-  // ])
+  // cities = #{
+  //   city           , state , population
+  //   "Houston"      , "TX"  ,    2390125
+  //   "Phoenix"      , "AZ"  ,    1673164
+  //   "Philadelphia" , "PA"  ,    1573916
+  //   "San Antonio"  , "TX"  ,    1526656
+  //   "San Diego"    , "CA"  ,    1404452
+  //   "Dallas"       , "TX"  ,    1326087
+  // }
   //
   // Table.maxAll(cities, "state")
   // ```
@@ -1005,31 +1055,7 @@ export function maxAll(table, columns) {
   return listExtremumAll(table, columns, false);
 }
 
-export function group(table, columns) {
-  // Partition `table` into groups based on the values in `columns`, which may
-  // be a string (single column) or a list of strings (multiple columns).
-  //
-  // Rows with the same values in the given columns are grouped together. The
-  // result is a list of tables, each containing the rows for one group.
-  //
-  // ```ptls
-  // cities = Table.of([
-  //   { city: "Los Angeles", state: "CA" },
-  //   { city: "Chicago", state: "IL" },
-  //   { city: "Houston", state: "TX" },
-  //   { city: "Phoenix", state: "AZ" },
-  //   { city: "Philadelphia", state: "PA" },
-  //   { city: "San Antonio", state: "TX" },
-  //   { city: "San Diego", state: "CA" },
-  //   { city: "Dallas", state: "TX" },
-  // ])
-  //
-  // Table.group(cities, "state")
-  // ```
-
-  checkType(table, "table");
-  columns = flattenCols(table, columns);
-
+function groupsMap(table, columns) {
   let groups = im.OrderedMap();
 
   for (const row of table) {
@@ -1042,9 +1068,38 @@ export function group(table, columns) {
     groups.get(group).push(row);
   }
 
-  return groups
+  return groups.map((rows) => of(im.List(rows)));
+}
+
+export function group(table, columns) {
+  // Partition `table` into groups based on the values in `columns`, which may
+  // be a string (single column) or a list of strings (multiple columns).
+  //
+  // Rows with the same values in the given columns are grouped together. The
+  // result is a list of tables, each containing the rows for one group.
+  //
+  // ```ptls
+  // cities = #{
+  //   city           , state
+  //   "New York"     , "NY"
+  //   "Los Angeles"  , "CA"
+  //   "Chicago"      , "IL"
+  //   "Houston"      , "TX"
+  //   "Phoenix"      , "AZ"
+  //   "Philadelphia" , "PA"
+  //   "San Antonio"  , "TX"
+  //   "San Diego"    , "CA"
+  //   "Dallas"       , "TX"
+  // }
+  //
+  // Table.group(cities, "state")
+  // ```
+
+  checkType(table, "table");
+  columns = flattenCols(columns, table);
+
+  return groupsMap(table, columns)
     .valueSeq()
-    .map((group) => of(im.List(group)))
     .toList();
 }
 
@@ -1060,16 +1115,18 @@ export async function summarize(table, columns, reducer) {
   // form the final summary row for that group.
   //
   // ```ptls
-  // cities = Table.of([
-  //   { city: "Los Angeles", state: "CA", population: 3878704 },
-  //   { city: "Chicago", state: "IL", population: 2721308 },
-  //   { city: "Houston", state: "TX", population: 2390125 },
-  //   { city: "Phoenix", state: "AZ", population: 1673164 },
-  //   { city: "Philadelphia", state: "PA", population: 1573916 },
-  //   { city: "San Antonio", state: "TX", population: 1526656 },
-  //   { city: "San Diego", state: "CA", population: 1404452 },
-  //   { city: "Dallas", state: "TX", population: 1326087 },
-  // ])
+  // cities = #{
+  //   city           , state , population
+  //   "New York"     , "NY"  ,    8478072
+  //   "Los Angeles"  , "CA"  ,    3878704
+  //   "Chicago"      , "IL"  ,    2721308
+  //   "Houston"      , "TX"  ,    2390125
+  //   "Phoenix"      , "AZ"  ,    1673164
+  //   "Philadelphia" , "PA"  ,    1573916
+  //   "San Antonio"  , "TX"  ,    1526656
+  //   "San Diego"    , "CA"  ,    1404452
+  //   "Dallas"       , "TX"  ,    1326087
+  // }
   //
   // fn calcStateStats(group)
   //   totalPop = sum(group.population)
@@ -1081,8 +1138,12 @@ export async function summarize(table, columns, reducer) {
   // Table.summarize(cities, "state", calcStateStats)
   // ```
 
+  if (isEmpty(table)) {
+    return table;
+  }
+
   const groups = group(table, columns);
-  columns = flattenCols(table, columns);
+  columns = flattenCols(columns, table);
   checkType(reducer, "function");
 
   const rows = [];
@@ -1162,15 +1223,21 @@ export function product(tables) {
   // The input tables should all have different keys.
   //
   // ```ptls
-  // ranks = Table.of({ rank: ["A", "2", "3", "4" ] })
+  // ranks = #{
+  //   rank
+  //   "A"
+  //   "2"
+  //   "3"
+  // }
   //
-  // suits = Table.of({
-  //   name: ["Clubs", "Diamonds", "Hearts", "Spades"],
-  //   symbol: ["♣", "♦", "♥", "♠"]
-  // })
+  // suits = #{
+  //   name       , symbol
+  //   "Clubs"    , "♣"
+  //   "Diamonds" , "♦"
+  //   "Hearts"   , "♥"
+  //   "Spades"   , "♠"
+  // }
   //
-  // ranks
-  // suits
   // Table.product([ranks, suits])
   // ```
 

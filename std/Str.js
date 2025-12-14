@@ -289,6 +289,13 @@ export function has(string, subString) {
   // Str.has("assume", "sum")
   // Str.has("assume", "you")
   // ```
+  //
+  // _Note that this can also be accomplished using the `in` operator.
+  //
+  // ```ptls
+  // "sum" in "assume"
+  // "you" in "assume"
+  // ```
 
   checkType(string, "string");
   checkType(subString, "string");

@@ -9,7 +9,8 @@ export function of(values) {
   // ```ptls
   // l = ["NY", "CA", "IL", "TX", "AZ", "PA", "TX", "CA", "TX", "FL"]
   // Set.of(l)
-  // t = Table.of({ name: ["Ducky", "Clementine"], type: ["dog", "bird"] })
+  //
+  // t = #{ name, type; "Ducky", "Clementine"; "dog", "bird" }
   // Set.of(t)
   // ```
 
@@ -23,7 +24,7 @@ export function len(set) {
   // Return the number of elements in `set`.
   //
   // ```ptls
-  // s = Set.of(["a", "b", "c", "d"])
+  // s = #["a", "b", "c", "d"]
   // len(s)
   // ```
 
@@ -35,8 +36,8 @@ export function isEmpty(set) {
   // Check whether `set` is empty.
   //
   // ```ptls
-  // isEmpty(Set.of([]))
-  // isEmpty(Set.of(["a", "b", "c", "d"]))
+  // isEmpty(#[])
+  // isEmpty(#["a", "b", "c", "d"])
   // ```
 
   return len(set) == 0;
@@ -46,9 +47,16 @@ export function has(set, value) {
   // Check whether `set` contains `value`.
   //
   // ```ptls
-  // s = Set.of(["a", "b", "c"])
+  // s = #["a", "b", "c"]
   // Set.has(s, "b")
   // Set.has(s, "d")
+  // ```
+  //
+  // _Note that this can also be accomplished using the `in` operator.
+  //
+  // ```ptls
+  // "b" in #["a", "b", "c"]
+  // "d" in #["a", "b", "c"]
   // ```
 
   checkType(set, "set");
@@ -61,7 +69,7 @@ export function hasAll(set, values) {
   // `values`, and `values` is a subset of `set`.
   //
   // ```ptls
-  // s = Set.of(["a", "b", "c"])
+  // s = #["a", "b", "c"]
   // Set.hasAll(s, ["b", "c"])
   // Set.hasAll(s, ["d", "c"])
   // ```
@@ -74,7 +82,7 @@ export function add(set, value) {
   // Add `value` to `set`.
   //
   // ```ptls
-  // s = Set.of(["a", "b", "c"])
+  // s = #["a", "b", "c"]
   // Set.add(s, "b")
   // Set.add(s, "d")
   // ```
@@ -88,7 +96,7 @@ export function addAll(set, values) {
   // other words, get the union of `set` and `values`.
   //
   // ```ptls
-  // s = Set.of(["a", "b", "c"])
+  // s = #["a", "b", "c"]
   // Set.addAll(s, ["b", "e"])
   // Set.addAll(s, ["d", "e"])
   // ```
@@ -101,7 +109,7 @@ export function remove(set, value) {
   // Remove `value` from `set`, if present.
   //
   // ```ptls
-  // s = Set.of(["a", "b", "c"])
+  // s = #["a", "b", "c"]
   // Set.remove(s, "b")
   // Set.remove(s, "d")
   // ```
@@ -115,7 +123,7 @@ export function removeAll(set, values) {
   // list, or table. In other words, get the difference of `set` and `values`.
   //
   // ```ptls
-  // s = Set.of(["a", "b", "c"])
+  // s = #["a", "b", "c"]
   // Set.removeAll(s, ["b", "c"])
   // Set.removeAll(s, ["d", "c"])
   // ```
@@ -129,9 +137,15 @@ export function merge(sets) {
   // union of `sets`.
   //
   // ```ptls
-  // s1 = Set.of(["a", "b", "c"])
-  // s2 = Set.of(["d", "b", "e"])
+  // s1 = #["a", "b", "c"]
+  // s2 = #["d", "b", "e"]
   // Set.merge([s1, s2])
+  // ```
+  //
+  // _Note that sets can also be merged using the `+` operator.
+  //
+  // ```ptls
+  // s1 + s2
   // ```
 
   checkType(sets, "list");
@@ -144,8 +158,8 @@ export function intersection(set, values) {
   // `set` and `values`.
   //
   // ```ptls
-  // s1 = Set.of(["a", "b", "c"])
-  // s2 = Set.of(["c", "b", "e"])
+  // s1 = #["a", "b", "c"]
+  // s2 = #["c", "b", "e"]
   // Set.intersection(s1, s2)
   // ```
 

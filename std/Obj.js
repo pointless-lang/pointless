@@ -31,6 +31,13 @@ export function has(object, key) {
   // Obj.has({ q: 9, r: 5, b: 3, n: 3, p: 1 }, "q")
   // Obj.has({ q: 9, r: 5, b: 3, n: 3, p: 1 }, "k")
   // ```
+  //
+  // _Note that this can also be accomplished using the `in` operator.
+  //
+  // ```ptls
+  // "q" in { q: 9, r: 5, b: 3, n: 3, p: 1 }
+  // "k" in { q: 9, r: 5, b: 3, n: 3, p: 1 }
+  // ```
 
   checkType(object, "object");
   return object.has(key);
@@ -121,10 +128,15 @@ export function merge(objects) {
   // Merge (flatten) a list of `objects` into a single object.
   //
   // ```ptls
-  // Obj.merge([
-  //   { "Hello": "Ola", "Good afternoon": "Boa tarde" },
-  //   { "Hello": "E aí?", "Good night": "Boa noite" },
-  // ])
+  // o1 = { "Hello": "Ola", "Good afternoon": "Boa tarde" }
+  // o2 = { "Hello": "E aí?", "Good night": "Boa noite" }
+  // Obj.merge([o1 + o2])
+  // ```
+  //
+  // _Note that objects can also be merged using the `+` operator.
+  //
+  // ```ptls
+  // o1 + o2
   // ```
 
   checkType(objects, "list");

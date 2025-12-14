@@ -70,6 +70,13 @@ export function has(list, value) {
   // List.has(["a", "b", "c"], "b")
   // List.has(["a", "b", "c"], "d")
   // ```
+  //
+  // _Note that this can also be accomplished using the `in` operator.
+  //
+  // ```ptls
+  // "b" in ["a", "b", "c"]
+  // "d" in ["a", "b", "c"]
+  // ```
 
   checkType(list, "list");
   return list.includes(value);
@@ -261,7 +268,15 @@ export function merge(lists) {
   // Merge (flatten) `lists` into a single list.
   //
   // ```ptls
-  // List.merge([["a", "b"], ["c"], ["d", "e"]])
+  // l1 = ["a", "b"]
+  // l2 = ["c", "d", "e"]
+  // List.merge([l1, l2])
+  // ```
+  //
+  // _Note that lists can also be merged using the `+` operator.
+  //
+  // ```ptls
+  // l1 + l2
   // ```
 
   checkType(lists, "list");
