@@ -1201,92 +1201,136 @@ export function product(tables) {
     rows = newRows;
   }
 
-  return Table.fromRows(im.List(rows), columns);
+  return Table.fromRows(im.List(rows), im.List(columns));
 }
 
-function getShared(tableA, tableB) {
-  const shared = im.Set(tableA.columns()).intersect(tableB.columns());
-
-  if (shared.isEmpty()) {
-    throw new Panic("cannot join tables with no shared columns", {
-      columnsA: tableA.columns(),
-      columnsB: tableB.columns(),
-    });
-  }
-
-  const columns = im.List(new Set([...tableA.columns(), ...tableB.columns()]));
-  return { shared: shared.toList(), columns };
+function columnUnion(tableA, tableB) {
+  return im.List(new Set([...tableA.columns(), ...tableB.columns()]));
 }
 
-export function join(tableA, tableB) {
+export function join(tableA, tableB, columns) {
+  // ```ptls
+  // donors = #{
+  //   donor      , type
+  //   "Luna"     , "O"
+  //   "Marty"    , "B"
+  //   "Mercedes" , "A"
+  // }
+  //
+  // recipients = #{
+  //   recipient  , type
+  //   "Judy"     , "O"
+  //   "DeVondre" , "O"
+  //   "Sammy"    , "B"
+  // }
+  //
+  // Table.join(donors, recipients, "type")
+  // ```
+
   checkType(tableA, "table");
   checkType(tableB, "table");
+  columns = flattenCols(columns, tableA, tableB);
 
-  const { shared, columns } = getShared(tableA, tableB);
+  const groupsB = groupsMap(tableB, columns);
+  const newColumns = columnUnion(tableA, tableB);
   const rows = [];
 
-  // Could be optimized by caching row keys
+  for (const rowA of tableA) {
+    const key = selectValues(rowA, columns);
+
+    for (const rowB of groupsB.get(key, [])) {
+      rows.push(rowA.merge(rowB));
+    }
+  }
+
+  return Table.fromRows(im.List(rows), newColumns);
+}
+
+export function joinLeft(tableA, tableB, columns) {
+  // ```ptls
+  // cities = #{
+  //   city          , state
+  //   "Philadephia" , "PA"
+  //   "Austin"      , "TX"
+  //   "Boston"      , "MA"
+  //   "Cleveland"   , "OH"
+  // }
+  //
+  // regions = #{
+  //   state , region
+  //   "MA"  , "New England"
+  //   "MA"  , "North East"
+  //   "PA"  , "Mid Atlantic"
+  //   "TX"  , "Southwest"
+  // }
+  //
+  // Table.joinLeft(cities, regions, "state")
+  // ```
+
+  checkType(tableA, "table");
+  checkType(tableB, "table");
+  columns = flattenCols(columns, tableA, tableB);
+
+  const groupsB = groupsMap(tableB, columns);
+  const rows = [];
+
+  const nonesB = im.OrderedMap(
+    tableB.columns().map((column) => [column, null]),
+  );
 
   for (const rowA of tableA) {
-    for (const rowB of tableB) {
-      if (im.is(Obj.select(rowA, shared), Obj.select(rowB, shared))) {
+    const key = selectValues(rowA, columns);
+
+    if (!groupsB.has(key)) {
+      rows.push(rowA.merge(nonesB));
+    } else {
+      for (const rowB of groupsB.get(key)) {
         rows.push(rowA.merge(rowB));
       }
     }
   }
 
-  return Table.fromRows(im.List(rows), im.List(columns));
+  return rows.length ? of(im.List(rows)) : $new(tableA.columns());
 }
 
-export function joinLeft(tableA, tableB) {
+export async function joinGroup(tableA, tableB, columns, reducer) {
+  // ```ptls
+  // cities = #{
+  //   city          , state
+  //   "Philadephia" , "PA"
+  //   "Austin"      , "TX"
+  //   "Boston"      , "MA"
+  //   "Cleveland"   , "OH"
+  // }
+  //
+  // stats = #{
+  //   city          , points
+  //   "Philadephia" ,      1
+  //   "Philadephia" ,      2
+  //   "Austin"      ,      3
+  //   "Boston"      ,      4
+  // }
+  //
+  // fn totalPoints(city, stats)
+  //   city.points = sum(stats.points)
+  //   city
+  // end
+  //
+  // Table.joinGroup(cities, stats, "city", totalPoints)
+  // ```
+
   checkType(tableA, "table");
   checkType(tableB, "table");
+  columns = flattenCols(columns, tableA, tableB);
 
-  const { shared, columns } = getShared(tableA, tableB);
+  const groupsB = groupsMap(tableB, columns);
   const rows = [];
-
-  // Could be optimized by caching selections
-
-  for (let rowA of tableA) {
-    let foundMatch = false;
-
-    for (const rowB of tableB) {
-      if (im.is(Obj.select(rowA, shared), Obj.select(rowB, shared))) {
-        rows.push(rowA.merge(rowB));
-        foundMatch = true;
-      }
-    }
-
-    if (!foundMatch) {
-      for (const column of tableB.columns()) {
-        if (!rowA.has(column)) {
-          rowA = rowA.set(column, null);
-        }
-      }
-
-      rows.push(rowA);
-    }
-  }
-
-  return Table.fromRows(im.List(rows), im.List(columns));
-}
-
-export async function joinGroup(tableA, tableB, reducer) {
-  checkType(tableA, "table");
-  checkType(tableB, "table");
-
-  const { shared } = getShared(tableA, tableB);
-  const empty = $new(tableB.columns());
-  const rows = [];
-
-  // Could be optimized by caching groupings
-
+  const emptyB = $new(tableB.columns())
+  
   for (const rowA of tableA) {
-    const matches = [...tableB].filter((rowB) =>
-      im.is(Obj.select(rowA, shared), Obj.select(rowB, shared))
-    );
-    const matchTable = Table.fromRows(im.List(matches), tableB.columns());
-    const summary = await reducer.call(rowA, matchTable);
+    const key = selectValues(rowA, columns);
+    const rowsB = groupsB.get(key, emptyB);
+    const summary = await reducer.call(rowA, of(rowsB));
     checkType(summary, "object");
     rows.push(rowA.concat(summary));
   }
