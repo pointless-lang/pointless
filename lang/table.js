@@ -410,10 +410,18 @@ export class Table {
     );
 
     const lines = [];
+    const padLen = this.size.toString().length + 1;
 
-    function addLine(start, end, sep, contents) {
+    const addLine = (start, end, sep, contents, indexStr = "") => {
       const inner = contents.join(sep);
-      lines.push(`${start}${inner}${end}`);
+
+      if (mode === "normal") {
+        lines.push(`${start}${inner}${end}`);
+      } else if (!this.size) {
+        lines.push(`${start}${inner}${end}`);
+      } else {
+        lines.push(`${indexStr.padStart(padLen)} ${start}${inner}${end}`);
+      }
     }
 
     const dividers = tableInfo.map(({ length }) => "─".repeat(length));
@@ -443,7 +451,7 @@ export class Table {
 
     for (let index = 0; index < this.size; index++) {
       const contents = tableInfo.map(({ cells }) => cells[index].toString());
-      addLine("│ ", " │", " │ ", contents);
+      const indStr = addLine("│ ", " │", " │ ", contents, index.toString());
     }
 
     addLine("└─", "─┘", "─┴─", dividers);
@@ -490,17 +498,11 @@ class Cell {
     this.decimals = this.type === "number" && this.baseStr.includes(".")
       ? this.baseStr.length - this.baseStr.indexOf(".")
       : 0;
-
-    this.quotes = this.baseStr.startsWith('"');
   }
 
   getLength() {
     if (this.type === "number") {
       return this.baseStr.length + this.colInfo.decimals - this.decimals;
-    }
-
-    if (this.type === "string" && this.colInfo.quotes && !this.quotes) {
-      return this.baseStr.length + 2;
     }
 
     return this.baseStr.length;
@@ -518,12 +520,6 @@ class Cell {
         }
 
         this.string = result.padStart(this.colInfo.length);
-      } else if (
-        this.type === "string" &&
-        this.colInfo.quotes &&
-        !this.quotes
-      ) {
-        this.string = `"${this.baseStr}"`.padEnd(this.colInfo.length);
       } else {
         this.string = this.baseStr.padEnd(this.colInfo.length);
       }
@@ -537,7 +533,6 @@ class ColInfo {
   constructor(name, values, mode) {
     this.cells = values.map((v) => new Cell(v, this, mode)).toArray();
     this.decimals = Math.max(...this.cells.map((cell) => cell.decimals));
-    this.quotes = this.cells.some((cell) => cell.quotes);
 
     this.length = Math.max(
       name.length,
