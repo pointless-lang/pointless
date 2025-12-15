@@ -71,7 +71,7 @@ export function has(list, value) {
   // List.has(["a", "b", "c"], "d")
   // ```
   //
-  // _Note that this can also be accomplished using the `in` operator.
+  // _Note that this can also be accomplished using the `in` operator._
   //
   // ```ptls
   // "b" in ["a", "b", "c"]
@@ -273,7 +273,7 @@ export function merge(lists) {
   // List.merge([l1, l2])
   // ```
   //
-  // _Note that lists can also be merged using the `+` operator.
+  // _Note that lists can also be merged using the `+` operator._
   //
   // ```ptls
   // l1 + l2

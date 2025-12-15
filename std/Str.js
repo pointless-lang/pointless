@@ -290,7 +290,7 @@ export function has(string, subString) {
   // Str.has("assume", "you")
   // ```
   //
-  // _Note that this can also be accomplished using the `in` operator.
+  // _Note that this can also be accomplished using the `in` operator._
   //
   // ```ptls
   // "sum" in "assume"

@@ -99,7 +99,7 @@ export function len(table) {
   // ```ptls
   // players = #{
   //   name    , yards
-  //   "Lamar" ,  4172 
+  //   "Lamar" ,  4172
   //   "Josh"  ,  3731
   // }
   //
@@ -117,7 +117,7 @@ export function isEmpty(table) {
   // ```ptls
   // players = #{
   //   name    , yards
-  //   "Lamar" ,  4172 
+  //   "Lamar" ,  4172
   //   "Josh"  ,  3731
   // }
   //
@@ -145,7 +145,7 @@ export function defaultCols(table, columns) {
   // ```ptls
   // players = #{
   //   name    , yards
-  //   "Lamar" ,  4172 
+  //   "Lamar" ,  4172
   //   "Josh"  ,  3731
   // }
   //
@@ -188,7 +188,7 @@ export function reverse(table) {
   //
   // ```ptls
   // cities = #{
-  //   city         , state
+  //   city          , state
   //   "New York"    , "NY"
   //   "Los Angeles" , "CA"
   //   "Chicago"     , "IL"
@@ -207,7 +207,7 @@ export function unique(table) {
   //
   // ```ptls
   // cities = #{
-  //   city         , state
+  //   city          , state
   //   "New York"    , "NY"
   //   "New York"    , "NY"
   //   "Los Angeles" , "CA"
@@ -239,7 +239,7 @@ export function get(table, selector) {
   //
   // ```ptls
   // cities = #{
-  //   city         , state
+  //   city          , state
   //   "New York"    , "NY"
   //   "Los Angeles" , "CA"
   //   "Chicago"     , "IL"
@@ -287,7 +287,7 @@ export function set(table, selector, value) {
   //
   // ```ptls
   // cities = #{
-  //   city         , state
+  //   city          , state
   //   "New York"    , "NY"
   //   "Los Angeles" , "CA"
   //   "Chicago"     , "IL"
@@ -344,7 +344,7 @@ export function has(table, selector) {
   //
   // ```ptls
   // cities = #{
-  //   city         , state
+  //   city          , state
   //   "New York"    , "NY"
   //   "Los Angeles" , "CA"
   //   "Chicago"     , "IL"
@@ -358,7 +358,7 @@ export function has(table, selector) {
   // Table.has(cities, { state: "VT" })
   // ```
   //
-  // _Note that this can also be accomplished using the `in` operator.
+  // _Note that this can also be accomplished using the `in` operator._
   //
   // ```ptls
   // "city" in cities
@@ -522,10 +522,10 @@ export function splice(table, index, count, rows) {
   // cities = #{
   //   city           , state
   //   "New York"     , "NY"
-  //   "Philadelphia" , "PA" 
-  //   "San Antonio"  , "TX" 
-  //   "Houston"      , "TX" 
-  //   "Phoenix"      , "AZ" 
+  //   "Philadelphia" , "PA"
+  //   "San Antonio"  , "TX"
+  //   "Houston"      , "TX"
+  //   "Phoenix"      , "AZ"
   // }
   //
   // newRows = #{
@@ -552,20 +552,20 @@ export function merge(tables) {
   // ```ptls
   // t1 = #{
   //   city      , state
-  //   "Houston" , "TX" 
-  //   "Phoenix" , "AZ" 
+  //   "Houston" , "TX"
+  //   "Phoenix" , "AZ"
   // }
   //
   // t2 = #{
   //   city           , state
-  //   "Philadelphia" , "PA" 
-  //   "San Antonio"  , "TX" 
+  //   "Philadelphia" , "PA"
+  //   "San Antonio"  , "TX"
   // }
   //
   // Table.merge([t1, t2])
   // ```
   //
-  // _Note that tables can also be merged using the `+` operator.
+  // _Note that tables can also be merged using the `+` operator._
   //
   // ```ptls
   // t1 + t2
@@ -579,7 +579,7 @@ export function take(table, count) {
   //
   // ```ptls
   // cities = #{
-  //   city         , state
+  //   city          , state
   //   "New York"    , "NY"
   //   "Los Angeles" , "CA"
   //   "Chicago"     , "IL"
@@ -606,7 +606,7 @@ export function takeLast(table, count) {
   //
   // ```ptls
   // cities = #{
-  //   city         , state
+  //   city          , state
   //   "New York"    , "NY"
   //   "Los Angeles" , "CA"
   //   "Chicago"     , "IL"
@@ -633,7 +633,7 @@ export function drop(table, count) {
   //
   // ```ptls
   // cities = #{
-  //   city         , state
+  //   city          , state
   //   "New York"    , "NY"
   //   "Los Angeles" , "CA"
   //   "Chicago"     , "IL"
@@ -660,7 +660,7 @@ export function dropLast(table, count) {
   //
   // ```ptls
   // cities = #{
-  //   city         , state
+  //   city          , state
   //   "New York"    , "NY"
   //   "Los Angeles" , "CA"
   //   "Chicago"     , "IL"
@@ -1392,8 +1392,8 @@ export async function joinGroup(tableA, tableB, columns, reducer) {
 
   const groupsB = groupsMap(tableB, columns);
   const rows = [];
-  const emptyB = $new(tableB.columns())
-  
+  const emptyB = $new(tableB.columns());
+
   for (const rowA of tableA) {
     const key = selectValues(rowA, columns);
     const rowsB = groupsB.get(key, emptyB);

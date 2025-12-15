@@ -32,7 +32,7 @@ export function has(object, key) {
   // Obj.has({ q: 9, r: 5, b: 3, n: 3, p: 1 }, "k")
   // ```
   //
-  // _Note that this can also be accomplished using the `in` operator.
+  // _Note that this can also be accomplished using the `in` operator._
   //
   // ```ptls
   // "q" in { q: 9, r: 5, b: 3, n: 3, p: 1 }
@@ -133,7 +133,7 @@ export function merge(objects) {
   // Obj.merge([o1 + o2])
   // ```
   //
-  // _Note that objects can also be merged using the `+` operator.
+  // _Note that objects can also be merged using the `+` operator._
   //
   // ```ptls
   // o1 + o2

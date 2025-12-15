@@ -18,8 +18,6 @@ export function of(values) {
   return im.OrderedSet(values);
 }
 
-export const empty = im.OrderedSet();
-
 export function len(set) {
   // Return the number of elements in `set`.
   //
@@ -52,7 +50,7 @@ export function has(set, value) {
   // Set.has(s, "d")
   // ```
   //
-  // _Note that this can also be accomplished using the `in` operator.
+  // _Note that this can also be accomplished using the `in` operator._
   //
   // ```ptls
   // "b" in #["a", "b", "c"]
@@ -142,7 +140,7 @@ export function merge(sets) {
   // Set.merge([s1, s2])
   // ```
   //
-  // _Note that sets can also be merged using the `+` operator.
+  // _Note that sets can also be merged using the `+` operator._
   //
   // ```ptls
   // s1 + s2
