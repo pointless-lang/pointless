@@ -410,18 +410,10 @@ export class Table {
     );
 
     const lines = [];
-    const padLen = this.size.toString().length + 1;
 
-    const addLine = (start, end, sep, contents, indexStr = "") => {
+    function addLine(start, end, sep, contents) {
       const inner = contents.join(sep);
-
-      if (mode === "normal") {
-        lines.push(`${start}${inner}${end}`);
-      } else if (!this.size) {
-        lines.push(`${start}${inner}${end}`);
-      } else {
-        lines.push(`${indexStr.padStart(padLen)} ${start}${inner}${end}`);
-      }
+      lines.push(`${start}${inner}${end}`);
     }
 
     const dividers = tableInfo.map(({ length }) => "─".repeat(length));
@@ -451,7 +443,7 @@ export class Table {
 
     for (let index = 0; index < this.size; index++) {
       const contents = tableInfo.map(({ cells }) => cells[index].toString());
-      const indStr = addLine("│ ", " │", " │ ", contents, index.toString());
+      addLine("│ ", " │", " │ ", contents);
     }
 
     addLine("└─", "─┘", "─┴─", dividers);
