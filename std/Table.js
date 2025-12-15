@@ -2,6 +2,7 @@ import { checkType, compareAll, getType } from "../lang/values.js";
 import { checkWhole } from "../lang/num.js";
 import * as Obj from "./Obj.js";
 import * as List from "./List.js";
+import { roundTo as roundToNum } from "./Math.js";
 import { Table } from "../lang/table.js";
 import { Panic } from "../lang/panic.js";
 import im from "../immutable/immutable.js";
@@ -1403,4 +1404,29 @@ export async function joinGroup(tableA, tableB, columns, reducer) {
   }
 
   return of(im.List(rows));
+}
+
+export function roundTo(table, decimals) {
+  checkType(table, "table");
+  checkType(decimals, "number", "object");
+
+  const data = table.data.map((values, key) => {
+    function doRound(value) {
+      if (getType(value) !== "number") {
+        return value;
+      }
+
+      if (getType(decimals) === "object") {
+        return decimals.has(key)
+          ? roundToNum(value, Obj.get(decimals, key))
+          : value;
+      }
+
+      return roundToNum(value, decimals);
+    }
+
+    return values.map(doRound);
+  });
+
+  return new Table(data);
 }

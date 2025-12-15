@@ -27,11 +27,11 @@ fn getStats(group)
     ? arg.scored == arg.allowed
     | len
 
-  winPct = roundTo(wins / numGames, 3)
+  winPct = wins / numGames * 100
   scored = sum(group.scored)
   allowed = sum(group.allowed)
-  scoredPG = roundTo(scored / numGames, 1)
-  allowedPG = roundTo(allowed / numGames, 1)
+  scoredPG = scored / numGames
+  allowedPG = allowed / numGames
   diff = scored - allowed
 
   { wins, losses, ties, winPct, scoredPG, allowedPG, diff }
@@ -40,4 +40,5 @@ end
 (home + away)
   | Table.summarize("team", getStats)
   | sortDescBy("winPct")
+  | Table.roundTo(1)
   | print
