@@ -264,26 +264,29 @@ export function removeAll(object, keys) {
   return object.deleteAll(keys);
 }
 
-export function rename(object, old, $new) {
-  // Update the entry in `object` with key `old` to have key `new`.
+export function rename(object, oldToNew) {
+  // For every `old: new` entry in the object `oldToNew`, rename the
+  // entry in `object` with the key `old` to have the name `new`.
   //
   // ```ptls
   // Obj.rename(
   //   { name: "Lamar", yards: 4172, tds: 41, ints: 4 },
-  //   "tds",
-  //   "touchdowns"
+  //   { tds: "touchdowns", ints: "interceptions" }
   // )
   // ```
 
   checkType(object, "object");
-  checkKey(object, old);
+  checkType(oldToNew, "object");
+
+  for (const key of oldToNew.keys()) {
+    checkKey(object, key);
+  }
 
   // need to recreate map to keep order the same
   const map = new Map();
 
   for (const [key, value] of object) {
-    const newKey = im.is(key, old) ? $new : key;
-    map.set(newKey, value);
+    map.set(oldToNew.get(key, key), value);
   }
 
   return im.OrderedMap(map);

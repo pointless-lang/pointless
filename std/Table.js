@@ -787,8 +787,9 @@ export function focus(table, columns) {
 //   return new Table(Obj.removeAll(table.data, columns));
 // }
 
-export function rename(table, old, $new) {
-  // Rename the column with name `old` to name `new` in `table`.
+export function rename(table, oldToNew) {
+  // For every `old: new` entry in the object `oldToNew`, rename the
+  // column in `table` with the name `old` to have the name `new`.
   //
   // ```ptls
   // players = #{
@@ -797,11 +798,11 @@ export function rename(table, old, $new) {
   //   "Josh"  ,  3731 ,  28,    6
   // }
   //
-  // Table.rename(players, "tds", "touchdowns")
+  // Table.rename(players, { tds: "touchdowns", ints: "interceptions" })
   // ```
 
   checkType(table, "table");
-  return new Table(Obj.rename(table.data, old, $new));
+  return new Table(Obj.rename(table.data, oldToNew));
 }
 
 function selectValues(object, columns) {
