@@ -1,16 +1,12 @@
 games = import "csv:games.csv"
 
-home = Table.of({
-  team: games.homeTeam,
-  scored: games.homeScore,
-  allowed: games.awayScore,
-})
-
-away = Table.of({
-  team: games.awayTeam,
-  scored: games.awayScore,
-  allowed: games.homeScore,
-})
+fn splitGame(game)
+  #{
+    team          , scored         , allowed
+    game.homeTeam , game.homeScore , game.awayScore
+    game.awayTeam , game.awayScore , game.homeScore
+  }
+end
 
 fn getStats(group)
   numGames = len(group)
@@ -37,7 +33,9 @@ fn getStats(group)
   { wins, losses, ties, winPct, scoredPG, allowedPG, diff }
 end
 
-(home + away)
+games
+  $ splitGame
+  | Table.merge
   | Table.summarize("team", getStats)
   | sortDescBy("winPct")
   | Table.roundTo(1)
