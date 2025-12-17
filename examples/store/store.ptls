@@ -1,0 +1,26 @@
+albums = import "csv:data/albums.csv"
+artists = import "csv:data/artists.csv"
+customers = import "csv:data/customers.csv"
+employees = import "csv:data/employees.csv"
+genres = import "csv:data/genres.csv"
+invoices = import "csv:data/invoices.csv"
+invoiceLines = import "csv:data/invoice-lines.csv"
+mediaTypes = import "csv:data/media-types.csv"
+playlists = import "csv:data/playlists.csv"
+playlistTracks = import "csv:data/playlist-tracks.csv"
+tracks = import "csv:data/tracks.csv"
+
+fn countryStats(customers)
+  total = sum(customers.total)
+  avg = List.average(customers.total)
+  count = len(customers)
+  { avg, count, total }
+end
+
+invoices
+  | Table.join(customers, "customerId")
+  | select(["firstName", "lastName", "total", "country"])
+  | Table.summarize("country", countryStats)
+  | sortDescBy("avg")
+  | Table.roundTo(2)
+  | print
