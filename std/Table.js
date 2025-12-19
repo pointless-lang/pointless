@@ -1435,3 +1435,26 @@ export function roundTo(table, decimals) {
 
   return new Table(data);
 }
+
+export function average(table) {
+  checkType(table, "table");
+  const averages = new Map();
+
+  for (const [column, values] of table.data) {
+    let total = 0;
+    let n = 0;
+
+    for (const value of values) {
+      if (getType(value) === "number") {
+        total += value;
+        n += 1;
+      }
+    }
+
+    if (n > 0) {
+      averages.set(column, total / n);
+    }
+  }
+
+  return im.OrderedMap(averages);
+}
