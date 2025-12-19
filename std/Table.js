@@ -116,19 +116,15 @@ export function isEmpty(table) {
   // still have one or more columns.
   //
   // ```ptls
-  // players = #{
+  // isEmpty(#{
   //   name    , yards
   //   "Lamar" ,  4172
   //   "Josh"  ,  3731
-  // }
+  // })
   //
-  // isEmpty(players)
-  //
-  // players = #{
+  // isEmpty(#{
   //   name , yards
-  // }
-  //
-  // isEmpty(players)
+  // })
   // ```
 
   return len(table) == 0;
@@ -788,8 +784,8 @@ export function focus(table, columns) {
 // }
 
 export function rename(table, oldToNew) {
-  // For every `old: new` entry in the object `oldToNew`, rename the
-  // column in `table` with the name `old` to have the name `new`.
+  // For every `old: new` entry in the object `oldToNew`, rename the column in
+  // `table` with the name `old` to have the name `new`.
   //
   // ```ptls
   // players = #{
@@ -1278,6 +1274,14 @@ function columnUnion(tableA, tableB) {
 }
 
 export function join(tableA, tableB, columns) {
+  // Perform an inner join of `tableA` and `tableB` using `columns`. `columns`
+  // may be a single string (for one column) or a list of strings (for multiple
+  // columns).
+  //
+  // Find all the pairs of rows (one row from each table) with matching values
+  // in `columns`. Merge each of these rows and create a new table of the
+  // resulting rows.
+  //
   // ```ptls
   // donors = #{
   //   donor      , type
