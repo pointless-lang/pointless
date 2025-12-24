@@ -11,7 +11,7 @@ fn parse(string)
 
   for digit in digits do
     result *= 16
-    result += List.indexOf(digit, hexDigits)
+    result += List.indexOf(hexDigits, digit)
   end
 
   result
