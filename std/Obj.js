@@ -265,8 +265,8 @@ export function removeAll(object, keys) {
 }
 
 export function rename(object, oldToNew) {
-  // For every `old: new` entry in the object `oldToNew`, rename the
-  // entry in `object` with the key `old` to have the name `new`.
+  // For every `old: new` entry in the object `oldToNew`, rename the entry in
+  // `object` with the key `old` to have the name `new`.
   //
   // ```ptls
   // Obj.rename(

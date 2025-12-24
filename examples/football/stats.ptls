@@ -11,18 +11,10 @@ end
 fn getStats(group)
   numGames = len(group)
 
-  wins = group
-    ? arg.scored > arg.allowed
-    | len
-
-  losses = group
-    ? arg.scored < arg.allowed
-    | len
-
-  ties = group
-    ? arg.scored == arg.allowed
-    | len
-
+  wins = len(group ? arg.scored > arg.allowed)
+  losses = len(group ? arg.scored < arg.allowed)
+  ties = len(group ? arg.scored == arg.allowed)
+  
   winPct = wins / numGames * 100
   scored = sum(group.scored)
   allowed = sum(group.allowed)
