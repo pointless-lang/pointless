@@ -391,7 +391,7 @@ class Parser {
       return { key, value: this.getExpression() };
     }
 
-    const key = this.getBase();
+    const key = this.getExpression();
     this.get(":");
     const value = this.getExpression();
     return { key, value };
@@ -410,7 +410,7 @@ class Parser {
       return new Node("string", loc, value);
     }
 
-    return this.getBase();
+    return this.getExpression();
   }
 
   getRow(handler) {
