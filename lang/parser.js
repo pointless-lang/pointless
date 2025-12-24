@@ -14,7 +14,6 @@ const def = ["=", "|=", "$=", "?=", "+=", "-=", "*=", "/=", "**=", "%=", "??="];
 
 // operators from lowest to highest precedence
 const ops = [
-  { type: "binary", assoc: "left", symbols: ["??"] },
   { type: "binary", assoc: "left", symbols: ["or"] },
   { type: "binary", assoc: "left", symbols: ["and"] },
   { type: "unary", symbols: ["not"] },
@@ -27,6 +26,7 @@ const ops = [
   { type: "binary", assoc: "left", symbols: ["*", "/", "%"] },
   { type: "binary", assoc: "right", symbols: ["**"] },
   { type: "unary", symbols: ["-"] },
+  { type: "binary", assoc: "left", symbols: ["??"] },
 ];
 
 const escapeSeq = /\\["\\nrt]|\\u{([\dA-Fa-f]{1,6})}/g;
