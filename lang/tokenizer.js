@@ -6,7 +6,7 @@ import { symbols } from "./symbols.js";
 export const ident = /^[a-zA-Z][a-zA-Z0-9]*$/;
 
 export const dateTime =
-  /\^((\d{4}-\d\d-\d\d[T ])?\d\d:\d\d(:\d\d(\.\d+)?)?(Z|[+\-]\d\d:\d\d)?|(\d{4}-\d\d-\d\d))\^/;
+  /`((\d{4}-\d\d-\d\d[T ])?\d\d:\d\d(:\d\d(\.\d+)?)?(Z|[+\-]\d\d:\d\d)?|(\d{4}-\d\d-\d\d))`/;
 
 function rule(name, pattern) {
   // Use "y" for sticky regex
@@ -44,7 +44,7 @@ const rules = [
   // unmatchedQuote rule must come after string rule
   rule("unmatchedQuote", /(r#*)?"/),
   rule("dateTime", dateTime),
-  rule("invalidDateTime", /\^[^\^\n]*\^?/),
+  rule("invalidDateTime", /`[^`\n]*`?/),
   rule("whitespace", /[ \t]+/),
   // Name rule must come after keyword and raw string rules
   rule("name", /[a-zA-Z][a-zA-Z0-9]*/),
