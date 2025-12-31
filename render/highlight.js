@@ -76,6 +76,7 @@ const classNames = {
   arg: "keyword",
   break: "keyword",
   case: "keyword",
+  continue: "keyword",
   do: "keyword",
   elif: "keyword",
   else: "keyword",

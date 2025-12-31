@@ -3,6 +3,7 @@ export const keywords = [
   "arg",
   "break",
   "case",
+  "continue",
   "do",
   "elif",
   "else",

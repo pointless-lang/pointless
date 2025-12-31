@@ -14,7 +14,8 @@ export class Returner {
   }
 }
 
-export class Breaker {}
+class Breaker {}
+class Continuer {}
 
 export class Env {
   constructor(parent, defs, runtime, locals = new Set()) {
@@ -169,6 +170,8 @@ export class Env {
         return this.evalFn(node);
       case "break":
         throw new Breaker();
+      case "continue":
+        throw new Continuer();
       case "return":
         throw new Returner(await this.eval(node.value));
       case "if":
@@ -647,6 +650,10 @@ export class Env {
     } catch (err) {
       if (err instanceof Breaker) {
         return true;
+      }
+
+      if (err instanceof Continuer) {
+        return false;
       }
 
       throw err;

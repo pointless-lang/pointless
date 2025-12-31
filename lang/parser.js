@@ -554,13 +554,13 @@ class Parser {
   }
 
   getBreak() {
-    const { loc } = this.get("break");
+    const { loc, value } = this.get("break", "continue");
 
     if (!this.inLoop.at(-1)) {
-      throw new Panic("Cannot use `break` outside of a loop", {}, loc);
+      throw new Panic(`Cannot use \`${value}\` outside of a loop`, {}, loc);
     }
 
-    return new Node("break", loc, null);
+    return new Node(value, loc, null);
   }
 
   getReturn() {
@@ -732,6 +732,7 @@ class Parser {
 
     switch (type) {
       case "break":
+      case "continue":
         return this.getBreak();
       case "return":
         return this.getReturn();
