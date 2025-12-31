@@ -10,7 +10,20 @@ const skip = ["whitespace", "newline", "comment"];
 const identifiers = ["name", ...keywords];
 
 // definition operators
-const def = ["=", "|=", "$=", "?=", "+=", "-=", "*=", "/=", "**=", "%=", "??="];
+const def = [
+  "=",
+  "|=",
+  "$=",
+  "?=",
+  "+=",
+  "-=",
+  "*=",
+  "/=",
+  "//=",
+  "**=",
+  "%=",
+  "??=",
+];
 
 // operators from lowest to highest precedence
 const ops = [
@@ -23,7 +36,7 @@ const ops = [
     symbols: ["in", "==", "!=", "<", "<=", ">", ">="],
   },
   { type: "binary", assoc: "left", symbols: ["+", "-"] },
-  { type: "binary", assoc: "left", symbols: ["*", "/", "%"] },
+  { type: "binary", assoc: "left", symbols: ["*", "/", "//", "%"] },
   { type: "binary", assoc: "right", symbols: ["**"] },
   { type: "unary", symbols: ["-"] },
   { type: "binary", assoc: "left", symbols: ["??"] },

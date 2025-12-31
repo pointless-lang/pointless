@@ -37,7 +37,7 @@ fn binOp(op, a, b)
     case "add" then a + b
     case "sub" then a - b
     case "mul" then a * b
-    case "div" then floor(a / b)
+    case "div" then a // b
     case "mod" then a % b
     case "eq"  then Bool.toNum(a == b)
     case "gt"  then Bool.toNum(a > b)

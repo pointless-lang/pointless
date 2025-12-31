@@ -1,6 +1,6 @@
 fn update(board, key)
   oldInd = List.indexOf(board, "")
-  r = Math.floor(oldInd / 4)
+  r = oldInd // 4
   c = oldInd % 4
 
   match key

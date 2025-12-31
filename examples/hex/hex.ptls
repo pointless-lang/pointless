@@ -25,7 +25,7 @@ fn toHex(n)
 
   while n > 0 or result == "" do
     result += hexDigits[n % 16]
-    n = Math.floor(n / 16)
+    n //= 16
   end
 
   reverse(result)

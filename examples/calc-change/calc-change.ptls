@@ -6,7 +6,7 @@ fn calcChange(cents)
   })
 
   for coin in coins do
-    count = Math.floor(cents / coin.value)
+    count = cents // coin.value
     coins[coin].count = count
     cents -= count * coin.value
   end

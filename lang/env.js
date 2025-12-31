@@ -352,6 +352,8 @@ export class Env {
         return checkNumResult(a * b, a, b);
       case "/":
         return checkNumResult(a / b, a, b);
+      case "//":
+        return checkNumResult(Math.floor(a / b), a, b);
       case "**":
         return checkNumResult(a ** b, a, b);
       case "%":

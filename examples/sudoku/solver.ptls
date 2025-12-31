@@ -13,8 +13,8 @@ fn runSolver(solver, r, c)
     return runSolver(solver, r, c + 1)
   end
 
-  br = Math.floor(r / 3)
-  bc = Math.floor(c / 3)
+  br = r // 3
+  bc = c // 3
 
   for n in span(1, 9) do
     i = n - 1
@@ -57,9 +57,7 @@ fn solve(board)
         i = n - 1
         rows[r][i] = true
         cols[c][i] = true
-        br = Math.floor(r / 3)
-        bc = Math.floor(c / 3)
-        blocks[br][bc][i] = true
+        blocks[r // 3][c // 3][i] = true
       end
     end
   end
