@@ -753,14 +753,16 @@ class Parser {
 
   getStatements(topLevel = false) {
     const statements = [];
+    const closers = ["case", "elif", "else", "end", "endOfFile", "do"];
 
-    while (!this.has("case", "elif", "else", "end", "endOfFile", "do")) {
-      if (statements.length) {
-        // statement separator
-        this.get("newline", ";");
-      }
-
+    while (!this.has(...closers)) {
       statements.push(this.getStatement(topLevel));
+
+      if (this.has(";")) {
+        this.get(";");
+      } else if (!this.has(...closers)) {
+        this.get("newline");
+      }
     }
 
     return statements;
