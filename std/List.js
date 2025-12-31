@@ -414,6 +414,40 @@ export function indexOf(list, value) {
   return index >= 0 ? index : null;
 }
 
+export function average(numbers) {
+  // Get the average of `numbers`.
+  //
+  // ```ptls
+  // List.average([10, 50, 60])
+  // ```
+
+  checkType(numbers, "list");
+  checkNonEmpty(numbers);
+  return sum(numbers) / numbers.size;
+}
+
+export function median(numbers) {
+  // Get the median of `numbers`.
+  //
+  // ```ptls
+  // List.median([1, 1, 1, 2, 3, 4, 5])
+  // List.median([7, 9])
+  // ```
+
+  checkType(numbers, "list");
+  checkNonEmpty(numbers);
+
+  const sorted = [...sort(numbers)];
+
+  if (sorted.length % 2 == 1) {
+    return sorted[Math.floor(sorted.length / 2)];
+  }
+
+  const a = sorted[sorted.length / 2 - 1] / 2;
+  const b = sorted[sorted.length / 2] / 2;
+  return checkNumResult(a + b);
+}
+
 export function count(list, value) {
   // Count the number of times `value` appears in `list`.
   //
@@ -722,46 +756,12 @@ export function sum(numbers) {
   return checkNumResult(result);
 }
 
-export function average(numbers) {
-  // Get the average of `numbers`.
-  //
-  // ```ptls
-  // List.average([10, 50, 60])
-  // ```
-
-  checkType(numbers, "list");
-  checkNonEmpty(numbers);
-  return sum(numbers) / numbers.size;
-}
-
-export function median(numbers) {
-  // Get the median of `numbers`.
-  //
-  // ```ptls
-  // List.median([1, 1, 1, 2, 3, 4, 5])
-  // List.median([7, 9])
-  // ```
-
-  checkType(numbers, "list");
-  checkNonEmpty(numbers);
-
-  const sorted = [...sort(numbers)];
-
-  if (sorted.length % 2 == 1) {
-    return sorted[Math.floor(sorted.length / 2)];
-  }
-
-  const a = sorted[sorted.length / 2 - 1] / 2;
-  const b = sorted[sorted.length / 2] / 2;
-  return checkNumResult(a + b);
-}
-
-export function counts(list) {
+export function countAll(list) {
   // Get the counts and total shares for the values in `list`. Returns a table
   // with columns `value`, `count`, and `share`, sorted descending by `count`.
   //
   // ```ptls
-  // List.counts(["NY", "CA", "IL", "TX", "AZ", "PA", "TX", "CA", "TX", "FL"])
+  // List.countAll(["NY", "CA", "IL", "TX", "AZ", "PA", "TX", "CA", "TX", "FL"])
   // ```
 
   checkType(list, "list");
@@ -956,4 +956,18 @@ export function percents(numbers) {
   // ```
 
   return normalize(numbers).map((n) => n * 100);
+}
+
+export function replace(list, value, replacement) {
+  checkType(list, "list");
+  return list.map((elem) => im.is(elem, value) ? replacement : elem);
+}
+
+export function replaceN(list, value, replacement, count) {
+  checkType(list, "list");
+  checkPositive(count);
+  checkWhole(count);
+  return list.map((elem) =>
+    im.is(elem, value) && count-- > 0 ? replacement : elem
+  );
 }

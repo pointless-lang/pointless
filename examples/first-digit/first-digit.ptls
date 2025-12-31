@@ -4,7 +4,7 @@ cities = import "csv:pa-cities.csv"
 
 digitStats = cities.population
   $ chars(Str.of(arg))[0]
-  | List.counts
+  | List.countAll
 
 digitStats.share $= roundTo(arg * 100, 1)
 
