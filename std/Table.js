@@ -35,9 +35,6 @@ export function of(value) {
   //   the table. The objects must have the same keys, which become the column
   //   names. Note that a table with no columns will always have zero rows.
   //
-  // - If `value` is a [CSV](/language/misc#csv) string, parse the strings and
-  //   return the resulting table.
-  //
   // - If `value` is a table, return it.
   //
   // ```ptls
@@ -55,22 +52,13 @@ export function of(value) {
   // ])
   // ```
 
-  // Table.of("
-  // name  , pos , yards , tds , ints
-  // Lamar , qb  ,  4172 ,  41 ,    4
-  // Josh  , qb  ,  3731 ,  28 ,    6
-  // ")
-
   checkType(value, "object", "list", "set", "table");
-  // checkType(value, "object", "list", "set", "table", "string");
 
   switch (getType(value)) {
     case "table":
       return value;
     case "object":
       return new Table(value);
-      // case "string":
-      //   return Table.fromCsv(value);
   }
 
   if (!value.size) {
@@ -920,7 +908,68 @@ export function bottom(table, columns, count) {
   return take(sortBy(table, columns), count);
 }
 
-function listExtremum(table, columns, desc) {
+function tableExtremum(table, comparator) {
+  const result = {};
+
+  for (const [column, values] of table.data) {
+    let extremum;
+
+    for (const value of values) {
+      if (getType(value) === "number") {
+        extremum ??= value;
+        extremum = comparator(extremum, value);
+      }
+    }
+
+    if (extremum !== undefined) {
+      result[column] = extremum;
+    }
+  }
+
+  return im.OrderedMap(result);
+}
+
+export function min(table) {
+  // ```ptls
+  // weather = #{
+  //   date         , city           , low , high
+  //   "2025-12-02" , "boston"       ,  29 ,   36
+  //   "2025-12-02" , "philadelphia" ,  32 ,   42
+  //   "2025-12-04" , "boston"       ,  18 ,   40
+  //   "2025-12-04" , "philadelphia" ,  29 ,   43
+  // }
+  //
+  // min(weather)
+  // ```
+  //
+  // ```ptls
+  // Table.summarize(weather, "city", min)
+  // ```
+
+  return tableExtremum(table, Math.min);
+}
+
+export function max(table) {
+  // ```ptls
+  // weather = #{
+  //   date         , city           , low , high
+  //   "2025-12-02" , "boston"       ,  29 ,   36
+  //   "2025-12-02" , "philadelphia" ,  32 ,   42
+  //   "2025-12-04" , "boston"       ,  18 ,   40
+  //   "2025-12-04" , "philadelphia" ,  29 ,   43
+  // }
+  //
+  // max(weather)
+  // ```
+  //
+  // ```ptls
+  // Table.summarize(weather, "city", max)
+  // ```
+
+  return tableExtremum(table, Math.max);
+}
+
+function tableExtremumBy(table, columns, desc) {
   return im.List([...table]).maxBy(
     (row) => selectValues(row, columns),
     (a, b) => compareAll(a, b, desc),
@@ -953,7 +1002,7 @@ export function minBy(table, columns) {
 
   checkType(table, "table");
   table.checkNonEmpty();
-  return listExtremum(table, flattenCols(columns, table), true);
+  return tableExtremumBy(table, flattenCols(columns, table), true);
 }
 
 export function maxBy(table, columns) {
@@ -982,10 +1031,10 @@ export function maxBy(table, columns) {
 
   checkType(table, "table");
   table.checkNonEmpty();
-  return listExtremum(table, flattenCols(columns, table), false);
+  return tableExtremumBy(table, flattenCols(columns, table), false);
 }
 
-function listExtremumAll(table, columns, desc) {
+function tableExtremumAll(table, columns, desc) {
   columns = flattenCols(columns, table);
 
   const pairs = [];
@@ -1027,7 +1076,7 @@ export function minAll(table, columns) {
   // ```
 
   checkType(table, "table");
-  return listExtremumAll(table, columns, true);
+  return tableExtremumAll(table, columns, true);
 }
 
 export function maxAll(table, columns) {
@@ -1050,7 +1099,7 @@ export function maxAll(table, columns) {
   // ```
 
   checkType(table, "table");
-  return listExtremumAll(table, columns, false);
+  return tableExtremumAll(table, columns, false);
 }
 
 function groupsMap(table, columns) {
@@ -1162,7 +1211,7 @@ export async function summarize(table, columns, reducer) {
   return of(im.List(rows));
 }
 
-export function counts(table) {
+export function countAll(table) {
   // Return a table containing deduplicated rows of `table`. Each row will have
   // two additional entries, `count` and `share`, which will contain the number
   // of copies of each row in the original table, and the fraction of the total
@@ -1182,7 +1231,7 @@ export function counts(table) {
   //   "Chicago"     , "IL"
   // }
   //
-  // Table.counts(locations)
+  // Table.countAll(locations)
   // ```
 
   checkType(table, "table");
@@ -1212,6 +1261,23 @@ export function counts(table) {
     );
 
   return sortDescBy(of(rows.toList()), "count");
+}
+
+export function count(table, matcher) {
+  // ```ptls
+  // cities = #{
+  //   city           , state
+  //   "Houston"      , "TX"
+  //   "Phoenix"      , "AZ"
+  //   "Philadelphia" , "PA"
+  //   "San Antonio"  , "TX"
+  // }
+  //
+  // Table.count(cities, { state: "TX" })
+  // ```
+
+  checkType(table, "table");
+  return table.count(matcher);
 }
 
 export function product(tables) {
@@ -1368,28 +1434,33 @@ export function joinLeft(tableA, tableB, columns) {
 
 export async function joinGroup(tableA, tableB, columns, reducer) {
   // ```ptls
-  // cities = #{
-  //   city          , state
-  //   "Philadephia" , "PA"
-  //   "Austin"      , "TX"
-  //   "Boston"      , "MA"
-  //   "Cleveland"   , "OH"
+  // purchases = #{
+  //   item        , quantity
+  //   "tea"       ,        2
+  //   "FIREWORKS" ,        4
+  //   "cereal"    ,        2
+  //   "rice"      ,        1
+  //   "candles"   ,      600
+  //   "tea"       ,        3
+  //   "rice"      ,        1
   // }
   //
-  // stats = #{
-  //   city          , points
-  //   "Philadephia" ,      1
-  //   "Philadephia" ,      2
-  //   "Austin"      ,      3
-  //   "Boston"      ,      4
+  // items = #{
+  //   item        , price
+  //   "tea"       ,     5
+  //   "cereal"    ,     6
+  //   "candles"   ,     6
+  //   "rice"      ,    20
+  //   "diet coke" ,     2
   // }
   //
-  // fn totalPoints(city, stats)
-  //   city.points = sum(stats.points)
-  //   city
+  // fn totalSpending(item, purchases)
+  //   item.quantity = sum(purchases.quantity)
+  //   item.total = item.price * item.quantity
+  //   item
   // end
   //
-  // Table.joinGroup(cities, stats, "city", totalPoints)
+  // Table.joinGroup(items, purchases, "item", totalSpending)
   // ```
 
   checkType(tableA, "table");
@@ -1409,6 +1480,10 @@ export async function joinGroup(tableA, tableB, columns, reducer) {
   }
 
   return of(im.List(rows));
+}
+
+export function round(table) {
+  return roundTo(table, 0);
 }
 
 export function roundTo(table, decimals) {
@@ -1437,8 +1512,30 @@ export function roundTo(table, decimals) {
 }
 
 export function average(table) {
+  // ```ptls
+  // weather = #{
+  //   date         , city           , low , high
+  //   "2025-12-15" , "boston"       ,  14 ,   25
+  //   "2025-12-15" , "philadelphia" ,  20 ,   28
+  //   "2025-12-16" , "boston"       ,  23 ,   36
+  //   "2025-12-16" , "philadelphia" ,  20 ,   35
+  //   "2025-12-17" , "boston"       ,  29 ,   47
+  //   "2025-12-17" , "philadelphia" ,  26 ,   46
+  //   "2025-12-18" , "boston"       ,  30 ,   47
+  //   "2025-12-18" , "philadelphia" ,  30 ,   56
+  //   "2025-12-19" , "boston"       ,  36 ,   59
+  //   "2025-12-19" , "philadelphia" ,  31 ,   61
+  // }
+  //
+  // Table.average(weather)
+  // ```
+  //
+  // ```ptls
+  // Table.summarize(weather, "city", Table.average)
+  // ```
+
   checkType(table, "table");
-  const averages = new Map();
+  const averages = {};
 
   for (const [column, values] of table.data) {
     let total = 0;
@@ -1452,9 +1549,49 @@ export function average(table) {
     }
 
     if (n > 0) {
-      averages.set(column, total / n);
+      averages[column] = total / n;
     }
   }
 
   return im.OrderedMap(averages);
+}
+
+export function sum(table) {
+  // ```ptls
+  // cities = #{
+  //   city           , state , population , area
+  //   "Houston"      , "TX"  ,    2390125 ,  640
+  //   "Phoenix"      , "AZ"  ,    1673164 ,  518
+  //   "Philadelphia" , "PA"  ,    1573916 ,  134
+  //   "San Antonio"  , "TX"  ,    1526656 ,  499
+  //   "San Diego"    , "CA"  ,    1404452 ,  326
+  //   "Dallas"       , "TX"  ,    1326087 ,  340
+  // }
+  //
+  // sum(cities)
+  // ```
+  //
+  // ```ptls
+  // Table.summarize(cities, "state", sum)
+  // ```
+
+  checkType(table, "table");
+  const sums = {};
+
+  for (const [column, values] of table.data) {
+    let total;
+
+    for (const value of values) {
+      if (getType(value) === "number") {
+        total ??= 0;
+        total += value;
+      }
+    }
+
+    if (total !== undefined) {
+      sums[column] = total;
+    }
+  }
+
+  return im.OrderedMap(sums);
 }

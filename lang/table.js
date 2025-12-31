@@ -298,6 +298,20 @@ export class Table {
     return this.findMatch(selector) !== undefined;
   }
 
+  count(matcher) {
+    checkType(matcher, "object");
+    this.checkColumnsMatch(matcher, false);
+    let count = 0;
+
+    for (const row of this) {
+      if (isMatch(row, matcher)) {
+        count += 1;
+      }
+    }
+
+    return count;
+  }
+
   match(matcher) {
     checkType(matcher, "object");
     this.checkColumnsMatch(matcher, false);
