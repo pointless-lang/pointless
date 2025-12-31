@@ -153,17 +153,14 @@ const options = [
   { name: "wrap", type: Boolean },
 ];
 
-export function headerId(title) {
-  return title
-    .toLowerCase()
-    .replace(/[^\w\s-]+/g, "")
-    .trim()
-    .replace(/\s+/g, "-");
-}
-
 const renderer = {
   heading({ text, depth, raw }) {
-    const anchor = headerId(raw);
+    const anchor =  raw
+      .toLowerCase()
+      .replace(/[^\w\s-]+/g, "")
+      .trim()
+      .replace(/\s+/g, "-");
+
     const hr = depth === 2 ? "<hr />" : "";
 
     return h`
