@@ -117,7 +117,6 @@ class Parser {
   fnDepth = 0;
   inLoop = [false];
   implicits = [];
-  locals = [];
   deferredPanic = undefined;
 
   constructor(tokens) {
@@ -203,10 +202,6 @@ class Parser {
 
       this.implicits[this.implicits.length - 1] ??= loc;
     }
-  }
-
-  addLocal(name) {
-    this.locals.at(-1)?.add(name);
   }
 
   // get a sequence of elements (using the handler method),
@@ -594,18 +589,15 @@ class Parser {
 
     if (this.hasMulti("name", "in")) {
       const name = this.get("name").value;
-      this.addLocal(name);
       this.get("in");
       return new Node("for", loc, { name, ...this.getRangeBody() });
     }
 
     if (this.hasMulti("name", ",")) {
       const keyName = this.get("name").value;
-      this.addLocal(keyName);
       this.get(",");
 
       const valName = this.get("name").value;
-      this.addLocal(valName);
       this.get("in");
 
       return new Node("tandemFor", loc, {
@@ -700,7 +692,6 @@ class Parser {
       }
 
       const name = base.value;
-      this.addLocal(name);
       const { loc, isCompound, rhs } = this.getAssign(def);
       return new Node("def", loc, { name, keys, isCompound, rhs });
     }
@@ -750,16 +741,14 @@ class Parser {
 
     this.inLoop.push(false);
     this.fnDepth++;
-    this.locals.push(new Set());
 
     const body = this.getStatements();
-    const locals = this.locals.pop();
 
     this.fnDepth--;
     this.inLoop.pop();
 
     this.get("end");
-    return { params, body, locals };
+    return { params, body };
   }
 
   getStatements(topLevel = false) {
@@ -918,12 +907,7 @@ class Parser {
     const loc = this.implicits.pop();
 
     const rhs = loc
-      ? new Node("fn", loc, {
-        name: "fn",
-        params: ["arg"],
-        body: [result],
-        locals: new Set(),
-      })
+      ? new Node("fn", loc, { name: "fn", params: ["arg"], body: [result] })
       : result;
 
     if (rhs.type === "call") {
