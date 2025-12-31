@@ -14,16 +14,13 @@ fn getScore(guess)
     if guess[i] == answer[i] then
       score[i] = "🟩"
     else
-      counts |= Obj.setDefault(answer[i], 0)
+      counts[answer[i]] ??= 0
       counts[answer[i]] += 1
     end
   end
 
   for i in range(5) do
-    if
-      score[i] != "🟩" and
-      Obj.getDefault(counts, guess[i], 0) > 0
-    then
+    if score[i] != "🟩" and counts[guess[i]] ?? 0 > 0 then
       score[i] = "🟨"
       counts[guess[i]] -= 1
     end
