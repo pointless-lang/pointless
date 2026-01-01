@@ -10,13 +10,15 @@ fn wordInfo(word)
   { letter: chars(word)[0], word, score }
 end
 
+fn getBest(words)
+  Table.maxBy(words, "score")
+end
+
 text
   | split(" ")
   | List.unique
   $ wordInfo
   | Table.of
-  | Table.group("letter")
-  $ top("score", 1)
-  | Table.merge
+  | Table.summarize("letter", getBest)
   | sortBy("letter")
   | print
