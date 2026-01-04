@@ -7,7 +7,6 @@ export const impl = {
   Fs: await import("../std/Fs.js"),
   List: await import("../std/List.js"),
   Math: await import("../std/Math.js"),
-  None: await import("../std/None.js"),
   Obj: await import("../std/Obj.js"),
   Panic: await import("../std/Panic.js"),
   Rand: await import("../std/Rand.js"),

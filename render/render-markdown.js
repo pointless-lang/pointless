@@ -155,7 +155,7 @@ const options = [
 
 const renderer = {
   heading({ text, depth, raw }) {
-    const anchor =  raw
+    const anchor = raw
       .toLowerCase()
       .replace(/[^\w\s-]+/g, "")
       .trim()

@@ -94,7 +94,6 @@ export class Std {
 
     const typesMap = {
       list: "List",
-      none: "None",
       number: "Math",
       object: "Obj",
       set: "Set",
