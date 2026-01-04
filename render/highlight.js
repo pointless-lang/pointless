@@ -85,7 +85,6 @@ const classNames = {
   for: "keyword",
   if: "keyword",
   import: "keyword",
-  in: "keyword",
   match: "keyword",
   return: "keyword",
   then: "keyword",
@@ -96,6 +95,7 @@ const classNames = {
   and: "operator",
   or: "operator",
   not: "operator",
+  in: "operator",
   "!in": "operator",
   "??=": "operator",
   "??": "operator",
@@ -339,5 +339,13 @@ class Highlighter {
     }
 
     this.add(value, classNames[type]);
+
+    if (value === "for" && this.has("name")) {
+      this.addNext();
+
+      if (this.has("in")) {
+        this.addNext("keyword");
+      }
+    }
   }
 }
