@@ -96,6 +96,7 @@ const classNames = {
   and: "operator",
   or: "operator",
   not: "operator",
+  "!in": "operator",
   "??=": "operator",
   "??": "operator",
   ">=": "operator",

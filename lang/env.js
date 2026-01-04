@@ -230,6 +230,22 @@ export class Env {
     }
   }
 
+  checkIn(value, container) {
+    checkType(container, "list", "set", "object", "string", "table");
+
+    switch (getType(container)) {
+      case "list":
+        return container.includes(value);
+      case "string":
+        checkType(value, "string");
+        return container.includes(value);
+      case "set":
+      case "object":
+      case "table":
+        return container.has(value);
+    }
+  }
+
   async evalBinaryOp(node) {
     const { op, lhs, rhs } = node.value;
 
@@ -264,22 +280,9 @@ export class Env {
       case "!=":
         return !im.is(a, b);
       case "in":
-        checkType(b, "list", "set", "object", "string", "table");
-        switch (getType(b)) {
-          case "list":
-            return b.includes(a);
-          case "set":
-            return b.has(a);
-          case "object":
-            return b.has(a);
-          case "string":
-            checkType(a, "string");
-            return b.includes(a);
-          case "table":
-            return b.has(a);
-        }
-
-        break;
+        return this.checkIn(a, b);
+      case "!in":
+        return !this.checkIn(a, b);
       case "+": {
         const typeA = getType(a);
         checkType(b, typeA);

@@ -33,7 +33,7 @@ const ops = [
   {
     type: "binary",
     assoc: "left",
-    symbols: ["in", "==", "!=", "<", "<=", ">", ">="],
+    symbols: ["in", "!in", "==", "!=", "<", "<=", ">", ">="],
   },
   { type: "binary", assoc: "left", symbols: ["+", "-"] },
   { type: "binary", assoc: "left", symbols: ["*", "/", "//", "%"] },
