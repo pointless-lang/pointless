@@ -110,10 +110,15 @@ export class Std {
       this.variants[name] = [];
 
       for (const [type, modName] of Object.entries(typesMap)) {
-        // Types may not all have modules
-        const value = this.modules[modName]?.[name];
+        const value = this.modules[modName][name];
 
-        if (value) {
+        // Assume that any stdlib function that matches overload name and arity
+        // is part of the overload. For example, `max(values)` overloads
+        // `List.max(list)` and `Table.max(table)` but not `Math.max(a, b)`
+
+        if (
+          getType(value) === "function" && value.params.length === params.length
+        ) {
           this.variants[name].push(value);
           types.push(type);
         }
