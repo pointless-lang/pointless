@@ -246,6 +246,10 @@ export class Env {
     }
   }
 
+  async swapNone(value, fallbackNode) {
+    return getType(value) === "none" ? await this.eval(fallbackNode) : value;
+  }
+
   async evalBinaryOp(node) {
     const { op, lhs, rhs } = node.value;
 
@@ -254,20 +258,42 @@ export class Env {
         return (
           (await this.eval(lhs, "boolean")) && (await this.eval(rhs, "boolean"))
         );
+
       case "or":
         return (
           (await this.eval(lhs, "boolean")) || (await this.eval(rhs, "boolean"))
         );
+
       case "??": {
         if (lhs.type === "access") {
-          const { lhs: objNode, rhs: keyNode } = lhs.value;
-          const obj = await this.eval(objNode, "object");
+          const { lhs: containerNode, rhs: keyNode } = lhs.value;
+
+          const container = await this.eval(
+            containerNode,
+            "list",
+            "object",
+            "table",
+          );
+
           const key = await this.eval(keyNode);
-          return obj.has(key) ? obj.get(key) : await this.eval(rhs);
+          this.setBlame(keyNode.loc);
+
+          // ?? doesn't catch invalid indices
+          if (getType(container) === "list") {
+            checkIndex(container, key);
+            return await this.swapNone(container.get(key), rhs);
+          }
+
+          // ?? doesn't catch invalid indices
+          if (getType(container) === "table" && getType(key) === "number") {
+            return await this.swapNone(container.get(key), rhs);
+          }
+
+          const maybeNone = container.has(key) ? container.get(key) : null;
+          return await this.swapNone(maybeNone, rhs);
         }
 
-        const maybeNone = await this.eval(lhs);
-        return getType(maybeNone) === "none" ? await this.eval(rhs) : maybeNone;
+        return await this.swapNone(await this.eval(lhs), rhs);
       }
     }
 
