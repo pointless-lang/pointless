@@ -9,8 +9,9 @@ export const dateTime =
   /`((\d{4}-\d\d-\d\d[T ])?\d\d:\d\d(:\d\d(\.\d+)?)?(Z|[+\-]\d\d:\d\d)?|(\d{4}-\d\d-\d\d))`/;
 
 function rule(name, pattern) {
+  const source = pattern instanceof RegExp ? pattern.source : pattern;
   // Use "y" for sticky regex
-  return { name, pattern: new RegExp(pattern.source, "y") };
+  return { name, pattern: new RegExp(source, "y") };
 }
 
 function escape(chars) {
@@ -18,7 +19,7 @@ function escape(chars) {
 }
 
 // Need "\b" to avoid matching names with keyword prefixes, like "note" vs "not"
-const keywordRules = keywords.map((kwd) => rule(kwd, new RegExp(kwd + "\\b")));
+const keywordRules = keywords.map((kwd) => rule(kwd, kwd + "\\b"));
 
 // Symbol rules get reverse-sorted to match longest prefix, for example we want
 // to match '==' as '==', not '=' '='
@@ -26,7 +27,7 @@ const keywordRules = keywords.map((kwd) => rule(kwd, new RegExp(kwd + "\\b")));
 const symbolRules = symbols
   .sort()
   .reverse()
-  .map((sym) => rule(sym, new RegExp(escape(sym))));
+  .map((sym) => rule(sym, escape(sym)));
 
 // Rules are checked in order, so the ordering of rules is important.
 // For example, the comment rule needs to come before the minus symbol rule.
