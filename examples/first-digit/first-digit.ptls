@@ -6,6 +6,8 @@ digitStats = cities.population
   $ chars(Str.of(arg))[0]
   | List.countAll
 
-digitStats.share $= roundTo(arg * 100, 1)
+digitStats.share $= arg * 100
 
-print(digitStats)
+digitStats
+  | roundTo(1)
+  | print

@@ -9,17 +9,16 @@ fn splitGame(game)
 end
 
 fn getStats(group)
-  numGames = len(group)
-
   wins = len(group ? arg.scored > arg.allowed)
   losses = len(group ? arg.scored < arg.allowed)
   ties = len(group ? arg.scored == arg.allowed)
   
-  winPct = wins / numGames * 100
+  denom = Math.max(1, len(group))
+  winPct = wins / denom
   scored = sum(group.scored)
   allowed = sum(group.allowed)
-  scoredPG = scored / numGames
-  allowedPG = allowed / numGames
+  scoredPG = scored / denom
+  allowedPG = allowed / denom
   diff = scored - allowed
 
   { wins, losses, ties, winPct, scoredPG, allowedPG, diff }
@@ -30,5 +29,5 @@ games
   | Table.merge
   | Table.summarize("team", getStats)
   | sortDescBy("winPct")
-  | Table.roundTo(1)
+  | Table.sigFigs(2)
   | print
