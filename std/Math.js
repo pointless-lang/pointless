@@ -91,6 +91,11 @@ export function roundTo(n, decimals) {
   return round(n * factor) / factor;
 }
 
+export function sigFigs(x, numDigits) {
+  const decimals = numDigits - 1 - Math.floor(Math.log10(Math.abs(x)));
+  return x === 0 ? 0 : roundTo(x, decimals);
+}
+
 export function min(a, b) {
   // Return the minimum of `a` and `b`.
   //

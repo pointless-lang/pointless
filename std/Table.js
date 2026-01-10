@@ -2,7 +2,7 @@ import { checkType, compareAll, getType } from "../lang/values.js";
 import { checkWhole } from "../lang/num.js";
 import * as Obj from "./Obj.js";
 import * as List from "./List.js";
-import { roundTo as roundToNum } from "./Math.js";
+import { roundTo as roundToNum, sigFigs as sigFigsNum } from "./Math.js";
 import { Table } from "../lang/table.js";
 import { Panic } from "../lang/panic.js";
 import im from "../immutable/immutable.js";
@@ -1503,6 +1503,31 @@ export function roundTo(table, decimals) {
       }
 
       return roundToNum(value, decimals);
+    }
+
+    return values.map(doRound);
+  });
+
+  return new Table(data);
+}
+
+export function sigFigs(table, numDigits) {
+  checkType(table, "table");
+  checkType(numDigits, "number", "object");
+
+  const data = table.data.map((values, key) => {
+    function doRound(value) {
+      if (getType(value) !== "number") {
+        return value;
+      }
+
+      if (getType(numDigits) === "object") {
+        return numDigits.has(key)
+          ? sigFigsNum(value, Obj.get(numDigits, key))
+          : value;
+      }
+
+      return sigFigsNum(value, numDigits);
     }
 
     return values.map(doRound);
