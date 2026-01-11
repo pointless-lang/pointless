@@ -1,5 +1,5 @@
 import { checkType, compareAll, getType } from "../lang/values.js";
-import { checkPositive, checkWhole } from "../lang/num.js";
+import { checkWhole } from "../lang/num.js";
 import * as Obj from "./Obj.js";
 import * as List from "./List.js";
 import { roundTo as roundToNum } from "./Math.js";
@@ -1486,24 +1486,6 @@ export function round(table) {
   return roundTo(table, 0);
 }
 
-// function roundNums(values, decimals) {
-//   return values.map((value, key) => {
-
-//     if (getType(value) !== "number") {
-//       return value;
-//     }
-
-//     if (getType(decimals) === "object") {
-//       return decimals.has(key)
-//         ? roundToNum(value, Obj.get(decimals, key))
-//         : value;
-//     }
-
-//     return roundToNum(value, decimals)
-//   }
-//   );
-// }
-
 export function roundTo(table, decimals) {
   checkType(table, "table");
   checkType(decimals, "number", "object");
@@ -1523,32 +1505,9 @@ export function roundTo(table, decimals) {
       return roundToNum(value, decimals);
     })
   );
-  
+
   return new Table(data);
-
 }
-
-// export function roundSoft(table, numDigits) {
-//   checkType(table, "table");
-//   checkWhole(numDigits);
-//   checkPositive(numDigits);
-
-//   const data = table.data.map((values, key) => {
-//     let maxPower;
-
-//     for (const value of values) {
-//       if (getType(value) === "number") {
-//         const power = Math.floor(Math.log10(Math.abs(value)));
-//         maxPower ??= power;
-//         maxPower = Math.max(maxPower, power);
-//       }
-//     }
-
-//     return roundNums(values, Math.max(0, numDigits - 1 - maxPower));
-//   });
-
-//   return new Table(data);
-// }
 
 export function average(table) {
   // ```ptls

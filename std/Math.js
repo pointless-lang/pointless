@@ -123,26 +123,6 @@ export function sigFigs(n, numDigits) {
   return roundTo(n, decimals);
 }
 
-// export function roundSoft(n, numDigits) {
-//   // Round away as many decimals as possible such that n still has at least `numDigits` significant figures.
-
-//   // roundSoft(123456, 4)   -- 123456
-//   // roundSoft(1234.56, 4)  -- 1235
-//   // roundSoft(12.3456, 4)  -- 12.35
-//   // roundSoft(0.123456, 4) -- 0.1235
-
-//   checkType(n, "number");
-//   checkWhole(numDigits);
-//   checkPositive(numDigits);
-
-//   if (n === 0) {
-//     return n;
-//   }
-
-//   const power = Math.floor(Math.log10(Math.abs(n)));
-//   return roundTo(n, Math.max(0, numDigits - 1 - power));
-// }
-
 export function min(a, b) {
   // Return the minimum of `a` and `b`.
   //
