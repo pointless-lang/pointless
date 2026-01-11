@@ -1,8 +1,8 @@
 import { checkType, compareAll, getType } from "../lang/values.js";
-import { checkWhole } from "../lang/num.js";
+import { checkPositive, checkWhole } from "../lang/num.js";
 import * as Obj from "./Obj.js";
 import * as List from "./List.js";
-import { roundTo as roundToNum, sigFigs as sigFigsNum } from "./Math.js";
+import { roundTo as roundToNum } from "./Math.js";
 import { Table } from "../lang/table.js";
 import { Panic } from "../lang/panic.js";
 import im from "../immutable/immutable.js";
@@ -1486,12 +1486,30 @@ export function round(table) {
   return roundTo(table, 0);
 }
 
+// function roundNums(values, decimals) {
+//   return values.map((value, key) => {
+
+//     if (getType(value) !== "number") {
+//       return value;
+//     }
+
+//     if (getType(decimals) === "object") {
+//       return decimals.has(key)
+//         ? roundToNum(value, Obj.get(decimals, key))
+//         : value;
+//     }
+
+//     return roundToNum(value, decimals)
+//   }
+//   );
+// }
+
 export function roundTo(table, decimals) {
   checkType(table, "table");
   checkType(decimals, "number", "object");
 
-  const data = table.data.map((values, key) => {
-    function doRound(value) {
+  const data = table.data.map((values, key) =>
+    values.map((value) => {
       if (getType(value) !== "number") {
         return value;
       }
@@ -1503,38 +1521,34 @@ export function roundTo(table, decimals) {
       }
 
       return roundToNum(value, decimals);
-    }
-
-    return values.map(doRound);
-  });
-
+    })
+  );
+  
   return new Table(data);
+
 }
 
-export function sigFigs(table, numDigits) {
-  checkType(table, "table");
-  checkType(numDigits, "number", "object");
+// export function roundSoft(table, numDigits) {
+//   checkType(table, "table");
+//   checkWhole(numDigits);
+//   checkPositive(numDigits);
 
-  const data = table.data.map((values, key) => {
-    function doRound(value) {
-      if (getType(value) !== "number") {
-        return value;
-      }
+//   const data = table.data.map((values, key) => {
+//     let maxPower;
 
-      if (getType(numDigits) === "object") {
-        return numDigits.has(key)
-          ? sigFigsNum(value, Obj.get(numDigits, key))
-          : value;
-      }
+//     for (const value of values) {
+//       if (getType(value) === "number") {
+//         const power = Math.floor(Math.log10(Math.abs(value)));
+//         maxPower ??= power;
+//         maxPower = Math.max(maxPower, power);
+//       }
+//     }
 
-      return sigFigsNum(value, numDigits);
-    }
+//     return roundNums(values, Math.max(0, numDigits - 1 - maxPower));
+//   });
 
-    return values.map(doRound);
-  });
-
-  return new Table(data);
-}
+//   return new Table(data);
+// }
 
 export function average(table) {
   // ```ptls
