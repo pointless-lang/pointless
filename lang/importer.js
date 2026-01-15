@@ -14,7 +14,7 @@ export class Importer {
     this.cache = new Map();
   }
 
-  async get(root, path) {
+  async get(root, path, save = true) {
     let prefix = path.match(prefixChars)[1];
 
     if (prefix) {
@@ -28,7 +28,7 @@ export class Importer {
     const realPath = await this.loader.realPath(absPath);
     const key = `${prefix}:${realPath}`;
 
-    if (this.cache.has(key)) {
+    if (save && this.cache.has(key)) {
       const result = this.cache.get(key);
 
       // use temp value 'undefined' to mark pending import resolution
@@ -41,12 +41,12 @@ export class Importer {
     }
 
     this.cache.set(key, undefined);
-    const result = await this.dispatch(prefix, absPath);
+    const result = await this.dispatch(absPath, prefix);
     this.cache.set(key, result);
     return result;
   }
 
-  async dispatch(prefix, absPath) {
+  async dispatch(absPath, prefix) {
     if (prefix === "raw") {
       return im.List(await this.loader.readRaw(absPath));
     }
