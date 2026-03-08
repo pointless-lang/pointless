@@ -40,6 +40,9 @@ function isConsole(node) {
 
 async function renderCode(code, config, filePath, env) {
   let tokens;
+  let resultStr = "";
+  let finalDef = "";
+  let panic = "";
 
   try {
     tokens = tokenize(`${filePath}:embedded`, code);
@@ -52,13 +55,9 @@ async function renderCode(code, config, filePath, env) {
   const source = !config["hide"] &&
     h`<pre><code class="ptls">$${highlight(tokens)}</code></pre>`;
 
-  let resultStr = "";
-  let finalDef = "";
-  let panic = "";
-
   shimConsole.inputs = config.input ?? [];
 
-  if (!config["no-eval"]) {
+  if (!config["no-eval"] && !panic) {
     const mode = config["mode"];
     const raw = config["raw"];
     const echo = !config["no-echo"] && config["spoof"] === undefined;

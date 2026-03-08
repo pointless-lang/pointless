@@ -94,6 +94,7 @@ export async function ls(path) {
   // ["classes/", "notes/", "to-do.txt"]
   // ```
 
+  checkType(path, "string");
   const fullPath = resolve(path);
 
   try {

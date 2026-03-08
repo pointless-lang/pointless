@@ -57,7 +57,7 @@ export class Importer {
       case "text":
         return source;
       case "lines":
-        return im.List(source.replace(/\r?\n^/, "").split(/\r?\n/g));
+        return im.List(source.split(/\r?\n/g));
       case "csv":
         return Table.fromCsv(source);
       case "json":
