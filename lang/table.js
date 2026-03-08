@@ -6,6 +6,7 @@ import { parseCSV } from "./csv.js";
 import { indent, repr } from "./repr.js";
 import { ident } from "./tokenizer.js";
 import im from "../immutable/immutable.js";
+import stringWidth from 'string-width';
 
 export class Table {
   static ptlsName = "table";
@@ -502,16 +503,16 @@ class Cell {
       : repr(value, "compact");
 
     this.decimals = this.type === "number" && this.baseStr.includes(".")
-      ? this.baseStr.length - this.baseStr.indexOf(".")
+      ? stringWidth(this.baseStr) - this.baseStr.indexOf(".")
       : 0;
   }
 
   getLength() {
     if (this.type === "number") {
-      return this.baseStr.length + this.colInfo.decimals - this.decimals;
+      return stringWidth(this.baseStr) + this.colInfo.decimals - this.decimals;
     }
 
-    return this.baseStr.length;
+    return stringWidth(this.baseStr);
   }
 
   toString() {
@@ -525,9 +526,9 @@ class Cell {
             : ".0".padEnd(this.colInfo.decimals, "0");
         }
 
-        this.string = result.padStart(this.colInfo.length);
+        this.string = result.padStart(stringWidth(this.colInfo));
       } else {
-        this.string = this.baseStr.padEnd(this.colInfo.length);
+        this.string = this.baseStr.padEnd(stringWidth(this.colInfo));
       }
     }
 
@@ -541,7 +542,7 @@ class ColInfo {
     this.decimals = Math.max(...this.cells.map((cell) => cell.decimals));
 
     this.length = Math.max(
-      name.length,
+      stringWidth(name.length),
       ...this.cells.map((cell) => cell.getLength()),
     );
 
