@@ -888,21 +888,18 @@ export function span(from, to) {
   //
   // ```ptls
   // span(1, 10)
-  // span(2, -2)
   // ```
 
   checkWhole(from);
   checkWhole(to);
 
-  const min = Math.min(from, to);
-  const max = Math.max(from, to);
   const elems = [];
 
-  for (let n = min; n <= max; n++) {
+  for (let n = from; n <= to; n++) {
     elems.push(n);
   }
 
-  return from < to ? im.List(elems) : im.List(elems).reverse();
+  return im.List(elems);
 }
 
 export function range(limit) {

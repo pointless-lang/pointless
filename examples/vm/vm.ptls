@@ -28,9 +28,7 @@ fn evalArg(token, vm)
   end
 end
 
-binOps = Set.of([
-  "add", "sub", "mul", "div", "mod", "eq", "gt", "lt", "and", "or"
-])
+binOps = #["add", "sub", "mul", "div", "mod", "eq", "gt", "lt", "and", "or"]
 
 fn binOp(op, a, b)
   match op

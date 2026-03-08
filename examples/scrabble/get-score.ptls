@@ -1,7 +1,0 @@
-points = import "json:points.json"
-
-prompt("Enter a word: ")
-  | chars
-  $ points[arg]
-  | sum
-  | print("Score: $arg")

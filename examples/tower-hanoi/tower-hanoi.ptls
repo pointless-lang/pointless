@@ -1,44 +1,42 @@
-fn showRow(radius, sym, height)
+height = 6
+towers = [reverse(span(1, height)), [], []]
+
+fn showRow(radius, sym)
   padding = " " * (height - radius)
-  width = radius * 2 + 1
-  padding + sym * width + padding
+  padding + sym * (radius * 2 + 1) + padding
 end
 
-fn showRows(tower, height)
+fn showRows(tower)
   numBlanks = height - len(tower) + 1
-  blanks = [showRow(0, "░", height)] * numBlanks
+  blanks = [showRow(0, "░")] * numBlanks
 
   rows = tower
     | reverse
-    $ showRow("▇", height)
-
+    $ showRow("▇")
+  
   blanks + rows
 end
 
-fn showTowers(towers, height)
-  sep = [" "] * (height + 1)
-  combined = sep
+fn showTowers(towers)
+  combined = [" "] * (height + 1)
 
   for tower in towers do
-    rows = showRows(tower, height)
+    rows = showRows(tower)
 
     for index, row in rows do
-      combined[index] += row + sep[index]
+      combined[index] += row + " "
     end
   end
 
   clear()
   combined $ print
-  sleep(100)
+  sleep(200)
 end
-
-height = 6
-towers = [span(height, 1), [], []]
 
 fn moveSingle(towers, src, dest)
   towers[dest] |= push(towers[src][-1])
   towers[src] |= List.pop
-  showTowers(towers, height)
+  showTowers(towers)
   towers
 end
 
@@ -54,5 +52,5 @@ fn solve(towers, src, dest, depth)
   end
 end
 
-showTowers(towers, height)
+showTowers(towers)
 solve(towers, 0, 2, height)

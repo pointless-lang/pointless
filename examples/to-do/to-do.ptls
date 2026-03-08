@@ -7,7 +7,7 @@ fn showTask(task)
 end
 
 fn app()
-  tasks = Table.new(["name", "done"])
+  tasks = #{ name , done }
 
   while true do
     clear()

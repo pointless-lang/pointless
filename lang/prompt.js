@@ -2,9 +2,9 @@ import { Panic } from "../lang/panic.js";
 import { createInterface } from "node:readline";
 import { stdin, stdout } from "node:process";
 import { readFile, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
 
-const historyPath = tmpdir() + "/repl-history";
+const historyLimit = 50;
+const historyPath = `${import.meta.dirname}/../.repl-history`;
 
 async function loadHistory() {
   try {
@@ -20,10 +20,8 @@ async function loadHistory() {
   }
 }
 
-let history;
-
 export async function getLine(message) {
-  history ??= await loadHistory();
+  const history = await loadHistory();
 
   return new Promise((resolve, reject) => {
     let open = true;
@@ -31,10 +29,8 @@ export async function getLine(message) {
     const rl = createInterface({
       input: stdin,
       output: stdout,
-      // readline will modify history array
-      // clone so we can keep track history ourselves
-      history: [...history],
       prompt: message,
+      history,
     });
 
     rl.prompt();
@@ -48,7 +44,18 @@ export async function getLine(message) {
 
     rl.on("line", async (line) => {
       cleanup();
-      await addHistory(history, line);
+      line = line.trim();
+
+      if (history.length > historyLimit) {
+        history.pop();
+      }
+
+      const serialized = history
+        .map((entry) => JSON.stringify(entry).slice(1, -1))
+        .join("\n");
+
+      await writeFile(historyPath, serialized);
+
       resolve(line);
     });
 
@@ -66,25 +73,4 @@ export async function getLine(message) {
       }
     });
   });
-}
-
-const limit = 50;
-
-async function addHistory(history, line) {
-  line = line.trim();
-
-  if (line !== history[0]) {
-    // rl requires reversed history
-    history.unshift(line);
-
-    if (history.length > limit) {
-      history.pop();
-    }
-
-    const serialized = history
-      .map((entry) => JSON.stringify(entry).slice(1, -1))
-      .join("\n");
-
-    await writeFile(historyPath, serialized);
-  }
 }

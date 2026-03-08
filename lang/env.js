@@ -65,7 +65,7 @@ export class Env {
   // evaluate each node and return the value of the last one,
   // checking type if specified
   async evalLoc(nodes, loc, ...types) {
-    if (this.runtime.halted) {
+    if (this.runtime.abortSignal?.aborted) {
       throw new Panic("halted");
     }
 
@@ -334,6 +334,12 @@ export class Env {
               return b.repeat(Math.max(0, a));
             }
 
+            if (getType(b) === "string") {
+              checkType(a, "number");
+              checkWhole(a);
+              return im.List(im.Repeat(a, b)).flatten(true);
+            }
+
             break;
           case "string":
             checkType(b, "number");
@@ -484,6 +490,20 @@ export class Env {
   // gets interpreted by `update` as something like this:
   //   prev = items[i].quantity
   //   items = Obj.set(items, i, List.set(items[i], "quantity", prev + 1))
+  //
+  // Follows JS eval order:
+  //
+  // > x = {}
+  // > x[console.log("a")] = console.log("b")
+  // a
+  // b
+  //
+  // Instead of Python eval order:
+  //
+  // >>> x = {}
+  // >>> x[print("a")] = print("b")
+  // b
+  // a
 
   async update(container, keys, isCompound, rhs) {
     if (!keys.length) {

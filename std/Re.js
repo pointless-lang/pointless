@@ -10,7 +10,9 @@ function lookup(pattern) {
     cache.set(pattern, new RegExp(pattern, "g"));
   }
 
-  return cache.get(pattern);
+  const re = cache.get(pattern);
+  re.lastIndex = 0;
+  return re;
 }
 
 export function escape(string) {

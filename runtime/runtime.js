@@ -22,6 +22,10 @@ export class Runtime {
     return new Env(null, new Map(Object.entries(defs)), this);
   }
 
+  addSignal(abortSignal) {
+    this.abortSignal = abortSignal;
+  }
+
   spawnEnv() {
     this.env ??= this.makeEnv();
     return this.env.spawn();
