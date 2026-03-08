@@ -39,7 +39,7 @@ end
 
 fn showRow(row)
   row
-    $ if arg == 1 then "■ " else "  " end
+    $ if arg == 1 then "██" else "░░" end
     | join("")
 end
 

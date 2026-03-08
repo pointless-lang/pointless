@@ -3,7 +3,7 @@ cities = import "csv:pa-cities.csv"
 -- https://en.wikipedia.org/wiki/Benford%27s_law
 
 digitStats = cities.population
-  $ chars(Str.of(arg))[0]
+  $ take(Str.of(arg), 1)
   | List.countAll
 
 digitStats.share $= arg * 100

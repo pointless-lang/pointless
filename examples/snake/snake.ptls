@@ -1,10 +1,8 @@
 size = 10
-deltaRef = Ref.of({ x: 1, y: 0 })
+keyRef = Ref.of("right")
 
 fn newGoal()
-  x = Rand.range(size)
-  y = Rand.range(size)
-  { x, y }
+  { x: Rand.range(size), y: Rand.range(size) }
 end
 
 fn printBoard(board)
@@ -48,7 +46,7 @@ fn update(game)
 
   game.growing = false
 
-  delta = Ref.get(deltaRef)
+  delta = deltas[Ref.get(keyRef)]
 
   game.head.x += delta.x
   game.head.y += delta.y
@@ -89,8 +87,7 @@ deltas = {
 
 fn getInput()
   while true do
-    key = Console.rawKey().name
-    Ref.set(deltaRef, deltas[key])
+    Ref.set(keyRef, Console.rawKey().name)
   end
 end
 
