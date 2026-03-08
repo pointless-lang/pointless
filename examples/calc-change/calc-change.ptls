@@ -1,10 +1,13 @@
-fn calcChange(cents)
-  coins = Table.of({
-    name: ["dollar", "quarter", "dime", "nickle", "penny"],
-    value: [100, 25, 10, 5, 1],
-    count: 0,
-  })
+coins = #{
+  name      , value , count
+  "dollar"  ,   100 ,     0
+  "quarter" ,    25 ,     0
+  "dime"    ,    10 ,     0
+  "nickle"  ,     5 ,     0
+  "penny"   ,     1 ,     0
+}
 
+fn calcChange(cents)
   for coin in coins do
     count = cents // coin.value
     coins[coin].count = count
