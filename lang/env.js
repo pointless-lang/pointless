@@ -490,6 +490,20 @@ export class Env {
   // gets interpreted by `update` as something like this:
   //   prev = items[i].quantity
   //   items = Obj.set(items, i, List.set(items[i], "quantity", prev + 1))
+  //
+  // Follows JS eval order:
+  //
+  // > x = {}
+  // > x[console.log("a")] = console.log("b")
+  // a
+  // b
+  //
+  // Instead of Python eval order:
+  //
+  // >>> x = {}
+  // >>> x[print("a")] = print("b")
+  // b
+  // a
 
   async update(container, keys, isCompound, rhs) {
     if (!keys.length) {
