@@ -334,6 +334,12 @@ export class Env {
               return b.repeat(Math.max(0, a));
             }
 
+            if (getType(b) === "string") {
+              checkType(a, "number");
+              checkWhole(a);
+              return im.List(im.Repeat(a, b)).flatten(true);
+            }
+
             break;
           case "string":
             checkType(b, "number");
