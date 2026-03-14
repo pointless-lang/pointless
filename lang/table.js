@@ -526,9 +526,9 @@ class Cell {
             : ".0".padEnd(this.colInfo.decimals, "0");
         }
 
-        this.string = result.padStart(stringWidth(this.colInfo));
+        this.string = result.padStart(this.colInfo.length);
       } else {
-        this.string = this.baseStr.padEnd(stringWidth(this.colInfo));
+        this.string = this.baseStr.padEnd(this.colInfo.length);
       }
     }
 
@@ -542,7 +542,7 @@ class ColInfo {
     this.decimals = Math.max(...this.cells.map((cell) => cell.decimals));
 
     this.length = Math.max(
-      stringWidth(name.length),
+      stringWidth(name),
       ...this.cells.map((cell) => cell.getLength()),
     );
 
