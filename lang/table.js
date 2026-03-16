@@ -6,7 +6,7 @@ import { parseCSV } from "./csv.js";
 import { indent, repr } from "./repr.js";
 import { ident } from "./tokenizer.js";
 import im from "../immutable/immutable.js";
-import stringWidth from 'string-width';
+import stringWidth from "string-width";
 
 export class Table {
   static ptlsName = "table";

@@ -102,14 +102,15 @@ end
 
 ----
 
-deal = Table.of([
-  { rank: "6", suit: "h" },
-  { rank: "7", suit: "h" },
-  { rank: "8", suit: "h" },
-  { rank: "8", suit: "d" },
-  { rank: "8", suit: "s" },
-  { rank: "9", suit: "h" },
-])
+deal = #{
+  rank , suit
+  "6"  , "h"
+  "7"  , "h"
+  "8"  , "h"
+  "8"  , "d"
+  "8"  , "s"
+  "9"  , "h"
+}
 
 ----
 
