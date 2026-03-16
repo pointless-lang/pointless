@@ -20,7 +20,7 @@ fn app()
       
     name = prompt("\ntask name: ")
 
-    if not { name } in tasks then
+    if { name } not in tasks then
       tasks |= push({ name, done: false })
 
     elif not tasks[{ name }].done then

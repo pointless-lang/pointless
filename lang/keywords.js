@@ -16,6 +16,7 @@ export const keywords = [
   "in",
   "match",
   "none",
+  "not in",
   "not",
   "or",
   "return",

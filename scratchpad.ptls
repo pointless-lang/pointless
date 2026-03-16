@@ -1,0 +1,235 @@
+-- not in
+-- .. then .. else ..
+-- foo.bar $=
+
+-- $$, $?
+-- .foo
+
+cities = import "csv:examples/migration/cities.csv"
+
+print(cities ? arg.state == "CA" and arg.pop2024 > 1000000)
+
+print(cities ? .state == "CA" and .pop2024 > 1000000)
+
+print(cities.pop2024 $ arg + 1)
+
+print(cities.pop2024 $ + 1)
+
+print(cities.pop2024 $ > 1)
+
+-- !in => not in
+-- .foo
+-- $+
+-- $$
+-- $?
+-- takeLast, dropLast global
+
+-- //
+-- /
+-- -
+-- +
+-- **
+-- *
+-- %
+-- ??
+
+-- >=
+-- >
+-- ==
+-- <=
+-- <
+-- !=
+-- in
+-- not in
+
+-- |
+-- $
+-- ?
+
+cities.density = cities $ arg.pop2024 / arg.area
+cities $= arg + { density: arg.pop2024 / arg.area }
+cities.density $= arg.pop2024 / arg.area
+cities.density @ .pop2024 / .area
+
+cities.density $= arg.pop2024 / arg.area
+cities.+density $= arg.pop2024 / arg.area
+
+--------------------
+
+$ if arg >= threshold then "X" else " " end
+
+$ >= threshold
+$ "X" else " "
+
+if a then b else c end
+a then b else c
+a | b else c
+
+--------------------
+
+? len(arg) == 4
+
+$ take(Str.of(arg), 1)
+
+$ if arg == 1 then "██" else "░░" end
+
+$ "• $arg"
+
+$ points[arg]
+
+$ "│$arg│"
+
+| "┌$border┐\n$arg\n└$border┘"
+
+(suffixes $ prefix + arg) + suffixes
+
+$ if arg == 0 then " " else arg end
+
+| arg * 9 / 5 + 32
+
+| print("Degrees F: $arg")
+
+? not (isEmpty(arg) or Str.startsWith(arg, "--"))
+
+| print("memory: [$arg]")
+
+$ [elem] + arg
+
+--------------------
+
+$ values[arg.rank]
+$ values[.rank]
+
+$ List.indexOf(ranks, arg.rank)
+$ List.indexOf(ranks, .rank)
+
+? arg.type == "run"
+? .type == "run"
+
+$ len(arg.cards)
+$ len(.cards)
+
+scoreItems ?= not (arg.type == "run" and len(arg.cards) < maxRun)
+scoreItems ?= not (.type == "run" and len(.cards) < maxRun)
+
+cities.change = cities $ arg.pop2024 - arg.pop2020
+cities.pctChange = cities $ arg.pop2024 / arg.pop2020 * 100 - 100
+cities.density = cities $ arg.pop2024 / arg.area
+
+cities $= change: arg.pop2024 - arg.pop2020
+cities $= pctChange: arg.pop2024 / arg.pop2020 * 100 - 100
+cities $= density: arg.pop2024 / arg.area
+
+cities $= arg + {
+  change: arg.pop2024 - arg.pop2020,
+  pctChange: arg.pop2024 / arg.pop2020 * 100 - 100,
+  density: arg.pop2024 / arg.area,
+}
+
+cities.change = cities $ .pop2024 - .pop2020
+cities.pctChange = cities $ .pop2024 / .pop2020 * 100 - 100
+cities.density = cities $ .pop2024 / .area
+
+wins = len(group ? arg.scored > arg.allowed)
+losses = len(group ? arg.scored < arg.allowed)
+ties = len(group ? arg.scored == arg.allowed)
+
+wins = len(group ? .scored > .allowed)
+losses = len(group ? .scored < .allowed)
+ties = len(group ? .scored == .allowed)
+
+? arg.amount <= threshold
+? .amount <= threshold
+
+$ arg.amount - arg.discount
+$ .amount - .discount
+
+--------------------
+
+digitStats.share $= arg * 100
+digitStats.share $*= 100
+digitStats.share $= * 100
+
+left   = nums ? arg < pivot
+middle = nums ? arg == pivot
+right  = nums ? arg > pivot
+
+left   = nums ?< pivot
+middle = nums ?== pivot
+right  = nums ?> pivot
+
+left   = nums ? < pivot
+middle = nums ? == pivot
+right  = nums ? > pivot
+
+--------------------
+
+num ?= arg <= 10
+num ?<== 10
+num ?= <= 10
+
+--------------------
+
+nested $ (arg $ round)
+nested $$ round
+
+nested $+= (arg $ arg + 1)
+nested $$+= 1
+nested $$= + 1
+
+--------------------
+
+fn showRow(row)
+  row
+    $ arg == 1 then "██" else "░░"
+    | join("")
+end
+
+for 200 do
+  clear()
+  cells
+    $ showRow
+    | join("\n")
+    | print
+
+  sleep(20)
+  cells |= update
+end
+
+for 200 do
+  clear()
+  cells
+    $$ arg == 1 then "██" else "░░"
+    $ join("")
+    | join("\n")
+    | print
+
+  sleep(20)
+  cells |= update
+end
+
+--------------------
+
+fn is15(cards)
+  cards
+    $ values[arg.rank]
+    | sum
+    | arg == 15
+end
+
+fn is15(cards)
+  cards
+    $ values[.rank]
+    | sum
+    |== 15
+end
+
+maxRun = scoreItems
+  ? arg.type == "run"
+  $ len(arg.cards)
+  | List.maxNone
+
+maxRun = scoreItems
+  ? .type == "run"
+  $ len(.cards)
+  | List.maxNone

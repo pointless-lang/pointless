@@ -9,32 +9,41 @@ export const dateTime =
   /`((\d{4}-\d\d-\d\d[T ])?\d\d:\d\d(:\d\d(\.\d+)?)?(Z|[+\-]\d\d:\d\d)?|(\d{4}-\d\d-\d\d))`/;
 
 function rule(name, pattern) {
-  const source = pattern instanceof RegExp ? pattern.source : pattern;
+  let source;
+
+  if (pattern instanceof RegExp) {
+    source = pattern.source;
+  } else {
+    source = escape(pattern);
+
+    if (/\w$/.test(pattern)) {
+      // Need "\b" to avoid matching names with keyword prefixes,
+      // like "note" vs "not"
+
+      source += "\\b";
+    }
+  }
+
   // Use "y" for sticky regex
   return { name, pattern: new RegExp(source, "y") };
+}
+
+function ruleSet(patterns) {
+  // Keyword and symbol rules get reverse-sorted to match longest prefix,
+  // for example '==' or 'not in'
+  return patterns.sort().reverse().map((pattern) => rule(pattern, pattern));
 }
 
 function escape(chars) {
   return chars.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-// Need "\b" to avoid matching names with keyword prefixes, like "note" vs "not"
-const keywordRules = keywords.map((kwd) => rule(kwd, kwd + "\\b"));
-
-// Symbol rules get reverse-sorted to match longest prefix, for example we want
-// to match '==' as '==', not '=' '='
-
-const symbolRules = symbols
-  .sort()
-  .reverse()
-  .map((sym) => rule(sym, escape(sym)));
-
 // Rules are checked in order, so the ordering of rules is important.
 // For example, the comment rule needs to come before the minus symbol rule.
 // Otherwise a comment's double dashes would be parsed as two minus signs
 
 const rules = [
-  ...keywordRules,
+  ...ruleSet(keywords),
   rule("field", /\.[a-zA-Z][a-zA-Z0-9]*/),
   rule("newline", /\r?\n/),
   rule("number", /\d*\.?\d+([eE][+-]?\d+)?/),
@@ -51,7 +60,7 @@ const rules = [
   rule("name", /[a-zA-Z][a-zA-Z0-9]*/),
   // Comment rule must come before '-' symbol rule
   rule("comment", /--.*/),
-  ...symbolRules,
+  ...ruleSet(symbols),
   // unexpectedCharacter rule must come last
   rule("unexpectedCharacter", /[^]/),
 ];

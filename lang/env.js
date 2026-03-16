@@ -307,7 +307,7 @@ export class Env {
         return !im.is(a, b);
       case "in":
         return this.checkIn(a, b);
-      case "!in":
+      case "not in":
         return !this.checkIn(a, b);
       case "+": {
         const typeA = getType(a);
