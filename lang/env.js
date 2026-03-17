@@ -468,6 +468,11 @@ export class Env {
 
     let child;
 
+    if (!newKeys.length && isCompound && rhs.type === "map" && !table.has(key)) {
+      const column = await this.doMap(table, rhs.value.args, rhs.value.func)
+      return table.set(key, column);
+    }
+
     if (newKeys.length || isCompound) {
       child = table.get(key);
     }
@@ -561,11 +566,7 @@ export class Env {
     return await func.call(lhs, ...args);
   }
 
-  async evalMap(node) {
-    const { lhs, args: argNodes, func: funcNode } = node.value;
-    // use operator loc for type errors, gets confusing otherwise
-    // if it makes it look like error came from expression on previous line
-    const iter = await this.evalLoc(lhs, node.loc, "list", "table");
+  async doMap(iter, argNodes, funcNode) {
     const args = await this.evalEach(argNodes);
     const func = await this.eval(funcNode, "function");
     const elems = [];
@@ -598,6 +599,14 @@ export class Env {
     }
 
     return im.List(elems);
+  }
+
+  async evalMap(node) {
+    const { lhs, args: argNodes, func: funcNode } = node.value;
+    // use operator loc for type errors, gets confusing otherwise
+    // if it makes it look like error came from expression on previous line
+    const iter = await this.evalLoc(lhs, node.loc, "list", "table");
+    return await this.doMap(iter, argNodes, funcNode);
   }
 
   async evalFilter(node) {
