@@ -468,8 +468,10 @@ export class Env {
 
     let child;
 
-    if (!newKeys.length && isCompound && rhs.type === "map" && !table.has(key)) {
-      const column = await this.doMap(table, rhs.value.args, rhs.value.func)
+    if (
+      !newKeys.length && isCompound && rhs.type === "map" && !table.has(key)
+    ) {
+      const column = await this.doMap(table, rhs.value.args, rhs.value.func);
       return table.set(key, column);
     }
 
@@ -512,12 +514,7 @@ export class Env {
 
   async update(container, keys, isCompound, rhs) {
     if (!keys.length) {
-      // prev is set to the nested value, not the top-level container
-      // for example, in `foo[i] = prev + 1`, prev is `foo[i]`, not `foo`
-      this.prev.push(container);
-      const result = await this.eval(rhs);
-      this.prev.pop();
-      return result;
+      return await this.updateBase(container, rhs, isCompound);
     }
 
     checkType(container, "list", "object", "table");
@@ -536,16 +533,29 @@ export class Env {
     }
   }
 
+  async updateBase(prev, rhs, isCompound) {
+    // prev is set to the nested value, not the top-level container
+    // for example, in `foo[i] = prev + 1`, prev is `foo[i]`, not `foo`
+    this.prev.push(prev);
+    const result = await this.eval(rhs);
+    this.prev.pop();
+
+    return getType(prev) === "table" && isCompound && rhs.type === "map"
+      ? Table.of(result)
+      : result;
+  }
+
   async evalDef(node) {
     const { name, keys, isCompound, rhs } = node.value;
 
     if (!keys.length) {
-      this.prev.push(isCompound ? await this.lookup(name) : undefined);
-      this.setDef(name, await this.eval(rhs));
-      this.prev.pop();
+      const prev = isCompound ? await this.lookup(name) : undefined;
+      const result = await this.updateBase(prev, rhs, isCompound);
+      this.setDef(name, result);
     } else {
       const container = await this.lookup(name);
-      this.setDef(name, await this.update(container, keys, isCompound, rhs));
+      const result = await this.update(container, keys, isCompound, rhs)
+      this.setDef(name, result);
     }
 
     return null;

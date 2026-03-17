@@ -52,23 +52,7 @@ export function of(value) {
   // ])
   // ```
 
-  checkType(value, "object", "list", "set", "table");
-
-  switch (getType(value)) {
-    case "table":
-      return value;
-    case "object":
-      return new Table(value);
-  }
-
-  if (!value.size) {
-    return new Table();
-  }
-
-  value = im.List(value);
-  checkType(value.first(), "object");
-  const columns = value.first().keySeq().toList();
-  return Table.fromRows(value, columns);
+  return Table.of(value);
 }
 
 export function $new(columns) {

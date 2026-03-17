@@ -83,6 +83,26 @@ export class Table {
     return new Table(im.OrderedMap(data));
   }
 
+  static of(value) {
+    checkType(value, "object", "list", "set", "table");
+
+    switch (getType(value)) {
+      case "table":
+        return value;
+      case "object":
+        return new Table(value);
+    }
+
+    if (!value.size) {
+      return new Table();
+    }
+
+    value = im.List(value);
+    checkType(value.first(), "object");
+    const columns = value.first().keySeq().toList();
+    return Table.fromRows(value, columns);
+  }
+
   equals(other) {
     return im.is(this.data, other.data);
   }
