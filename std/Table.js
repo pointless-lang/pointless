@@ -102,10 +102,11 @@ export function isEmpty(table) {
   return len(table) == 0;
 }
 
-export function defaultCols(table, columns) {
-  // If `table` has zero columns (and therefore by definition zero rows), return
-  // an empty table with the given `columns`. If `table` has columns then return
-  // `table`.
+export function fixCols(table, columns) {
+  // If `table` has is empty (has zero rows) then add an empty colum for each
+  // column name in `columns` not currently present in `table`. `columns` may be
+  // a single string (for one column) or a list of strings (for multiple
+  // columns).
   //
   // This is useful when you're making a table from a list of rows that may or
   // may not be empty, and you want to make sure your table ends up with the
@@ -118,21 +119,19 @@ export function defaultCols(table, columns) {
   //   "Josh"  ,  3731
   // }
   //
-  // Table.defaultCols(players, ["name", "yards"])
-  //
-  // players = #{}
-  //
-  // Table.defaultCols(players, ["name", "yards"])
+  // players
+  //   ? arg.yards > 5000
+  //   | Table.fixCols(["names", "yards"])
   // ```
 
   checkType(table, "table");
-  checkType(columns, "list");
+  columns = flattenCols(columns);
 
-  if (!table.width) {
-    return $new(columns);
+  if (isEmpty(table)) {
+    const newColumns = new Set([...table.columns(), ...columns]);
+    return $new(im.List(newColumns));
   }
 
-  table.checkColumns(...columns);
   return table;
 }
 
@@ -1136,14 +1135,23 @@ export function group(table, columns) {
 
 export async function summarize(table, columns, reducer) {
   // Group the rows in `table` by one or more `columns` and summarize each group
-  // using the function `reducer`. `columns` may be a string (single column) or
-  // a list of strings (multiple columns).
+  // using `reducer`. `columns` may be a string (single column) or a list of
+  // strings (multiple columns). `reducer` may be a function or an object.
   //
   // Rows are grouped based on the values in the given `columns` (see the docs
-  // for [Table.group](#group) for details on the grouping process.) `reducer`
-  // is called for each group and returns an object containing summary
-  // information. These objects are merged with each group's column values to
-  // form the final summary row for that group.
+  // for [Table.group](#group) for details on the grouping process). `reducer`
+  // is applied to each group.
+  //
+  // - If `reducer` is a function, it is called on each group and should return
+  //   an object containing summary information.
+  //
+  // - If `reducer` is an object, its keys must be columns in `table` and its
+  //   values must be functions. Each of these functions is called with the
+  //   corresponding column from the group, and should return summary
+  //   information for the column.
+  //
+  // The grouping columns are merged into each group's summary object to produce
+  // the final summary row for that group.
   //
   // ```ptls
   // cities = #{
@@ -1159,11 +1167,12 @@ export async function summarize(table, columns, reducer) {
   //   "Dallas"       , "TX"  ,    1326087
   // }
   //
+  // Table.summarize(cities, "state", { population: sum })
+  //
   // fn calcStateStats(group)
-  //   totalPop = sum(group.population)
   //   biggestCity = Table.maxBy(group, "population").city
   //   numCities = len(group)
-  //   { totalPop, biggestCity, numCities }
+  //   { biggestCity, numCities }
   // end
   //
   // Table.summarize(cities, "state", calcStateStats)
