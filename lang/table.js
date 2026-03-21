@@ -233,6 +233,22 @@ export class Table {
     return Table.fromRows(im.List(rows), this.columns());
   }
 
+  async extend(func, args) {
+    checkType(func, "function");
+
+    if (!this.size) {
+      return this;
+    }
+
+    const rows = [];
+
+    for (const row of this) {
+      rows.push(row.concat(await func.call(row, ...args)));
+    }
+
+    return Table.of(im.List(rows));
+  }
+
   getRow(index) {
     this.checkIndex(index);
     const map = new Map();

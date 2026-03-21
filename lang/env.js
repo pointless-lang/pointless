@@ -161,6 +161,8 @@ export class Env {
         return this.evalMap(node);
       case "filter":
         return this.evalFilter(node);
+      case "extend":
+        return this.evalExtend(node);
       case "fn":
         return this.evalFn(node);
       case "break":
@@ -466,19 +468,7 @@ export class Env {
     const { key, newKeys } = await this.sliceKeys(keys);
     checkType(key, "number", "string", "object");
 
-    let child;
-
-    if (
-      !newKeys.length && isCompound && rhs.type === "map" && !table.has(key)
-    ) {
-      const column = await this.doMap(table, rhs.value.args, rhs.value.func);
-      return table.set(key, column);
-    }
-
-    if (newKeys.length || isCompound) {
-      child = table.get(key);
-    }
-
+    const child = newKeys.length || isCompound ? table.get(key) : undefined;
     const updated = await this.update(child, newKeys, isCompound, rhs);
 
     // set blame for invalid/mismatched column(s)
@@ -554,7 +544,7 @@ export class Env {
       this.setDef(name, result);
     } else {
       const container = await this.lookup(name);
-      const result = await this.update(container, keys, isCompound, rhs)
+      const result = await this.update(container, keys, isCompound, rhs);
       this.setDef(name, result);
     }
 
@@ -568,84 +558,77 @@ export class Env {
     return await func.call(...args);
   }
 
+  async getPipeArgs(node, ...types) {
+    // Use operator loc for type errors, gets confusing otherwise
+    // since it makes it look like error came from expression on previous line
+    // Doesn't matter for pipe, but does for map, filter, and extend
+    const lhs = await this.evalLoc(node.value.lhs, node.loc, ...types);
+    const args = await this.evalEach(node.value.args);
+    const func = await this.eval(node.value.func, "function");
+
+    // setBlame with blameLoc improves error location reporting
+    //
+    // >> ["a"] $ Math.abs $ print
+    // panic: type error
+    // expected: number
+    // got: string
+    //
+    // ["a"] $ Math.abs $ print
+    //             ^
+    // At repl:1:13
+    //
+    // vs
+    //
+    // >> ["a"] $ Math.abs $ print
+    // panic: type error
+    // expected: number
+    // got: string
+    //
+    // ["a"] $ Math.abs $ print
+    //                  ^
+    // At repl:1:18
+    this.setBlame(node.value.func.loc);
+
+    return { lhs, args, func };
+  }
+
   async evalPipe(node) {
-    const { lhs: lhsNode, args: argNodes, func: funcNode } = node.value;
-    const lhs = await this.eval(lhsNode);
-    const func = await this.eval(funcNode, "function");
-    const args = await this.evalEach(argNodes);
+    const { lhs, args, func } = await this.getPipeArgs(node);
     return await func.call(lhs, ...args);
   }
 
-  async doMap(iter, argNodes, funcNode) {
-    const args = await this.evalEach(argNodes);
-    const func = await this.eval(funcNode, "function");
+  async evalMap(node) {
+    const { lhs, args, func } = await this.getPipeArgs(node, "list", "table");
     const elems = [];
 
-    for (const elem of iter) {
-      // setBlame improves error location reporting
-      //
-      // >> ["a"] $ Math.abs $ print
-      // panic: type error
-      // expected: number
-      // got: string
-      //
-      // ["a"] $ Math.abs $ print
-      //             ^
-      // At repl:1:13
-      //
-      // vs
-      //
-      // >> ["a"] $ Math.abs $ print
-      // panic: type error
-      // expected: number
-      // got: string
-      //
-      // ["a"] $ Math.abs $ print
-      //                  ^
-      // At repl:1:18
-
-      this.setBlame(funcNode.loc);
+    for (const elem of lhs) {
       elems.push(await func.call(elem, ...args));
     }
 
     return im.List(elems);
   }
 
-  async evalMap(node) {
-    const { lhs, args: argNodes, func: funcNode } = node.value;
-    // use operator loc for type errors, gets confusing otherwise
-    // if it makes it look like error came from expression on previous line
-    const iter = await this.evalLoc(lhs, node.loc, "list", "table");
-    return await this.doMap(iter, argNodes, funcNode);
-  }
-
   async evalFilter(node) {
-    const { lhs, args: argNodes, func: funcNode } = node.value;
-    // use operator loc for type errors, gets confusing otherwise
-    // if it makes it look like error came from expression on previous line
-    const iter = await this.evalLoc(lhs, node.loc, "list", "table");
+    const { lhs, args, func } = await this.getPipeArgs(node, "list", "table");
 
-    if (!iter.size) {
-      return iter;
-    }
-
-    const args = await this.evalEach(argNodes);
-    const func = await this.eval(funcNode, "function");
-
-    if (getType(iter) === "table") {
-      return await iter.filter(func, args);
+    if (getType(lhs) === "table") {
+      return await lhs.filter(func, args);
     }
 
     const elems = [];
 
-    for (const elem of iter) {
-      this.setBlame(funcNode.loc);
+    for (const elem of lhs) {
       if (await func.callCondition(elem, ...args)) {
         elems.push(elem);
       }
     }
 
     return im.List(elems);
+  }
+
+  async evalExtend(node) {
+    const { lhs, args, func } = await this.getPipeArgs(node, "table");
+    return await lhs.extend(func, args);
   }
 
   evalFn(node) {

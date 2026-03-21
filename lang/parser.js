@@ -15,6 +15,7 @@ const def = [
   "|=",
   "$=",
   "?=",
+  "#=",
   "+=",
   "-=",
   "*=",
@@ -24,6 +25,9 @@ const def = [
   "%=",
   "??=",
 ];
+
+// pipelines operators
+const pipelines = ["|", "$", "?", "#"];
 
 // operators from lowest to highest precedence
 const ops = [
@@ -649,17 +653,13 @@ class Parser {
     // de-sugar compound assignments into binary ops with `prev`
     // placeholder to avoid evaluating asignee multiple times
 
-    switch (op) {
-      case "|":
-      case "$":
-      case "?": {
-        // statement is a compound assignment with a pipe op
-        const rhs = this.getChain(new Node("prev", loc), this.getExpression, {
-          value: op,
-          loc,
-        });
-        return { loc, rhs, isCompound: true };
-      }
+    if (pipelines.includes(op)) {
+      // statement is a compound assignment with a pipe op
+      const rhs = this.getChain(new Node("prev", loc), this.getExpression, {
+        value: op,
+        loc,
+      });
+      return { loc, rhs, isCompound: true };
     }
 
     if (op !== "=") {
@@ -902,15 +902,16 @@ class Parser {
   }
 
   getChain(lhs, handler, op) {
-    const nodeType = { "|": "pipe", $: "map", "?": "filter" }[op.value];
+    const nodeType =
+      { "|": "pipe", $: "map", "?": "filter", "#": "extend" }[op.value];
 
     this.implicits.push(undefined);
-    const result = handler.call(this);
+    let rhs = handler.call(this);
     const loc = this.implicits.pop();
 
-    const rhs = loc
-      ? new Node("fn", loc, { name: "fn", params: ["arg"], body: [result] })
-      : result;
+    if (loc || nodeType === "extend" && rhs.type === "object") {
+      rhs = new Node("fn", loc, { name: "fn", params: ["arg"], body: [rhs] });
+    }
 
     if (rhs.type === "call") {
       return new Node(nodeType, op.loc, {
@@ -927,8 +928,8 @@ class Parser {
     // get initial operand
     let lhs = this.getOp();
 
-    while (this.has("|", "$", "?")) {
-      const op = this.get("|", "$", "?");
+    while (this.has(...pipelines)) {
+      const op = this.get(...pipelines);
       lhs = this.getChain(lhs, this.getOp, op);
     }
 

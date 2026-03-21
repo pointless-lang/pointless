@@ -19,7 +19,6 @@ function rule(name, pattern) {
     if (/\w$/.test(pattern)) {
       // Need "\b" to avoid matching names with keyword prefixes,
       // like "note" vs "not"
-
       source += "\\b";
     }
   }
