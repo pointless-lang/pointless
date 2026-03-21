@@ -76,6 +76,7 @@ export class Std {
   makeOverloads() {
     const overloads = {
       drop: ["values", "count"],
+      dropLast: ["values", "count"],
       isEmpty: ["values"],
       len: ["values"],
       max: ["values"],
@@ -90,6 +91,7 @@ export class Std {
       sortDescBy: ["values", "ranker"],
       sum: ["values"],
       take: ["values", "count"],
+      takeLast: ["values", "count"],
     };
 
     const typesMap = {
