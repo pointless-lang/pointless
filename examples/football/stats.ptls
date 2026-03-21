@@ -9,17 +9,15 @@ fn splitGame(game)
 end
 
 fn getStats(group)
-  denom = Math.max(1, len(group))
-
   wins = len(group ? arg.scored > arg.allowed)
   losses = len(group ? arg.scored < arg.allowed)
   ties = len(group ? arg.scored == arg.allowed)
   scored = sum(group.scored)
   allowed = sum(group.allowed)
   
-  winPct = wins / denom
-  scoredPG = scored / denom
-  allowedPG = allowed / denom
+  winPct = wins / len(group)
+  scoredPG = scored / len(group)
+  allowedPG = allowed / len(group)
   diff = scored - allowed
 
   { wins, losses, ties, winPct, scoredPG, allowedPG, diff }
