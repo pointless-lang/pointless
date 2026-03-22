@@ -43,14 +43,16 @@ fn binOp(op, a, b)
   end
 end
 
+fn setReg(vm, value, dest)
+  vm.registers[regIndex(dest)] = value
+  vm
+end
+
 fn runInst(vm, inst)
   tokens = split(inst, " ")
   op = tokens[0]
 
-  setReg = fn(vm, value)
-    vm.registers[regIndex(tokens[1])] = value
-    vm
-  end
+  setReg = fn(vm, value) setReg(vm, value, tokens[1])
 
   args = tokens
     | drop(1)
