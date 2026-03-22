@@ -1135,23 +1135,14 @@ export function group(table, columns) {
 
 export async function summarize(table, columns, reducer) {
   // Group the rows in `table` by one or more `columns` and summarize each group
-  // using `reducer`. `columns` may be a string (single column) or a list of
-  // strings (multiple columns). `reducer` may be a function or an object.
+  // using the function `reducer`. `columns` may be a string (single column) or
+  // a list of strings (multiple columns).
   //
   // Rows are grouped based on the values in the given `columns` (see the docs
-  // for [Table.group](#group) for details on the grouping process). `reducer`
-  // is applied to each group.
-  //
-  // - If `reducer` is a function, it is called on each group and should return
-  //   an object containing summary information.
-  //
-  // - If `reducer` is an object, its keys must be columns in `table` and its
-  //   values must be functions. Each of these functions is called with the
-  //   corresponding column from the group, and should return summary
-  //   information for the column.
-  //
-  // The grouping columns are merged into each group's summary object to produce
-  // the final summary row for that group.
+  // for [Table.group](#group) for details on the grouping process.) `reducer`
+  // is called for each group and returns an object containing summary
+  // information. These objects are merged with each group's column values to
+  // form the final summary row for that group.
   //
   // ```ptls
   // cities = #{
@@ -1166,15 +1157,14 @@ export async function summarize(table, columns, reducer) {
   //   "San Diego"    , "CA"  ,    1404452
   //   "Dallas"       , "TX"  ,    1326087
   // }
-  
-  // Table.summarize(cities, "state", { population: sum })
-  
+  //
   // fn calcStateStats(group)
+  //   totalPop = sum(group.population)
   //   biggestCity = Table.maxBy(group, "population").city
   //   numCities = len(group)
-  //   { biggestCity, numCities }
+  //   { totalPop, biggestCity, numCities }
   // end
-  
+  //
   // Table.summarize(cities, "state", calcStateStats)
   // ```
 
@@ -1184,12 +1174,7 @@ export async function summarize(table, columns, reducer) {
 
   const groups = group(table, columns);
   columns = flattenCols(columns, table);
-  checkType(reducer, "function", "object");
-
-  if (getType(reducer) === "object") {
-    // table.checkColumns(...reducer.keySeq());
-    reducer.forEach((func, column) => {checkType(column, "string"); checkType(func, "function")});
-  }
+  checkType(reducer, "function");
 
   const rows = [];
 
@@ -1201,19 +1186,8 @@ export async function summarize(table, columns, reducer) {
       row.set(column, values.first());
     }
 
-    let summary;
-
-    if (getType(reducer) === "function") {
-      summary = await reducer.call(group);
-      checkType(summary, "object");
-    } else {
-      summary = {};
-
-      for (const [column, func] of reducer) {
-        summary[column] = await func.call(group.has(column) ? group.get(column) : group);
-      }
-    }
-
+    const summary = await reducer.call(group);
+    checkType(summary, "object");
     rows.push(im.OrderedMap(row).concat(summary));
   }
 
