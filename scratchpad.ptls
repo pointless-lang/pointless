@@ -1,183 +1,189 @@
--- not in
--- .. then .. else ..
--- foo.bar $=
+fn step(n)
+  if n % 2 == 0 then
+    n / 2
+  else
+    n * 3 + 1
+  end
+end
 
--- $$, $?
--- .foo
+fn step(n)
+  n % 2 == 0
+    then n / 2
+    else n * 3 + 1
+end
 
-cities = import "csv:examples/migration/cities.csv"
-
-print(cities ? arg.state == "CA" and arg.pop2024 > 1000000)
-
-print(cities ? .state == "CA" and .pop2024 > 1000000)
-
-print(cities.pop2024 $ arg + 1)
-
-print(cities.pop2024 $ + 1)
-
-print(cities.pop2024 $ > 1)
-
--- !in => not in
--- .foo
--- $+
--- $$
--- $?
--- takeLast, dropLast global
-
--- //
--- /
--- -
--- +
--- **
--- *
--- %
--- ??
-
--- >=
--- >
--- ==
--- <=
--- <
--- !=
--- in
--- not in
-
--- |
--- $
--- ?
-
-cities.density = cities $ arg.pop2024 / arg.area
-cities $= arg + { density: arg.pop2024 / arg.area }
-cities.density $= arg.pop2024 / arg.area
-cities.density @ .pop2024 / .area
-
-cities.density $= arg.pop2024 / arg.area
-cities.+density $= arg.pop2024 / arg.area
+-- worse?
 
 --------------------
 
-$ if arg >= threshold then "X" else " " end
+message = 
+  if n % 15 == 0 then
+    "fizz buzz"
+  elif n % 5 == 0 then
+    "buzz"
+  elif n % 3 == 0 then
+    "fizz"
+  else
+    n
+  end
 
-$ >= threshold
-$ "X" else " "
+message = 
+  n % 15 == 0 then
+    "fizz buzz"
+  else n % 5 == 0 then
+    "buzz"
+  else n % 3 == 0 then
+    "fizz"
+  else
+    n
 
-if a then b else c end
-a then b else c
-a | b else c
-
---------------------
-
-? len(arg) == 4
-
-$ take(Str.of(arg), 1)
-
-$ if arg == 1 then "██" else "░░" end
-
-$ "• $arg"
-
-$ points[arg]
-
-$ "│$arg│"
-
-| "┌$border┐\n$arg\n└$border┘"
-
-(suffixes $ prefix + arg) + suffixes
-
-$ if arg == 0 then " " else arg end
-
-| arg * 9 / 5 + 32
-
-| print("Degrees F: $arg")
-
-? not (isEmpty(arg) or Str.startsWith(arg, "--"))
-
-| print("memory: [$arg]")
-
-$ [elem] + arg
+-- worse
 
 --------------------
 
-$ values[arg.rank]
-$ values[.rank]
+shifted =
+  if index == none then
+    letter
+  else
+    alphabet[(index + 13) % 26]
+  end
 
-$ List.indexOf(ranks, arg.rank)
-$ List.indexOf(ranks, .rank)
+shifted = index == none
+  then letter
+  else alphabet[(index + 13) % 26]
 
-? arg.type == "run"
-? .type == "run"
-
-$ len(arg.cards)
-$ len(.cards)
-
-scoreItems ?= not (arg.type == "run" and len(arg.cards) < maxRun)
-scoreItems ?= not (.type == "run" and len(.cards) < maxRun)
-
-cities.change = cities $ arg.pop2024 - arg.pop2020
-cities.pctChange = cities $ arg.pop2024 / arg.pop2020 * 100 - 100
-cities.density = cities $ arg.pop2024 / arg.area
-
-cities $= change: arg.pop2024 - arg.pop2020
-cities $= pctChange: arg.pop2024 / arg.pop2020 * 100 - 100
-cities $= density: arg.pop2024 / arg.area
-
-cities $= arg + {
-  change: arg.pop2024 - arg.pop2020,
-  pctChange: arg.pop2024 / arg.pop2020 * 100 - 100,
-  density: arg.pop2024 / arg.area,
-}
-
-cities.change = cities $ .pop2024 - .pop2020
-cities.pctChange = cities $ .pop2024 / .pop2020 * 100 - 100
-cities.density = cities $ .pop2024 / .area
-
-wins = len(group ? arg.scored > arg.allowed)
-losses = len(group ? arg.scored < arg.allowed)
-ties = len(group ? arg.scored == arg.allowed)
-
-wins = len(group ? .scored > .allowed)
-losses = len(group ? .scored < .allowed)
-ties = len(group ? .scored == .allowed)
-
-? arg.amount <= threshold
-? .amount <= threshold
-
-$ arg.amount - arg.discount
-$ .amount - .discount
+-- better
 
 --------------------
 
-digitStats.share $= arg * 100
-digitStats.share $*= 100
-digitStats.share $= * 100
+if Str.isUpper(letter) then
+  Str.toUpper(shifted)
+else
+  shifted
+end
 
-left   = nums ? arg < pivot
-middle = nums ? arg == pivot
-right  = nums ? arg > pivot
+Str.isUpper(letter)
+  then Str.toUpper(shifted)
+  else shifted
 
-left   = nums ?< pivot
-middle = nums ?== pivot
-right  = nums ?> pivot
-
-left   = nums ? < pivot
-middle = nums ? == pivot
-right  = nums ? > pivot
+-- worse?
 
 --------------------
 
-num ?= arg <= 10
-num ?<== 10
-num ?= <= 10
+fn getLine(threshold, numbers)
+  numbers
+    $ if arg >= threshold then "X" else " " end
+    | join("")
+end
+
+fn getLine(threshold, numbers)
+  numbers
+    $ arg >= threshold then "X" else " "
+    | join("")
+end
+
+-- better
 
 --------------------
 
-nested $ (arg $ round)
-nested $$ round
+case "jeq" then
+  ipDelta = if args[1] == args[2] then args[0] else 1 end
+case "jne" then
+  ipDelta = if args[1] != args[2] then args[0] else 1 end
 
-nested $+= (arg $ arg + 1)
-nested $$+= 1
-nested $$= + 1
+case "jeq" then
+  ipDelta = args[1] == args[2] then args[0] else 1
+case "jne" then
+  ipDelta = args[1] != args[2] then args[0] else 1
+
+-- better
 
 --------------------
+
+if Str.startsWith(token, "r") then
+  vm.registers[regIndex(token)]
+else
+  parse(token)
+end
+
+Str.startsWith(token, "r")
+  then vm.registers[regIndex(token)]
+  else parse(token)
+
+-- better?
+
+--------------------
+
+if vm.ip == index then
+  print("> $inst")
+else
+  print("  $inst")
+end
+
+vm.ip == index
+  then print("> $inst")
+  else print("  $inst")
+
+-- idk. the second version looks cleaner but using an expression for side effects feels weird
+
+--------------------
+
+if index == vm.lastMem then
+  items |= push("*$n")
+else
+  items |= push(" $n")
+end
+
+marker = index == vm.lastMem then "*$n" else " $n"
+items |= push("$marker$n")
+
+-- worse
+
+--------------------
+
+fn showTask(task)
+  if task.done then
+    "[x] $task.name"
+  else
+    "[ ] $task.name"
+  end
+end
+
+fn showTask(task)
+  task.done
+    then "[x] $task.name"
+    else "[ ] $task.name"
+end
+
+-- better?
+
+--------------------
+
+fn showRow(row)
+  row
+    $ if arg == 0 then " " else arg end
+    | List.chunks(3)
+    $ join(" ")
+    | join(" | ")
+end
+
+fn showRow(row)
+  row
+    $ arg == 0 then " " else arg
+    | List.chunks(3)
+    $ join(" ")
+    | join(" | ")
+end
+
+-- better
+
+--------------------
+
+fn showRow(row)
+  row
+    $ if arg == 1 then "██" else "░░" end
+    | join("")
+end
 
 fn showRow(row)
   row
@@ -185,51 +191,24 @@ fn showRow(row)
     | join("")
 end
 
-for 200 do
-  clear()
-  cells
-    $ showRow
-    | join("\n")
-    | print
-
-  sleep(20)
-  cells |= update
-end
-
-for 200 do
-  clear()
-  cells
-    $$ arg == 1 then "██" else "░░"
-    $ join("")
-    | join("\n")
-    | print
-
-  sleep(20)
-  cells |= update
-end
+-- better
 
 --------------------
 
-fn is15(cards)
-  cards
-    $ values[arg.rank]
-    | sum
-    | arg == 15
+fn permutations(elems)
+  if elems == [] then 
+    [[]]
+  else
+    elems
+      $ subPermute(elems)
+      | List.merge
+  end
 end
 
-fn is15(cards)
-  cards
-    $ values[.rank]
-    | sum
-    |== 15
+fn permutations(elems)
+  elems == []
+    then [[]]
+    else (elems $ subPermute(elems) | List.merge)
 end
 
-maxRun = scoreItems
-  ? arg.type == "run"
-  $ len(arg.cards)
-  | List.maxNone
-
-maxRun = scoreItems
-  ? .type == "run"
-  $ len(.cards)
-  | List.maxNone
+-- worse

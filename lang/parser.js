@@ -548,7 +548,13 @@ class Parser {
   getFnDef() {
     const { loc } = this.get("fn");
     const name = this.get("name").value;
-    const rhs = new Node("fn", loc, { name, ...this.getFnInner() });
+
+    const rhs = new Node("fn", loc, {
+      name,
+      ...this.getFnInner(this.getStatements),
+    });
+
+    this.get("end");
     return new Node("def", loc, { name, keys: [], isCompound: false, rhs });
   }
 
@@ -736,18 +742,17 @@ class Parser {
     return this.getDef();
   }
 
-  getFnInner() {
+  getFnInner(handler) {
     const params = this.seq("(", ")", ",", () => this.get("name").value);
 
     this.inLoop.push(false);
     this.fnDepth++;
 
-    const body = this.getStatements();
+    const body = handler.call(this);
 
     this.fnDepth--;
     this.inLoop.pop();
 
-    this.get("end");
     return { params, body };
   }
 
@@ -770,13 +775,17 @@ class Parser {
 
   getFn() {
     const { loc } = this.get("fn");
-    return new Node("fn", loc, { name: "fn", ...this.getFnInner() });
+
+    return new Node("fn", loc, {
+      name: "fn",
+      ...this.getFnInner(() => [this.getExpression()]),
+    });
   }
 
   getBranch() {
     // get `<condition> then <expression>`, so we can use it
     // for `if` or `elif`
-    const cond = this.getExpression();
+    const cond = this.getExpression(false);
     this.get("then");
     const body = this.getStatements();
     return { cond, body };
@@ -808,7 +817,7 @@ class Parser {
     const cases = [];
 
     while (this.has("case")) {
-      const patterns = this.seq("case", "then", ",", this.getExpression);
+      const patterns = this.seq("case", "then", ",", () => this.getExpression(false));
       const body = this.getStatements();
       cases.push({ patterns, body });
     }
@@ -924,15 +933,33 @@ class Parser {
     return new Node(nodeType, op.loc, { lhs, args: [], func: rhs });
   }
 
-  getExpression() {
+  getIfExpr() {
+    const lhs = this.getOp();
+
+    if (this.has("then")) {
+      const { loc } = this.get("then");
+      const body = this.getExpression();
+      this.get("else");
+      const fallback = this.getIfExpr();
+      return new Node("if", loc, { branches: [{ cond: lhs, body }], fallback });
+    }
+
+    return lhs
+  }
+
+  getPipeline(handler) {
     // get initial operand
-    let lhs = this.getOp();
+    let lhs = handler.call(this);
 
     while (this.has(...pipelines)) {
       const op = this.get(...pipelines);
-      lhs = this.getChain(lhs, this.getOp, op);
+      lhs = this.getChain(lhs, handler, op);
     }
 
     return lhs;
+  }
+
+  getExpression(allowIfExpr = true) {
+    return this.getPipeline(allowIfExpr ? this.getIfExpr : this.getOp);
   }
 }
