@@ -558,8 +558,8 @@ class Cell {
 
         if (this.colInfo.decimals) {
           result += result.includes(".")
-            ? "0".repeat(this.colInfo.decimals - this.decimals)
-            : ".0".padEnd(this.colInfo.decimals, "0");
+            ? " ".repeat(this.colInfo.decimals - this.decimals)
+            : ".0".padEnd(this.colInfo.decimals, " ");
         }
 
         this.string = result.padStart(this.colInfo.length);
