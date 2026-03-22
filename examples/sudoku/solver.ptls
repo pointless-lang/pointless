@@ -67,7 +67,7 @@ end
 
 fn showRow(row)
   row
-    $ if arg == 0 then " " else arg end
+    $ arg == 0 then " " else arg
     | List.chunks(3)
     $ join(" ")
     | join(" | ")

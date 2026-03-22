@@ -21,7 +21,7 @@ end
 
 fn getLine(threshold, numbers)
   numbers
-    $ if arg >= threshold then "X" else " " end
+    $ arg >= threshold then "X" else " "
     | join("")
 end
 

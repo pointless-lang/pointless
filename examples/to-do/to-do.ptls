@@ -1,9 +1,7 @@
 fn showTask(task)
-  if task.done then
-    "[x] $task.name"
-  else
-    "[ ] $task.name"
-  end
+  task.done
+    then "[x] $task.name"
+    else "[ ] $task.name"
 end
 
 fn app()

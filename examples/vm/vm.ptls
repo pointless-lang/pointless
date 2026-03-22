@@ -21,11 +21,9 @@ fn regIndex(regName)
 end
 
 fn evalArg(token, vm)
-  if Str.startsWith(token, "r") then
-    vm.registers[regIndex(token)]
-  else
-    parse(token)
-  end
+  Str.startsWith(token, "r")
+    then vm.registers[regIndex(token)]
+    else parse(token)
 end
 
 binOps = #["add", "sub", "mul", "div", "mod", "eq", "gt", "lt", "and", "or"]
@@ -74,9 +72,9 @@ fn runInst(vm, inst)
     case "jmp" then
       ipDelta = args[0]
     case "jeq" then
-      ipDelta = if args[1] == args[2] then args[0] else 1 end
+      ipDelta = args[1] == args[2] then args[0] else 1
     case "jne" then
-      ipDelta = if args[1] != args[2] then args[0] else 1 end
+      ipDelta = args[1] != args[2] then args[0] else 1
     case "halt" then
       vm.halted = true
     case "init" then
@@ -99,11 +97,9 @@ end
 
 fn logInstrs(vm)
   for index, inst in instrs do
-    if vm.ip == index then
-      print("> $inst")
-    else
-      print("  $inst")
-    end
+    vm.ip == index
+      then print("> $inst")
+      else print("  $inst")
   end
 end
 
