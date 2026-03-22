@@ -58,15 +58,11 @@ fn runInst(vm, inst)
     | drop(1)
     $ evalArg(vm)
 
-  if op in binOps then
-    vm |= setReg(binOp(op, args[0], args[1]))
-    vm.ip += 1
-    return vm
-  end
-
   ipDelta = 1
 
   match op
+    case in binOps then
+      vm |= setReg(binOp(op, args[0], args[1]))
     case "not" then
       vm |= setReg(Bool.toNum(args[0] == 0))
     case "set" then

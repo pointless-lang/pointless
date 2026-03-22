@@ -678,10 +678,16 @@ export class Env {
     const cond = await this.eval(condNode);
 
     for (const { patterns, body } of cases) {
-      for (const patternNode of patterns) {
-        const pattern = await this.eval(patternNode);
+      for (const { hasIn, expr } of patterns) {
+        const pattern = await this.eval(expr);
 
-        if (im.is(pattern, cond)) {
+        if (hasIn) {
+          checkType(pattern, "list", "set");
+
+          if (this.checkIn(cond, pattern)) {
+            return await this.eval(body);
+          } 
+        } else if (im.is(pattern, cond)) {
           return await this.eval(body);
         }
       }

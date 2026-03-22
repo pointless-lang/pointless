@@ -811,13 +811,24 @@ class Parser {
     return new Node("if", loc, { branches, fallback });
   }
 
+  getPattern() {
+    const hasIn = this.has("in");
+
+    if (hasIn) {
+      this.get("in");
+    }
+
+    const expr = this.getExpression(false);
+    return { hasIn, expr };
+  }
+
   getMatch() {
     const { loc } = this.get("match");
     const cond = this.getExpression();
     const cases = [];
 
     while (this.has("case")) {
-      const patterns = this.seq("case", "then", ",", () => this.getExpression(false));
+      const patterns = this.seq("case", "then", ",", () => this.getPattern(), );
       const body = this.getStatements();
       cases.push({ patterns, body });
     }
@@ -944,7 +955,7 @@ class Parser {
       return new Node("if", loc, { branches: [{ cond: lhs, body }], fallback });
     }
 
-    return lhs
+    return lhs;
   }
 
   getPipeline(handler) {
