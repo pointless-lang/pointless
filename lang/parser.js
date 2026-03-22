@@ -811,24 +811,18 @@ class Parser {
     return new Node("if", loc, { branches, fallback });
   }
 
-  getPattern() {
-    const hasIn = this.has("in");
-
-    if (hasIn) {
-      this.get("in");
-    }
-
-    const expr = this.getExpression(false);
-    return { hasIn, expr };
-  }
-
   getMatch() {
     const { loc } = this.get("match");
     const cond = this.getExpression();
     const cases = [];
 
     while (this.has("case")) {
-      const patterns = this.seq("case", "then", ",", () => this.getPattern(), );
+      const patterns = this.seq(
+        "case",
+        "then",
+        ",",
+        () => this.getExpression(false),
+      );
       const body = this.getStatements();
       cases.push({ patterns, body });
     }
