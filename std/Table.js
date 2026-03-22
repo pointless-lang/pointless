@@ -1166,15 +1166,15 @@ export async function summarize(table, columns, reducer) {
   //   "San Diego"    , "CA"  ,    1404452
   //   "Dallas"       , "TX"  ,    1326087
   // }
-  //
+  
   // Table.summarize(cities, "state", { population: sum })
-  //
+  
   // fn calcStateStats(group)
   //   biggestCity = Table.maxBy(group, "population").city
   //   numCities = len(group)
   //   { biggestCity, numCities }
   // end
-  //
+  
   // Table.summarize(cities, "state", calcStateStats)
   // ```
 
@@ -1184,7 +1184,12 @@ export async function summarize(table, columns, reducer) {
 
   const groups = group(table, columns);
   columns = flattenCols(columns, table);
-  checkType(reducer, "function");
+  checkType(reducer, "function", "object");
+
+  if (getType(reducer) === "object") {
+    // table.checkColumns(...reducer.keySeq());
+    reducer.forEach((func, column) => {checkType(column, "string"); checkType(func, "function")});
+  }
 
   const rows = [];
 
@@ -1196,8 +1201,19 @@ export async function summarize(table, columns, reducer) {
       row.set(column, values.first());
     }
 
-    const summary = await reducer.call(group);
-    checkType(summary, "object");
+    let summary;
+
+    if (getType(reducer) === "function") {
+      summary = await reducer.call(group);
+      checkType(summary, "object");
+    } else {
+      summary = {};
+
+      for (const [column, func] of reducer) {
+        summary[column] = await func.call(group.has(column) ? group.get(column) : group);
+      }
+    }
+
     rows.push(im.OrderedMap(row).concat(summary));
   }
 
