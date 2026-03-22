@@ -4,7 +4,7 @@ invoices = import "csv:data/invoices.csv"
 invoices
   | Table.join(customers, "customerId")
   | select(["firstName", "lastName", "total", "country"])
-  | Table.summarize("country", Table.average)
+  | summarize("country", Table.average)
   | sortDescBy("total")
   | roundTo(2)
   | print

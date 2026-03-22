@@ -19,6 +19,6 @@ text
   | List.unique
   $ wordInfo
   | Table.of
-  | Table.summarize("letter", getBest)
+  | summarize("letter", getBest)
   | sortBy("letter")
   | print

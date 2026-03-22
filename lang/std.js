@@ -69,6 +69,7 @@ export class Std {
       sortDesc: this.modules.List.sortDesc,
       span: this.modules.List.span,
       split: this.modules.Str.split,
+      summarize: this.modules.Table.summarize,
       top: this.modules.Table.top,
     };
   }
