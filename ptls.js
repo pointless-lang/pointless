@@ -7,7 +7,7 @@ import { Panic } from "./lang/panic.js";
 import { repl } from "./lang/repl.js";
 import commandLineArgs from "command-line-args";
 import { fileSync } from "tmp";
-import { readFileSync, watch } from "node:fs";
+import { watch } from "node:fs";
 import { spawn } from "node:child_process";
 import { platform } from "node:process";
 
