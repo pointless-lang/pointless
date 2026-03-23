@@ -14,6 +14,7 @@ export const impl = {
   Re: await import("../std/Re.js"),
   Set: await import("../std/Set.js"),
   Str: await import("../std/Str.js"),
+  Sys: await import("../std/Sys.js"),
   Table: await import("../std/Table.js"),
   Test: await import("../std/Test.js"),
 };
