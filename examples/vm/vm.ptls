@@ -5,7 +5,7 @@ fn regIndex(regName)
 end
 
 fn convertToken(token, vm)
-  if token == "@" then
+  if token == "#" then
     len(vm.memory)
   elif Str.startsWith(token, "r") then
     vm.registers[regIndex(token)]
@@ -107,8 +107,8 @@ vm = {
 }
 
 fn run()
-  fps = parse(Sys.flags.fps ?? "40")
-  logging = Sys.flags.log ?? true
+  speed = parse(Sys.flags.speed ?? "40")
+  logging = Sys.flags.logging ?? true
   path = Sys.args[0]
 
   vm.instrs = path
@@ -128,7 +128,7 @@ fn run()
     end
 
     Console.write("$vm.output")
-    sleep(1000 / fps)
+    sleep(1000 / speed)
   end
 end
 
