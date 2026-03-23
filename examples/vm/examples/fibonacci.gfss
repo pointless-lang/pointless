@@ -1,0 +1,26 @@
+-- Compute and display the first 10 values for the fibonacci sequence
+-- Your program may only use a single log instruction
+--
+-- The output should be:
+-- 
+-- 0
+-- 1
+-- 1
+-- 2
+-- 3
+-- 5
+-- 8
+-- 13
+-- 21
+-- 34
+
+set r2 1
+jeq 8 r0 10
+log r1
+print 10
+set r3 r2
+add r2 r1
+set r1 r3
+add r0 1
+jmp -7
+halt

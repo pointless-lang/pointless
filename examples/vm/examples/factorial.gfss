@@ -1,0 +1,10 @@
+-- Compute and display the factorial of the number in r0
+
+set r0 1
+set r1 1
+jeq 4 r0 10
+mul r1 r0
+add r0 1
+jmp -3
+log r1
+halt

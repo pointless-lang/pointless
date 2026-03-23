@@ -1,0 +1,24 @@
+-- Compute and display the squares of the numbers 1 through 10
+-- Your program may only use a single log instruction
+--
+-- The output should be:
+--
+-- 1
+-- 4
+-- 9
+-- 16
+-- 25
+-- 36
+-- 49
+-- 64
+-- 81
+-- 100
+
+jeq 7 r0 10
+add r0 1
+set r1 r0
+mul r1 r1
+log r1
+print 10
+jmp -6
+halt

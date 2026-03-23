@@ -1,0 +1,22 @@
+-- Compute and display the prime factors of the number in r0
+--
+-- For r0: 60 the output should be:
+--
+-- 2
+-- 2
+-- 3
+-- 5
+
+set r0 60
+set r1 2
+jeq 10 r0 1
+set r2 r0
+mod r2 r1
+jeq 3 r2 0
+add r1 1
+jmp 4
+log r1
+print 10
+div r0 r1
+jmp -9
+halt
