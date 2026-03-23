@@ -1,8 +1,100 @@
-source = import "lines:chart.asm"
+fn regIndex(regName)
+  regName
+    | drop(1)
+    | parse
+end
 
-instrs = source
-  $ Str.trim
-  ? not (isEmpty(arg) or Str.startsWith(arg, "--"))
+fn convertToken(token, vm)
+  if token == "@" then
+    len(vm.memory)
+  elif Str.startsWith(token, "r") then
+    vm.registers[regIndex(token)]
+  else
+    parse(token)
+  end
+end
+
+fn runInst(vm)
+  tokens = split(vm.instrs[vm.ip], " ")
+  op = tokens[0]
+
+  args = tokens
+    | drop(1)
+    $ convertToken(vm)
+
+  ipDelta = 1
+  setVal = none
+
+  match op
+    case "add" then setVal = args[0] + args[1]
+    case "sub" then setVal = args[0] - args[1]
+    case "mul" then setVal = args[0] * args[1]
+    case "div" then setVal = args[0] // args[1]
+    case "mod" then setVal = args[0] % args[1]
+    case "eq" then setVal = Bool.toNum(args[0] == args[1])
+    case "gt" then setVal = Bool.toNum(args[0] > args[1])
+    case "lt" then setVal = Bool.toNum(args[0] < args[1])
+    case "and" then setVal = Bool.toNum(args[0] != 0 and args[1] != 0)
+    case "or" then setVal = Bool.toNum(args[0] != 0 or args[1] != 0)
+    case "not" then setVal = Bool.toNum(args[0] == 0)
+    case "set" then setVal = args[1]
+    case "jmp" then ipDelta = args[0]
+    case "jeq" then ipDelta = args[1] == args[2] then args[0] else 1
+    case "jne" then ipDelta = args[1] != args[2] then args[0] else 1
+    case "halt" then vm.halted = true
+    case "mem" then vm.memory = args
+    case "log" then vm.output += Str.of(args[0])
+    case "print" then vm.output += Char.of(args[0])
+    case "read" then
+      setVal = vm.memory[args[1]]
+      vm.lastMem = args[1]
+    case "store" then
+      vm.memory[args[1]] = args[0]
+      vm.lastMem = args[1]
+    else
+      Err.throw({ err: "invalid instruction", op })
+  end
+
+  if setVal != none then
+    vm.registers[regIndex(tokens[1])] = setVal
+  end
+
+  vm.ip += ipDelta
+  vm
+end
+
+fn runLog(vm)
+  for index, inst in vm.instrs do
+    prefix = vm.ip == index then ">" else " "
+    print("$prefix $inst")
+  end
+
+  print("\nsteps: $vm.steps")
+
+  -- Run instruction before doing rest of logging so that logs
+  -- reflect the VM state after running the current instruction
+  vm |= runInst
+
+  print("")
+
+  for index, value in vm.registers do
+    print("r$index: $value")
+  end
+
+  items = []
+
+  for index, n in vm.memory do
+    marker = index == vm.lastMem then "*" else " "
+    items |= push("$marker$n")
+  end
+
+  items
+    | join(", ")
+    | print("\nmemory: [$arg]")
+
+  print("")
+  vm
+end
 
 vm = {
   ip: 0,
@@ -14,131 +106,30 @@ vm = {
   memory: [],
 }
 
-fn regIndex(regName)
-  regName
-    | drop(1)
-    | parse
-end
+fn run()
+  fps = parse(Sys.flags.fps ?? "40")
+  logging = "no-log" not in Sys.flags
+  path = Sys.args[0]
 
-fn evalArg(token, vm)
-  Str.startsWith(token, "r")
-    then vm.registers[regIndex(token)]
-    else parse(token)
-end
+  vm.instrs = path
+    | Fs.read
+    | Str.lines
+    $ Str.trim
+    ? not (isEmpty(arg) or Str.startsWith(arg, "--"))
 
-binOps = #["add", "sub", "mul", "div", "mod", "eq", "gt", "lt", "and", "or"]
-
-fn binOp(op, a, b)
-  match op
-    case "add" then a + b
-    case "sub" then a - b
-    case "mul" then a * b
-    case "div" then a // b
-    case "mod" then a % b
-    case "eq"  then Bool.toNum(a == b)
-    case "gt"  then Bool.toNum(a > b)
-    case "lt"  then Bool.toNum(a < b)
-    case "and" then Bool.toNum(a != 0 and b != 0)
-    case "or"  then Bool.toNum(a != 0 or b != 0)
-  end
-end
-
-fn setReg(vm, value, dest)
-  vm.registers[regIndex(dest)] = value
-  vm
-end
-
-fn runInst(vm, inst)
-  tokens = split(inst, " ")
-  op = tokens[0]
-
-  setReg = fn(vm, value) setReg(vm, value, tokens[1])
-
-  args = tokens
-    | drop(1)
-    $ evalArg(vm)
-
-  ipDelta = 1
-
-  match op
-    case in binOps then
-      vm |= setReg(binOp(op, args[0], args[1]))
-    case "not" then
-      vm |= setReg(Bool.toNum(args[0] == 0))
-    case "set" then
-      vm |= setReg(args[1])
-    case "jmp" then
-      ipDelta = args[0]
-    case "jeq" then
-      ipDelta = args[1] == args[2] then args[0] else 1
-    case "jne" then
-      ipDelta = args[1] != args[2] then args[0] else 1
-    case "halt" then
-      vm.halted = true
-    case "init" then
-      vm.memory = args
-    case "load" then
-      vm |= setReg(vm.memory[args[1]])
-      vm.lastMem = args[1]
-    case "store" then
-      vm.memory[args[1]] = args[0]
-      vm.lastMem = args[1]
-    case "print" then
-      vm.output += Char.of(args[0])
-    else
-      throw({ err: "invalid instruction", op })
-  end
-
-  vm.ip += ipDelta
-  vm
-end
-
-fn logInstrs(vm)
-  for index, inst in instrs do
-    vm.ip == index
-      then print("> $inst")
-      else print("  $inst")
-  end
-end
-
-fn logRegs(vm)
-  print("")
-  for index, value in vm.registers do
-    print("r$index: $value")
-  end
-end
-
-fn logMem(vm)
-  print("")
-  items = []
-
-  for index, n in vm.memory do
-    if index == vm.lastMem then
-      items |= push("*$n")
-    else
-      items |= push(" $n")
-    end
-  end
-
-  items
-    | join(", ")
-    | print("memory: [$arg]")
-end
-
-fn logOutput(vm)
-  Console.write("\n$vm.output")
-end
-
-fn run(vm)
   while not vm.halted do
+    vm.steps += 1
     clear()
-    logInstrs(vm)
-    vm |= runInst(instrs[vm.ip])
-    logRegs(vm)
-    logMem(vm)
-    logOutput(vm)
-    sleep(40)
+
+    if logging then
+      vm |= runLog
+    else
+      vm |= runInst
+    end
+
+    Console.write("$vm.output")
+    sleep(1000 / fps)
   end
 end
 
-run(vm)
+run()
