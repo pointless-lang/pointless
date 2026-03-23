@@ -18,7 +18,9 @@ function parseArgs() {
       raw = true;
     } else if (arg.startsWith("--")) {
       if (!arg.includes("=")) {
-        flags = flags.set(arg.slice(2), null);
+        flags = arg.startsWith("--no-") ?
+           flags.set(arg.slice(5), false)
+          :flags.set(arg.slice(2), true);
       } else {
         const index = arg.indexOf("=");
         const key = arg.slice(2, index);

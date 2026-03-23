@@ -108,7 +108,7 @@ vm = {
 
 fn run()
   fps = parse(Sys.flags.fps ?? "40")
-  logging = "no-log" not in Sys.flags
+  logging = Sys.flags.log ?? true
   path = Sys.args[0]
 
   vm.instrs = path
