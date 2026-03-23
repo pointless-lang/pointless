@@ -400,13 +400,13 @@ export async function find(list, condition) {
   return null;
 }
 
-export function indexOf(list, value) {
+export function indexOf(value, list) {
   // Get the index of the first occurence of `value` in `list`, or `none` if
   // `value` does not appear in `list`.
   //
   // ```ptls
-  // List.indexOf([1, 9, 9, 6], 9)
-  // List.indexOf([1, 9, 9, 6], 0)
+  // List.indexOf(9, [1, 9, 9, 6])
+  // List.indexOf(0, [1, 9, 9, 6])
   // ```
 
   checkType(list, "list");

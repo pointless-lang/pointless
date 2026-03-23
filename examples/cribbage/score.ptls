@@ -47,7 +47,7 @@ fn isRun(cards)
   end
 
   indices = cards
-    $ List.indexOf(ranks, arg.rank)
+    $ List.indexOf(arg.rank, ranks)
     | List.unique
 
   len(indices) == n and max(indices) - min(indices) + 1 == n
