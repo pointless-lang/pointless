@@ -78,4 +78,4 @@ const options = [
   { name: "port", type: Number, defaultValue: 4000 },
 ];
 
-run(commandLineArgs(options));
+run(commandLineArgs(options, { stopAtFirstUnknown: true }));
