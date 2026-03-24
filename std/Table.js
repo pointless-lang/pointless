@@ -693,7 +693,7 @@ export async function filter(table, condition) {
   //   "Dallas"       , "TX"
   // }
   //
-  // Table.filter(cities, fn(city) city.state == "TX" end)
+  // Table.filter(cities, fn(city) city.state == "TX")
   // ```
   //
   // _Note that this can also be accomplished using the filter `?` operator_.

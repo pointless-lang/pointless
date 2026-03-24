@@ -41,8 +41,8 @@ export async function $try(func, handler) {
   //   "an error occured: $msg"
   // end
   //
-  // Err.try(fn() inverse(5) end, showErr)
-  // Err.try(fn() inverse(0) end, showErr)
+  // Err.try(fn() inverse(5), showErr)
+  // Err.try(fn() inverse(0), showErr)
   // ```
 
   checkType(func, "function");
@@ -72,8 +72,8 @@ export async function orElse(func, $default) {
   //   1 / n
   // end
   //
-  // Err.orElse(fn() inverse(5) end, none)
-  // Err.orElse(fn() inverse(0) end, none)
+  // Err.orElse(fn() inverse(5), none)
+  // Err.orElse(fn() inverse(0), none)
   // ```
 
   checkType(func, "function");

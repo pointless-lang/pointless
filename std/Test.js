@@ -32,8 +32,8 @@ export async function runs(func) {
   //   1 / n
   // end
   //
-  // Test.runs(fn() inverse(10) end)
-  // Test.runs(fn() inverse(0) end)
+  // Test.runs(fn() inverse(10))
+  // Test.runs(fn() inverse(0))
   // ```
 
   try {
@@ -63,9 +63,9 @@ export async function returns(func, expected) {
   // Check that `func` returns `expected`.
   //
   // ```ptls
-  // Test.returns(fn() 2 + 2 end, 4)
-  // Test.returns(fn() 1 + 1 end, 11)
-  // Test.returns(fn() 0 / 0 end, 0)
+  // Test.returns(fn() 2 + 2, 4)
+  // Test.returns(fn() 1 + 1, 11)
+  // Test.returns(fn() 0 / 0, 0)
   // ```
 
   try {
@@ -93,10 +93,10 @@ export async function throws(func, payload) {
   //   1 / n
   // end
   //
-  // Test.throws(fn() inverse(0) end, "n must not be zero")
-  // Test.throws(fn() inverse(0) end, "wrong!")
-  // Test.throws(fn() inverse(10) end, "n must not be zero")
-  // Test.throws(fn() inverse("0") end, "n must not be zero")
+  // Test.throws(fn() inverse(0), "n must not be zero")
+  // Test.throws(fn() inverse(0), "wrong!")
+  // Test.throws(fn() inverse(10), "n must not be zero")
+  // Test.throws(fn() inverse("0"), "n must not be zero")
   // ```
 
   try {

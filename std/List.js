@@ -309,7 +309,7 @@ export async function map(list, func) {
   // Transform each value in `list` using `func`.
   //
   // ```ptls
-  // List.map([1, 2, 3, 4], fn(n) n * 2 end)
+  // List.map([1, 2, 3, 4], fn(n) n * 2)
   // ```
   //
   // _Note that this can also be accomplished using the map `$` operator_:
@@ -385,7 +385,7 @@ export async function find(list, condition) {
   //
   // ```ptls
   // List.find([7, 8, 9, 10], Math.isEven)
-  // List.find([7, 8, 9, 10], fn(n) n < 5 end)
+  // List.find([7, 8, 9, 10], fn(n) n < 5)
   // ```
 
   checkType(list, "list");
@@ -465,7 +465,7 @@ export async function groupBy(list, func) {
   // ```ptls
   // List.groupBy(
   //   ["apple", "pear", "peach", "banana", "plum", "apricot", "orange"],
-  //   fn(word) take(word, 1) end
+  //   fn(word) take(word, 1)
   // )
   // ```
 
