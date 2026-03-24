@@ -1,17 +1,12 @@
 cities = import "csv:cities.csv"
 
-cities.change = cities $ arg.pop2024 / arg.pop2020 * 100 - 100
-cities.density = cities $ arg.pop2024 / arg.area
+cities #= {
+  pctChange: arg.pop2024 / arg.pop2020 * 100 - 100,
+  popChange: arg.pop2024 - arg.pop2020,
+  density: arg.pop2024 / arg.area,
+}
 
 cities |= roundTo(1)
-
-print("Biggest gain:")
-
-cities
-  | top("change", 10)
-  | print
-
-print("Biggest loss:")
 
 cities
   | Table.top("pctChange", 10)
