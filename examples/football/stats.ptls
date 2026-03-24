@@ -26,7 +26,7 @@ end
 games
   $ splitGame
   | Table.merge
-  | summarize("team", getStats)
+  | Table.summarize("team", getStats)
   | sortDescBy("winPct")
   | roundTo({ winPct: 3, scoredPG: 1, allowedPG: 1 })
   | print

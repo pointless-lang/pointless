@@ -119,7 +119,7 @@ fn run()
 
   while not vm.halted do
     vm.steps += 1
-    clear()
+    Console.clear()
 
     if logging then
       vm |= runLog

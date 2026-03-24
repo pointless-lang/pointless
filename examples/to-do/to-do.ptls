@@ -8,7 +8,7 @@ fn app()
   tasks = #{ name , done }
 
   while true do
-    clear()
+    Console.clear()
     print("tasks:\n")
     
     tasks

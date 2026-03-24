@@ -44,7 +44,7 @@ fn showRow(row)
 end
 
 for 200 do
-  clear()
+  Console.clear()
   cells
     $ showRow
     | join("\n")

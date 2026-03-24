@@ -14,5 +14,5 @@ cities
 print("Biggest loss:")
 
 cities
-  | bottom("change", 10)
+  | Table.top("pctChange", 10)
   | print

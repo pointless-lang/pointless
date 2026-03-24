@@ -32,7 +32,7 @@ fn render(game)
 
   board |= setBlock(game.head, 32)
 
-  clear()
+  Console.clear()
   print("score: $game.score")
   printBoard(board)
 end

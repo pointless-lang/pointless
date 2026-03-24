@@ -28,7 +28,7 @@ fn showTowers(towers)
     end
   end
 
-  clear()
+  Console.clear()
   combined $ print
   sleep(200)
 end

@@ -56,9 +56,7 @@ export class Std {
   makeGlobals() {
     this.globals = {
       assert: this.modules.Test.assert,
-      bottom: this.modules.Table.bottom,
       chars: this.modules.Str.chars,
-      clear: this.modules.Console.clear,
       join: this.modules.Str.join,
       parse: this.modules.Str.parse,
       print: this.modules.Console.print,
@@ -69,8 +67,6 @@ export class Std {
       sortDesc: this.modules.List.sortDesc,
       span: this.modules.List.span,
       split: this.modules.Str.split,
-      summarize: this.modules.Table.summarize,
-      top: this.modules.Table.top,
     };
   }
 

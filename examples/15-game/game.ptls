@@ -51,7 +51,7 @@ fn show(board)
     template |= Str.replaceN("..", padded, 1)
   end
 
-  clear()
+  Console.clear()
   print(template)
 end
 

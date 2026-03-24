@@ -18,7 +18,7 @@ board = maze
 
 fn update(board, r, c, marker)
   board[r][c] = marker  
-  clear()
+  Console.clear()
 
   board
     $ join("")
