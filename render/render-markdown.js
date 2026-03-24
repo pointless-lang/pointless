@@ -61,12 +61,8 @@ async function renderCode(code, config, filePath, env) {
     const mode = config["mode"];
     const raw = config["raw"];
     const echo = !config["no-echo"] && config["spoof"] === undefined;
-
-    const style = config["max-height"] &&
-      `style="max-height: ${config["max-height"]}px;"`;
-
     const wrap = config["wrap"] ? "wrap" : "";
-    const attrs = h`class="result ${wrap}" $${style}`;
+    const attrs = h`class="result ${wrap}"`;
     const results = [];
 
     let statements;
@@ -144,7 +140,6 @@ const options = [
   { name: "raw", type: Boolean },
   { name: "hide", type: Boolean },
   { name: "input", type: String, multiple: true },
-  { name: "max-height", type: Number },
   { name: "no-echo", type: Boolean },
   { name: "no-eval", type: Boolean },
   { name: "panics", type: Boolean },
