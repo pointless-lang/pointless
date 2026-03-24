@@ -49,10 +49,10 @@ async function run(config) {
 
     let timer;
 
-    async function runChange() {
+    const runChange = async () => {
       console.clear();
       await runFile(runtime, file, false);
-    }
+    };
 
     await runChange();
 
@@ -75,7 +75,6 @@ async function run(config) {
 const options = [
   { name: "file", defaultOption: true },
   { name: "live", type: Boolean, defaultValue: false },
-  { name: "port", type: Number, defaultValue: 4000 },
 ];
 
 run(commandLineArgs(options, { stopAtFirstUnknown: true }));

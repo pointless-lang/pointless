@@ -57,6 +57,8 @@ import { Panic } from "../lang/panic.js";
 //
 // Not sure how to make readline wait to echo next lines until processing
 // of previous lines is done.
+//
+// Other things that don't work: using the node:repl library
 
 // To Do: add commands: exit, run, ls, cd
 
