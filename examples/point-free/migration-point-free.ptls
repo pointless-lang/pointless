@@ -1,0 +1,9 @@
+import "csv:examples/migration/cities.csv"
+  # {
+    popChange: arg.pop2024 - arg.pop2020,
+    pctChange: arg.pop2024 / arg.pop2020 * 100 - 100,
+  }
+  | roundTo(1)
+  | remove(["pop2020", "area"])
+  | Table.top("pctChange", 10)
+  | print
