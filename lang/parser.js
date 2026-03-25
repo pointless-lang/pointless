@@ -76,7 +76,7 @@ function parseStr(string, loc) {
     } catch (_) {
       // Make error point to start of invalid code sequence
       loc = loc.next('"' + string.slice(0, index) + "\\u{");
-      throw new Panic("invaild code point", { $code: `'${code}'` }, loc);
+      throw new Panic("invalid code point", { $code: `'${code}'` }, loc);
     }
   });
 }

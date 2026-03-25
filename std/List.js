@@ -60,7 +60,7 @@ export function isEmpty(list) {
   // isEmpty(["a", "b", "c", "d"])
   // ```
 
-  return len(list) == 0;
+  return len(list) === 0;
 }
 
 export function has(list, value) {
@@ -285,7 +285,7 @@ export function merge(lists) {
 }
 
 export function chunks(list, count) {
-  // Split `list` into chunks of length `count` (the final chunk may. be
+  // Split `list` into chunks of length `count` (the final chunk may be
   // shorter).
   //
   // ```ptls
@@ -357,7 +357,7 @@ export async function filter(list, condition) {
 }
 
 export function remove(list, value) {
-  // Remove all occurences of `value` from `list`.
+  // Remove all occurrences of `value` from `list`.
   //
   // ```ptls
   // remove([1, 2, none, 3, 4, none], none)
@@ -368,7 +368,7 @@ export function remove(list, value) {
 }
 
 export function removeAll(list, values) {
-  // Remove all occurences of each value in `values` from `list`, where `values`
+  // Remove all occurrences of each value in `values` from `list`, where `values`
   // is a list, set, or table.
   //
   // ```ptls
@@ -401,7 +401,7 @@ export async function find(list, condition) {
 }
 
 export function indexOf(value, list) {
-  // Get the index of the first occurence of `value` in `list`, or `none` if
+  // Get the index of the first occurrence of `value` in `list`, or `none` if
   // `value` does not appear in `list`.
   //
   // ```ptls

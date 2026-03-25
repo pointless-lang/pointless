@@ -38,7 +38,7 @@ export async function $try(func, handler) {
   // end
   //
   // fn showErr(msg)
-  //   "an error occured: $msg"
+  //   "an error occurred: $msg"
   // end
   //
   // Err.try(fn() inverse(5), showErr)

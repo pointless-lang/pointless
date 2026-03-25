@@ -35,7 +35,7 @@ export function isEmpty(string) {
   // isEmpty("asdf")
   // ```
 
-  return len(string) == 0;
+  return len(string) === 0;
 }
 
 export function chars(string) {
@@ -250,7 +250,7 @@ export function replaceN(string, subString, replacement, count) {
   checkPositive(count);
   checkWhole(count);
 
-  return string.replace(
+  return string.replaceAll(
     subString,
     (original) => count-- > 0 ? replacement : original,
   );

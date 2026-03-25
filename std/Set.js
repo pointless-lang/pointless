@@ -38,7 +38,7 @@ export function isEmpty(set) {
   // isEmpty(#["a", "b", "c", "d"])
   // ```
 
-  return len(set) == 0;
+  return len(set) === 0;
 }
 
 export function has(set, value) {
