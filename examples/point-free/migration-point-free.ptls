@@ -1,7 +1,8 @@
-import "csv:examples/migration/cities.csv"
+import "csv:cities.csv"
   # {
     popChange: arg.pop2024 - arg.pop2020,
     pctChange: arg.pop2024 / arg.pop2020 * 100 - 100,
+    density: arg.pop2024 / arg.area,
   }
   | roundTo(1)
   | remove(["pop2020", "area"])

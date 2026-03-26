@@ -7,6 +7,7 @@ cities #= {
 }
 
 cities |= roundTo(1)
+cities |= remove(["pop2020", "area"])
 
 cities
   | Table.top("pctChange", 10)
