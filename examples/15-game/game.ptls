@@ -4,10 +4,10 @@ fn update(board, key)
   c = oldInd % 4
 
   match key
-    case "left"  then c += 1
+    case "left" then c += 1
     case "right" then c -= 1
-    case "up"    then r += 1
-    case "down"  then r -= 1
+    case "up" then r += 1
+    case "down" then r -= 1
   end
 
   newInd = Math.clamp(r, 0, 3) * 4 + Math.clamp(c, 0, 3)

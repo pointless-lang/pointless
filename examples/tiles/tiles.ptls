@@ -1,8 +1,8 @@
 fn getMid(tile, next)
   match [tile, next]
-    case [true, true]   then "│"
-    case [true, false]  then "├"
-    case [false, true]  then "┤"
+    case [true, true] then "│"
+    case [true, false] then "├"
+    case [false, true] then "┤"
     case [false, false] then "┼"
   end
 end

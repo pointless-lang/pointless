@@ -33,8 +33,7 @@ fn solve(board, r, c)
   cell = board[r][c]
   
   match cell
-    case "▒", "█" then
-      return false
+    case "▒", "█" then return false
   end
   
   board |= update(r, c, "▒")
