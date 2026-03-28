@@ -7,7 +7,7 @@
   },
   "scripts": {
     "fmt": "deno fmt; node utils/formatStd.js",
-    "lint": "deno lint"
+    "lint": "deno lint --rules-include=no-undef"
   },
   "devDependencies": {
     "@prettier/sync": "^0.6.1"
