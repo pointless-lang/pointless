@@ -368,8 +368,8 @@ export function remove(list, value) {
 }
 
 export function removeAll(list, values) {
-  // Remove all occurrences of each value in `values` from `list`, where `values`
-  // is a list, set, or table.
+  // Remove all occurrences of each value in `values` from `list`, where
+  // `values` is a list, set, or table.
   //
   // ```ptls
   // List.removeAll([1, 2, none, 3, 4, 0, none], [none, 0])

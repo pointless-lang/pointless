@@ -99,7 +99,7 @@ export function isEmpty(table) {
   // })
   // ```
 
-return len(table) === 0;
+  return len(table) === 0;
 }
 
 export function fixCols(table, columns) {
