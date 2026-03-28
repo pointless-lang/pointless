@@ -691,7 +691,13 @@ export class Env {
       }
     }
 
-    return fallback ? await this.eval(fallback) : null;
+    if (fallback) {
+      return await this.eval(fallback);
+    }
+
+    throw new Panic(
+      "no matching case found in 'match' expression without 'else' branch",
+    );
   }
 
   async runCheckBreak(body) {
