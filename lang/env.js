@@ -1,7 +1,7 @@
 import { checkType, getType } from "./values.js";
 import { Func } from "./func.js";
 import { checkIndex } from "./list.js";
-import { checkKey } from "./obj.js";
+import { checkKey, isMatch } from "./obj.js";
 import { Table } from "./table.js";
 import { checkNumResult, checkWhole } from "./num.js";
 import { repr } from "./repr.js";
@@ -681,7 +681,11 @@ export class Env {
       for (const patternNode of patterns) {
         const pattern = await this.eval(patternNode);
 
-        if (im.is(pattern, cond)) {
+        if (
+          im.is(pattern, cond) ||
+          getType(pattern) === "object" && getType(cond) === "object" &&
+            isMatch(cond, pattern)
+        ) {
           return await this.eval(body);
         }
       }
