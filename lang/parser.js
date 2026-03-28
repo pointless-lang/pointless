@@ -82,10 +82,11 @@ function parseStr(string, loc) {
 }
 
 class Node {
-  constructor(type, loc, value) {
+  constructor(type, loc, value, fmtInto = {}) {
     this.type = type;
     this.loc = loc;
     this.value = value;
+    this.fmtInto = fmtInto;
   }
 }
 
@@ -235,7 +236,7 @@ class Parser {
   getNumber() {
     const { value, loc } = this.get("number");
     const n = checkNumResult(Number(value));
-    return new Node("number", loc, n);
+    return new Node("number", loc, n, { raw: value });
   }
 
   getNone() {
@@ -362,7 +363,7 @@ class Parser {
   getRawString() {
     const { value, loc } = this.get("rawString");
     const aligned = this.getAligned(value);
-    return new Node("string", loc, aligned);
+    return new Node("string", loc, aligned, { raw: true });
   }
 
   getDateTime() {
@@ -665,7 +666,8 @@ class Parser {
         value: op,
         loc,
       });
-      return { loc, rhs, isCompound: true };
+
+      return { loc, rhs, isCompound: true, compoundOp: value };
     }
 
     if (op !== "=") {
@@ -675,7 +677,8 @@ class Parser {
         lhs: new Node("prev", loc),
         rhs: this.getExpression(),
       });
-      return { loc, rhs, isCompound: true };
+
+      return { loc, rhs, isCompound: true, compoundOp: value };
     }
 
     return { loc, rhs: this.getExpression(), isCompound: false };
@@ -698,8 +701,10 @@ class Parser {
       }
 
       const name = base.value;
-      const { loc, isCompound, rhs } = this.getAssign(def);
-      return new Node("def", loc, { name, keys, isCompound, rhs });
+      const { loc, isCompound, compoundOp, rhs } = this.getAssign(def);
+      return new Node("def", loc, { name, keys, isCompound, rhs }, {
+        compoundOp,
+      });
     }
 
     return lhs;
