@@ -556,10 +556,12 @@ class Cell {
       if (this.type === "number") {
         let result = this.baseStr;
 
-        if (this.colInfo.decimals) {
+        if (
+          this.colInfo.decimals && !this.baseStr.toLowerCase().includes("e")
+        ) {
           result += result.includes(".")
-            ? " ".repeat(this.colInfo.decimals - this.decimals)
-            : ".0".padEnd(this.colInfo.decimals, " ");
+            ? "0".repeat(this.colInfo.decimals - this.decimals)
+            : ".0".padEnd(this.colInfo.decimals, "0");
         }
 
         this.string = result.padStart(this.colInfo.length);
