@@ -61,7 +61,7 @@ fn play()
   board = makeBoard()
   show(board)
 
-  while board != solved do    
+  while board != solved do
     board |= update(Console.rawKey().name)
     show(board)
   end

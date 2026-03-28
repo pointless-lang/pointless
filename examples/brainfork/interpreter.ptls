@@ -13,13 +13,7 @@ for index, op in ops do
   end
 end
 
-vm = {
-  ops,
-  ip: 0,
-  dp: 0,
-  data: [0, 0, 0, 0, 0, 0, 0, 0],
-  jumps,
-}
+vm = { ops, ip: 0, dp: 0, data: [0, 0, 0, 0, 0, 0, 0, 0], jumps }
 
 fn runOp(vm)
   op = vm.ops[vm.ip]

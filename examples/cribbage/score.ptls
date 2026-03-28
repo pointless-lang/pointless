@@ -103,9 +103,9 @@ end
 
 fn calcScore(scoreItem)
   match scoreItem.type
-    case "15"    then 2
-    case "pair"  then 2 
-    case "run"   then len(scoreItem.cards)
+    case "15" then 2
+    case "pair" then 2
+    case "run" then len(scoreItem.cards)
     case "flush" then len(scoreItem.cards)
   end
 end
@@ -126,7 +126,7 @@ deal = #{
 
 fn makeHand(cards)
   scoreItems = getScoreItems(cards)
-  
+
   {
     cards,
     scoreItems,

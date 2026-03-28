@@ -1,7 +1,5 @@
 fn showTask(task)
-  task.done
-    then "[x] $task.name"
-    else "[ ] $task.name"
+  task.done then "[x] $task.name" else "[ ] $task.name"
 end
 
 fn app()
@@ -10,12 +8,12 @@ fn app()
   while true do
     Console.clear()
     print("tasks:\n")
-    
+
     tasks
       | sortBy(["done", "name"])
       $ showTask
       $ print
-      
+
     name = prompt("\ntask name: ")
 
     if { name } not in tasks then

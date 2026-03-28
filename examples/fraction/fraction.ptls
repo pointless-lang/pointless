@@ -4,6 +4,7 @@ fn gcd(a, b)
     b = a % b
     a = tmp
   end
+
   a
 end
 

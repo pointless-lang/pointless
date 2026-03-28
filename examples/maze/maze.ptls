@@ -17,7 +17,7 @@ board = maze
   $ chars
 
 fn update(board, r, c, marker)
-  board[r][c] = marker  
+  board[r][c] = marker
   Console.clear()
 
   board
@@ -31,11 +31,11 @@ end
 
 fn solve(board, r, c)
   cell = board[r][c]
-  
+
   match cell
     case "▒", "█" then return false
   end
-  
+
   board |= update(r, c, "▒")
 
   if cell == "B" then

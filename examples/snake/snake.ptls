@@ -55,7 +55,7 @@ fn update(game)
     game.playing = false
     return game
   end
-  
+
   if atGoal(game) then
     game.growing = true
     game.score += 1
@@ -70,8 +70,7 @@ fn update(game)
 end
 
 fn inBounds(head)
-  head.x >= 0 and head.x < size and
-  head.y >= 0 and head.y < size
+  head.x >= 0 and head.x < size and head.y >= 0 and head.y < size
 end
 
 fn atGoal(game)

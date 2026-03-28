@@ -15,10 +15,7 @@ fn advance(state, network)
 end
 
 fn route(network, src, dest)
-  state = {
-    queue: [src],
-    paths: { (src): [src] },
-  }
+  state = { queue: [src], paths: { (src): [src] } }
 
   while state.queue[0] != dest do
     state |= advance(network)

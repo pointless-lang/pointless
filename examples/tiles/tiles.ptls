@@ -11,7 +11,7 @@ fn showBoard(board)
   if isEmpty(board) then
     return ""
   end
-  
+
   rows = ["", "", ""]
 
   rows[0] += "┌"

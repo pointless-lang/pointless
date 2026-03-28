@@ -14,7 +14,7 @@ fn getStats(group)
   ties = len(group ? arg.scored == arg.allowed)
   scored = sum(group.scored)
   allowed = sum(group.allowed)
-  
+
   winPct = wins / len(group)
   scoredPG = scored / len(group)
   allowedPG = allowed / len(group)

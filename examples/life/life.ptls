@@ -45,7 +45,7 @@ end
 
 for 200 do
   Console.clear()
-  
+
   cells
     $ showRow
     | join("\n")

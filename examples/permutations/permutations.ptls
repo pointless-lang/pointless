@@ -1,5 +1,5 @@
 fn permutations(elems)
-  if elems == [] then 
+  if elems == [] then
     [[]]
   else
     elems
