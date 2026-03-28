@@ -5,32 +5,27 @@ export const { flags, args } = parseArgs();
 export const rawArgs = im.List(argv);
 
 function parseArgs() {
-  // Can't use js Map and convert to OrderedMap cause OrderedMap
-  // drops null valued entries (wtf?!)
-  let flags = im.OrderedMap();
-  let args = im.List();
-  let raw = false;
+  const flags = new Map();
+  const args = [];
 
   for (const arg of argv.slice(3)) {
-    if (raw) {
-      args = args.push(arg);
-    } else if (arg === "--") {
-      raw = true;
-    } else if (arg.startsWith("--")) {
+    if (arg.startsWith("--")) {
       if (!arg.includes("=")) {
-        flags = arg.startsWith("--no-")
-          ? flags.set(arg.slice(5), false)
-          : flags.set(arg.slice(2), true);
+        if (arg.startsWith("--no-")) {
+          flags.set(arg.slice(5), false);
+        } else {
+          flags.set(arg.slice(2), true);
+        }
       } else {
         const index = arg.indexOf("=");
         const key = arg.slice(2, index);
         const value = arg.slice(index + 1);
-        flags = flags.set(key, value);
+        flags.set(key, value);
       }
     } else {
-      args = args.push(arg);
+      args.push(arg);
     }
   }
 
-  return { args, flags };
+  return { args: im.List(args), flags: im.OrderedMap(flags) };
 }
