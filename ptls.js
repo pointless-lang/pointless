@@ -1,30 +1,17 @@
 #!/usr/bin/env node
 
+// This code is human written and reviewed with contributions from AI
+// http://pointless.dev/articles/ai-and-pointless/
+
 import { impl } from "./runtime/impl.js";
 import { loader } from "./runtime/loader.js";
 import { Runtime } from "./runtime/runtime.js";
 import { Panic } from "./lang/panic.js";
 import { repl } from "./lang/repl.js";
-import commandLineArgs from "command-line-args";
-import { fileSync } from "tmp";
-import { watch } from "node:fs";
-import { spawn } from "node:child_process";
-import { platform } from "node:process";
-
-function openFile(file) {
-  const opts = { detached: true, stdio: "ignore" };
-
-  switch (platform) {
-    case "win32":
-      spawn("cmd", ["/c", "start", "", file], opts);
-      break;
-    case "darwin":
-      spawn("open", [file], opts);
-      break;
-    default:
-      spawn("xdg-open", [file], opts);
-  }
-}
+import { format } from "./lang/formatter.js";
+import { Command } from "commander";
+import path from "node:path";
+import fs from "node:fs";
 
 async function runFile(runtime, file, throwPanic) {
   try {
@@ -40,12 +27,37 @@ async function runFile(runtime, file, throwPanic) {
   }
 }
 
-async function run(config) {
-  const runtime = new Runtime(impl, loader);
+const program = new Command();
 
-  if (config.live) {
-    const file = config.file ?? fileSync({ postfix: ".ptls" }).name;
-    openFile(file);
+program
+  .name("ptls")
+  .description("Pointless language")
+  .argument("[file]", "file to run")
+  .argument("[args...]", "arguments passed to the script")
+  .passThroughOptions()
+  .action(async (file) => {
+    const runtime = new Runtime(impl, loader);
+
+    if (file) {
+      await runFile(runtime, file, true);
+    } else {
+      await repl(runtime);
+    }
+  });
+
+program
+  .command("run <file>")
+  .description("run a Pointless file")
+  .action(async (file) => {
+    const runtime = new Runtime(impl, loader);
+    await runFile(runtime, file, true);
+  });
+
+program
+  .command("live <file>")
+  .description("run a Pointless file interactively (rerun on save)")
+  .action(async (file) => {
+    const runtime = new Runtime(impl, loader);
 
     let timer;
 
@@ -56,25 +68,55 @@ async function run(config) {
 
     await runChange();
 
-    watch(file, () => {
+    fs.watch(file, () => {
       clearTimeout(timer);
       timer = setTimeout(runChange, 100);
     });
+  });
 
-    return;
+function* findPtls(filePath) {
+  const stat = fs.statSync(filePath);
+
+  if (stat.isDirectory()) {
+    for (const fileName of fs.readdirSync(filePath, { recursive: true })) {
+      if (fileName.endsWith(".ptls")) {
+        yield path.join(filePath, fileName);
+      }
+    }
+  } else {
+    yield filePath;
   }
-
-  if (config.file) {
-    await runFile(runtime, config.file, true);
-    return;
-  }
-
-  await repl(runtime);
 }
 
-const options = [
-  { name: "file", defaultOption: true },
-  { name: "live", type: Boolean, defaultValue: false },
-];
+program
+  .command("fmt [paths...]")
+  .description("format Pointless files")
+  .action((paths) => {
+    if (!paths.length) {
+      paths = ["."];
+    }
 
-run(commandLineArgs(options, { stopAtFirstUnknown: true }));
+    for (const path of paths) {
+      for (const file of findPtls(path)) {
+        const src = fs.readFileSync(file, "utf8");
+
+        try {
+          const out = format(src, file);
+
+          if (out !== src) {
+            console.log("Formatted:", file);
+            fs.writeFileSync(file, out, "utf8");
+          }
+        } catch (err) {
+          if (err instanceof Panic) {
+            console.log("Syntax Error:", file);
+            console.log(String(err).replace(/^/gm, "  "));
+          } else {
+            throw err;
+          }
+        }
+      }
+    }
+  });
+
+program.parseAsync();
