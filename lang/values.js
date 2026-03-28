@@ -55,7 +55,7 @@ export function checkNonEmpty(value) {
   const length = value.size ?? value.length;
 
   if (length === 0) {
-    throw new Panic(`empty ${value}`);
+    throw new Panic(`empty ${getType(value)}`);
   }
 
   return value;

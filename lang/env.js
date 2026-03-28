@@ -336,10 +336,10 @@ export class Env {
               return b.repeat(Math.max(0, a));
             }
 
-            if (getType(b) === "string") {
+            if (getType(b) === "list") {
               checkType(a, "number");
               checkWhole(a);
-              return im.List(im.Repeat(a, b)).flatten(true);
+              return im.List(im.Repeat(b, a)).flatten(true);
             }
 
             break;

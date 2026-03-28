@@ -673,7 +673,7 @@ async function listExtremumAll(list, desc, func) {
   const { ranked, limit } = await getRanked(list, desc, func);
 
   return ranked
-    .filter(({ rank }) => rank == limit.rank)
+    .filter(({ rank }) => rank === limit.rank)
     .map(({ value }) => value);
 }
 

@@ -329,7 +329,7 @@ class Parser {
     if (match) {
       // Get loc of invalid char
       const prefix = value.slice(0, match.index + match[0].length - 1);
-      const loc = loc.next(prefix);
+      const errLoc = loc.next(prefix);
 
       if (match[1] == "\\u") {
         throw new Panic(
@@ -338,14 +338,14 @@ class Parser {
             $expected:
               "'\\u{...}' where '...' is a sequence of between 1 and 6 hex digits",
           },
-          loc,
+          errLoc,
         );
       }
 
       throw new Panic(
         "invalid escape sequence",
         { $escape: `'${match[1]}'` },
-        loc,
+        errLoc,
       );
     }
 
