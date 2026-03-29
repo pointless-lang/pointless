@@ -1,9 +1,9 @@
 // This code is AI written, and has not been human-reviewed
 // http://pointless.dev/articles/ai-and-pointless/
 
-import { tokenize } from "./tokenizer.js";
-import { parse } from "./parser.js";
-import { ident } from "./tokenizer.js";
+import { tokenize } from "../lang/tokenizer.js";
+import { parse } from "../lang/parser.js";
+import { ident } from "../lang/tokenizer.js";
 
 // Operator precedences matching ops array in parser.js
 // Higher = tighter binding
@@ -74,36 +74,27 @@ function isBlockStmt(node) {
   }
 }
 
+// Is the rhs of an assignment an inline-if expression?
+function isBlockExprRhs(node) {
+  return node.type === "if" && !Array.isArray(node.value.branches[0].body);
+}
+
 // Does this node contain a block-level subexpression?
 // Used to decide whether containing collections should break to multi-line.
 function isComplex(node) {
   if (!node) return false;
-  switch (node.type) {
-    case "fn":
-      return true;
-    case "if":
-      return Array.isArray(node.value.branches[0].body);
-    case "for":
-    case "tandemFor":
-    case "anonFor":
-    case "while":
-    case "match":
-      return true;
-    case "pipe":
-    case "map":
-    case "filter":
-    case "extend": {
-      let n = node;
-      let count = 0;
-      while (PIPE_OPS[n.type]) {
-        count++;
-        n = n.value.lhs;
-      }
-      return count >= 2;
+  if (node.type === "fn") return true;
+  if (isBlockStmt(node)) return true;
+  if (PIPE_OPS[node.type]) {
+    let n = node;
+    let count = 0;
+    while (PIPE_OPS[n.type]) {
+      count++;
+      n = n.value.lhs;
     }
-    default:
-      return false;
+    return count >= 2;
   }
+  return false;
 }
 
 // Rough flat character length estimate for deciding whether to break inline-if.
@@ -121,8 +112,13 @@ function flatLength(node) {
       return 4;
     case "string":
       return node.value.length + 2;
-    case "fmtString":
-      return node.value.fragments.join("").length + 4;
+    case "fmtString": {
+      const { fragments, fmtNodes } = node.value;
+      let len = 2; // quotes
+      for (const frag of fragments) len += frag.length;
+      for (const fmtNode of fmtNodes) len += flatLength(fmtNode) + 3; // $( + expr + )
+      return len;
+    }
     case "dateTime":
       return node.value.length + 2;
     case "binaryOp": {
@@ -266,7 +262,7 @@ function buildCommentMaps(allComments, stmts, minLine = 0) {
   return { leadingMap, trailingMap };
 }
 
-// Unroll a pipeline chain: node → { anchor, steps }
+// Unroll a pipeline chain: node -> { anchor, steps }
 // steps are in left-to-right order (anchor | steps[0] | steps[1] ...)
 function collectChain(node) {
   const steps = [];
@@ -343,7 +339,6 @@ class Printer {
   }
 
   emit(line) {
-    // Don't emit trailing whitespace
     this.output.push(this.pad() + line.trimEnd());
   }
 
@@ -354,13 +349,27 @@ class Printer {
   pushIndent() {
     this.indent++;
   }
+
   popIndent() {
     this.indent--;
   }
 
   // ---------------------------------------------------------------------------
-  // Boolean chain helper
+  // Shared helpers
   // ---------------------------------------------------------------------------
+
+  // Build dotted/bracketed LHS string: name.key1[key2]...
+  buildLhs(name, keys) {
+    let lhs = name;
+    for (const key of keys) {
+      if (key.type === "string" && isIdent(key.value)) {
+        lhs += "." + key.value;
+      } else {
+        lhs += "[" + this.printExpr(key) + "]";
+      }
+    }
+    return lhs;
+  }
 
   // If node is a long or/and chain, returns the lines to emit (first operand,
   // then "or operand" / "and operand" for each continuation). Returns null if
@@ -386,6 +395,33 @@ class Printer {
       const str = this.printExpr(item.node);
       return i < items.length - 1 ? `${str} ${items[i + 1].op}` : str;
     });
+  }
+
+  // Emit the body lines of a multi-line inline-if (then/elif/else).
+  // The caller is responsible for emitting the first condition and managing indent.
+  emitMultilineInlineIf(branches, fallback) {
+    this.emit(`then ${this.printExpr(branches[0].body)}`);
+    for (let i = 1; i < branches.length; i++) {
+      this.emit(
+        `elif ${this.printExpr(branches[i].cond)} then ${
+          this.printExpr(branches[i].body)
+        }`,
+      );
+    }
+    if (fallback !== undefined) {
+      const fb = Array.isArray(fallback) ? fallback[0] : fallback;
+      this.emit(`else ${this.printExpr(fb)}`);
+    }
+  }
+
+  // Find and consume a trailing comment on the given source line.
+  findTrailingComment(line) {
+    const c = this.allComments.find((c) => !c.used && c.line === line);
+    if (c) {
+      c.used = true;
+      return "  " + c.text;
+    }
+    return "";
   }
 
   // ---------------------------------------------------------------------------
@@ -454,7 +490,6 @@ class Printer {
         if (Array.isArray(node.value.branches[0].body)) {
           this.printIfBlock(node, suffix);
         } else {
-          // Inline shorthand — may format multi-line at statement level
           this.printInlineIfStmt(node, suffix);
         }
         break;
@@ -475,7 +510,7 @@ class Printer {
         break;
       }
       case "import":
-        this.emit(`import "${node.value}"` + suffix);
+        this.emit(`import "${node.value}"${suffix}`);
         break;
       default:
         // Expression statement — may be a pipeline chain
@@ -508,45 +543,15 @@ class Printer {
       return;
     }
 
-    // Build LHS
-    let lhs = name;
-    for (const key of keys) {
-      if (key.type === "string" && isIdent(key.value)) {
-        lhs += "." + key.value;
-      } else {
-        lhs += "[" + this.printExpr(key) + "]";
-      }
-    }
+    const lhs = this.buildLhs(name, keys);
 
     if (isCompound) {
-      const op = compoundOp;
-      if (PIPE_OPS[rhs.type] && rhs.value.lhs.type === "prev") {
-        // Pipeline compound: lhs |= func
-        const { steps } = collectChain(rhs);
-        if (steps.length === 1) {
-          this.emit(`${lhs} ${op} ${this.stepRhsStr(steps[0])}` + suffix);
-        } else {
-          // Multi-step compound: emit first step inline, rest on new lines
-          this.emit(`${lhs} ${op} ${this.stepRhsStr(steps[0])}`);
-          this.pushIndent();
-          for (let i = 1; i < steps.length; i++) {
-            const s = steps[i];
-            this.emit(this.stepStr(s) + (i === steps.length - 1 ? suffix : ""));
-          }
-          this.popIndent();
-        }
-      } else if (rhs.type === "binaryOp" && rhs.value.lhs.type === "prev") {
-        // Arithmetic compound: lhs += expr
-        this.emit(`${lhs} ${op} ${this.printExpr(rhs.value.rhs)}` + suffix);
-      } else {
-        this.emit(`${lhs} = ${this.printExpr(rhs)}` + suffix);
-      }
+      this.printCompoundAssign(lhs, compoundOp, rhs, suffix);
       return;
     }
 
-    // Regular assignment
-    if (isBlockStmt(node) ? false : isBlockExprRhs(rhs)) {
-      // Inline-if as RHS: may need multi-line treatment
+    // Inline-if as RHS: may need multi-line treatment
+    if (!isBlockStmt(node) && isBlockExprRhs(rhs)) {
       this.printAssignRhs(lhs, rhs, suffix);
       return;
     }
@@ -554,9 +559,9 @@ class Printer {
     if (PIPE_OPS[rhs.type]) {
       const { anchor, steps } = collectChain(rhs);
       if (steps.length >= 2) {
-        this.emit(`${lhs} = ${this.printExpr(anchor)}`);
+        this.emit(`${lhs} = ${this.printExpr(anchor)}${suffix}`);
         this.pushIndent();
-        this.emitPipelineChainSteps(steps, suffix);
+        this.emitPipelineChainSteps(steps);
         this.popIndent();
         return;
       }
@@ -564,12 +569,32 @@ class Printer {
 
     const boolLines = this.boolChainLines(rhs);
     if (boolLines) {
-      this.emit(`${lhs} =`);
+      this.emit(`${lhs} =${suffix}`);
       this.pushIndent();
       for (const l of boolLines) this.emit(l);
       this.popIndent();
     } else {
-      this.emit(`${lhs} = ${this.printExpr(rhs)}` + suffix);
+      this.emit(`${lhs} = ${this.printExpr(rhs)}${suffix}`);
+    }
+  }
+
+  printCompoundAssign(lhs, op, rhs, suffix) {
+    if (PIPE_OPS[rhs.type] && rhs.value.lhs.type === "prev") {
+      // Pipeline compound: lhs |= func  or  lhs |= a | b | c
+      const { steps } = collectChain(rhs);
+      this.emit(`${lhs} ${op} ${this.stepRhsStr(steps[0])}${suffix}`);
+      if (steps.length > 1) {
+        this.pushIndent();
+        for (let i = 1; i < steps.length; i++) {
+          this.emitStep(steps[i]);
+        }
+        this.popIndent();
+      }
+    } else if (rhs.type === "binaryOp" && rhs.value.lhs.type === "prev") {
+      // Arithmetic compound: lhs += expr
+      this.emit(`${lhs} ${op} ${this.printExpr(rhs.value.rhs)}${suffix}`);
+    } else {
+      this.emit(`${lhs} = ${this.printExpr(rhs)}${suffix}`);
     }
   }
 
@@ -577,34 +602,20 @@ class Printer {
   printAssignRhs(lhs, rhs, suffix) {
     // Short inline-if: put everything on one line
     if (flatLength(rhs) <= 50) {
-      this.emit(`${lhs} = ${this.printExprInline(rhs)}` + suffix);
+      this.emit(`${lhs} = ${this.printExprInner(rhs)}${suffix}`);
       return;
     }
     // Long inline-if: break to multi-line
     const { branches, fallback } = rhs.value;
-    const cond = this.printExpr(branches[0].cond);
-    const body = this.printExpr(branches[0].body);
-    this.emit(`${lhs} = ${cond}`);
+    this.emit(`${lhs} = ${this.printExpr(branches[0].cond)}${suffix}`);
     this.pushIndent();
-    this.emit(`then ${body}`);
-    for (let i = 1; i < branches.length; i++) {
-      this.emit(
-        `elif ${this.printExpr(branches[i].cond)} then ${
-          this.printExpr(branches[i].body)
-        }`,
-      );
-    }
-    if (fallback !== undefined) {
-      const fb = Array.isArray(fallback) ? fallback[0] : fallback;
-      this.emit(`else ${this.printExpr(fb)}`);
-    }
+    this.emitMultilineInlineIf(branches, fallback);
     this.popIndent();
   }
 
   printFnDef(name, fnNode, suffix) {
     const { params, body } = fnNode.value;
-    const paramStr = params.join(", ");
-    this.emit(`fn ${name}(${paramStr})` + suffix);
+    this.emit(`fn ${name}(${params.join(", ")})${suffix}`);
     this.pushIndent();
     this.printStatements(body);
     this.popIndent();
@@ -669,33 +680,20 @@ class Printer {
 
   // Inline-if as a statement expression: break to multi-line when long
   printInlineIfStmt(node, suffix) {
-    const len = flatLength(node);
-    if (len + this.indent * 2 <= 60) {
-      // Emit inline without precedence-wrapping (no outer context to conflict with)
+    if (flatLength(node) + this.indent * 2 <= 60) {
       this.emit(this.printExprInner(node) + suffix);
       return;
     }
     const { branches, fallback } = node.value;
-    this.emit(this.printExpr(branches[0].cond));
+    this.emit(this.printExpr(branches[0].cond) + suffix);
     this.pushIndent();
-    this.emit(`then ${this.printExpr(branches[0].body)}`);
-    for (let i = 1; i < branches.length; i++) {
-      this.emit(
-        `elif ${this.printExpr(branches[i].cond)} then ${
-          this.printExpr(branches[i].body)
-        }`,
-      );
-    }
-    if (fallback !== undefined) {
-      const fb = Array.isArray(fallback) ? fallback[0] : fallback;
-      this.emit(`else ${this.printExpr(fb)}`);
-    }
+    this.emitMultilineInlineIf(branches, fallback);
     this.popIndent();
   }
 
   printMatch(node, suffix) {
     const { cond, cases, fallback } = node.value;
-    this.emit(`match ${this.printExpr(cond)}` + suffix);
+    this.emit(`match ${this.printExpr(cond)}${suffix}`);
     this.pushIndent();
 
     for (let i = 0; i < cases.length; i++) {
@@ -784,7 +782,7 @@ class Printer {
   }
 
   printWhile(node, suffix) {
-    this.emit(`while ${this.printExpr(node.value.cond)} do` + suffix);
+    this.emit(`while ${this.printExpr(node.value.cond)} do${suffix}`);
     this.pushIndent();
     this.printStatements(node.value.body);
     this.popIndent();
@@ -796,29 +794,22 @@ class Printer {
   // ---------------------------------------------------------------------------
 
   emitPipelineChain(anchor, steps, suffix) {
-    this.emit(this.printExpr(anchor));
+    this.emit(this.printExpr(anchor) + suffix);
     this.pushIndent();
-    this.emitPipelineChainSteps(steps, suffix);
+    this.emitPipelineChainSteps(steps);
     this.popIndent();
   }
 
-  emitPipelineChainSteps(steps, suffix) {
-    for (let i = 0; i < steps.length; i++) {
-      const step = steps[i];
-      const isLast = i === steps.length - 1;
-      this.emitStep(step, isLast ? suffix : "");
+  emitPipelineChainSteps(steps) {
+    for (const step of steps) {
+      this.emitStep(step);
     }
   }
 
-  emitStep(step, suffix = "") {
+  emitStep(step) {
     const op = PIPE_OPS[step.type];
-    const { func, args } = step.value;
-
-    // Check for a trailing comment on this step's operator line
-    const tc = this.allComments.find((c) =>
-      !c.used && c.line === step.loc.line
-    );
-    const trailingComment = tc ? (tc.used = true, "  " + tc.text) : "";
+    const { func } = step.value;
+    const trailingComment = this.findTrailingComment(step.loc.line);
 
     // extend with multi-line object: # {\n  entries\n}
     if (step.type === "extend" && isImplicitArgFn(func)) {
@@ -826,19 +817,16 @@ class Printer {
       if (inner.type === "object" && inner.value.length >= 2) {
         this.emit(op + " {" + trailingComment);
         this.pushIndent();
-        const entries = inner.value;
-        for (let i = 0; i < entries.length; i++) {
-          this.emit(
-            this.objectEntryStr(entries[i].key, entries[i].value) + ",",
-          );
+        for (const { key, value } of inner.value) {
+          this.emit(this.objectEntryStr(key, value) + ",");
         }
         this.popIndent();
-        this.emit("}" + suffix);
+        this.emit("}");
         return;
       }
     }
 
-    this.emit(op + " " + this.stepRhsStr(step) + suffix + trailingComment);
+    this.emit(op + " " + this.stepRhsStr(step) + trailingComment);
   }
 
   stepStr(step) {
@@ -848,10 +836,9 @@ class Printer {
   stepRhsStr(step) {
     const { func, args } = step.value;
 
-    // Unwrap implicit-arg fn: fn(arg) expr → print expr directly (no parens)
+    // Unwrap implicit-arg fn: fn(arg) expr -> print expr directly (no parens)
     if (isImplicitArgFn(func)) {
-      const inner = func.value.body[0];
-      return this.printExprInner(inner);
+      return this.printExprInner(func.value.body[0]);
     }
 
     if (args.length === 0) {
@@ -873,11 +860,6 @@ class Printer {
       return "(" + result + ")";
     }
     return result;
-  }
-
-  // Print an inline-if without parenthesization wrapping (for assignment RHS short form)
-  printExprInline(node) {
-    return this.printExprInner(node);
   }
 
   printExprInner(node) {
@@ -903,29 +885,11 @@ class Printer {
       case "fmtString":
         return this.fmtStringStr(node);
 
-      case "list": {
-        if (node.value.length === 0) return "[]";
-        const items = node.value.map((e) => this.printExpr(e));
-        if (node.value.some(isComplex)) {
-          return this.multilineCollection("[", "]", items);
-        }
-        const inlineStr = "[" + items.join(", ") + "]";
-        return inlineStr.length > 60
-          ? this.multilineCollection("[", "]", items)
-          : inlineStr;
-      }
+      case "list":
+        return this.collectionStr("[", "]", node.value);
 
-      case "set": {
-        if (node.value.length === 0) return "#[]";
-        const items = node.value.map((e) => this.printExpr(e));
-        if (node.value.some(isComplex)) {
-          return this.multilineCollection("#[", "]", items);
-        }
-        const inlineStr = "#[" + items.join(", ") + "]";
-        return inlineStr.length > 60
-          ? this.multilineCollection("#[", "]", items)
-          : inlineStr;
-      }
+      case "set":
+        return this.collectionStr("#[", "]", node.value);
 
       case "object":
         return this.objectStr(node);
@@ -1043,10 +1007,8 @@ class Printer {
       case "import":
         return `import "${node.value}"`;
 
-      case "def": {
-        // Inline def (e.g., in match case: `case x then y = 1`)
+      case "def":
         return this.defInlineStr(node);
-      }
 
       default:
         throw new Error(`formatter: unhandled node type "${node.type}"`);
@@ -1073,21 +1035,13 @@ class Printer {
   defInlineStr(node) {
     const { name, keys, isCompound, rhs } = node.value;
     const { compoundOp } = node.fmtInto ?? {};
-    let lhs = name;
-    for (const key of keys) {
-      if (key.type === "string" && isIdent(key.value)) {
-        lhs += "." + key.value;
-      } else {
-        lhs += "[" + this.printExpr(key) + "]";
-      }
-    }
+    const lhs = this.buildLhs(name, keys);
     if (isCompound) {
-      const op = compoundOp;
       if (rhs.type === "binaryOp" && rhs.value.lhs.type === "prev") {
-        return `${lhs} ${op} ${this.printExpr(rhs.value.rhs)}`;
+        return `${lhs} ${compoundOp} ${this.printExpr(rhs.value.rhs)}`;
       }
       if (PIPE_OPS[rhs.type] && rhs.value.lhs.type === "prev") {
-        return `${lhs} ${op} ${this.stepRhsStr(rhs)}`;
+        return `${lhs} ${compoundOp} ${this.stepRhsStr(rhs)}`;
       }
     }
     return `${lhs} = ${this.printExprInner(rhs)}`;
@@ -1145,6 +1099,18 @@ class Printer {
   // Collection helpers
   // ---------------------------------------------------------------------------
 
+  collectionStr(open, close, elements) {
+    if (elements.length === 0) return open + close;
+    const items = elements.map((e) => this.printExpr(e));
+    if (elements.some(isComplex)) {
+      return this.multilineCollection(open, close, items);
+    }
+    const inline = open + items.join(", ") + close;
+    return inline.length > 60
+      ? this.multilineCollection(open, close, items)
+      : inline;
+  }
+
   objectEntryStr(key, value, forceQuote = false) {
     // Key punning: { x } when key = string "x" and value = name "x"
     if (
@@ -1179,17 +1145,9 @@ class Printer {
     const pad = this.pad();
     const innerPad = pad + "  ";
     const lines = entries.map((entry, i) => {
-      const valueLoc = node.value[i].value.loc;
-      let trailingComment = "";
-      if (valueLoc) {
-        const c = this.allComments.find((c) =>
-          !c.used && c.line === valueLoc.line
-        );
-        if (c) {
-          c.used = true;
-          trailingComment = "  " + c.text;
-        }
-      }
+      const trailingComment = node.value[i].value.loc
+        ? this.findTrailingComment(node.value[i].value.loc.line)
+        : "";
       return `${innerPad}${entry},${trailingComment}`;
     });
     return `{\n${lines.join("\n")}\n${pad}}`;
@@ -1273,8 +1231,7 @@ class Printer {
   }
 
   // Multi-line collection: returns a string with embedded newlines (use from printExprInner)
-  // `space` = true adds space inside braces (for objects)
-  multilineCollection(open, close, items, space = false) {
+  multilineCollection(open, close, items) {
     if (!items.length) return open + close;
     const pad = this.pad();
     const innerPad = pad + "  ";
@@ -1294,11 +1251,6 @@ class Printer {
     }
     return this.output.join("\n") + "\n";
   }
-}
-
-// Is the rhs of an assignment an inline-if expression?
-function isBlockExprRhs(node) {
-  return node.type === "if" && !Array.isArray(node.value.branches[0].body);
 }
 
 export function format(source, path = "<input>") {

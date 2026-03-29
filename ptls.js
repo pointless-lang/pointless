@@ -8,7 +8,7 @@ import { loader } from "./runtime/loader.js";
 import { Runtime } from "./runtime/runtime.js";
 import { Panic } from "./lang/panic.js";
 import { repl } from "./lang/repl.js";
-import { format } from "./lang/formatter.js";
+import { format } from "./tooling/formatter.js";
 import { Command } from "commander";
 import path from "node:path";
 import fs from "node:fs";
