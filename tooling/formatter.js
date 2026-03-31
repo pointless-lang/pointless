@@ -1,4 +1,4 @@
-// This code is AI written, and has not been human-reviewed
+// This code is AI written, and has not been fully human-reviewed
 // http://pointless.dev/articles/ai-and-pointless/
 
 import { tokenize } from "../lang/tokenizer.js";
