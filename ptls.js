@@ -7,7 +7,7 @@ import { impl } from "./runtime/impl.js";
 import { loader } from "./runtime/loader.js";
 import { Runtime } from "./runtime/runtime.js";
 import { Panic } from "./lang/panic.js";
-import { repl } from "./lang/repl.js";
+import { runRepl } from "./tooling/repl.js";
 import { format } from "./tooling/formatter.js";
 import { Command } from "commander";
 import path from "node:path";
@@ -41,7 +41,7 @@ program
     if (file) {
       await runFile(runtime, file, true);
     } else {
-      await repl(runtime);
+      await runRepl(runtime);
     }
   });
 
