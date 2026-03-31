@@ -4,7 +4,7 @@
 
 ```ptls
 fn step(n)
-  if n % 2 == 0 then n / 2 else n * 3 + 1 end
+  n % 2 == 0 then n / 2 else n * 3 + 1
 end
 
 fn hailstone(n)
@@ -31,13 +31,13 @@ fn chart(values)
     | join("")
 end
 
-hailstone(78)
+hailstone(7)
   | chart
   | print
 ```
 
 ```
-▃▂▄▂▅▃█▄▂▆▃█▄▂▁▁▂▁▃▂▁▁▁▁▂▁▁▂▁▁▁▁▁▁▁▁
+▁▄▂▆▃█▄▂▇▃▂▁▃▂▁▁▁
 ```
 
 ## Installing
