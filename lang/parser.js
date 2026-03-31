@@ -1,7 +1,7 @@
 import { keywords } from "./keywords.js";
 import { dateTime } from "./tokenizer.js";
 import { checkNumResult } from "./num.js";
-import { Panic } from "./panic.js";
+import { Incomplete, Panic } from "./panic.js";
 
 // skipped by default
 const skip = ["whitespace", "newline", "comment"];
@@ -54,7 +54,7 @@ const invalidEscape =
   /(?:^|[^\\])(?:\\\\)*(\\([^\\"nrtu]|u(?!{[0-9a-fA-F]{1,6}})))/;
 
 const fmtVar =
-  /\$(?:[_a-zA-Z]\w*(?:\.[_a-zA-Z]\w*)*|\([_a-zA-Z]\w*(?:\.[_a-zA-Z]\w*)*\))/g;
+  /\$(?:[a-zA-Z]\w*(?:\.[a-zA-Z]\w*)*|\([a-zA-Z]\w*(?:\.[a-zA-Z]\w*)*\))/g;
 
 function parseStr(string, loc) {
   return string.replaceAll(escapeSeq, (match, code, index) => {
@@ -93,7 +93,7 @@ class Node {
 function unexpectedToken(token, details = {}) {
   // for easier repl line continuations
   if (token.type === "endOfFile") {
-    throw new Panic("unexpected end-of-file", {}, token.loc);
+    throw new Incomplete("unexpected end-of-file", {}, token.loc);
   }
 
   return new Panic(

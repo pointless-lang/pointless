@@ -1,4 +1,4 @@
-import { Panic } from "./panic.js";
+import { Incomplete, Panic } from "./panic.js";
 import { Loc } from "./loc.js";
 import { keywords } from "./keywords.js";
 import { symbols } from "./symbols.js";
@@ -51,7 +51,7 @@ const rules = [
   // Rust-style raw strings, must come before name rule
   rule("rawString", /r(#*)"[^]*?"\1/),
   // unmatchedQuote rule must come after string rule
-  rule("unmatchedQuote", /(r#*)?"/),
+  rule("unmatchedQuote", /(r#*)?"[^]*/),
   rule("dateTime", dateTime),
   rule("invalidDateTime", /`[^`\n]*`?/),
   rule("whitespace", /[ \t]+/),
@@ -78,7 +78,7 @@ class Token {
   validate() {
     switch (this.type) {
       case "unmatchedQuote":
-        throw new Panic("unmatched quote", {}, this.loc);
+        throw new Incomplete("unmatched quote", {}, this.loc);
       case "invalidDateTime":
         throw new Panic(
           "invalid datetime string",

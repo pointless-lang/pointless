@@ -57,3 +57,5 @@ export class Panic extends Error {
     return entryStrs.join("\n") + this.showTrace();
   }
 }
+
+export class Incomplete extends Panic {}
