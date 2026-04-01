@@ -759,6 +759,42 @@ export class AsyncRepl {
       return;
     }
 
+    // -- Ctrl+Z: suspend (SIGTSTP) -----------------------------------------
+    if (key.ctrl && key.name === "z") {
+      // Soft-suspend: restore terminal to cooked mode so the shell works,
+      // but keep stdin resumed so the event loop stays alive (pausing stdin
+      // would let the process exit when SIGCONT arrives).
+      stdout.write("\n");
+      stdout.write("\x1b[?2004l");
+      stdin.off("keypress", this._keypressHandler);
+      if (stdin.isTTY) stdin.setRawMode(false);
+      if (this._origStdoutWrite) {
+        stdout.write = this._origStdoutWrite;
+        this._origStdoutWrite = null;
+      }
+
+      process.once("SIGCONT", () => {
+        if (stdin.isTTY) stdin.setRawMode(true);
+        this._origStdoutWrite = stdout.write;
+        const origWrite = stdout.write.bind(stdout);
+        stdout.write = function (data, ...args) {
+          if (typeof data === "string") {
+            data = data.replace(/(?<!\r)\n/g, "\r\n");
+          }
+          return origWrite(data, ...args);
+        };
+        stdout.write("\x1b[?2004h");
+        stdin.on("keypress", this._keypressHandler);
+        if (this._stack.length > 0) {
+          this._stack.at(-1)._lastCursorRow = 0;
+          this._stack.at(-1).render();
+        }
+      });
+
+      process.kill(process.pid, "SIGTSTP");
+      return;
+    }
+
     // Route to the active prompt layer
     if (this._stack.length > 0) {
       this._stack.at(-1).handleKey(str, key);
