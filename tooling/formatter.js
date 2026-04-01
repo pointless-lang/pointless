@@ -1053,7 +1053,15 @@ class Printer {
 
   stringStr(node) {
     if (node.fmtInto?.raw) {
-      return `r"${node.value}"`;
+      const content = node.value;
+      // Find minimum # hashes: content must not contain '"' followed by N or more '#'s,
+      // since that would match the closing delimiter '"' + N '#'s.
+      let n = 0;
+      for (const match of content.matchAll(/"(#*)/g)) {
+        n = Math.max(n, match[1].length + 1);
+      }
+      const hashes = "#".repeat(n);
+      return `r${hashes}"${content}"${hashes}`;
     }
     if (node.value.includes("\n")) {
       const lines = node.value.split("\n");
