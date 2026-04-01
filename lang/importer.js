@@ -41,9 +41,15 @@ export class Importer {
     }
 
     this.cache.set(key, undefined);
-    const result = await this.dispatch(absPath, prefix);
-    this.cache.set(key, result);
-    return result;
+
+    try {
+      const result = await this.dispatch(absPath, prefix);
+      this.cache.set(key, result);
+      return result;
+    } catch (err) {
+      this.cache.delete(key);
+      throw err;
+    }
   }
 
   async dispatch(absPath, prefix) {
