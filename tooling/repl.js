@@ -72,10 +72,14 @@ async function runInput(input, env, signal) {
     }
   } catch (err) {
     if (err instanceof Panic) {
-      console.log(addColor(String(err), "constant"));
+      if (!signal?.aborted) {
+        console.log(addColor(String(err), "constant"));
+      }
     } else {
       throw err;
     }
+  } finally {
+    env.runtime.addSignal(null);
   }
 }
 
@@ -84,7 +88,7 @@ export async function runRepl(runtime) {
 
   const prompt = addColor(">> ", "comment");
   const continuationPrompt = addColor(".. ", "comment");
-  const handler = (input) => runInput(input, env);
+  const handler = (input, signal) => runInput(input, env, signal);
   const historyPath = `${import.meta.dirname}/../.repl-history.json`;
 
   const repl = new AsyncRepl({

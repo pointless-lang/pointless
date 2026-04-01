@@ -547,6 +547,8 @@ export class AsyncRepl {
     this._inputBuffer = [];
     this._cancelEval = null;
     this._stopped = false;
+    this._inputActive = false;
+    this._refManaged = false;
     this._keypressHandler = null;
     this._origStdoutWrite = null;
     this._pasting = false;
@@ -556,7 +558,11 @@ export class AsyncRepl {
 
   async start() {
     await this._loadHistory();
-    this._setupInput();
+
+    if (!this._inputActive) {
+      this._setupInput();
+      this._inputActive = true;
+    }
 
     let lastInterruptTime = 0;
 
@@ -597,14 +603,18 @@ export class AsyncRepl {
         await this._saveHistory();
 
         // Eval with Ctrl+C cancel support via Promise.race
+        const controller = new AbortController();
         let cancelEval;
         const cancelPromise = new Promise((resolve) => {
-          cancelEval = () => resolve({ cancelled: true });
+          cancelEval = () => {
+            controller.abort();
+            resolve({ cancelled: true });
+          };
         });
         this._cancelEval = cancelEval;
 
         const result = await Promise.race([
-          this._handler(input),
+          this._handler(input, controller.signal),
           cancelPromise,
         ]);
 
@@ -612,6 +622,7 @@ export class AsyncRepl {
       }
     } finally {
       this._teardownInput();
+      this._inputActive = false;
       await this._saveHistory();
     }
   }
@@ -626,10 +637,19 @@ export class AsyncRepl {
   }
 
   async getLine(promptStr) {
+    if (!this._inputActive) {
+      this._setupInput();
+      this._inputActive = true;
+      this._refManaged = true;
+      stdin.unref();
+    }
+
     if (!this._innerHistories.has(promptStr)) {
       this._innerHistories.set(promptStr, []);
     }
     const history = this._innerHistories.get(promptStr);
+
+    if (this._refManaged) stdin.ref();
 
     try {
       const value = await this._pushLayer(promptStr, history);
@@ -646,6 +666,8 @@ export class AsyncRepl {
       if (err?.type === "interrupt") throw new ReplInterrupt();
       if (err?.type === "eof") throw new ReplEOF();
       throw err;
+    } finally {
+      if (this._refManaged) stdin.unref();
     }
   }
 
