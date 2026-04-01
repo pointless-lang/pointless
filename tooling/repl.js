@@ -4,6 +4,7 @@ import { parse } from "../lang/parser.js";
 import { repr } from "../lang/repr.js";
 import { Incomplete, Panic } from "../lang/panic.js";
 import { Highlighter } from "../utils/highlight.js";
+import { installRepl } from "../std/Console.js";
 
 const solarizedTheme = {
   call: "38;139;210", // blue
@@ -53,7 +54,9 @@ function isComplete(input) {
   }
 }
 
-async function runInput(input, env) {
+async function runInput(input, env, signal) {
+  env.runtime.addSignal(signal);
+
   try {
     const statements = parse(tokenize("repl", input));
 
@@ -93,5 +96,6 @@ export async function runRepl(runtime) {
     historyPath,
   });
 
+  installRepl(repl);
   await repl.start();
 }

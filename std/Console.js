@@ -1,7 +1,7 @@
 import { repr } from "../lang/repr.js";
 import { checkType } from "../lang/values.js";
 import { Panic } from "../lang/panic.js";
-import { getLine } from "../lang/prompt.js";
+import { AsyncRepl } from "../tooling/repl-lib.js";
 import { emitKeypressEvents } from "node:readline";
 import { stdin, stdout } from "node:process";
 import im from "../immutable/immutable.js";
@@ -72,6 +72,12 @@ export function clear() {
   return null;
 }
 
+let asyncRepl;
+
+export function installRepl(repl) {
+  asyncRepl = repl;
+}
+
 export async function prompt(message) {
   // Prompt the user for input, displaying the string `message` beforehand. User
   // input is returned as a string.
@@ -81,8 +87,9 @@ export async function prompt(message) {
   // Str.parse(prompt("Enter age: "))
   // ```
 
+  asyncRepl ??= new AsyncRepl({});
   checkType(message, "string");
-  return await getLine(message);
+  return await asyncRepl.getLine(message);
 }
 
 export function rawKey() {
