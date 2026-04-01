@@ -639,7 +639,6 @@ export class AsyncRepl {
         if (history.length > this._historyLimit) {
           history.length = this._historyLimit;
         }
-        await this._saveHistory();
       }
 
       return value;
@@ -802,13 +801,7 @@ export class AsyncRepl {
 
     try {
       const text = await readFile(this._historyPath, "utf8");
-      const data = JSON.parse(text);
-
-      this._history = data.repl ?? [];
-
-      for (const [prompt, entries] of Object.entries(data.prompts ?? {})) {
-        this._innerHistories.set(prompt, entries);
-      }
+      this._history = JSON.parse(text);
     } catch (err) {
       if (err.code !== "ENOENT") throw err;
     }
@@ -817,16 +810,9 @@ export class AsyncRepl {
   async _saveHistory() {
     if (!this._historyPath) return;
 
-    const data = {
-      repl: this._history.slice(0, this._historyLimit),
-      prompts: Object.fromEntries(
-        [...this._innerHistories.entries()].map(([prompt, entries]) => [
-          prompt,
-          entries.slice(0, this._historyLimit),
-        ]),
-      ),
-    };
-
-    await writeFile(this._historyPath, JSON.stringify(data, null, 2));
+    await writeFile(
+      this._historyPath,
+      JSON.stringify(this._history.slice(0, this._historyLimit), null, 2),
+    );
   }
 }
