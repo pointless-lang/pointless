@@ -5,6 +5,7 @@ import { repr } from "../lang/repr.js";
 import { Incomplete, Panic } from "../lang/panic.js";
 import { Highlighter } from "../utils/highlight.js";
 import { installRepl } from "../std/Console.js";
+import { readFile } from 'node:fs/promises';
 
 const solarizedTheme = {
   call: "38;139;210", // blue
@@ -93,6 +94,9 @@ async function runInput(input, env, signal) {
 }
 
 export async function runRepl(runtime) {
+  const splash = await readFile(`${import.meta.dirname}/splash.txt`, "utf8");
+  console.log(splash);
+
   const env = runtime.spawnEnv();
 
   const prompt = addColor(">> ", "comment");
