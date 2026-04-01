@@ -65,10 +65,19 @@ async function runInput(input, env, signal) {
     for (const statement of statements) {
       const ans = await env.eval(statement);
 
-      if (statement.type !== "def") {
-        console.log(repr(ans, "pretty"));
-        env.defs.set("ans", ans);
+      // Don't echo statements
+      switch (statement.type) {
+        case "anonFor":
+        case "binaryOp":
+        case "def":
+        case "for":
+        case "tandemFor":
+        case "while":
+          continue;
       }
+
+      console.log(repr(ans, "pretty"));
+      env.defs.set("ans", ans);
     }
   } catch (err) {
     if (err instanceof Panic) {
