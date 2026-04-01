@@ -5,7 +5,7 @@ import { repr } from "../lang/repr.js";
 import { Incomplete, Panic } from "../lang/panic.js";
 import { Highlighter } from "../utils/highlight.js";
 import { installRepl } from "../std/Console.js";
-import { readFile } from 'node:fs/promises';
+import { readFile } from "node:fs/promises";
 
 const solarizedTheme = {
   call: "38;139;210", // blue

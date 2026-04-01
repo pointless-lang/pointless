@@ -684,7 +684,12 @@ export class AsyncRepl {
     );
   }
 
-  _pushLayer(promptStr, history, highlight = this._highlight, isComplete = null) {
+  _pushLayer(
+    promptStr,
+    history,
+    highlight = this._highlight,
+    isComplete = null,
+  ) {
     return new Promise((resolve, reject) => {
       const layer = new PromptLayer(
         promptStr,

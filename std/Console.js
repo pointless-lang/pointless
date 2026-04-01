@@ -21,10 +21,8 @@ export function print(value) {
 }
 
 export function inspect(value) {
-  // Print the string representation of `value` to stdout, ignoring custom
-  // `@show` [methods](/language/methods), followed by a newline, and return
-  // `value`. Include quotes if `value` is a string. Useful for debugging and
-  // logging.
+  // Print the string representation of `value` to stdout. Include quotes if
+  // `value` is a string. Useful for debugging and logging.
   //
   // ```ptls
   // Console.inspect("Hello")
