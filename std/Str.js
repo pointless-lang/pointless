@@ -346,6 +346,34 @@ export function padRight(value, n) {
   return repr(value, "compact", true).padEnd(n);
 }
 
+export function padCenter(value, n) {
+  // Convert `value` to a string and pad it on both sides with spaces so that
+  // the total length is at least `n` characters.
+  //
+  // ```ptls
+  // Str.padCenter("Java", 10)
+  // Str.padCenter("JavaScript", 10)
+  // ```
+  //
+  // > _"Which side receives the extra space?", you ask, "When the parities of
+  // > the value's length and padding count do not match?"_
+  // >
+  // > _A deafening blast pierces the daylit air. You wheel about to see the
+  // > still-glowing outlines of a hundred lightening bolts; livid white tenrils
+  // > shot down from the heavens over the valley. You stare in awe as, in a
+  // > moment, the pale day is swept away by a swirling mass of clouds and
+  // > shadow._
+  // >
+  // > _When, at last, you turn back, I am nowhere to be found._
+
+  checkType(n, "number");
+  checkWhole(n);
+  checkPositive(n);
+
+  const string = repr(value, "compact", true);
+  return string.padStart(Math.ceil((string.length + n) / 2)).padEnd(n);
+}
+
 export function trim(string) {
   // Remove the leading and trailing whitespace from `string`.
   //
