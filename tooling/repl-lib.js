@@ -530,6 +530,8 @@ function visualPos(text, charIndex, cols) {
 //   stop()             Programmatic exit.
 //   getLine(prompt)    Push an inner prompt layer, returns Promise<string>.
 //                      Throws ReplInterrupt on Ctrl+C, ReplEOF on Ctrl+D.
+//   getKey()           Wait for a single keypress, returns Promise<{str, key}>.
+//                      Throws ReplInterrupt on Ctrl+C, ReplEOF on Ctrl+D.
 
 export class AsyncRepl {
   constructor(opts) {
@@ -546,6 +548,7 @@ export class AsyncRepl {
     this._stack = [];
     this._inputBuffer = [];
     this._cancelEval = null;
+    this._keyWaiter = null;
     this._stopped = false;
     this._inputActive = false;
     this._refManaged = false;
@@ -667,6 +670,38 @@ export class AsyncRepl {
       if (err?.type === "eof") throw new ReplEOF();
       throw err;
     } finally {
+      if (this._refManaged) stdin.unref();
+    }
+  }
+
+  async getKey() {
+    if (!this._inputActive) {
+      this._setupInput();
+      this._inputActive = true;
+      this._refManaged = true;
+      stdin.unref();
+    }
+
+    if (this._refManaged) stdin.ref();
+
+    try {
+      return await new Promise((resolve, reject) => {
+        this._keyWaiter = (str, key) => {
+          if (key.ctrl && key.name === "c") {
+            stdout.write("\n");
+            reject(new ReplInterrupt());
+            return;
+          }
+          if (key.ctrl && key.name === "d") {
+            stdout.write("\n");
+            reject(new ReplEOF());
+            return;
+          }
+          resolve({ str, key });
+        };
+      });
+    } finally {
+      this._keyWaiter = null;
       if (this._refManaged) stdin.unref();
     }
   }
@@ -807,6 +842,14 @@ export class AsyncRepl {
     }
 
     // No active layer — either evaluating or between prompts
+
+    // Single-key waiter (Console.rawKey)
+    if (this._keyWaiter) {
+      const waiter = this._keyWaiter;
+      this._keyWaiter = null;
+      waiter(str, key);
+      return;
+    }
 
     // Ctrl+C during eval: detach
     if (key.ctrl && key.name === "c" && this._cancelEval) {

@@ -1,9 +1,8 @@
 import { repr } from "../lang/repr.js";
 import { checkType } from "../lang/values.js";
 import { Panic } from "../lang/panic.js";
-import { AsyncRepl } from "../tooling/repl-lib.js";
-import { emitKeypressEvents } from "node:readline";
-import { stdin, stdout } from "node:process";
+import { AsyncRepl, ReplEOF, ReplInterrupt } from "../tooling/repl-lib.js";
+import { stdin } from "node:process";
 import im from "../immutable/immutable.js";
 
 export function print(value) {
@@ -90,7 +89,7 @@ export async function prompt(message) {
   return await asyncRepl.getLine(message);
 }
 
-export function rawKey() {
+export async function rawKey() {
   // Read a single keypress from the terminal in raw mode. Return an object with
   // the following keypress event details:
   //
@@ -148,41 +147,31 @@ export function rawKey() {
   //   }
   //   ```
 
-  return new Promise((resolve, reject) => {
-    emitKeypressEvents(stdin);
-    stdin.setRawMode(true);
-    stdin.resume();
+  asyncRepl ??= new AsyncRepl({});
 
-    // Node makes docs for keypress event as difficult a possible to find.
-    // https://stackoverflow.com/a/55182456/6680182
+  try {
+    const { str, key } = await asyncRepl.getKey();
 
-    stdin.once("keypress", (str, key) => {
-      stdin.setRawMode(false);
-      stdin.pause();
+    const map = new Map()
+      .set("str", str ?? null)
+      .set("name", key.name)
+      .set("ctrl", key.ctrl)
+      .set("meta", key.meta)
+      .set("shift", key.shift)
+      .set("sequence", key.sequence);
 
-      if (key.ctrl && key.name === "c") {
-        console.log();
-        reject(new Panic("keyboard interrupt"));
-        return;
-      }
+    return im.OrderedMap(map);
+  } catch (err) {
+    if (err instanceof ReplInterrupt) {
+      throw new Panic("keyboard interrupt");
+    }
 
-      if (key.ctrl && key.name === "d") {
-        console.log();
-        reject(new Panic("EOF interrupt"));
-        return;
-      }
+    if (err instanceof ReplEOF) {
+      throw new Panic("EOF interrupt");
+    }
 
-      const map = new Map()
-        .set("str", str ?? null)
-        .set("name", key.name)
-        .set("ctrl", key.ctrl)
-        .set("meta", key.meta)
-        .set("shift", key.shift)
-        .set("sequence", key.sequence);
-
-      resolve(im.OrderedMap(map));
-    });
-  });
+    throw err;
+  }
 }
 
 export function pauseStdin() {
