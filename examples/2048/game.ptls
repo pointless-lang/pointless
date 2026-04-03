@@ -1,0 +1,145 @@
+Color = import "std:Color"
+
+backgrounds = {
+  0: "#bdaf9e",
+  2: "#eee4da",
+  4: "#ebd8b6",
+  8: "#f2b075",
+  16: "#f69463",
+  32: "#f78064",
+  64: "#f76443",
+  128: "#f0d26d",
+  256: "#f2d365",
+  512: "#f5d461",
+  1024: "#f7d452",
+  2048: "#f9be1f",
+  4096: "#3d3a32",
+}
+
+fn getLine(n, withNum)
+  bg = backgrounds[n] ?? backgrounds[4096]
+
+  fg = match n
+    case 0 then bg
+    case 2, 4 then "#776e65"
+    else "#fff"
+  end
+
+  bg |= Color.hexToRgb
+  fg |= Color.hexToRgb
+
+  fragments = [
+    "\u{1b}[1m",
+    "\u{1b}[48;2;$bg.r;$bg.g;$(bg.b)m",
+    "\u{1b}[38;2;$fg.r;$fg.g;$(fg.b)m",
+    withNum then Str.padCenter(n, 6) else " " * 6,
+    "\u{1b}[0m",
+  ]
+
+  join(fragments, "")
+end
+
+fn showRow(row)
+  lines = [""] * 3
+
+  for n in row do
+    lines[0] += getLine(n, false)
+    lines[1] += getLine(n, true)
+    lines[2] += getLine(n, false)
+  end
+
+  join(lines, "\n")
+end
+
+fn shift(row)
+  row ?= arg > 0
+  row += [0] * (4 - len(row))
+
+  if row[0] == row[1] and row[2] == row[3] then
+    [2 * row[0], 2 * row[2], 0, 0]
+  elif row[0] == row[1] then
+    [2 * row[0], row[2], row[3], 0]
+  elif row[1] == row[2] then
+    [row[0], 2 * row[1], row[3], 0]
+  elif row[2] == row[3] then
+    [row[0], row[1], 2 * row[2], 0]
+  else
+    row
+  end
+end
+
+fn transpose(board)
+  range(4) $ (fn(col) range(4) $ board[arg][col])
+end
+
+fn move(board, direction)
+  match direction
+    case "left" then
+      board $ shift
+    case "right" then
+      board
+        $ reverse
+        $ shift
+        $ reverse
+    case "up" then
+      board
+        | transpose
+        $ shift
+        | transpose
+    case "down" then
+      board
+        | transpose
+        $ reverse
+        $ shift
+        $ reverse
+        | transpose
+  end
+end
+
+fn spawn(board)
+  spawnOffset = board
+    $ List.count(0)
+    | sum
+    | Rand.range
+    
+  for r in range(4) do
+    for c in range(4) do
+      if board[r][c] == 0 then
+        if spawnOffset == 0 then
+          board[r][c] = Rand.random() > 0.9 then 4 else 2
+          return board
+        end
+
+        spawnOffset -= 1
+      end
+    end
+  end
+end
+
+fn display(board)
+  Console.clear()
+
+  board
+    $ showRow
+    | join("\n")
+    | print
+end
+
+fn play()
+  board = [[0] * 4] * 4
+    | spawn
+    | spawn
+
+  display(board)
+
+  while true do
+    newBoard = move(board, Console.rawKey().name)
+
+    if newBoard != board then
+      board = spawn(newBoard)
+      display(board)
+    end
+  end
+end
+
+play()
