@@ -11,10 +11,14 @@ export class Importer {
   constructor(loader, runtime) {
     this.loader = loader;
     this.runtime = runtime;
+    this.clearImports();
+  }
+
+  clearImports() {
     this.cache = new Map();
   }
 
-  async get(root, path, save = true) {
+  async get(root, path) {
     let prefix = path.match(prefixChars)[1];
 
     if (prefix) {
@@ -24,11 +28,29 @@ export class Importer {
       prefix = "";
     }
 
+    if (prefix === "std") {
+      const key = `std:${path}`;
+
+      if (this.cache.has(key)) {
+        return this.cache.get(key);
+      }
+
+      const mod = this.runtime.std.modules[path];
+
+      if (!mod) {
+        throw new Panic("unknown stdlib module", { name: path });
+      }
+
+      const result = im.OrderedMap(mod);
+      this.cache.set(key, result);
+      return result;
+    }
+
     const absPath = this.loader.resolve(root, path);
     const realPath = await this.loader.realPath(absPath);
     const key = `${prefix}:${realPath}`;
 
-    if (save && this.cache.has(key)) {
+    if (this.cache.has(key)) {
       const result = this.cache.get(key);
 
       // use temp value 'undefined' to mark pending import resolution

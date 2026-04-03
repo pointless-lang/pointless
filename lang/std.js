@@ -9,20 +9,23 @@ export class Std {
   }
 
   makeModules(impl) {
+    this.globalMods = [];
     this.modules = {};
 
     // Wrapped functions shouldn't destructure arguments
     // or use spread syntax or default param values
     const paramChars = /\(([$\w\s,]*)\)/;
 
-    for (const [modName, native] of Object.entries(impl)) {
+    for (let [modName, native] of Object.entries(impl)) {
       const mod = {};
 
-      for (let [name, value] of Object.entries(native)) {
-        if (name.startsWith("_")) {
-          continue;
-        }
+      if (modName.startsWith("_")) {
+        modName = modName.slice(1);
+      } else {
+        this.globalMods.push(modName);
+      }
 
+      for (let [name, value] of Object.entries(native)) {
         // Module export names and param names can be escaped with '$' prefix
         // for js keywords, for example a param '$default' in js would get
         // converted to 'default' in ptls

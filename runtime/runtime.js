@@ -13,7 +13,7 @@ export class Runtime {
     const defs = {};
 
     // Need to sort cause overloads was added later
-    for (const name of Object.keys(this.std.modules).toSorted()) {
+    for (const name of this.std.globalMods.toSorted()) {
       // Convert modules to ptls objects
       defs[name] = im.OrderedMap(this.std.modules[name]);
     }

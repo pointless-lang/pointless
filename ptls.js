@@ -15,7 +15,7 @@ import fs from "node:fs";
 
 async function runFile(runtime, file, throwPanic) {
   try {
-    await runtime.importer.get("./", file, false);
+    await runtime.importer.get("./", file);
   } catch (err) {
     if (err instanceof Panic) {
       console.log(String(err));
@@ -63,6 +63,7 @@ program
 
     const runChange = async () => {
       console.clear();
+      runtime.importer.clearImports();
       await runFile(runtime, file, false);
     };
 

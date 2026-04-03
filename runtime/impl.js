@@ -3,6 +3,7 @@ export const impl = {
   Bool: await import("../std/Bool.js"),
   Char: await import("../std/Char.js"),
   Console: await import("../std/Console.js"),
+  _Color: await import("../std/Color.js"),
   Err: await import("../std/Err.js"),
   Fs: await import("../std/Fs.js"),
   List: await import("../std/List.js"),
