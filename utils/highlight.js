@@ -8,25 +8,6 @@ function escapeHtml(string) {
 }
 
 const globals = new Set([
-  "Async",
-  "Bool",
-  "Char",
-  "Console",
-  "Err",
-  "Fs",
-  "List",
-  "Math",
-  "Obj",
-  "Overloads",
-  "Panic",
-  "Rand",
-  "Re",
-  "Ref",
-  "Set",
-  "Str",
-  "Sys",
-  "Table",
-  "Test",
   "assert",
   "chars",
   "drop",
@@ -125,6 +106,10 @@ const classNames = {
   "#=": "operator",
   "#": "operator",
 };
+
+function isStd(name) {
+  return globals.has(name) || /^[A-Z]/.test(name)
+}
 
 export class Highlighter {
   index = 0;
@@ -277,7 +262,7 @@ export class Highlighter {
         let last = this.next();
 
         while (this.has("field")) {
-          if (globals.has(last.value)) {
+          if (isStd(last.value)) {
             this.add(last.value, "std");
           } else {
             this.add(last.value);
@@ -335,7 +320,7 @@ export class Highlighter {
         return;
       }
 
-      if (globals.has(value)) {
+      if (isStd(value)) {
         this.add(value, "std");
         return;
       }
