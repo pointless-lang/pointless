@@ -69,7 +69,6 @@ async function runInput(input, env, signal) {
       // Don't echo statements
       switch (statement.type) {
         case "anonFor":
-        case "binaryOp":
         case "def":
         case "for":
         case "tandemFor":
