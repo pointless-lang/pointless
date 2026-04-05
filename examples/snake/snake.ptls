@@ -1,3 +1,6 @@
+Ref = import "std:Ref"
+Ansi = import "std:Ansi"
+
 size = 10
 keyRef = Ref.of("right")
 
@@ -16,21 +19,21 @@ fn printBoard(board)
     | print
 end
 
-fn setBlock(board, loc, code)
-  board[loc.y][loc.x] = "\u{1b}[$(code)m██\u{1b}[0m"
+fn setBlock(board, loc, color)
+  board[loc.y][loc.x] = Ansi.bg("  ", color)
   board
 end
 
 fn render(game)
   board = [["  "] * size] * size
 
-  board |= setBlock(game.goal, 31)
+  board |= setBlock(game.goal, "#dc322f")
 
   for loc in game.body do
-    board |= setBlock(loc, 34)
+    board |= setBlock(loc, "#268bd2")
   end
 
-  board |= setBlock(game.head, 32)
+  board |= setBlock(game.head, "#859900")
 
   Console.clear()
   print("score: $game.score")

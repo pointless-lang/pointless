@@ -13,14 +13,24 @@ export function random() {
   return Math.random();
 }
 
-export function bool() {
+export function chance(prob) {
+  checkType(prob, "number");
+
+  if (prob < 0 || prob > 1) {
+    throw "error";
+  }
+
+  return Math.random() < prob;
+}
+
+export function flip() {
   // Get `true` or `false`, chosen at random.
   //
   // ```ptls --spoof "true"
-  // Rand.bool()
+  // Rand.flip()
   // ```
 
-  return Math.random() > 0.5;
+  return chance(0.5);
 }
 
 export function sample(values) {

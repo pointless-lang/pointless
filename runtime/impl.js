@@ -1,4 +1,5 @@
 export const impl = {
+  _Ansi: await import("../std/Ansi.js"),
   Async: await import("../std/Async.js"),
   Bool: await import("../std/Bool.js"),
   Char: await import("../std/Char.js"),
@@ -11,7 +12,7 @@ export const impl = {
   Obj: await import("../std/Obj.js"),
   Panic: await import("../std/Panic.js"),
   Rand: await import("../std/Rand.js"),
-  Ref: await import("../std/Ref.js"),
+  _Ref: await import("../std/Ref.js"),
   Re: await import("../std/Re.js"),
   Set: await import("../std/Set.js"),
   Str: await import("../std/Str.js"),

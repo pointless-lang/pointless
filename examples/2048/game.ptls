@@ -1,4 +1,4 @@
-Color = import "std:Color"
+Ansi = import "std:Ansi"
 
 backgrounds = {
   0: "#bdaf9e",
@@ -17,26 +17,11 @@ backgrounds = {
 }
 
 fn getLine(n, withNum)
-  bg = backgrounds[n] ?? backgrounds[4096]
-
-  fg = match n
-    case 0 then bg
-    case 2, 4 then "#776e65"
-    else "#fff"
-  end
-
-  bg |= Color.hexToRgb
-  fg |= Color.hexToRgb
-
-  fragments = [
-    "\u{1b}[1m",
-    "\u{1b}[48;2;$bg.r;$bg.g;$(bg.b)m",
-    "\u{1b}[38;2;$fg.r;$fg.g;$(fg.b)m",
-    withNum then Str.padCenter(n, 6) else " " * 6,
-    "\u{1b}[0m",
-  ]
-
-  join(fragments, "")
+  withNum then n else ""
+    | Str.padCenter(6)
+    | Ansi.bold
+    | Ansi.bg(backgrounds[n] ?? backgrounds[4096])
+    | Ansi.fg(n <= 4 then "#776e65" else "#fff")
 end
 
 fn showRow(row)
@@ -44,7 +29,7 @@ fn showRow(row)
 
   for n in row do
     lines[0] += getLine(n, false)
-    lines[1] += getLine(n, true)
+    lines[1] += getLine(n, n > 0)
     lines[2] += getLine(n, false)
   end
 
@@ -106,7 +91,7 @@ fn spawn(board)
     for c in range(4) do
       if board[r][c] == 0 then
         if spawnOffset == 0 then
-          board[r][c] = Rand.random() > 0.9 then 4 else 2
+          board[r][c] = Rand.chance(0.1) then 4 else 2
           return board
         end
 
@@ -130,14 +115,12 @@ fn play()
     | spawn
     | spawn
 
-  display(board)
-
   while true do
+    display(board)
     newBoard = move(board, Console.rawKey().name)
 
     if newBoard != board then
       board = spawn(newBoard)
-      display(board)
     end
   end
 end
