@@ -273,15 +273,17 @@ export class Env {
           const key = await this.eval(keyNode);
           this.setBlame(keyNode.loc);
 
-          // ?? doesn't catch invalid indices
-          if (getType(container) === "list") {
-            checkIndex(container, key);
-            return await this.swapNone(container.get(key), rhs);
-          }
+          if (
+            getType(container) === "list" ||
+            getType(container) === "table" && getType(key) === "number"
+          ) {
+            checkWhole(key);
 
-          // ?? doesn't catch invalid indices
-          if (getType(container) === "table" && getType(key) === "number") {
-            return await this.swapNone(container.get(key), rhs);
+            const maybeNone = key >= -container.size && key < container.size
+              ? container.get(key)
+              : null;
+
+            return await this.swapNone(maybeNone, rhs);
           }
 
           const maybeNone = container.has(key) ? container.get(key) : null;
