@@ -7,6 +7,7 @@ export const impl = {
   _Color: await import("../std/Color.js"),
   Err: await import("../std/Err.js"),
   Fs: await import("../std/Fs.js"),
+  _Image: await import("../std/Image.js"),
   List: await import("../std/List.js"),
   Math: await import("../std/Math.js"),
   Obj: await import("../std/Obj.js"),
@@ -16,7 +17,8 @@ export const impl = {
   Re: await import("../std/Re.js"),
   Set: await import("../std/Set.js"),
   Str: await import("../std/Str.js"),
-  Sys: await import("../std/Sys.js"),
+  Cli: await import("../std/Cli.js"),
   Table: await import("../std/Table.js"),
   Test: await import("../std/Test.js"),
+  _Type: await import("../std/Type.js"),
 };
