@@ -2,7 +2,7 @@ import { repr } from "../lang/repr.js";
 import { checkType } from "../lang/values.js";
 import { Panic } from "../lang/panic.js";
 import { AsyncRepl, ReplEOF, ReplInterrupt } from "../tooling/repl-lib.js";
-import { stdin } from "node:process";
+import { stdin, stdout } from "node:process";
 import im from "../immutable/immutable.js";
 
 export function print(value) {
