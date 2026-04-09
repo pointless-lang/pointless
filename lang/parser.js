@@ -1,5 +1,4 @@
 import { keywords } from "./keywords.js";
-import { dateTime } from "./tokenizer.js";
 import { checkNumResult } from "./num.js";
 import { Incomplete, Panic } from "./panic.js";
 
@@ -47,7 +46,7 @@ const ops = [
 ];
 
 const escapeSeq = /\\["\\nrt]|\\u{([\dA-Fa-f]{1,6})}/g;
-const stringInner = /^r?#*"([\s\S]*)"#*$/;
+const stringInner = /^#*["`]([\s\S]*)["`]#*$/;
 const indent = /^[ ]*/;
 
 const invalidEscape =
@@ -366,17 +365,6 @@ class Parser {
     return new Node("string", loc, aligned, { raw: true });
   }
 
-  getDateTime() {
-    const { value, loc } = this.get("dateTime");
-
-    if (!dateTime.test(value)) {
-      throw new Panic("invalid datetime string", { $datetime: value }, loc);
-    }
-
-    const inner = value.slice(1, -1);
-    return new Node("dateTime", loc, inner);
-  }
-
   getList() {
     const { loc } = this.peek();
     const elems = this.seq("[", "]", ",", this.getExpression);
@@ -488,8 +476,6 @@ class Parser {
         return this.getString();
       case "rawString":
         return this.getRawString();
-      case "dateTime":
-        return this.getDateTime();
       case "true":
       case "false":
         return this.getBool();

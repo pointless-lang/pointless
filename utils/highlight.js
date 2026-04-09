@@ -56,7 +56,6 @@ const identifier = /[a-zA-Z][a-zA-Z0-9]*/;
 const classNames = {
   comment: "comment",
   number: "number",
-  dateTime: "number",
   arg: "keyword",
   break: "keyword",
   case: "keyword",
@@ -108,7 +107,7 @@ const classNames = {
 };
 
 function isStd(name) {
-  return globals.has(name) || /^[A-Z]/.test(name)
+  return globals.has(name) || /^[A-Z]/.test(name);
 }
 
 export class Highlighter {
@@ -208,16 +207,16 @@ export class Highlighter {
 
     if (this.has("rawString")) {
       const { value } = this.next();
-      const prefixLen = value.indexOf(`"`) + 1;
+      const prefixLen = value.indexOf("`") + 1;
       this.add(value.slice(0, prefixLen), "quotes");
-      this.add(value.slice(prefixLen, -prefixLen + 1), "string");
-      this.add(value.slice(-prefixLen + 1), "quotes");
+      this.add(value.slice(prefixLen, -prefixLen), "string");
+      this.add(value.slice(-prefixLen), "quotes");
       return;
     }
 
     if (this.has("unmatchedQuote")) {
       const { value } = this.next();
-      const prefixLen = value.indexOf(`"`) + 1;
+      const prefixLen = value.startsWith(`"`) ? 1 : value.indexOf("`") + 1;
       this.add(value.slice(0, prefixLen), "quotes");
       this.add(value.slice(prefixLen), "string");
       return;

@@ -5,9 +5,6 @@ import { symbols } from "./symbols.js";
 
 export const ident = /^[a-zA-Z][a-zA-Z0-9]*$/;
 
-export const dateTime =
-  /`((\d{4}-\d\d-\d\d[T ])?\d\d:\d\d(:\d\d(\.\d+)?)?(Z|[+\-]\d\d:\d\d)?|(\d{4}-\d\d-\d\d))`/;
-
 function rule(name, pattern) {
   let source;
 
@@ -48,12 +45,9 @@ const rules = [
   rule("number", /\d*\.?\d+([eE][+-]?\d+)?/),
   // Strings can contain newlines
   rule("string", /"(\\.|[^\\])*?"/),
-  // Rust-style raw strings, must come before name rule
-  rule("rawString", /r(#*)"[^]*?"\1/),
+  rule("rawString", /(#*)`[^]*?`\1/),
   // unmatchedQuote rule must come after string rule
-  rule("unmatchedQuote", /(r#*)?"[^]*/),
-  rule("dateTime", dateTime),
-  rule("invalidDateTime", /`[^`\n]*`?/),
+  rule("unmatchedQuote", /(#*)?["`][^]*/),
   rule("whitespace", /[ \t]+/),
   // Name rule must come after keyword and raw string rules
   rule("name", /[a-zA-Z][a-zA-Z0-9]*/),
@@ -79,12 +73,6 @@ class Token {
     switch (this.type) {
       case "unmatchedQuote":
         throw new Incomplete("unmatched quote", {}, this.loc);
-      case "invalidDateTime":
-        throw new Panic(
-          "invalid datetime string",
-          { $datetime: this.value },
-          this.loc,
-        );
       case "unexpectedCharacter":
         throw new Panic(
           "unexpected character",

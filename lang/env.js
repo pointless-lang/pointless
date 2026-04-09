@@ -141,8 +141,6 @@ export class Env {
         return node.value;
       case "fmtString":
         return this.evalFmtString(node);
-      case "dateTime":
-        return this.evalDateTime(node);
       case "unaryOp":
         return this.evalUnaryOp(node);
       case "binaryOp":
@@ -211,11 +209,6 @@ export class Env {
     }
 
     return result;
-  }
-
-  evalDateTime(_node) {
-    // const inner = node.value;
-    throw new Panic("unimplemented");
   }
 
   async evalUnaryOp(node) {
