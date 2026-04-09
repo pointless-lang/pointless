@@ -1,3 +1,5 @@
+Type = import "std:Type"
+
 fn regIndex(regName)
   regName
     | drop(1)
@@ -31,12 +33,12 @@ fn runInst(vm)
     case "mul" then setVal = args[0] * args[1]
     case "div" then setVal = args[0] // args[1]
     case "mod" then setVal = args[0] % args[1]
-    case "eq" then setVal = Bool.toNum(args[0] == args[1])
-    case "gt" then setVal = Bool.toNum(args[0] > args[1])
-    case "lt" then setVal = Bool.toNum(args[0] < args[1])
-    case "and" then setVal = Bool.toNum(args[0] != 0 and args[1] != 0)
-    case "or" then setVal = Bool.toNum(args[0] != 0 or args[1] != 0)
-    case "not" then setVal = Bool.toNum(args[0] == 0)
+    case "eq" then setVal = args[0] == args[1]
+    case "gt" then setVal = args[0] > args[1]
+    case "lt" then setVal = args[0] < args[1]
+    case "and" then setVal = args[0] != 0 and args[1] != 0
+    case "or" then setVal = args[0] != 0 or args[1] != 0
+    case "not" then setVal = args[0] == 0
     case "set" then setVal = args[1]
     case "jmp" then ipDelta = args[0]
     case "jeq" then ipDelta = args[1] == args[2] then args[0] else 1
@@ -53,6 +55,10 @@ fn runInst(vm)
       vm.lastMem = args[1]
     else
       Err.throw({ err: "invalid instruction", op })
+  end
+
+  if Type.of(setVal) == "boolean" then
+    setVal |= Bool.toNum
   end
 
   if setVal != none then
