@@ -74,6 +74,10 @@ async function runInput(input, env, signal) {
         case "tandemFor":
         case "while":
           continue;
+        case "if":
+          if (!statement.value.fallback) {
+            continue;
+          }
       }
 
       console.log(repr(ans, "pretty"));
