@@ -1,0 +1,50 @@
+-- Oeeccccceeeeccc>::+++:~+ceeeeeeeOOOOOOOE  ``````````````'~~---~:-````````        
+-- eccccccccee>`             `+eeeeeeeOOOOO ```````````'cOEEEOOOOOEEEEe-```````     
+-- ccccccccc+'       `````      :eeeeeeeeOO `````````->OEEOOOOeecceOOOOEE~````````  
+-- cccccccc`       -+>>>>>>+~`   >eeOOOOOOO ````````cEEEEEOO+-''''''-:cOOO'``       
+-- cccccc>       `-::+>>>ccc>>+:'~eeeOOOOOO ``````'OEEEEEOe+~~-'''```''-~>:```      
+-- ccccc+        `'~::+>cccc>++++->eeeeOOOO `````-OEEEEEEOc>:~~-'````'----+'````    
+-- cccc~        '~~:::+++>c>>+++:-'ceeeOOOO ````:EEEEEEEO>::~~~---'`''---~+>````    
+-- ccc~ `'``:```-~~~''-~:- `~+++:-+eeOOOOOO ```:Ec>ce~ccc+:::>>+:~+Oc:---~+-``      
+-- cc>` -:::`` '~:+:~'``>-''-~-'``+OOOOOOEE ``'cE+~~~ccO>:~-~:>cc'+>>+:+>ee-        
+-- cc>~  :>+::``'~:+cc+~~:++>:`-'~OOOOOEEEE ``':EE~'-~~cc>:~-``-::~--'~e+>:         
+-- >>c>-``-:+'''`'-::>>cec>+++~->OOOEEEEEEE ''`'+ee+~->>>c>+~~''```'---:+'          
+-- ~`    -`  `'--'-~~:>>+:+:>>-~OOOOEEOEEEE :cOOOO+eOOc>++>+::~''-~-~''+:           
+--      ``:+```-~---~:~+>`  ---eOOOOeEEEEEE OOOOOec~-eec+:+++:~:-'eOO+++`    `      
+--       +-+`  `-~~++:` `''  -eOOeOEEEEEEEE OOOOOO-+-cOOc+::--~cOe>>EO+`  `         
+--       `e--   `--~:+::~`` `~>OOEEEEEEEEEE OOOOOOe`++OEOc++:~-~~:ceOe:'            
+--        -c'`    `'~:+:~``'cOOOEEEEEEEEEEE OOOOOOO+`>eEEEOe>:~-~:ce>`              
+--         cc`       `'---~eOOOOEOEEEEEEEEE OOOOOOOO``eEEEEEEEe>+++:`               
+--         ~c:      '+eeeOOOOOOOOOOEEEEEEEE OOEOOOOO:`~OEEEEO>-```                  
+--         `>:`  ~ceeeeeOOOOOOOOOOEEEEEEEEE OOEOOOOOc'~eEO:``````                   
+--          +>- `+'eeeeeeeeOOOOOOOOOEEEEEEE OOEOOOOOO-'+Oc->````````                
+--          ::    +eeeeeeeeeOOOOOOOOOOEEEEE OOEOOOOOO~~OEEE-`````````               
+--           `   `cccceeeeeeeeOOOOOOOOOEEEE OOEOOOOOOOeEEEc````````````             
+
+Im = import "std:Image"
+
+symbols = chars("BEOec>+:~-'``   ")
+
+opts = Cli.load([
+  { name: "path" },
+  { name: "--width", default: 100 },
+  { name: "--invert", default: true },
+])
+
+img = opts.path
+  | Im.load
+  | Im.scaleWidth(opts.width)
+  | Im.stretchHeightBy(0.5)
+  | Im.grayscale
+
+if opts.invert then
+  symbols |= reverse
+end
+
+for y in range(Im.height(img)) do
+  range(Im.width(img))
+    $ Im.getPixel(img, arg, y)
+    $ symbols[round(arg.r / 255 * (len(symbols) - 1))]
+    | join("")
+    | print
+end
