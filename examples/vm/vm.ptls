@@ -102,22 +102,24 @@ fn runLog(vm)
   vm
 end
 
-vm = {
-  ip: 0,
-  lastMem: none,
-  output: "",
-  halted: false,
-  steps: 0,
-  registers: [0] * 4,
-  memory: [],
-}
+opts = Cli.load([
+  { name: "path" },
+  { name: "--speed", default: 40 },
+  { name: "--logging", default: true },
+])
 
 fn run()
-  speed = parse(Sys.flags.speed ?? "40")
-  logging = Sys.flags.logging ?? true
-  path = Sys.args[0]
+  vm = {
+    ip: 0,
+    lastMem: none,
+    output: "",
+    halted: false,
+    steps: 0,
+    registers: [0] * 4,
+    memory: [],
+  }
 
-  vm.instrs = path
+  vm.instrs = opts.path
     | Fs.read
     | Str.lines
     $ Str.trim
@@ -127,14 +129,14 @@ fn run()
     vm.steps += 1
     Console.clear()
 
-    if logging then
+    if opts.logging then
       vm |= runLog
     else
       vm |= runInst
     end
 
     Console.write("$vm.output")
-    sleep(1000 / speed)
+    sleep(1000 / opts.speed)
   end
 end
 
