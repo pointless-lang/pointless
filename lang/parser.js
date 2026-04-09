@@ -235,7 +235,7 @@ class Parser {
   getNumber() {
     const { value, loc } = this.get("number");
     const n = checkNumResult(Number(value));
-    return new Node("number", loc, n, { raw: value });
+    return new Node("number", loc, n, { source: value });
   }
 
   getNone() {

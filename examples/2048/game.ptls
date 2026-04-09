@@ -17,7 +17,7 @@ backgrounds = {
 }
 
 fn getLine(n, withNum)
-  withNum then n else ""
+  (withNum then n else "")
     | Str.padCenter(6)
     | Ansi.bold
     | Ansi.bg(backgrounds[n] ?? backgrounds[4096])
@@ -59,8 +59,7 @@ end
 
 fn move(board, direction)
   match direction
-    case "left" then
-      board $ shift
+    case "left" then board $ shift
     case "right" then
       board
         $ reverse
@@ -86,7 +85,7 @@ fn spawn(board)
     $ List.count(0)
     | sum
     | Rand.range
-    
+
   for r in range(4) do
     for c in range(4) do
       if board[r][c] == 0 then

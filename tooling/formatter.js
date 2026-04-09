@@ -286,7 +286,7 @@ function isImplicitArgFn(node) {
 
 // Prettier-style number normalization: add leading zero, lowercase e
 function formatNumber(node) {
-  let s = node.fmtInto?.raw ?? String(node.value);
+  let s = node.fmtInto?.source ?? String(node.value);
   if (s.startsWith(".")) s = "0" + s;
   return s.replace(/[eE]([+-]?\d+)$/, (_, exp) => "e" + exp);
 }
@@ -699,7 +699,8 @@ class Printer {
     for (let i = 0; i < cases.length; i++) {
       const { patterns, body } = cases[i];
       const caseStartLine = patterns[0].loc.line;
-      const isInlineCase = body.length === 1 && !isBlockStmt(body[0]);
+      const isInlineCase = body.length === 1 && !isBlockStmt(body[0]) &&
+        !isComplex(body[0]);
 
       // Compute the end of the previous case (or match header for i=0)
       const prevCaseEnd = i > 0
@@ -720,7 +721,7 @@ class Printer {
       if (i > 0) {
         const prevBody = cases[i - 1].body;
         const prevIsInlineCase = prevBody.length === 1 &&
-          !isBlockStmt(prevBody[0]);
+          !isBlockStmt(prevBody[0]) && !isComplex(prevBody[0]);
         // Preserve blank if either adjacent case is multi-line
         if (!isInlineCase || !prevIsInlineCase) {
           const firstLine = leadingComments.length > 0
@@ -830,7 +831,12 @@ class Printer {
   }
 
   stepStr(step) {
-    return PIPE_OPS[step.type] + " " + this.stepRhsStr(step);
+    const { func, args } = step.value;
+    let rhs = this.stepRhsStr(step);
+    if (func.type === "fn" && !isImplicitArgFn(func) && args.length === 0) {
+      rhs = `(${rhs})`;
+    }
+    return PIPE_OPS[step.type] + " " + rhs;
   }
 
   stepRhsStr(step) {
@@ -846,7 +852,7 @@ class Printer {
     }
 
     return this.printExpr(func, PREC.suffix) + "(" +
-      args.map((a) => this.printExpr(a)).join(", ") + ")";
+      args.map((a) => this.printExpr(a, -Infinity)).join(", ") + ")";
   }
 
   // ---------------------------------------------------------------------------
@@ -928,7 +934,8 @@ class Printer {
         if (args.length === 0) return `${funcStr}()`;
 
         // Format at current indent to detect multi-line args
-        const inlineStrs = args.map((a) => this.printExpr(a));
+        // Use -Infinity minPrec: call parens already delimit args, no extra wrapping needed
+        const inlineStrs = args.map((a) => this.printExpr(a, -Infinity));
         const anyMultiline = args.some(isComplex) ||
           inlineStrs.some((s) => s.includes("\n"));
 
@@ -945,7 +952,7 @@ class Printer {
         const pad = this.pad();
         const innerPad = pad + "  ";
         this.pushIndent();
-        const deepArgStrs = args.map((a) => this.printExpr(a));
+        const deepArgStrs = args.map((a) => this.printExpr(a, -Infinity));
         this.popIndent();
         const lines = deepArgStrs.map((s, i) =>
           innerPad + s + (i < deepArgStrs.length - 1 ? "," : "")
@@ -1133,8 +1140,13 @@ class Printer {
         : `"${escapeString(key.value)}"`;
       return `${keyStr}: ${this.printExpr(value)}`;
     }
-    // Computed (non-literal) key: (expr): value
-    return `(${this.printExpr(key)}): ${this.printExpr(value)}`;
+    // Computed key: parens only needed if expression starts with an identifier
+    // (which the parser would capture as a string key); literals like numbers are fine bare
+    const keyStr = this.printExpr(key);
+    if (key.type === "number" || key.type === "dateTime") {
+      return `${keyStr}: ${this.printExpr(value)}`;
+    }
+    return `(${keyStr}): ${this.printExpr(value)}`;
   }
 
   objectStr(node) {
@@ -1253,6 +1265,12 @@ class Printer {
 
   format(stmts) {
     this.printStatements(stmts);
+    // Emit any unused comments at the end of the file
+    const trailing = this.allComments.filter((c) => !c.used);
+    if (trailing.length) {
+      this.emitBlank();
+      for (const c of trailing) this.emit(c.text);
+    }
     // Ensure exactly one trailing newline
     while (this.output.length && this.output[this.output.length - 1] === "") {
       this.output.pop();
