@@ -1,35 +1,34 @@
--- Oeeccccceeeeccc>::+++:~+ceeeeeeeOOOOOOOE  ``````````````'~~---~:-````````        
--- eccccccccee>`             `+eeeeeeeOOOOO ```````````'cOEEEOOOOOEEEEe-```````     
--- ccccccccc+'       `````      :eeeeeeeeOO `````````->OEEOOOOeecceOOOOEE~````````  
--- cccccccc`       -+>>>>>>+~`   >eeOOOOOOO ````````cEEEEEOO+-''''''-:cOOO'``       
--- cccccc>       `-::+>>>ccc>>+:'~eeeOOOOOO ``````'OEEEEEOe+~~-'''```''-~>:```      
--- ccccc+        `'~::+>cccc>++++->eeeeOOOO `````-OEEEEEEOc>:~~-'````'----+'````    
--- cccc~        '~~:::+++>c>>+++:-'ceeeOOOO ````:EEEEEEEO>::~~~---'`''---~+>````    
--- ccc~ `'``:```-~~~''-~:- `~+++:-+eeOOOOOO ```:Ec>ce~ccc+:::>>+:~+Oc:---~+-``      
--- cc>` -:::`` '~:+:~'``>-''-~-'``+OOOOOOEE ``'cE+~~~ccO>:~-~:>cc'+>>+:+>ee-        
--- cc>~  :>+::``'~:+cc+~~:++>:`-'~OOOOOEEEE ``':EE~'-~~cc>:~-``-::~--'~e+>:         
--- >>c>-``-:+'''`'-::>>cec>+++~->OOOEEEEEEE ''`'+ee+~->>>c>+~~''```'---:+'          
--- ~`    -`  `'--'-~~:>>+:+:>>-~OOOOEEOEEEE :cOOOO+eOOc>++>+::~''-~-~''+:           
---      ``:+```-~---~:~+>`  ---eOOOOeEEEEEE OOOOOec~-eec+:+++:~:-'eOO+++`    `      
---       +-+`  `-~~++:` `''  -eOOeOEEEEEEEE OOOOOO-+-cOOc+::--~cOe>>EO+`  `         
---       `e--   `--~:+::~`` `~>OOEEEEEEEEEE OOOOOOe`++OEOc++:~-~~:ceOe:'            
---        -c'`    `'~:+:~``'cOOOEEEEEEEEEEE OOOOOOO+`>eEEEOe>:~-~:ce>`              
---         cc`       `'---~eOOOOEOEEEEEEEEE OOOOOOOO``eEEEEEEEe>+++:`               
---         ~c:      '+eeeOOOOOOOOOOEEEEEEEE OOEOOOOO:`~OEEEEO>-```                  
---         `>:`  ~ceeeeeOOOOOOOOOOEEEEEEEEE OOEOOOOOc'~eEO:``````                   
---          +>- `+'eeeeeeeeOOOOOOOOOEEEEEEE OOEOOOOOO-'+Oc->````````                
---          ::    +eeeeeeeeeOOOOOOOOOOEEEEE OOEOOOOOO~~OEEE-`````````               
---           `   `cccceeeeeeeeOOOOOOOOOEEEE OOEOOOOOOOeEEEc````````````             
+-- Oeeccccceeeeccc>::+++:~+ceeeeeeeOOOOOOOE  ``````````````'~~---~:-````````
+-- eccccccccee>`             `+eeeeeeeOOOOO ```````````'cOEEEOOOOOEEEEe-```````
+-- ccccccccc+'       `````      :eeeeeeeeOO `````````->OEEOOOOeecceOOOOEE~````````
+-- cccccccc`       -+>>>>>>+~`   >eeOOOOOOO ````````cEEEEEOO+-''''''-:cOOO'``
+-- cccccc>       `-::+>>>ccc>>+:'~eeeOOOOOO ``````'OEEEEEOe+~~-'''```''-~>:```
+-- ccccc+        `'~::+>cccc>++++->eeeeOOOO `````-OEEEEEEOc>:~~-'````'----+'````
+-- cccc~        '~~:::+++>c>>+++:-'ceeeOOOO ````:EEEEEEEO>::~~~---'`''---~+>````
+-- ccc~ `'``:```-~~~''-~:- `~+++:-+eeOOOOOO ```:Ec>ce~ccc+:::>>+:~+Oc:---~+-``
+-- cc>` -:::`` '~:+:~'``>-''-~-'``+OOOOOOEE ``'cE+~~~ccO>:~-~:>cc'+>>+:+>ee-
+-- cc>~  :>+::``'~:+cc+~~:++>:`-'~OOOOOEEEE ``':EE~'-~~cc>:~-``-::~--'~e+>:
+-- >>c>-``-:+'''`'-::>>cec>+++~->OOOEEEEEEE ''`'+ee+~->>>c>+~~''```'---:+'
+-- ~`    -`  `'--'-~~:>>+:+:>>-~OOOOEEOEEEE :cOOOO+eOOc>++>+::~''-~-~''+:
+--      ``:+```-~---~:~+>`  ---eOOOOeEEEEEE OOOOOec~-eec+:+++:~:-'eOO+++`    `
+--       +-+`  `-~~++:` `''  -eOOeOEEEEEEEE OOOOOO-+-cOOc+::--~cOe>>EO+`  `
+--       `e--   `--~:+::~`` `~>OOEEEEEEEEEE OOOOOOe`++OEOc++:~-~~:ceOe:'
+--        -c'`    `'~:+:~``'cOOOEEEEEEEEEEE OOOOOOO+`>eEEEOe>:~-~:ce>`
+--         cc`       `'---~eOOOOEOEEEEEEEEE OOOOOOOO``eEEEEEEEe>+++:`
+--         ~c:      '+eeeOOOOOOOOOOEEEEEEEE OOEOOOOO:`~OEEEEO>-```
+--         `>:`  ~ceeeeeOOOOOOOOOOEEEEEEEEE OOEOOOOOc'~eEO:``````
+--          +>- `+'eeeeeeeeOOOOOOOOOEEEEEEE OOEOOOOOO-'+Oc->````````
+--          ::    +eeeeeeeeeOOOOOOOOOOEEEEE OOEOOOOOO~~OEEE-`````````
+--           `   `cccceeeeeeeeOOOOOOOOOEEEE OOEOOOOOOOeEEEc````````````
 
 Im = import "std:Image"
 
-symbols = chars("BEOec>+:~-'``   ")
+symbols = chars("   ``'-~:+>ceOEB")
 
 opts = Cli.load([
-  { name: "path" },
   { name: "path", default: asset "dali.png" },
   { name: "--width", default: 100 },
-  { name: "--invert", default: true },
+  { name: "--invert", default: false },
 ])
 
 img = opts.path
