@@ -1,5 +1,7 @@
-customers = import "csv:data/customers.csv"
-invoices = import "csv:data/invoices.csv"
+Csv = import "std:Csv"
+
+customers = Csv.read(asset "data/customers.csv")
+invoices = Csv.read(asset "data/invoices.csv")
 
 invoices
   | Table.join(customers, "customerId")

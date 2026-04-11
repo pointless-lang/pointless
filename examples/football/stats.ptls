@@ -1,4 +1,6 @@
-games = import "csv:games.csv"
+Csv = import "std:Csv"
+
+games = Csv.read(asset "games.csv")
 
 fn splitGame(game)
   #{

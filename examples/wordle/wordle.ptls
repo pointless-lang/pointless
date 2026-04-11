@@ -1,4 +1,7 @@
-words = Set.of(import "lines:words.txt")
+words = asset "words.txt"
+  | Fs.readLines
+  | Set.of
+  
 answer = chars(Rand.sample(words))
 
 fn getScore(guess)

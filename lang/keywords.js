@@ -1,6 +1,7 @@
 export const keywords = [
   "and",
   "arg",
+  "asset",
   "break",
   "case",
   "continue",

@@ -1,4 +1,6 @@
-network = import "json:network.json"
+Json = import "std:Json"
+
+network = Json.read(asset "network.json")
 
 fn advance(state, network)
   station = state.queue[0]

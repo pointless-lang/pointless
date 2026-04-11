@@ -1,4 +1,6 @@
-import "csv:cities.csv"
+Csv = import "std:Csv"
+
+Csv.read(asset "cities.csv")
   # {
     popChange: arg.pop2024 - arg.pop2020,
     pctChange: arg.pop2024 / arg.pop2020 * 100 - 100,

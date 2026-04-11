@@ -1,4 +1,6 @@
-cities = import "csv:pa-cities.csv"
+Csv = import "std:Csv"
+
+cities = Csv.read(asset "pa-cities.csv")
 
 -- https://en.wikipedia.org/wiki/Benford%27s_law
 

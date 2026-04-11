@@ -1,6 +1,8 @@
 -- https://www.sumsar.net/blog/pandas-feels-clunky-when-coming-from-r/
 
-purchases = import "csv:purchases.csv"
+Csv = import "std:Csv"
+
+purchases = Csv.read(asset "purchases.csv")
 
 fn calcTotal(group)
   threshold = List.median(group.amount) * 10

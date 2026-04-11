@@ -1,4 +1,6 @@
-ops = chars(import "text:hello.bf")
+ops = asset "hello.bf"
+  | Fs.read
+  | chars
 
 stack = []
 jumps = {}

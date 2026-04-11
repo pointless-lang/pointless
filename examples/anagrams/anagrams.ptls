@@ -5,7 +5,8 @@ fn getChars(word)
     | join("")
 end
 
-groups = import "lines:unixdict.txt"
+groups = asset "unixdict.txt"
+  | Fs.readLines
   | List.groupBy(getChars)
   | Obj.values
 

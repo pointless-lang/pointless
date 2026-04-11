@@ -27,6 +27,7 @@ symbols = chars("BEOec>+:~-'``   ")
 
 opts = Cli.load([
   { name: "path" },
+  { name: "path", default: asset "dali.png" },
   { name: "--width", default: 100 },
   { name: "--invert", default: true },
 ])

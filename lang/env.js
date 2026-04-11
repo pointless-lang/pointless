@@ -191,6 +191,11 @@ export class Env {
         return this.evalTable(node);
       case "access":
         return this.evalAccess(node);
+      case "asset":
+        return await this.runtime.importer.resolvePath(
+          node.loc.path,
+          node.value,
+        );
       case "import":
         return await this.runtime.importer.get(node.loc.path, node.value);
       default:

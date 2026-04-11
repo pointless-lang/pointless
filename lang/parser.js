@@ -830,10 +830,10 @@ class Parser {
   }
 
   getImport() {
-    const { loc } = this.get("import");
+    const { value, loc } = this.get("import", "asset");
     // remove quotes from path string
     const path = this.get("string").value.slice(1, -1);
-    return new Node("import", loc, path);
+    return new Node(value, loc, path);
   }
 
   getPrefix() {
@@ -844,6 +844,7 @@ class Parser {
         return this.getIf();
       case "match":
         return this.getMatch();
+      case "asset":
       case "import":
         return this.getImport();
       default:

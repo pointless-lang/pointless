@@ -1,5 +1,7 @@
-points = import "json:points.json"
-text = import "text:alice.txt"
+Json = import "std:Json"
+
+points = Json.read(asset "points.json")
+text = Fs.read(asset "alice.txt")
 
 fn wordInfo(word)
   score = word
