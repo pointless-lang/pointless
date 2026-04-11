@@ -28,6 +28,15 @@ function parseParam(config) {
     return { key: name.slice(3), named: false, spread: true };
   }
 
+  if (config.has("default")) {
+    return {
+      key: name,
+      named: false,
+      optional: true,
+      default: config.get("default"),
+    };
+  }
+
   return { key: name, named: false };
 }
 
@@ -81,9 +90,33 @@ export function load(config) {
     });
   }
 
+  const nonSpreadPositional = positional.filter((p) => !p.spread);
+
+  for (let i = 0; i < nonSpreadPositional.length - 1; i++) {
+    if (nonSpreadPositional[i].optional) {
+      throw new Panic("only final positional param can be optional", {
+        name: nonSpreadPositional[i].key,
+      });
+    }
+  }
+
+  if (spreadParam && nonSpreadPositional.at(-1).optional) {
+    throw new Panic(
+      "cannot have both default positional param and spread param",
+      { spread: spreadParam.key, optional: nonSpreadPositional.at(-1).key },
+    );
+  }
+
   // Initialize named params with defaults
   for (const param of named.values()) {
     result.set(param.key, param.default);
+  }
+
+  // Initialize optional positional params with defaults
+  for (const param of positional) {
+    if (param.optional) {
+      result.set(param.key, param.default);
+    }
   }
 
   const spreadValues = [];
@@ -147,7 +180,10 @@ export function load(config) {
     result.set(spreadParam.key, im.List(spreadValues));
   }
 
-  if (posIndex < positional.length && !positional[posIndex].spread) {
+  if (
+    posIndex < positional.length && !positional[posIndex].spread &&
+    !positional[posIndex].optional
+  ) {
     throw new Panic("missing positional argument", {
       name: positional[posIndex].key,
     });
