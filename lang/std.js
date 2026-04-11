@@ -61,7 +61,7 @@ export class Std {
       assert: this.modules.Test.assert,
       chars: this.modules.Str.chars,
       join: this.modules.Str.join,
-      parse: this.modules.Str.parse,
+      parse: this.modules.Value.parse,
       print: this.modules.Console.print,
       prompt: this.modules.Console.prompt,
       range: this.modules.List.range,

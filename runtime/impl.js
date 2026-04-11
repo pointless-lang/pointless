@@ -5,9 +5,11 @@ export const impl = {
   Char: await import("../std/Char.js"),
   Console: await import("../std/Console.js"),
   _Color: await import("../std/Color.js"),
+  _Csv: await import("../std/Csv.js"),
   Err: await import("../std/Err.js"),
   Fs: await import("../std/Fs.js"),
   _Image: await import("../std/Image.js"),
+  _Json: await import("../std/Json.js"),
   List: await import("../std/List.js"),
   Math: await import("../std/Math.js"),
   Obj: await import("../std/Obj.js"),
@@ -20,5 +22,5 @@ export const impl = {
   Cli: await import("../std/Cli.js"),
   Table: await import("../std/Table.js"),
   Test: await import("../std/Test.js"),
-  _Type: await import("../std/Type.js"),
+  _Value: await import("../std/Value.js"),
 };

@@ -1,4 +1,4 @@
-Type = import "std:Type"
+Value = import "std:Value"
 
 fn regIndex(regName)
   regName
@@ -57,7 +57,7 @@ fn runInst(vm)
       Err.throw({ err: "invalid instruction", op })
   end
 
-  if Type.of(setVal) == "boolean" then
+  if Value.typeOf(setVal) == "boolean" then
     setVal |= Bool.toNum
   end
 

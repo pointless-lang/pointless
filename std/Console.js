@@ -81,7 +81,7 @@ export async function prompt(message) {
   //
   // ```ptls --input avery 28
   // prompt("Enter name: ")
-  // Str.parse(prompt("Enter age: "))
+  // parse(prompt("Enter age: "))
   // ```
 
   asyncRepl ??= new AsyncRepl({});

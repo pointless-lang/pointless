@@ -1,3 +1,4 @@
+import { lines } from "./Str.js";
 import { repr } from "../lang/repr.js";
 import { checkType } from "../lang/values.js";
 import { checkWhole } from "../lang/num.js";
@@ -21,6 +22,10 @@ export async function read(path) {
   } catch (err) {
     throw new Panic("file read error", { path, err: String(err) });
   }
+}
+
+export async function readLines(path) {
+  return lines(await read(path));
 }
 
 export async function readBytes(path) {

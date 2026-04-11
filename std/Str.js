@@ -528,32 +528,3 @@ export function isAsciiDigit(string) {
   checkType(string, "string");
   return /^[0-9]*$/.test(string);
 }
-
-export function parse(string) {
-  // Convert `string` to a number, boolean, or `none`.
-  //
-  // ```ptls
-  // parse("45.67")
-  // parse("false")
-  // parse("none")
-  // ```
-
-  checkType(string, "string");
-
-  switch (string) {
-    case "true":
-      return true;
-    case "false":
-      return false;
-    case "none":
-      return null;
-  }
-
-  const result = Number(string);
-
-  if (string !== "" && !Number.isNaN(result)) {
-    return result;
-  }
-
-  throw new Panic("cannot parse string", { string });
-}
