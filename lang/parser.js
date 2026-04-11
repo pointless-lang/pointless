@@ -41,8 +41,8 @@ const ops = [
   { type: "binary", assoc: "left", symbols: ["+", "-"] },
   { type: "binary", assoc: "left", symbols: ["*", "/", "//", "%"] },
   { type: "binary", assoc: "right", symbols: ["**"] },
-  { type: "unary", symbols: ["-"] },
   { type: "binary", assoc: "left", symbols: ["??"] },
+  { type: "unary", symbols: ["-"] },
 ];
 
 const escapeSeq = /\\["\\nrt]|\\u{([\dA-Fa-f]{1,6})}/g;
