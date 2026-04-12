@@ -381,12 +381,12 @@ class Printer {
     const flat = this.printExpr(node);
     if (flat.length <= threshold) return null;
 
-    // Collect left spine
+    // Collect left spine — only traverse nodes with the same operator as the
+    // root so that higher-precedence sub-expressions (e.g. "and" inside "or")
+    // stay together on one line rather than being broken individually.
     const items = [];
     let n = node;
-    while (
-      n.type === "binaryOp" && (n.value.op === "or" || n.value.op === "and")
-    ) {
+    while (n.type === "binaryOp" && n.value.op === op) {
       items.unshift({ op: n.value.op, node: n.value.rhs });
       n = n.value.lhs;
     }
