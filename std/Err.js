@@ -1,5 +1,12 @@
 import { checkType } from "../lang/values.js";
-import { Err } from "../lang/err.js";
+import { Panic } from "./panic.js";
+
+class Err extends Panic {
+  constructor(payload) {
+    super("unhandled error", { payload });
+    this.payload = payload;
+  }
+}
 
 // In Pointless, errors are normal values which are raised and handled using a
 // special control flow.

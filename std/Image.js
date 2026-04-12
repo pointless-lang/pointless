@@ -6,7 +6,7 @@ import { get } from "./Obj.js";
 import im from "../immutable/immutable.js";
 
 class PtlsImage {
-  static ptlsName = "image";
+  static ptlsName = "std:Image image";
 
   constructor(jimpImage) {
     this._jimp = jimpImage;

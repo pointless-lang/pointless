@@ -2,7 +2,6 @@ import { checkType, getType } from "./values.js";
 import { checkWhole } from "./num.js";
 import { isMatch } from "./obj.js";
 import { Panic } from "./panic.js";
-import { parseCSV } from "./csv.js";
 import { indent, repr } from "./repr.js";
 import { ident } from "./tokenizer.js";
 import im from "../immutable/immutable.js";
@@ -39,10 +38,6 @@ export class Table {
     }
 
     this.data = im.OrderedMap(data);
-  }
-
-  static fromCsv(source) {
-    return new Table(parseCSV(source));
   }
 
   static fromRows(rows, columns) {

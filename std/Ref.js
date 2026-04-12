@@ -1,5 +1,17 @@
-import { Ref } from "../lang/ref.js";
 import { checkType } from "../lang/values.js";
+import { repr } from "./repr.js";
+
+class Ref {
+  static ptlsName = "reference";
+
+  constructor(value) {
+    this.value = value;
+  }
+
+  repr(mode) {
+    return `Ref.of(${repr(this.value, mode)})`;
+  }
+}
 
 export function of(value) {
   // Create a mutable reference containing `value`.

@@ -1,7 +1,34 @@
 import { checkType } from "../lang/values.js";
 import { Panic } from "../lang/panic.js";
-import { loadJson } from "../lang/json.js";
+import im from "../immutable/immutable.js";
 import { readFile } from "node:fs/promises";
+
+function convert(jsonVal) {
+  if (jsonVal === null) {
+    return null;
+  }
+
+  if (Array.isArray(jsonVal)) {
+    return im.List(jsonVal.map(convert));
+  }
+
+  if (typeof jsonVal === "object") {
+    const map = new Map();
+
+    for (const [key, value] of Object.entries(jsonVal)) {
+      map.set(key, convert(value));
+    }
+
+    return im.OrderedMap(map);
+  }
+
+  return jsonVal;
+}
+
+function loadJson(string) {
+  // needs improvements, better error reporting
+  return convert(JSON.parse(string));
+}
 
 export async function read(path) {
   // Read the JSON file at `path` and return the parsed value. JSON arrays
