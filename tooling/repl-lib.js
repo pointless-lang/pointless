@@ -1,7 +1,7 @@
 // This code is AI written, and has not been fully human-reviewed
 // http://pointless.dev/articles/ai-and-pointless/
 
-import { stdin, stdout } from "node:process";
+import process, { stdin, stdout } from "node:process";
 import { emitKeypressEvents } from "node:readline";
 import { readFile, writeFile } from "node:fs/promises";
 
@@ -444,7 +444,7 @@ class PromptLayer {
     for (let i = 0; i < displayParts.length; i++) {
       if (i > 0) displayContent += "\n" + displayCont + openCode;
       displayContent += displayParts[i];
-      for (const [m] of displayParts[i].matchAll(/\x1b\[[^m]*m/g)) {
+      for (const [m] of displayParts[i].matchAll(/\u001b\[[^m]*m/g)) {
         openCode = m === "\x1b[0m" ? "" : m;
       }
     }
@@ -494,7 +494,7 @@ class PromptLayer {
 }
 
 function stripAnsi(str) {
-  return str.replace(/\x1b\[[^m]*m/g, "");
+  return str.replace(/\u001b\[[^m]*m/g, "");
 }
 
 // Returns the visual { row, col } of the cursor after printing `text.slice(0,
@@ -616,7 +616,7 @@ export class AsyncRepl {
         });
         this._cancelEval = cancelEval;
 
-        const result = await Promise.race([
+        await Promise.race([
           this._handler(input, controller.signal),
           cancelPromise,
         ]);

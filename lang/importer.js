@@ -1,7 +1,6 @@
 import { Panic } from "./panic.js";
 import { parse } from "./parser.js";
 import { tokenize } from "./tokenizer.js";
-import { evalLiteral } from "./values.js";
 import im from "../immutable/immutable.js";
 
 export class Importer {
