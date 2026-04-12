@@ -28,6 +28,34 @@ const def = [
 // pipelines operators
 const pipelines = ["|", "$", "?", "#"];
 
+// Continuation tracking for non-pipeline binary ops:
+//
+// -- should get x = 1
+// x = 1
+// - 1
+//
+// -- should get x = 0
+// x = 1 -
+// 1
+//
+// -- should parse successfully and get x = 0
+// x = (1
+// - 1)
+
+const contOpen = {
+  "(": true,
+  "[": true,
+  "{": true,
+  "#[": true,
+  "if": true,
+  "while": true,
+  "for": true,
+  "match": true,
+  "#{": false,
+};
+
+const contClose = new Set([")", "]", "}", "end"]);
+
 // operators from lowest to highest precedence
 const ops = [
   { type: "binary", assoc: "left", symbols: ["or"] },
@@ -122,6 +150,7 @@ class Parser {
   inLoop = [false];
   implicits = [];
   deferredPanic = undefined;
+  continuation = [false];
 
   constructor(tokens) {
     this.tokens = tokens;
@@ -174,6 +203,11 @@ class Parser {
       this.index++;
 
       if (token.matches(...types)) {
+        if (token.type in contOpen) {
+          this.continuation.push(contOpen[token.type]);
+        } else if (contClose.has(token.type)) {
+          this.continuation.pop();
+        }
         return token;
       }
 
@@ -536,6 +570,10 @@ class Parser {
     const { loc } = this.get("fn");
     const name = this.get("name").value;
 
+    // Need this since there's not explicit start token (then, do, ...) for
+    // named func body
+    this.continuation.push(false);
+
     const rhs = new Node("fn", loc, {
       name,
       ...this.getFnInner(this.getStatements),
@@ -748,6 +786,7 @@ class Parser {
   }
 
   getStatements(topLevel = false) {
+    this.continuation.push(false);
     const statements = [];
     const closers = ["case", "elif", "else", "end", "endOfFile", "do"];
 
@@ -761,6 +800,7 @@ class Parser {
       }
     }
 
+    this.continuation.pop();
     return statements;
   }
 
@@ -884,16 +924,9 @@ class Parser {
       );
     }
 
-    while (this.has(...symbols)) {
-      // Subtraction needs whitespace before second operand to differentiate
-      // from negation
-      if (
-        this.has("-") &&
-        !(this.hasMulti("-", "whitespace") || this.hasMulti("-", "newline"))
-      ) {
-        break;
-      }
-
+    while (
+      (this.continuation.at(-1) || !this.has("newline")) && this.has(...symbols)
+    ) {
       const { type: op, loc } = this.get(...symbols);
 
       // left-associative operators and unary gets +1 precedence
