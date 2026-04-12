@@ -444,7 +444,8 @@ class PromptLayer {
     for (let i = 0; i < displayParts.length; i++) {
       if (i > 0) displayContent += "\n" + displayCont + openCode;
       displayContent += displayParts[i];
-      for (const [m] of displayParts[i].matchAll(/\u001b\[[^m]*m/g)) {
+      // deno-lint-ignore no-control-regex
+      for (const [m] of displayParts[i].matchAll(/\x1b\[[^m]*m/g)) {
         openCode = m === "\x1b[0m" ? "" : m;
       }
     }
@@ -494,7 +495,8 @@ class PromptLayer {
 }
 
 function stripAnsi(str) {
-  return str.replace(/\u001b\[[^m]*m/g, "");
+  // deno-lint-ignore no-control-regex
+  return str.replace(/\x1b\[[^m]*m/g, "");
 }
 
 // Returns the visual { row, col } of the cursor after printing `text.slice(0,

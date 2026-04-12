@@ -49,7 +49,8 @@ function escapeString(s) {
     .replace(/\r/g, "\\r")
     .replace(/\t/g, "\\t")
     .replace(
-      /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g,
+      // deno-lint-ignore no-control-regex
+      /[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/g,
       (c) => `\\u{${c.codePointAt(0).toString(16)}}`,
     );
 }
